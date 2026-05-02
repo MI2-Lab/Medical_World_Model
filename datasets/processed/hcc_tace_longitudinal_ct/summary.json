@@ -1,0 +1,19 @@
+{
+  "adjacent_pair_split_counts": {
+    "test": 15,
+    "train": 51,
+    "val": 17
+  },
+  "adjacent_pairs_total": 83,
+  "ct_series_total": 444,
+  "dataset_root": "/Users/mi2/Downloads/Medical_World_Model/datasets/HCC-TACE-Seg_v1_202201/hcc_tace_seg",
+  "first_last_pairs_total": 82,
+  "metadata_csv": "/Users/mi2/Downloads/Medical_World_Model/datasets/HCC-TACE-Seg_v1_202201/metadata/metadata.csv",
+  "patients_total": 96,
+  "patients_with_longitudinal_ct": 82,
+  "patients_with_seg": 76,
+  "seg_series_total": 76,
+  "series_total": 520,
+  "studies_total": 179,
+  "usable_ct_studies": 179
+}

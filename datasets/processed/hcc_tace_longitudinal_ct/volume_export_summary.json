@@ -1,0 +1,22 @@
+{
+  "hu_window": [
+    -150,
+    250
+  ],
+  "output_root": "/Users/mi2/Downloads/Medical_World_Model/datasets/processed/hcc_tace_longitudinal_ct/volumes",
+  "pair_count": 83,
+  "pair_export_manifest": "/Users/mi2/Downloads/Medical_World_Model/datasets/processed/hcc_tace_longitudinal_ct/longitudinal_pairs_adjacent_volumes.csv",
+  "pair_manifest": "/Users/mi2/Downloads/Medical_World_Model/datasets/processed/hcc_tace_longitudinal_ct/longitudinal_pairs_adjacent.csv",
+  "study_count": 179,
+  "study_manifest": "/Users/mi2/Downloads/Medical_World_Model/datasets/processed/hcc_tace_longitudinal_ct/study_manifest.csv",
+  "target_shape_dhw": [
+    64,
+    256,
+    256
+  ],
+  "target_spacing_xyz": [
+    1.5,
+    1.5,
+    3.0
+  ]
+}
