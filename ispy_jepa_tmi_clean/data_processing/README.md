@@ -49,6 +49,32 @@ cp ispy_jepa_tmi_clean/data_processing/config/paths.example.env \
 
 Then edit `paths.local.env` for that machine.
 
+## Shared Paths On This Server
+
+On the current lab server, raw and already preprocessed data are stored in
+shared `/data` locations. Use:
+
+```bash
+python3 ispy_jepa_tmi_clean/data_processing/scripts/run_data_processing.py \
+  --env-file ispy_jepa_tmi_clean/data_processing/config/paths.shared-data.env \
+  --stage check
+```
+
+The shared data config contains:
+
+```text
+ISPY2_RAW_ROOT=/data/data/Breast_Cancer/I-SPY2
+ISPY1_RAW_ROOT=/data/data/Breast_Cancer/I-SPY1
+ISPY2_PREPROCESSED_ROOT=/data/data/Preprocessed/I-SPY2
+ISPY1_PREPROCESSED_ROOT=/data/data/Preprocessed/I-SPY1
+```
+
+This shared config intentionally does not include `/home/<user>` paths. Directly
+using the already processed NIfTI files, clinical tables, MRI-NACT feature
+tables, and modeling caches only needs the preprocessed roots above. Rerunning
+DICOM conversion additionally requires `DCM2NIIX`; rerunning the BreastDCEDL
+timing audit additionally requires `BREASTDCEDL_METADATA_CSV`.
+
 ## Clean Entry Point
 
 All stages are launched through:

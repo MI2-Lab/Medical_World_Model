@@ -4,6 +4,28 @@ This file lists the data products used by the project and the path variables
 that locate them on a given machine. It deliberately avoids hard-coded private
 server paths.
 
+## Shared Paths On Current Lab Server
+
+Users on the same lab server can use the already processed data from shared
+`/data` locations:
+
+```text
+ISPY2_RAW_ROOT=/data/data/Breast_Cancer/I-SPY2
+ISPY1_RAW_ROOT=/data/data/Breast_Cancer/I-SPY1
+ISPY2_PREPROCESSED_ROOT=/data/data/Preprocessed/I-SPY2
+ISPY1_PREPROCESSED_ROOT=/data/data/Preprocessed/I-SPY1
+```
+
+The corresponding env file is:
+
+```text
+ispy_jepa_tmi_clean/data_processing/config/paths.shared-data.env
+```
+
+No `/home/<user>` paths are required to read the processed data. Tool paths such
+as `DCM2NIIX` and optional metadata such as `BREASTDCEDL_METADATA_CSV` should be
+configured separately when rerunning conversion or timing-audit steps.
+
 ## Raw Data
 
 ```text
