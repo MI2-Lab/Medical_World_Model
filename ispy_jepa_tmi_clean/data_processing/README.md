@@ -12,8 +12,8 @@ The main goal is to make the data provenance clear:
 3. Clinical labels and MRI-NACT tabular features are extracted into CSV/JSON
    files under the preprocessing root.
 4. DCE temporal phase choices are audited against BreastDCEDL metadata.
-5. Modeling code builds DCE8 tensors/caches from the stored 4D DCE volumes and
-   masks.
+5. The standalone `corejepa.data.imaging` module builds auditable DCE8 and
+   lesion-descriptor caches from the stored 4D DCE volumes and masks.
 
 ## Path Configuration
 
@@ -187,7 +187,7 @@ The preprocessing stage stores the full 4D DCE NIfTI for every visit:
 original_DCE.nii shape: X x Y x Z x T
 ```
 
-The compact DCE8 tensor is derived later for modeling. DCE8 is not eight
+The compact DCE8 tensor is derived by `scripts/build_tensor_cache.py`. DCE8 is not eight
 independent acquisition channels. It is a per-visit summary built from selected
 DCE phases:
 

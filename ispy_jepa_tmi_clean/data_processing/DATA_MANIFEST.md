@@ -22,9 +22,9 @@ The corresponding env file is:
 ispy_jepa_tmi_clean/data_processing/config/paths.shared-data.env
 ```
 
-No `/home/<user>` paths are required to read the processed data. Tool paths such
-as `DCM2NIIX` and optional metadata such as `BREASTDCEDL_METADATA_CSV` should be
-configured separately when rerunning conversion or timing-audit steps.
+No `/home/<user>` paths are required to read the processed data. `DCM2NIIX`
+must be configured only when rerunning DICOM conversion. The BreastDCEDL phase
+metadata used by the model cache is included under `data_processing/metadata`.
 
 ## Raw Data
 
@@ -130,7 +130,21 @@ The clean runner writes the DCE timing audit under:
 These files compare the old `frame 1 / last frame` policy with BreastDCEDL
 metadata `post_early / post_late` indices.
 
-## Modeling Caches
+## Clean Modeling Caches
+
+The standalone default configuration creates:
+
+```text
+<ISPY2_PREPROCESSED_ROOT>/_corejepa_clean_dce8/<patient_id>.npz
+<ISPY2_PREPROCESSED_ROOT>/corejepa_response_features.npz
+```
+
+Each patient tensor cache contains image `[4,8,32,96,96]`, geometry `[4,9]`,
+phase indices, channel names, and ROI provenance. The response cache contains
+raw pCR-free descriptors `[N,4,106]`. Training-split transforms are stored in
+the model checkpoint, not baked into the raw response cache.
+
+## Legacy Development Caches
 
 Important derived caches under `<ISPY2_PREPROCESSED_ROOT>`:
 
@@ -143,5 +157,5 @@ _fullcurve_phase8_t0crop_z32_y96_x96
 _breastdcedl_mincrop_t0_raw224_v1
 ```
 
-For paper-facing experiments, the most important cache is the first one unless
-we explicitly rerun the phase-policy ablations.
+These names are retained only to identify historical development artifacts. The
+clean package does not import code from them and uses the two caches above.
