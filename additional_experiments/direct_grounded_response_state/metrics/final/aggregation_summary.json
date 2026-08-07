@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "formal_analysis": true,
+  "eligible_for_independent_acceptance_verifier": true,
+  "decision": "NO-GO",
+  "prediction_root": "additional_experiments/direct_grounded_response_state/predictions",
+  "history_root": "additional_experiments/direct_grounded_response_state/metrics/training/formal",
+  "geometry_control_path": "additional_experiments/observed_state_radiomics_audit/metrics/final_analysis/oof_metrics.csv",
+  "geometry_control_sha256": "77145831b60e50bef7182454e3061f6be183ea40b4a2a26f5d4ebd3c3aca5bf2",
+  "metric_dir": "additional_experiments/direct_grounded_response_state/metrics/final",
+  "figure_dir": "additional_experiments/direct_grounded_response_state/figures/final",
+  "bootstrap_replicates": 2000,
+  "bootstrap_seed": 20260807,
+  "bootstrap_unit": "patient within outer fold; same draw across paired models/cells",
+  "bootstrap_conditional_on_fitted_single_seed_models": true,
+  "probe_rows": 39375,
+  "probe_patients": 375,
+  "pcr_rows": 12120,
+  "pcr_patients": 808,
+  "models": [
+    "G0",
+    "G1",
+    "G2",
+    "G3",
+    "G4"
+  ],
+  "folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "figures": 12,
+  "registered_issues": 0,
+  "analysis_source_sha256": "472990c3269b1989d84b39dc2f336fa78183b7911e98cd0fb06e6b50bf1b9a9f",
+  "multiple_comparison_note_cn": "单 cell CI 未作多重比较校正，且只条件于单训练 seed。"
+}

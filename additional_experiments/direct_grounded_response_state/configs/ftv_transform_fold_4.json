@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "fold": 4,
+  "train_patient_hash": "446f43d22b5e87f5e6aa98b4efed8965c57ad3f6af969a2fa91d1256c5770a10",
+  "raw_targets_sha256": "41b419f6e098dade710ee8963ccd6245ce3ea9bd32687afbef1223cafde9529b",
+  "train_patient_count": 526,
+  "paired_train_patient_count": 225,
+  "valid_visit_count": 900,
+  "epsilon": 0.0059816305,
+  "winsor_quantiles": [
+    0.01,
+    0.99
+  ],
+  "winsor_low": -3.2590649440011297,
+  "winsor_high": 5.099428794924097,
+  "center_median": 1.4739133209289448,
+  "scale_iqr": 2.485864167235066,
+  "fit_scope": "outer-fold train paired patients pooled across T0/T1/T2/T3",
+  "value_transform": "log(ftv + epsilon)",
+  "standardization": "winsor_01_99_then_median_iqr",
+  "timepoints": [
+    "T0",
+    "T1",
+    "T2",
+    "T3"
+  ]
+}

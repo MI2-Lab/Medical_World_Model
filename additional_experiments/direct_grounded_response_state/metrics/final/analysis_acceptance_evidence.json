@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "artifact": "DGRS analysis-layer acceptance evidence",
+  "formal_analysis": true,
+  "eligible_for_independent_acceptance_verifier": true,
+  "checks": {
+    "formal_mode": {
+      "passed": true,
+      "evidence": "allow_partial=false"
+    },
+    "bootstrap_2000": {
+      "passed": true,
+      "evidence": 2000
+    },
+    "strict_prediction_rows": {
+      "passed": true,
+      "evidence": {
+        "probe": 39375,
+        "pcr": 12120
+      }
+    },
+    "prediction_files_5_models_x_5_folds": {
+      "passed": true,
+      "evidence": {
+        "pcr_readout": 25,
+        "representation_probe": 25
+      }
+    },
+    "coverage_clean": {
+      "passed": true,
+      "evidence": {
+        "registered_issues": 0
+      }
+    },
+    "formal_histories_20": {
+      "passed": true,
+      "evidence": {
+        "rows": 20,
+        "files": 20
+      }
+    },
+    "formal_selections_20_test_blind": {
+      "passed": true,
+      "evidence": {
+        "selection_assets": 20,
+        "test_safe": true
+      }
+    },
+    "selected_stability_rows_20": {
+      "passed": true,
+      "evidence": 20
+    },
+    "registered_figures_12_decodable": {
+      "passed": true,
+      "evidence": {
+        "figures": 12,
+        "all_decodable": true
+      }
+    },
+    "registered_decision_only_in_formal_mode": {
+      "passed": true,
+      "evidence": "NO-GO"
+    }
+  },
+  "analysis_source_sha256": "472990c3269b1989d84b39dc2f336fa78183b7911e98cd0fb06e6b50bf1b9a9f",
+  "aggregate_script_sha256": "e5a8d3a79653a0a09320d2ac364c38e67cc4e3339156f3450d4592b192070dd3",
+  "contains_patient_level_rows": false,
+  "path_policy": "repo-relative; external directories replaced by a 12-hex provenance token"
+}

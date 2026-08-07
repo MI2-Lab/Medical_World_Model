@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "prediction_dir": "additional_experiments/observed_state_radiomics_audit/predictions/probes/formal",
+  "metric_dir": "additional_experiments/observed_state_radiomics_audit/metrics/final_analysis",
+  "figure_dir": "additional_experiments/observed_state_radiomics_audit/figures/final_analysis",
+  "analysis_implementation_sha256": "cd50b2e8fe5cca5b8c75114416429e782640313a13be95665762fc300a219a6e",
+  "seed": 20260807,
+  "bootstrap_replicates": 2000,
+  "bootstrap_scope": {
+    "scope_name": "primary_core_2000",
+    "included_prediction_rows": 124308,
+    "included_pooled_groups": 333,
+    "included_targets": [
+      "ftv",
+      "ld",
+      "sphericity"
+    ],
+    "included": [
+      "static online projected/preprojector/GAP/ROI current",
+      "change online projected/preprojector/GAP/ROI observed_difference",
+      "change transition_predicted_delta/predicted_next_delta",
+      "change B2 mask_geometry and B3 raw_roi_intensity observed_difference",
+      "all included rows carry same-mask B0 train-mean comparator"
+    ],
+    "point_estimate_only": [
+      "D1 current_only, D2 observed_pair, D4 observed_combined",
+      "EMA target sensitivity",
+      "BPE exploratory target",
+      "B1 current-radiomics table baseline unless part of a registered paired figure",
+      "static B2 mask_geometry and B3 raw_roi_intensity baselines"
+    ],
+    "reason_cn": "控制约两千 pooled cell 的 rank-bootstrap 成本，同时不降低核心CI的2000次重复。"
+  },
+  "bootstrap_ci_is_conditional_on_fitted_models": true,
+  "bootstrap_does_not_cover_training_randomness": true,
+  "prediction_files": 15,
+  "prediction_rows": 743544,
+  "patients": 375,
+  "folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "fold_metric_rows": 9960,
+  "oof_metric_rows": 1992,
+  "bootstrap_ci_rows": 3996,
+  "paired_fold_rows": 3675,
+  "paired_bootstrap_ci_rows": 5145,
+  "figures": 12,
+  "registered_issues": 0,
+  "near_constant_definition": "fold-centered standardized Var(pred) <= max(1e-10, 0.01*Var(target))",
+  "transition_comparator_caveat_cn": "observed delta 看见终点 MRI，transition predicted delta 只见当前 prefix；它们用于瓶颈定位，不是 information-matched baseline。",
+  "output_commit": "staged directories renamed on same filesystem; default refuses overwrite"
+}

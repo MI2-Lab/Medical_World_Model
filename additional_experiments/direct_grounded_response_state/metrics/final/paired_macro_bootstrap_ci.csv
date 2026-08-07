@@ -1,0 +1,11 @@
+comparison,scope,metric,estimate,ci_low,ci_high,cells,bootstrap_replicates,bootstrap_unit
+G3-G1,A_static_ftv,spearman,0.06734312848944525,0.03999886149759821,0.0938413747463796,4,2000,same_patient_draw_across_cells_within_outer_fold
+G3-G1,A_static_ftv,r2,-0.06758517157814567,-0.848817688536363,0.13749316246926271,4,2000,same_patient_draw_across_cells_within_outer_fold
+G3-G1,B_change_ftv,spearman,0.07594910304547348,0.046358767782899164,0.1077972246930581,3,2000,same_patient_draw_across_cells_within_outer_fold
+G3-G1,B_change_ftv,r2,0.05457737055409917,0.029633376265395448,0.08027663241862937,3,2000,same_patient_draw_across_cells_within_outer_fold
+G3-G1,C_longitudinal_pcr,auroc,0.0025140712945591615,-0.030314361055471167,0.0337805314070039,2,2000,same_patient_draw_across_cells_within_outer_fold
+G4-G2,A_static_ftv,spearman,0.034861446786902894,0.014497375235856721,0.056251584484545106,4,2000,same_patient_draw_across_cells_within_outer_fold
+G4-G2,A_static_ftv,r2,0.038266285116795695,-0.036779375265316334,0.10450476593286656,4,2000,same_patient_draw_across_cells_within_outer_fold
+G4-G2,B_change_ftv,spearman,0.05142003261652822,0.026272866518117544,0.07556630333332674,3,2000,same_patient_draw_across_cells_within_outer_fold
+G4-G2,B_change_ftv,r2,0.04054733974591181,0.024101628779577673,0.057083502439844565,3,2000,same_patient_draw_across_cells_within_outer_fold
+G4-G2,C_longitudinal_pcr,auroc,0.014797885041787473,-0.009682120377553095,0.04080769841717298,2,2000,same_patient_draw_across_cells_within_outer_fold

@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "fold": 0,
+  "fit_scope": "每个 timepoint×feature 仅使用该 fold train paired patients",
+  "raw_targets_sha256": "512749ccf986de4af4c0109b4ce060c61a90112816895a2ae7423784ea60de4e",
+  "train_patient_hash": "689541db24cbd006ed7fcb89d74b707ac3eee8f11b59cb65d238a1c1dfff8b13",
+  "train_patient_count": 525,
+  "paired_train_patient_count": 247,
+  "quantiles": [
+    0.01,
+    0.99
+  ],
+  "feature_order": [
+    "ftv",
+    "sphericity",
+    "ld",
+    "bpe"
+  ],
+  "timepoints": [
+    "T0",
+    "T1",
+    "T2",
+    "T3"
+  ],
+  "specs": [
+    {
+      "timepoint": "T0",
+      "feature_name": "ftv",
+      "value_transform": "log_epsilon",
+      "epsilon": 0.0059816305,
+      "winsor_low": 0.4412192380737034,
+      "winsor_high": 5.2575739748425905,
+      "center": 2.68913317242179,
+      "scale": 1.3172004996873081,
+      "n_train": 247
+    },
+    {
+      "timepoint": "T0",
+      "feature_name": "sphericity",
+      "value_transform": "identity",
+      "epsilon": 0.0,
+      "winsor_low": 0.07284266994000001,
+      "winsor_high": 0.4641958682,
+      "center": 0.20034437,
+      "scale": 0.13338359500000002,
+      "n_train": 247
+    },
+    {
+      "timepoint": "T0",
+      "feature_name": "ld",
+      "value_transform": "log_epsilon",
+      "epsilon": 0.05,
+      "winsor_low": 0.4940809251531183,
+      "winsor_high": 2.4408108531595736,
+      "center": 1.3217558399823195,
+      "scale": 0.5858571484039954,
+      "n_train": 247
+    },
+    {
+      "timepoint": "T0",
+      "feature_name": "bpe",
+      "value_transform": "identity",
+      "epsilon": 0.0,
+      "winsor_low": 7.276311,
+      "winsor_high": 85.72163399999997,
+      "center": 24.0533,
+      "scale": 18.1173,
+      "n_train": 247
+    },
+    {
+      "timepoint": "T1",
+      "feature_name": "ftv",
+      "value_transform": "log_epsilon",
+      "epsilon": 0.0059816305,
+      "winsor_low": -1.1118974277616387,
+      "winsor_high": 5.038596864315828,
+      "center": 1.9807489032504353,
+      "scale": 1.62545992965036,
+      "n_train": 247
+    },
+    {
+      "timepoint": "T1",
+      "feature_name": "sphericity",
+      "value_transform": "identity",
+      "epsilon": 0.0,
+      "winsor_low": 0.07203260596,
+      "winsor_high": 0.4429840367999997,
+      "center": 0.20045043,
+      "scale": 0.11918337499999998,
+      "n_train": 247
+    },
+    {
+      "timepoint": "T1",
+      "feature_name": "ld",
+      "value_transform": "log_epsilon",
+      "epsilon": 0.05,
+      "winsor_low": -1.7500291810469744,
+      "winsor_high": 2.3712670387568475,
+      "center": 1.1474024528375417,
+      "scale": 0.6824518914431973,
+      "n_train": 247
+    },
+    {
+      "timepoint": "T1",
+      "feature_name": "bpe",
+      "value_transform": "identity",
+      "epsilon": 0.0,
+      "winsor_low": 6.367185399999999,
+      "winsor_high": 70.14184999999995,
+      "center": 20.0915,
+      "scale": 14.541849999999997,
+      "n_train": 247
+    },
+    {
+      "timepoint": "T2",
+      "feature_name": "ftv",
+      "value_transform": "log_epsilon",
+      "epsilon": 0.0059816305,
+      "winsor_low": -3.3053557477032705,
+      "winsor_high": 4.58709151891836,
+      "center": 0.5740576464622873,
+      "scale": 2.183573286571498,
+      "n_train": 247
+    },
+    {
+      "timepoint": "T2",
+      "feature_name": "sphericity",
+      "value_transform": "identity",
+      "epsilon": 0.0,
+      "winsor_low": 0.07474888696,
+      "winsor_high": 0.6870451081999986,
+      "center": 0.2286897,
+      "scale": 0.14675795500000002,
+      "n_train": 247
+    },
+    {
+      "timepoint": "T2",
+      "feature_name": "ld",
+      "value_transform": "log_epsilon",
+      "epsilon": 0.05,
+      "winsor_low": -2.995732273553991,
+      "winsor_high": 2.259361011180189,
+      "center": 0.8109302162163288,
+      "scale": 1.0986122886681096,
+      "n_train": 247
+    },
+    {
+      "timepoint": "T2",
+      "feature_name": "bpe",
+      "value_transform": "identity",
+      "epsilon": 0.0,
+      "winsor_low": 6.1628300000000005,
+      "winsor_high": 67.32421999999995,
+      "center": 17.2524,
+      "scale": 11.1415,
+      "n_train": 247
+    },
+    {
+      "timepoint": "T3",
+      "feature_name": "ftv",
+      "value_transform": "log_epsilon",
+      "epsilon": 0.0059816305,
+      "winsor_low": -3.3480634601345862,
+      "winsor_high": 4.1255854880762515,
+      "center": -0.2725943986554615,
+      "scale": 2.207701740658709,
+      "n_train": 247
+    },
+    {
+      "timepoint": "T3",
+      "feature_name": "sphericity",
+      "value_transform": "identity",
+      "epsilon": 0.0,
+      "winsor_low": 0.08716385886,
+      "winsor_high": 0.7250184873999999,
+      "center": 0.26968155,
+      "scale": 0.180872445,
+      "n_train": 247
+    },
+    {
+      "timepoint": "T3",
+      "feature_name": "ld",
+      "value_transform": "log_epsilon",
+      "epsilon": 0.05,
+      "winsor_low": -2.995732273553991,
+      "winsor_high": 2.0417187334229223,
+      "center": 0.30010459245033816,
+      "scale": 3.9318256327243257,
+      "n_train": 247
+    },
+    {
+      "timepoint": "T3",
+      "feature_name": "bpe",
+      "value_transform": "identity",
+      "epsilon": 0.0,
+      "winsor_low": 5.3984066,
+      "winsor_high": 49.48832999999998,
+      "center": 16.4374,
+      "scale": 10.46695,
+      "n_train": 247
+    }
+  ]
+}

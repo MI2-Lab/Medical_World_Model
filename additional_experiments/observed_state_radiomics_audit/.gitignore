@@ -1,0 +1,20 @@
+# patient-level 与可重建实验产物默认仅保存在授权环境
+features/**
+predictions/**
+metrics/**
+figures/**
+logs/**
+!features/.gitkeep
+!predictions/.gitkeep
+!metrics/.gitkeep
+!metrics/target_transform_validation.json
+!metrics/final_analysis/
+!metrics/final_analysis/**
+!figures/.gitkeep
+!figures/final_analysis/
+!figures/final_analysis/**
+!logs/.gitkeep
+
+__pycache__/
+*.py[cod]
+.pytest_cache/

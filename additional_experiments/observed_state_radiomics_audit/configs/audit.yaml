@@ -1,0 +1,65 @@
+schema_version: 1
+seed: 20260807
+
+source_experiment: additional_experiments/radiomics_next_change
+models:
+  m0:
+    run_name: m0_final
+    config: configs/m0.yaml
+  m1:
+    run_name: m1_final
+    config: configs/m1.yaml
+  m2:
+    run_name: m2_final
+    config: configs/m2.yaml
+
+feature_extraction:
+  image_channels: 8
+  visits: [T0, T1, T2, T3]
+  batch_size: 16
+  workers: 4
+  primary_branch: online
+  sensitivity_branch: ema_target
+  representations:
+    - online_projected
+    - online_preprojector
+    - online_global_pool
+    - online_roi_mean
+    - ema_projected
+    - ema_preprojector
+    - ema_global_pool
+    - ema_roi_mean
+    - mask_geometry
+    - raw_roi_intensity
+  roi_resize: adaptive_average_occupancy
+  roi_empty_policy: mark_invalid_and_exclude_cell
+
+targets:
+  primary: [ftv, ld, sphericity]
+  exploratory: [bpe]
+  static:
+    ftv: log_epsilon
+    ld: log_epsilon
+    sphericity: identity
+    bpe: identity
+    winsor_quantiles: [0.01, 0.99]
+    scale: median_iqr
+    fit_scope: fold_train_by_timepoint_feature
+  change:
+    source: existing_fold_train_transform
+    ftv: log_epsilon_difference
+    ld: log_epsilon_difference
+    sphericity: absolute_difference
+    bpe: absolute_difference
+
+probe:
+  type: ridge
+  alphas: [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0]
+  feature_scaler: train_only_standard_scaler
+  alpha_selection: validation_mse
+  static_scope: separate_timepoint
+  change_scope: separate_adjacent_transition
+  near_constant_variance_ratio: 0.01
+  bootstrap_replicates: 2000
+  bootstrap_unit: patient
+

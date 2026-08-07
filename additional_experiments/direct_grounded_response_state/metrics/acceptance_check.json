@@ -1,0 +1,220 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "criteria_passed": 19,
+  "criteria_total": 19,
+  "all_19_acceptance_criteria_passed": true,
+  "criteria": [
+    {
+      "criterion": "1. 使用 feature/ispy-clean-corejepa 分支",
+      "passed": true,
+      "evidence": "feature/ispy-clean-corejepa"
+    },
+    {
+      "criterion": "2. 使用 conda bowen",
+      "passed": true,
+      "evidence": {
+        "environment": "bowen",
+        "python": "3.11.14"
+      }
+    },
+    {
+      "criterion": "3. 使用原五折 patient split",
+      "passed": true,
+      "evidence": {
+        "manifest_present": true,
+        "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38"
+      }
+    },
+    {
+      "criterion": "4. 先完成 EXPERIMENT_PLAN.md",
+      "passed": true,
+      "evidence": {
+        "training_plan_sha256": [
+          "fd43c11d9855c62d97dcd89f3ab4c46c6292be31faf7c66fa92ff1477c24dfd9"
+        ],
+        "public_plan_sha256": "9904783226d77bddb97363edbcaab8a0bf998c3a4448e74b3eb7c0ae75a460db",
+        "certified_path_redaction": true
+      }
+    },
+    {
+      "criterion": "5. 完成 G1–G4 smoke tests",
+      "passed": true,
+      "evidence": {
+        "models": [
+          "G1",
+          "G2",
+          "G3",
+          "G4"
+        ],
+        "status": "passed",
+        "implementation_sha256": [
+          "fb308f8a3cfe735ca1ef2e17e66367b11d4e6edc424bd01725cad200b780e750"
+        ]
+      }
+    },
+    {
+      "criterion": "6. 完成 lambda pilot",
+      "passed": true,
+      "evidence": {
+        "candidate_lambdas": [
+          0.02,
+          0.05,
+          0.1,
+          0.25
+        ],
+        "selected_lambda_ftv": 0.25,
+        "validation_only": true
+      }
+    },
+    {
+      "criterion": "7. 完成 G0–G4 五折比较",
+      "passed": true,
+      "evidence": {
+        "formal_checkpoints": 20,
+        "histories": 20,
+        "selected_history_rows": 20,
+        "frozen_feature_assets": 25,
+        "feature_shape": [
+          808,
+          4,
+          192
+        ],
+        "shared_initialization_pairs": 10
+      }
+    },
+    {
+      "criterion": "8. 不使用 test 选择 lambda/checkpoint",
+      "passed": true,
+      "evidence": {
+        "formal_selection_assets": 20,
+        "prediction_guards": true,
+        "lambda_validation_only": true
+      }
+    },
+    {
+      "criterion": "9. G3/G4 inference 不使用 FTV",
+      "passed": true,
+      "evidence": {
+        "grounded_contracts": 10,
+        "ftv_forward_input": false
+      }
+    },
+    {
+      "criterion": "10. G3 不使用 mask",
+      "passed": true,
+      "evidence": {
+        "folds": 5,
+        "roi_mask_use": "absent"
+      }
+    },
+    {
+      "criterion": "11. G4 mask 仅用于 normalized ROI pooling",
+      "passed": true,
+      "evidence": {
+        "folds": 5,
+        "roi_mask_use": "normalized_occupancy_roi_mean_only"
+      }
+    },
+    {
+      "criterion": "12. G4 state 无 mask volume/geometry",
+      "passed": true,
+      "evidence": {
+        "folds": 5,
+        "explicit_geometry_scalar_route": false
+      }
+    },
+    {
+      "criterion": "13. 完成 static FTV decodability",
+      "passed": true,
+      "evidence": {
+        "oof_cells": 20,
+        "patients_per_cell": 375
+      }
+    },
+    {
+      "criterion": "14. 完成 observed ΔFTV decodability",
+      "passed": true,
+      "evidence": {
+        "oof_cells": 15,
+        "patients_per_cell": 375
+      }
+    },
+    {
+      "criterion": "15. 完成 image-only pCR readout",
+      "passed": true,
+      "evidence": {
+        "oof_cells": 15,
+        "patients_per_cell": 808,
+        "decision_points": [
+          "T0",
+          "T0-T1",
+          "T0-T2"
+        ]
+      }
+    },
+    {
+      "criterion": "16. 完成 LD/sphericity secondary probes",
+      "passed": true,
+      "evidence": {
+        "oof_cells": 70,
+        "patients_per_cell": 375
+      }
+    },
+    {
+      "criterion": "17. 保存 prediction-level results",
+      "passed": true,
+      "evidence": {
+        "probe_files": 25,
+        "pcr_files": 25,
+        "probe_rows": 39375,
+        "pcr_rows": 12120,
+        "probe_patients": 375,
+        "pcr_patients": 808,
+        "paired_patient_sets_exact": true
+      }
+    },
+    {
+      "criterion": "18. 输出完整中文报告",
+      "passed": true,
+      "evidence": {
+        "numbered_sections": 18,
+        "answers_a_to_i": [
+          "a",
+          "b",
+          "c",
+          "d",
+          "e",
+          "f",
+          "g",
+          "h",
+          "i"
+        ],
+        "cjk_characters": 2916,
+        "figure_links": 12,
+        "report_sha256": "d4cf1435f5df48c53ca28e78554ec2dddfeab9eb929d8d22a6f0ce541e465c45"
+      }
+    },
+    {
+      "criterion": "19. 最终做 GO/PARTIAL GO/NO-GO 决策",
+      "passed": true,
+      "evidence": {
+        "formal_analysis_eligible": true,
+        "analysis_checks_all_pass": true,
+        "fresh_source_hashes": true,
+        "figures_verified": 12,
+        "decision_recomputed": "NO-GO",
+        "decision_gates_recomputed": true,
+        "input_metric_hashes_match": true
+      }
+    }
+  ],
+  "formal_analysis_eligible": true,
+  "formal_analysis_checks_all_pass": true,
+  "training_implementation_sha256": [
+    "fb308f8a3cfe735ca1ef2e17e66367b11d4e6edc424bd01725cad200b780e750"
+  ],
+  "analysis_evidence_sha256": "20513310a76623b2379f58febf3762e1c7c0e868273de1c875186d10cba55fb6",
+  "contains_patient_level_rows": false,
+  "contains_absolute_local_paths": false
+}

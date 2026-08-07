@@ -1,0 +1,17 @@
+comparison,gate,passed
+G3-G1,A_static_grounding,True
+G3-G1,B_observed_delta_ftv,True
+G3-G1,C_longitudinal_pcr,False
+G3-G1,no_clear_pcr_decline,True
+G3-G1,stability_and_base_gate,False
+G3-G1,eligible,False
+G3-G1,go,False
+G3-G1,partial_go,False
+G4-G2,A_static_grounding,False
+G4-G2,B_observed_delta_ftv,True
+G4-G2,C_longitudinal_pcr,False
+G4-G2,no_clear_pcr_decline,True
+G4-G2,stability_and_base_gate,True
+G4-G2,eligible,True
+G4-G2,go,False
+G4-G2,partial_go,False

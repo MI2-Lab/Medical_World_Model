@@ -1,0 +1,26 @@
+# 大型、patient-level 或可重建实验产物默认仅保存在授权环境
+checkpoints/**
+features/**
+predictions/**
+logs/**
+metrics/**
+figures/**
+
+!checkpoints/.gitkeep
+!features/.gitkeep
+!predictions/.gitkeep
+!logs/.gitkeep
+!metrics/.gitkeep
+!figures/.gitkeep
+
+# 最终公开聚合表、图与机器验收可提交
+!metrics/final/
+!metrics/final/**
+!metrics/acceptance_check.json
+!metrics/decision.json
+!figures/final/
+!figures/final/**
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
