@@ -1,0 +1,52 @@
+{
+  "status": "valid",
+  "protocol": "corejepa_shortcut_audit_retraining_v1",
+  "original_checkpoint_reproduction": false,
+  "n_folds": 5,
+  "n_oof_test_rows": 808,
+  "n_unique_oof_test_patients": 808,
+  "best_epoch_all_folds": 3,
+  "epochs_run_all_folds": 7,
+  "folds": [
+    {
+      "fold": 0,
+      "seed": 2026,
+      "split_sizes": {"primary_train": 525, "pretrain_train": 681, "validation": 121, "test": 162},
+      "best_validation_prediction": 0.2072710618376732,
+      "minimum_validation_visit_state_std": 0.2712070271372795,
+      "checkpoint_sha256": "73cd563b7abd58c743779bba65e8bfdf12a71b80e3dc16334d1ea4e0c3f89749"
+    },
+    {
+      "fold": 1,
+      "seed": 2027,
+      "split_sizes": {"primary_train": 525, "pretrain_train": 681, "validation": 121, "test": 162},
+      "best_validation_prediction": 0.1742110326886177,
+      "minimum_validation_visit_state_std": 0.2227554880082607,
+      "checkpoint_sha256": "cdff64f06a12f3de38050ded6e474eabc4797a15f4eeaa18cd54e1d67bc57e49"
+    },
+    {
+      "fold": 2,
+      "seed": 2028,
+      "split_sizes": {"primary_train": 525, "pretrain_train": 681, "validation": 121, "test": 162},
+      "best_validation_prediction": 0.203779187053442,
+      "minimum_validation_visit_state_std": 0.2720707952976227,
+      "checkpoint_sha256": "aaa006d069afc7cf637754984651a35b16c163b5d7b0c02060c56c9d02c9fb06"
+    },
+    {
+      "fold": 3,
+      "seed": 2029,
+      "split_sizes": {"primary_train": 526, "pretrain_train": 682, "validation": 121, "test": 161},
+      "best_validation_prediction": 0.2389037683606147,
+      "minimum_validation_visit_state_std": 0.3381763249635696,
+      "checkpoint_sha256": "a0606aa5874d093a5419e163cd2ef6fa72080a4e8fc8a7e54c14194f29383b41"
+    },
+    {
+      "fold": 4,
+      "seed": 2030,
+      "split_sizes": {"primary_train": 526, "pretrain_train": 682, "validation": 121, "test": 161},
+      "best_validation_prediction": 0.185671754181385,
+      "minimum_validation_visit_state_std": 0.217700857669115,
+      "checkpoint_sha256": "ca24f3391cefff0aa1508531d1cf138d4050cae8fcc297afb3669c3f82074c60"
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "status": "valid_candidate_copy",
+  "warning": "该文件与 clean cohort/label 一致，但不在 clean 分支内，且原始 run 目录缺失；在 checkpoint provenance 核对前不能认定为 native fold。",
+  "clean_primary_patients": 808,
+  "n_rows": 4040,
+  "n_patients": 808,
+  "folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "each_patient_test_once": true,
+  "counts": [
+    {
+      "fold": 0,
+      "split": "test",
+      "n": 162,
+      "positives": 55
+    },
+    {
+      "fold": 0,
+      "split": "train",
+      "n": 525,
+      "positives": 178
+    },
+    {
+      "fold": 0,
+      "split": "val",
+      "n": 121,
+      "positives": 42
+    },
+    {
+      "fold": 1,
+      "split": "test",
+      "n": 162,
+      "positives": 55
+    },
+    {
+      "fold": 1,
+      "split": "train",
+      "n": 525,
+      "positives": 179
+    },
+    {
+      "fold": 1,
+      "split": "val",
+      "n": 121,
+      "positives": 41
+    },
+    {
+      "fold": 2,
+      "split": "test",
+      "n": 162,
+      "positives": 55
+    },
+    {
+      "fold": 2,
+      "split": "train",
+      "n": 525,
+      "positives": 178
+    },
+    {
+      "fold": 2,
+      "split": "val",
+      "n": 121,
+      "positives": 42
+    },
+    {
+      "fold": 3,
+      "split": "test",
+      "n": 161,
+      "positives": 55
+    },
+    {
+      "fold": 3,
+      "split": "train",
+      "n": 526,
+      "positives": 179
+    },
+    {
+      "fold": 3,
+      "split": "val",
+      "n": 121,
+      "positives": 41
+    },
+    {
+      "fold": 4,
+      "split": "test",
+      "n": 161,
+      "positives": 55
+    },
+    {
+      "fold": 4,
+      "split": "train",
+      "n": 526,
+      "positives": 179
+    },
+    {
+      "fold": 4,
+      "split": "val",
+      "n": 121,
+      "positives": 41
+    }
+  ],
+  "path": "/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+  "sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38"
+}

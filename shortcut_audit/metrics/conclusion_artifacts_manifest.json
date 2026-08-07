@@ -1,0 +1,234 @@
+{
+  "schema_version": "shortcut_audit.github_conclusion_bundle.v1",
+  "github_branch": "shortcut-audit",
+  "source_repository_commit": "c413ec86af04795434bdc19e65bbb006c966f379",
+  "result_identity": "fivefold audit retraining; not original checkpoint reproduction",
+  "scope": "de-identified aggregate metrics, figures, configs and Chinese reports; audit source code and tests are versioned separately in the same branch",
+  "excluded_local_artifact_classes": [
+    "patient-level predictions and probability changes",
+    "bootstrap draws",
+    "donor-recipient mappings and latent diagnostics",
+    "checkpoints, serialized readouts and tensor caches",
+    "training and evaluation logs"
+  ],
+  "artifacts": [
+    {
+      "path": "README.md",
+      "sha256": "9ecf1cca5778b2e921fc76ea1c26f11ad6d0e759c0ce46d3511db236b7235eef",
+      "size_bytes": 3690
+    },
+    {
+      "path": "configs/audit_protocol_v1.yaml",
+      "sha256": "bf63ac876c3ea7d8144d4e229a01ceb14b4cc9cf9e64e85a93a6a587b4b90fe3",
+      "size_bytes": 2684
+    },
+    {
+      "path": "configs/retrain_paper_v1.yaml",
+      "sha256": "da68406b2d421032db68c69407a9f79fddb654b8a5946184ada3acfde8b674a5",
+      "size_bytes": 2246
+    },
+    {
+      "path": "report/repository_inspection.md",
+      "sha256": "d814fd780add41e905e20385e21adb5312b57f082bb82ed6d96492cc70a234ff",
+      "size_bytes": 22311
+    },
+    {
+      "path": "report/cache_compatibility.md",
+      "sha256": "d2becd18d836bc4ac355efe37460996bc0b891ca5f0c05dec18ebf71e20d441e",
+      "size_bytes": 3412
+    },
+    {
+      "path": "report/reproduction_asset_contract.md",
+      "sha256": "2c82b89b460ee8b42d9e82b2f69701d59d9e5fcee0287d4bc447020b79734d53",
+      "size_bytes": 4461
+    },
+    {
+      "path": "report/retraining_protocol.md",
+      "sha256": "004e596e1e340b9bd1dc0dd66363c948cbdfb3d3b7b834fc9efafc2d39efb6fe",
+      "size_bytes": 5141
+    },
+    {
+      "path": "report/shortcut_audit_report.md",
+      "sha256": "9a87fb1ce94abd6212fd288df05b096dff2545ad406e5a6859257c51b320e78a",
+      "size_bytes": 42249
+    },
+    {
+      "path": "metrics/prerequisite_check.json",
+      "sha256": "b8c4b29a56ea596744bed070d9d3d53936a107b01f55c1480a9e94f6b7505cd5",
+      "size_bytes": 4058
+    },
+    {
+      "path": "metrics/fold_manifest_validation.json",
+      "sha256": "635d4331d6f930eee4d89eb3ae601292105eaaacb072b2cf4a068310316f46af",
+      "size_bytes": 1980
+    },
+    {
+      "path": "metrics/response_cache_validation.json",
+      "sha256": "f277918b1418b70e9b0f7e9244f99de8cbbc038d186b337ece13cd4c4f83b4fa",
+      "size_bytes": 978
+    },
+    {
+      "path": "metrics/fivefold_training_validation.json",
+      "sha256": "cd731fc3d5b3a689d3946c7520f0784350517e6bee81477ecd098052e186f8f6",
+      "size_bytes": 2095
+    },
+    {
+      "path": "metrics/prediction_coverage.csv",
+      "sha256": "188c08ca3e7806b37fa554a60952fdb06fc621b31849f253513eea6e1bb11abd",
+      "size_bytes": 2216,
+      "rows": 30
+    },
+    {
+      "path": "metrics/fold_metrics.csv",
+      "sha256": "4e593f0540f0de439e87239628794f429ec5fb90539afa281b3f70b664951bca",
+      "size_bytes": 20667,
+      "rows": 150
+    },
+    {
+      "path": "metrics/fold_summary.csv",
+      "sha256": "c2c4281b8bfbe9bb09e356cba78da6f97e1c374bdd42f752f476febaacfe04c8",
+      "size_bytes": 17260,
+      "rows": 150
+    },
+    {
+      "path": "metrics/pooled_oof.csv",
+      "sha256": "a1122c447d203ee57781d166b9e13b4a70d9c2823368a292d58453e81990012d",
+      "size_bytes": 5086,
+      "rows": 30
+    },
+    {
+      "path": "metrics/native_differences.csv",
+      "sha256": "78d3a34c846809c6e6d78e62a2a6d97ff5291ebc9cf6a9831109657accf51614",
+      "size_bytes": 24860,
+      "rows": 135
+    },
+    {
+      "path": "metrics/fold_changes.csv",
+      "sha256": "0d07daeca8576a267da94382c656fe153e0a0a7c90ba3e4c90690f10738178a2",
+      "size_bytes": 110039,
+      "rows": 675
+    },
+    {
+      "path": "metrics/paired_bootstrap.csv",
+      "sha256": "9c838dbd7631c47fefaa63c168d333f71462d371ec8f62289a1766ae049b97fc",
+      "size_bytes": 9912,
+      "rows": 54
+    },
+    {
+      "path": "metrics/probability_change_summary.csv",
+      "sha256": "0c8f56573c1f826f7ab6a94ba0eac8e1eaef30bd3318756db58e856256d6ee42",
+      "size_bytes": 2998,
+      "rows": 12
+    },
+    {
+      "path": "metrics/copy_fold_metrics.csv",
+      "sha256": "25c9961c116e561eefacc3c4f0615da8b784e1a11232757a9a56dcaff9d05f08",
+      "size_bytes": 4424,
+      "rows": 20
+    },
+    {
+      "path": "metrics/copy_fold_summary.csv",
+      "sha256": "1c4e4aa42e4b1d75cd5fbc1a9cffbc5d0e7491a37f9d7d9c24000e9073a3179c",
+      "size_bytes": 4059,
+      "rows": 40
+    },
+    {
+      "path": "metrics/copy_pooled_metrics.csv",
+      "sha256": "d0e45758505dc408abb024518602c1613bb02b96ce9af91b378384823d0108af",
+      "size_bytes": 2060,
+      "rows": 8
+    },
+    {
+      "path": "metrics/copy_bootstrap.csv",
+      "sha256": "d51695aeddc636ee2a8c9b694cb5eb5286a2fe3483e9d5bc77e378bd439706e9",
+      "size_bytes": 6021,
+      "rows": 44
+    },
+    {
+      "path": "metrics/perturbation_latent_fold_metrics.csv",
+      "sha256": "03a706bbd3839b41a56e3a911ab2ca0b48df3717a15f688fb4abc0b29cfd017c",
+      "size_bytes": 10259,
+      "rows": 60
+    },
+    {
+      "path": "metrics/perturbation_latent_fold_summary.csv",
+      "sha256": "fd500183c879f5e62a0a9e7a30e4012a88343dc003a95d8dafd5d9bd35582317",
+      "size_bytes": 11938,
+      "rows": 96
+    },
+    {
+      "path": "metrics/perturbation_latent_pooled.csv",
+      "sha256": "a341a3991b65a0c17d5e714b4ca5372eda2bdb699ff17b76ee10d5207a9dec97",
+      "size_bytes": 2503,
+      "rows": 12
+    },
+    {
+      "path": "metrics/donor_matching_summary.csv",
+      "sha256": "c5dee1615db11486fa87c1520a228be533eadeec22085e0fd8d5d225d86c60e3",
+      "size_bytes": 1238,
+      "rows": 6
+    },
+    {
+      "path": "metrics/donor_matching_summary.json",
+      "sha256": "c0410327cbf3842397b22bccbe3412ce3b5bc2abef2d80c40920db2df772c1aa",
+      "size_bytes": 882
+    },
+    {
+      "path": "metrics/repetition_metrics.csv",
+      "sha256": "c986fc27034ba28b32bd182347f380a3c7645cd163bbf8c24b422c4b8fa000cd",
+      "size_bytes": 25228,
+      "rows": 180
+    },
+    {
+      "path": "metrics/repetition_summary.csv",
+      "sha256": "13ea035a3b13da2e15d61f93972da8063e16ddf7cd50cb861cf4898a6b460850",
+      "size_bytes": 2216,
+      "rows": 15
+    },
+    {
+      "path": "figures/required_figures_manifest.json",
+      "sha256": "a997d3fb67890d0daa87bcd9611962f23e69486d949fc094b9fae5dfdd5dd926",
+      "size_bytes": 5663
+    },
+    {
+      "path": "figures/01_native_perturbation_auroc.png",
+      "sha256": "34c089081ec5929f4ccc7c9cc8e4962ab20f0ba271b7554a440991ba84861dbc",
+      "size_bytes": 109274
+    },
+    {
+      "path": "figures/02_fold_auroc_change.png",
+      "sha256": "7f601f4742081656105607a8a48f51c5f891625382cf8ddbdc1f95bc86eab917",
+      "size_bytes": 249350
+    },
+    {
+      "path": "figures/03_learned_vs_copy_error.png",
+      "sha256": "be1397391d9648e13f67348019accd9233134520375f7a89aefc608740232ef3",
+      "size_bytes": 109861
+    },
+    {
+      "path": "figures/04_transition_gain_distribution.png",
+      "sha256": "b73880cad877a829cb389fe2573a8caeb8ec8af5e56b631b919755cba251181f",
+      "size_bytes": 152226
+    },
+    {
+      "path": "figures/05_repeated_t0_probability_change.png",
+      "sha256": "f33a2c4264e2b06edd3617dc850e769661f78266b667d24e94464afe9c38ef61",
+      "size_bytes": 96938
+    },
+    {
+      "path": "figures/06_temporal_swap_probability_change.png",
+      "sha256": "226cf22ac2f6475443ef9516cffe0800f52fd258764ad26051f539ba6ac4353a",
+      "size_bytes": 92864
+    },
+    {
+      "path": "figures/07_followup_swap_probability_change.png",
+      "sha256": "824dc020b6a76f042994a0b8b91d916ab8f1c64bb11c42d1f4a41321fd6a8b64",
+      "size_bytes": 91980
+    },
+    {
+      "path": "figures/08_f1_f5_native_comparison.png",
+      "sha256": "2ea4befa0a14d6288b0cb4697d72149eb4b4f8c91110d10d289aa81717f29770",
+      "size_bytes": 93411
+    }
+  ]
+}

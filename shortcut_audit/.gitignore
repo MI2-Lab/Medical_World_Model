@@ -1,0 +1,44 @@
+# 不提交患者级张量、模型权重或序列化 readout。
+*.npz
+*.pt
+*.pth
+*.ckpt
+*.pkl
+
+# 患者级中间产物、预测、donor 明细、训练运行和日志仅在本地保留。
+cache/
+logs/
+runs/
+results/
+donor_results/
+predictions/
+
+# GitHub 分支只发布去标识化、体积小的结论级汇总。
+metrics/*
+!metrics/prerequisite_check.json
+!metrics/fold_manifest_validation.json
+!metrics/response_cache_validation.json
+!metrics/fivefold_training_validation.json
+!metrics/prediction_coverage.csv
+!metrics/fold_metrics.csv
+!metrics/fold_summary.csv
+!metrics/pooled_oof.csv
+!metrics/native_differences.csv
+!metrics/fold_changes.csv
+!metrics/paired_bootstrap.csv
+!metrics/probability_change_summary.csv
+!metrics/copy_fold_metrics.csv
+!metrics/copy_fold_summary.csv
+!metrics/copy_pooled_metrics.csv
+!metrics/copy_bootstrap.csv
+!metrics/perturbation_latent_fold_metrics.csv
+!metrics/perturbation_latent_fold_summary.csv
+!metrics/perturbation_latent_pooled.csv
+!metrics/donor_matching_summary.csv
+!metrics/donor_matching_summary.json
+!metrics/repetition_metrics.csv
+!metrics/repetition_summary.csv
+!metrics/conclusion_artifacts_manifest.json
+
+__pycache__/
+*.py[cod]

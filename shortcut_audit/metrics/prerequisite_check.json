@@ -1,0 +1,119 @@
+{
+  "status": "blocked",
+  "repository": {
+    "root": "/data/mi2-interns/bowen/Medical_World_Model",
+    "branch": "feature/ispy-clean-corejepa",
+    "expected_branch": "feature/ispy-clean-corejepa",
+    "commit": "c413ec86af04795434bdc19e65bbb006c966f379"
+  },
+  "config": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/configs/paper_v1.yaml",
+  "records": {
+    "total": 964,
+    "ispy2_primary": 808,
+    "ispy1_pretraining_only": 156,
+    "implemented_split_sizes": {
+      "primary_train": 565,
+      "pretrain_train": 721,
+      "validation": 121,
+      "test": 122
+    },
+    "implemented_protocol": "single stratified 70/15/15 split",
+    "five_fold_implementation_detected": false
+  },
+  "data": {
+    "ispy2_root": {
+      "path": "/data/data/Preprocessed/I-SPY2",
+      "exists": true,
+      "kind": "directory"
+    },
+    "ispy2_labels": {
+      "path": "/data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv",
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 235414
+    },
+    "ispy1_root": {
+      "path": "/data/data/Preprocessed/I-SPY1",
+      "exists": true,
+      "kind": "directory"
+    },
+    "ispy1_labels": {
+      "path": "/data/data/Preprocessed/I-SPY1/clinical_labels_complete4visits.csv",
+      "exists": true,
+      "kind": "file",
+      "size_bytes": 18138
+    },
+    "tensor_cache": {
+      "path": "/data/data/Preprocessed/I-SPY2/_corejepa_clean_dce8",
+      "exists": false,
+      "kind": "missing"
+    },
+    "response_cache": {
+      "path": "/data/data/Preprocessed/I-SPY2/corejepa_response_features.npz",
+      "exists": false,
+      "kind": "missing"
+    }
+  },
+  "run_directory": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean",
+  "run_artifacts": {
+    "config.yaml": {
+      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/config.yaml",
+      "exists": false,
+      "kind": "missing"
+    },
+    "best_corejepa.pt": {
+      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/best_corejepa.pt",
+      "exists": false,
+      "kind": "missing"
+    },
+    "last_corejepa.pt": {
+      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/last_corejepa.pt",
+      "exists": false,
+      "kind": "missing"
+    },
+    "history.csv": {
+      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/history.csv",
+      "exists": false,
+      "kind": "missing"
+    },
+    "frozen_states.npz": {
+      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/frozen_states.npz",
+      "exists": false,
+      "kind": "missing"
+    },
+    "splits.json": {
+      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/splits.json",
+      "exists": false,
+      "kind": "missing"
+    },
+    "flr.pkl": {
+      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/flr.pkl",
+      "exists": false,
+      "kind": "missing"
+    },
+    "flr_metrics.csv": {
+      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/flr_metrics.csv",
+      "exists": false,
+      "kind": "missing"
+    },
+    "flr_scores.csv": {
+      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/flr_scores.csv",
+      "exists": false,
+      "kind": "missing"
+    },
+    "flr_summary.json": {
+      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/flr_summary.json",
+      "exists": false,
+      "kind": "missing"
+    }
+  },
+  "critical_failures": [
+    "clean tensor cache 不存在或不完整",
+    "clean response cache 不存在",
+    "缺少正式产物：best_corejepa.pt",
+    "缺少正式产物：frozen_states.npz",
+    "缺少正式产物：splits.json",
+    "缺少正式产物：flr.pkl",
+    "clean 分支未实现任务要求的五折 patient-level 协议"
+  ]
+}

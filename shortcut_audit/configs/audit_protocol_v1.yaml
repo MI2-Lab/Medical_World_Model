@@ -1,0 +1,59 @@
+protocol_name: corejepa_shortcut_audit_retraining_v1
+status: complete
+completion_date: 2026-08-06
+result_identity: fivefold_audit_retraining_not_original_checkpoint_reproduction
+original_asset_status: missing_from_repository_user_authorized_retraining
+repository_commit: c413ec86af04795434bdc19e65bbb006c966f379
+base_config: shortcut_audit/configs/retrain_paper_v1.yaml
+
+folds:
+  manifest: /data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv
+  sha256: 143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38
+  expected_folds: [0, 1, 2, 3, 4]
+  representation_training: independent_per_fold
+  extra_pretraining_cohort: I-SPY1
+  model_seed_rule: 2026_plus_fold
+
+data_isolation:
+  representation_train: fold_train_plus_ispy1_without_pcr
+  representation_validation: fold_validation_without_pcr
+  representation_test: excluded_from_training_and_selection
+  readout_train: fold_train_with_pcr
+  readout_validation: fold_validation_with_pcr
+  readout_test: final_prediction_only
+  donor_matching: held_out_fold_baseline_observables_only
+
+preprocessing:
+  image_variant: legacy_adaptive_axiscanon_v1_autoroi_t0fallback_minfrac0.5
+  image_cache_inventory_sha256: fdd1474b9cdbf202bc34b12e1e5b08e180a1f1da141c8f8b2edd5883fabcd658
+  image_adapter: key_x_plus_clean_mask_geometry
+  exact_clean_equivalence: false
+  clean_roi_crop_difference: 154_of_3232_ispy2_visits_across_77_patients
+  response_features: rebuilt_with_clean_response_targets_code
+  response_cache_sha256: 87698b7cd4f7d0130c30a6dac58958948dc094e29f3659f646ee2dd7ea120ac0
+  response_cache_shape: [964, 4, 106]
+  response_target_shape: [964, 3, 18]
+  response_cache_label_usage: none
+
+readout:
+  estimator: class_balanced_logistic_regression
+  hyperparameter_selection: validation_weighted_landmark_auroc
+  threshold_selection: validation_youden_j_per_decision_point
+  threshold_tie_break: closest_to_0.5_then_lower_threshold
+
+primary_endpoint_note: >-
+  当前 repo 的 Frozen Landmark Readout 使用 FutureResponseState，输入仅为 geometry
+  与 condition，不直接读取 MRI latent；MRI trajectory 的诊断与 primary pCR readout
+  必须分开解释。
+
+completion_artifacts:
+  heldout_oof_patients: 808
+  prediction_rows: 43686
+  donor_pairs: 7290
+  donor_matched_recipients: 807
+  patient_bootstrap_repetitions: 2000
+  required_figures: 8
+  report: shortcut_audit/report/shortcut_audit_report.md
+  reporting_manifest: shortcut_audit/metrics/reporting_tables_manifest.json
+  supplemental_manifest: shortcut_audit/metrics/supplemental_metrics_manifest.json
+  prediction_manifest: shortcut_audit/predictions/prediction_exports_manifest.json
