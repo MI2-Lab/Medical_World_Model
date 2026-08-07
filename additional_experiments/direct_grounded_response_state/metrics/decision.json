@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "formal_analysis": true,
+  "decision": "NO-GO",
+  "rationale_cn": "没有 grounded pairing 在全部安全门槛下满足预注册 static grounding 标准。",
+  "comparisons": {
+    "G3-G1": {
+      "A_static_grounding": true,
+      "B_observed_delta_ftv": true,
+      "C_longitudinal_pcr": false,
+      "no_clear_pcr_decline": true,
+      "stability_and_base_gate": false,
+      "eligible": false,
+      "go": false,
+      "partial_go": false
+    },
+    "G4-G2": {
+      "A_static_grounding": false,
+      "B_observed_delta_ftv": true,
+      "C_longitudinal_pcr": false,
+      "no_clear_pcr_decline": true,
+      "stability_and_base_gate": true,
+      "eligible": true,
+      "go": false,
+      "partial_go": false
+    }
+  },
+  "thresholds": {
+    "A_macro_gain": 0.05,
+    "B_macro_or_transition_gain": 0.05,
+    "C_macro_auroc_gain": 0.02,
+    "ci_requirement": "95% paired patient bootstrap lower bound > 0",
+    "max_validation_base_degradation": 0.05,
+    "minimum_representation_std": 0.05
+  },
+  "bootstrap_conditional_on_single_training_seed": true,
+  "multiple_comparison_adjustment": "none; pre-registered cells, interpret individual CIs conditionally",
+  "input_metric_sha256": {
+    "probe_oof_metrics.csv": "04260f3f6e3880606784d68515aced94d44042c01bb98be6795bbc8f1efa82b7",
+    "pcr_oof_metrics.csv": "e234f6ba5766e5f69af0d210f4efac5c6862efd48aa8da11aa84b89144376952",
+    "paired_differences_bootstrap_ci.csv": "74ae5cbf9e4a9f135866cf401212ef777a9ca978f0ddf2267b1c296c662501e0",
+    "paired_macro_bootstrap_ci.csv": "99532450f34a420413c42649a6020632c7b2c3779239dc73ce2f9c7e28baffa3",
+    "training_stability.csv": "237eb94dd0dd1bb43af610573310f62b419fdbbad8b28c0c6313ef1a3d567f31"
+  },
+  "source": "metrics/final/decision.json",
+  "source_sha256": "a9c69936c7d1ae378974e9a6077c2893ae3c1e4601cfa3cd1bd5bb6ab432a23d",
+  "contains_patient_level_rows": false,
+  "contains_absolute_local_paths": false
+}

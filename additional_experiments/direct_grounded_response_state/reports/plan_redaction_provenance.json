@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "status": "certified_public_path_redaction",
+  "performed_after_formal_analysis": true,
+  "scientific_content_changed": false,
+  "training_plan_sha256": "fd43c11d9855c62d97dcd89f3ab4c46c6292be31faf7c66fa92ff1477c24dfd9",
+  "public_plan_sha256": "9904783226d77bddb97363edbcaab8a0bf998c3a4448e74b3eb7c0ae75a460db",
+  "replacement_token": "${DGRS_DATA_ROOT}",
+  "redacted_plan_occurrences": 1,
+  "training_implementation_sha256_at_run": "fb308f8a3cfe735ca1ef2e17e66367b11d4e6edc424bd01725cad200b780e750",
+  "public_training_implementation_sha256_after_path_portability": "d2ee8a74c9fa68f78f553953e6624d3fe3b5a6bc2a30b8183d6b8f869a492d3e",
+  "feature_extractor_sha256_at_run": "4875b39729d2401b21be02f5bd8aa5140b63f6e33a9e26b62ab48793f022e8d1",
+  "public_feature_extractor_sha256_after_path_portability": "a3d75f652ae91fc645887610886a2216dba7d1f306f0d4d8734242c188c87771",
+  "public_source_change_scope": [
+    "configs/base.yaml: data root changed to an environment-variable placeholder",
+    "src/dgrs/config.py: environment-variable expansion added to path resolution",
+    "src/dgrs/features.py: local default data paths replaced by portable environment variables",
+    "src/dgrs/targets.py: end-of-file whitespace cleanup only"
+  ],
+  "reason_cn": "正式分析完成后仅将锁定 fold manifest 的本机数据根目录替换为公开环境变量；cohort、文件名、SHA-256、split、模型、训练、统计与决策内容均未改变。",
+  "checkpoint_plan_hash_authority": "20 个正式 checkpoint 内嵌的 training_plan_sha256",
+  "contains_original_private_path": false
+}
