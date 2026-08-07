@@ -1,0 +1,61 @@
+{
+  "spec_version": "adjacent_v2_ftv_ld_logepsilon_sphericity_bpe_absolute_winsor01_99_robust",
+  "raw_targets_sha256": "512749ccf986de4af4c0109b4ce060c61a90112816895a2ae7423784ea60de4e",
+  "fold": 2,
+  "fit_scope": "仅该 fold 的 I-SPY2 train patients；未使用 val/test",
+  "train_patient_hash": "04f6139b7fcc98d370e22b8d9b1603025605055f22b782a390d196dcb1e77864",
+  "train_patient_count": 525,
+  "paired_train_patient_count": 240,
+  "quantiles": [
+    0.01,
+    0.99
+  ],
+  "feature_order": [
+    "ftv",
+    "sphericity",
+    "ld",
+    "bpe"
+  ],
+  "features": [
+    {
+      "name": "ftv",
+      "value_transform": "log_epsilon",
+      "epsilon": 0.006615432,
+      "winsor_low": -3.8870602396215155,
+      "winsor_high": 1.3865092731650082,
+      "center": -0.8029585988481238,
+      "scale": 1.256143751514186,
+      "n_train_values": 720
+    },
+    {
+      "name": "sphericity",
+      "value_transform": "identity",
+      "epsilon": 0.0,
+      "winsor_low": -0.2110586005,
+      "winsor_high": 0.38625137589999936,
+      "center": 0.013395329999999997,
+      "scale": 0.08700612849999999,
+      "n_train_values": 720
+    },
+    {
+      "name": "ld",
+      "value_transform": "log_epsilon",
+      "epsilon": 0.1,
+      "winsor_low": -3.9163068068316145,
+      "winsor_high": 1.790525605992666,
+      "center": -0.21566724404329074,
+      "scale": 0.5359563460563557,
+      "n_train_values": 720
+    },
+    {
+      "name": "bpe",
+      "value_transform": "identity",
+      "epsilon": 0.0,
+      "winsor_low": -38.433453,
+      "winsor_high": 19.842455999999952,
+      "center": -2.4051850000000004,
+      "scale": 9.059700000000001,
+      "n_train_values": 720
+    }
+  ]
+}

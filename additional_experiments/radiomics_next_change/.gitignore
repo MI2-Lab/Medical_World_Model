@@ -1,0 +1,43 @@
+# 大型或可重建实验产物
+checkpoints/**
+logs/**
+predictions/**
+figures/**
+metrics/**
+!checkpoints/.gitkeep
+!logs/.gitkeep
+!predictions/.gitkeep
+!figures/.gitkeep
+!metrics/.gitkeep
+
+# 可公开复核的最终聚合表与图；不含 patient-level prediction
+!figures/final/
+!figures/final/final_analysis_v2/
+!figures/final/final_analysis_v2/*.png
+!metrics/final/
+!metrics/final/final_analysis_v2/
+metrics/final/final_analysis_v2/*
+!metrics/final/final_analysis_v2/classification_fold_mean_std.csv
+!metrics/final/final_analysis_v2/classification_fold_metrics.csv
+!metrics/final/final_analysis_v2/classification_oof_metrics.csv
+!metrics/final/final_analysis_v2/classification_paired_model_difference_bootstrap_ci.csv
+!metrics/final/final_analysis_v2/classification_patient_bootstrap_ci.csv
+!metrics/final/final_analysis_v2/control_metrics_aggregated.csv
+!metrics/final/final_analysis_v2/figure_manifest.csv
+!metrics/final/final_analysis_v2/input_issues.csv
+!metrics/final/final_analysis_v2/posthoc_probe_metrics_aggregated.csv
+!metrics/final/final_analysis_v2/radiomics_head_distribution_summary.csv
+!metrics/final/final_analysis_v2/radiomics_head_metrics.csv
+!metrics/final/final_analysis_v2/shortcut_bootstrap_ci.csv
+!metrics/final/final_analysis_v2/shortcut_performance_metrics.csv
+!metrics/final/final_analysis_v2/shortcut_probability_change_summary.csv
+!metrics/final/final_analysis_v2/transition_metrics_aggregated.csv
+
+# 公开仓库不提交 patient-level trial ID、标签或原始 measurement target
+data_audit/radiomics_patient_overlap.csv
+data_audit/radiomics_transition_targets_raw.csv
+
+# Python 临时文件
+__pycache__/
+*.py[cod]
+.pytest_cache/

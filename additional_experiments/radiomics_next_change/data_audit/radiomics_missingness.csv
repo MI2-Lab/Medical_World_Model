@@ -1,0 +1,45 @@
+scope,feature_name,timepoint_or_transition,source_column,n_total,n_valid,n_missing,missing_ratio
+原始 measurement 工作簿,ftv,T0,VOLUME_TUM_BLU_V10,384,384,0,0.0
+808 人完整四访 MRI cohort,ftv,T0,VOLUME_TUM_BLU_V10,808,375,433,0.5358910891089109
+原始 measurement 工作簿,ftv,T1,VOLUME_TUM_BLU_V20,384,384,0,0.0
+808 人完整四访 MRI cohort,ftv,T1,VOLUME_TUM_BLU_V20,808,375,433,0.5358910891089109
+原始 measurement 工作簿,ftv,T2,VOLUME_TUM_BLU_V30,384,384,0,0.0
+808 人完整四访 MRI cohort,ftv,T2,VOLUME_TUM_BLU_V30,808,375,433,0.5358910891089109
+原始 measurement 工作簿,ftv,T3,VOLUME_TUM_BLU_V40,384,384,0,0.0
+808 人完整四访 MRI cohort,ftv,T3,VOLUME_TUM_BLU_V40,808,375,433,0.5358910891089109
+MRI-radiomics paired subset,ftv,T0→T1,由相邻两访视值计算,375,375,0,0.0
+MRI-radiomics paired subset,ftv,T1→T2,由相邻两访视值计算,375,375,0,0.0
+MRI-radiomics paired subset,ftv,T2→T3,由相邻两访视值计算,375,375,0,0.0
+原始 measurement 工作簿,sphericity,T0,SPHERICITY_T0,384,384,0,0.0
+808 人完整四访 MRI cohort,sphericity,T0,SPHERICITY_T0,808,375,433,0.5358910891089109
+原始 measurement 工作簿,sphericity,T1,SPHERICITY_T1,384,384,0,0.0
+808 人完整四访 MRI cohort,sphericity,T1,SPHERICITY_T1,808,375,433,0.5358910891089109
+原始 measurement 工作簿,sphericity,T2,SPHERICITY_T2,384,384,0,0.0
+808 人完整四访 MRI cohort,sphericity,T2,SPHERICITY_T2,808,375,433,0.5358910891089109
+原始 measurement 工作簿,sphericity,T3,SPHERICITY_T3,384,384,0,0.0
+808 人完整四访 MRI cohort,sphericity,T3,SPHERICITY_T3,808,375,433,0.5358910891089109
+MRI-radiomics paired subset,sphericity,T0→T1,由相邻两访视值计算,375,375,0,0.0
+MRI-radiomics paired subset,sphericity,T1→T2,由相邻两访视值计算,375,375,0,0.0
+MRI-radiomics paired subset,sphericity,T2→T3,由相邻两访视值计算,375,375,0,0.0
+原始 measurement 工作簿,ld,T0,LD_T0,384,384,0,0.0
+808 人完整四访 MRI cohort,ld,T0,LD_T0,808,375,433,0.5358910891089109
+原始 measurement 工作簿,ld,T1,LD_T1,384,384,0,0.0
+808 人完整四访 MRI cohort,ld,T1,LD_T1,808,375,433,0.5358910891089109
+原始 measurement 工作簿,ld,T2,LD_T2,384,384,0,0.0
+808 人完整四访 MRI cohort,ld,T2,LD_T2,808,375,433,0.5358910891089109
+原始 measurement 工作簿,ld,T3,LD_T3,384,384,0,0.0
+808 人完整四访 MRI cohort,ld,T3,LD_T3,808,375,433,0.5358910891089109
+MRI-radiomics paired subset,ld,T0→T1,由相邻两访视值计算,375,375,0,0.0
+MRI-radiomics paired subset,ld,T1→T2,由相邻两访视值计算,375,375,0,0.0
+MRI-radiomics paired subset,ld,T2→T3,由相邻两访视值计算,375,375,0,0.0
+原始 measurement 工作簿,bpe,T0,BPE_5slice_mean_T0,384,384,0,0.0
+808 人完整四访 MRI cohort,bpe,T0,BPE_5slice_mean_T0,808,375,433,0.5358910891089109
+原始 measurement 工作簿,bpe,T1,BPE_5slice_mean_T1,384,384,0,0.0
+808 人完整四访 MRI cohort,bpe,T1,BPE_5slice_mean_T1,808,375,433,0.5358910891089109
+原始 measurement 工作簿,bpe,T2,BPE_5slice_mean_T2,384,384,0,0.0
+808 人完整四访 MRI cohort,bpe,T2,BPE_5slice_mean_T2,808,375,433,0.5358910891089109
+原始 measurement 工作簿,bpe,T3,BPE_5slice_mean_T3,384,384,0,0.0
+808 人完整四访 MRI cohort,bpe,T3,BPE_5slice_mean_T3,808,375,433,0.5358910891089109
+MRI-radiomics paired subset,bpe,T0→T1,由相邻两访视值计算,375,375,0,0.0
+MRI-radiomics paired subset,bpe,T1→T2,由相邻两访视值计算,375,375,0,0.0
+MRI-radiomics paired subset,bpe,T2→T3,由相邻两访视值计算,375,375,0,0.0

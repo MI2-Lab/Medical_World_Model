@@ -1,0 +1,5 @@
+inherits: base.yaml
+model:
+  mode: m2
+loss:
+  lambda_rad: 0.1

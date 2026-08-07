@@ -1,0 +1,5 @@
+inherits: base.yaml
+model:
+  mode: m1_delta_only
+loss:
+  lambda_rad: 0.0

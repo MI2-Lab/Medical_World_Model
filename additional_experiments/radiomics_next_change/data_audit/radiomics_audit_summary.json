@@ -1,0 +1,81 @@
+{
+  "raw_radiomics": {
+    "path": "/data/data/Breast_Cancer/I-SPY2/Multi-feature-MRI-NACT-Data.xlsx",
+    "sha256": "f714c7784b1e57daa74d7cfb20db71cd432b4e4596b9b4eacdd5a76b7f8a58dc",
+    "sheet_names": [
+      "datawith4visits"
+    ],
+    "n_patients": 384,
+    "n_rows": 384,
+    "n_columns": 29,
+    "duplicate_patient_ids": 0,
+    "core_missing_cells": 0
+  },
+  "cohort_overlap": {
+    "mri_complete_4visit_patients": 808,
+    "matched_radiomics_patients": 375,
+    "unmatched_mri_patients": 433,
+    "overlap_ratio": 0.46410891089108913,
+    "radiomics_patients_outside_808": 9,
+    "radiomics_trial_ids_outside_808": [
+      "246134",
+      "495440",
+      "516763",
+      "652480",
+      "745633",
+      "748611",
+      "790722",
+      "889225",
+      "893874"
+    ],
+    "id_rule": "仅接受 ^(?:ISPY2-|ACRIN-6698-)(\\d{6})$，并与 clinical_patient_id/工作簿六位 ID 等值比较",
+    "fuzzy_matching_used": false
+  },
+  "transitions": {
+    "T0→T1": 375,
+    "T1→T2": 375,
+    "T2→T3": 375
+  },
+  "fold_manifest": {
+    "path": "/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+    "sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+    "provenance_status": "valid_candidate_copy；无配套 clean checkpoint，不能宣称 native reproduction",
+    "n_rows": 4040,
+    "n_patients": 808,
+    "n_folds": 5,
+    "test_once_per_patient": true,
+    "split_counts": {
+      "0": {
+        "train": 525,
+        "test": 162,
+        "val": 121
+      },
+      "1": {
+        "train": 525,
+        "test": 162,
+        "val": 121
+      },
+      "2": {
+        "train": 525,
+        "test": 162,
+        "val": 121
+      },
+      "3": {
+        "train": 526,
+        "test": 161,
+        "val": 121
+      },
+      "4": {
+        "train": 526,
+        "test": 161,
+        "val": 121
+      }
+    }
+  },
+  "cache": {
+    "legacy_cache_root": "/data/data/Preprocessed/I-SPY2/_mixed_ispy1_train_cache_dce8_adaptivephase_axiscanonv1_autoroi_t0fallback_minfrac05_z32_y96_x96",
+    "cohort_patients_with_cache": 808,
+    "input_contract": "legacy NPZ key x，shape [4,8,32,96,96]；第 8 通道为 ROI mask"
+  },
+  "units_note": "FTV 的 cc 来自随附 DICOM 数据说明；LD/BPE 单位未在工作簿/字典明确给出，分析不会据此作单位换算。"
+}
