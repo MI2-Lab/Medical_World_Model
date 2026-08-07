@@ -1,0 +1,64 @@
+{
+  "status": "static/change target transform validation complete",
+  "raw_targets_sha256": "512749ccf986de4af4c0109b4ce060c61a90112816895a2ae7423784ea60de4e",
+  "radiomics_patients": 375,
+  "static_endpoint_equality_verified": true,
+  "folds": [
+    {
+      "fold": 0,
+      "static_transform": "additional_experiments/observed_state_radiomics_audit/configs/static_target_transform_fold_0.json",
+      "static_transform_sha256": "22b169836480748189b7301010e75d64672e3553db51f1a4d22ab6b03ac3e5e3",
+      "change_transform": "additional_experiments/radiomics_next_change/configs/radiomics_transform_fold_0.json",
+      "change_transform_sha256": "7b7ab13800b8a296f70f5cca7a8abde34c27f2adb16d1cd7e0ed3d0ed9780e37",
+      "train_patient_hash": "689541db24cbd006ed7fcb89d74b707ac3eee8f11b59cb65d238a1c1dfff8b13",
+      "train_patient_count": 525,
+      "paired_train_patient_count": 247,
+      "cells": 16
+    },
+    {
+      "fold": 1,
+      "static_transform": "additional_experiments/observed_state_radiomics_audit/configs/static_target_transform_fold_1.json",
+      "static_transform_sha256": "165a81ec0860d6fb3b5eb4982ec534fd260693231f4154b8abe60bd23ef0226c",
+      "change_transform": "additional_experiments/radiomics_next_change/configs/radiomics_transform_fold_1.json",
+      "change_transform_sha256": "d3d89808922b70dc27f99ce69f3328211b8b75c67c662636858b1bbe3b4d0ed4",
+      "train_patient_hash": "c68f927b3cbd4a55a73a69a98cc987e8ccaf7773a447d91fcd9517f7ff542c03",
+      "train_patient_count": 525,
+      "paired_train_patient_count": 239,
+      "cells": 16
+    },
+    {
+      "fold": 2,
+      "static_transform": "additional_experiments/observed_state_radiomics_audit/configs/static_target_transform_fold_2.json",
+      "static_transform_sha256": "b2cfdd8e77db596c5c14750550cd0d468d9438130aca8d16eec22b65b8284a91",
+      "change_transform": "additional_experiments/radiomics_next_change/configs/radiomics_transform_fold_2.json",
+      "change_transform_sha256": "7c768b09f5cda5085790050e95f9d718b4882e939592395470d637a5a8d56009",
+      "train_patient_hash": "04f6139b7fcc98d370e22b8d9b1603025605055f22b782a390d196dcb1e77864",
+      "train_patient_count": 525,
+      "paired_train_patient_count": 240,
+      "cells": 16
+    },
+    {
+      "fold": 3,
+      "static_transform": "additional_experiments/observed_state_radiomics_audit/configs/static_target_transform_fold_3.json",
+      "static_transform_sha256": "1621665ea513536f28011f9ace1b4eda2252efe6de019ac38ef0f76b22a3c9cb",
+      "change_transform": "additional_experiments/radiomics_next_change/configs/radiomics_transform_fold_3.json",
+      "change_transform_sha256": "681a2618240f9b57345b625a20f707a4f58d1dd2e7197418b9ee081161f4b5ce",
+      "train_patient_hash": "0200cc9c439e28b1aac604a2ff40ccb398b3c6897c991b5e75a95ecc92bb4d88",
+      "train_patient_count": 526,
+      "paired_train_patient_count": 242,
+      "cells": 16
+    },
+    {
+      "fold": 4,
+      "static_transform": "additional_experiments/observed_state_radiomics_audit/configs/static_target_transform_fold_4.json",
+      "static_transform_sha256": "e7e87975ce069383dd0627a8c74b2ab24638a3c66aac642e5ce3c9d20d51d278",
+      "change_transform": "additional_experiments/radiomics_next_change/configs/radiomics_transform_fold_4.json",
+      "change_transform_sha256": "60f804451765b13a7d91c0c2b69b285390d1b2a32f2cd2c216ff9e13ecc1837c",
+      "train_patient_hash": "446f43d22b5e87f5e6aa98b4efed8965c57ad3f6af969a2fa91d1256c5770a10",
+      "train_patient_count": 526,
+      "paired_train_patient_count": 225,
+      "cells": 16
+    }
+  ],
+  "test_used_for_fit": false
+}
