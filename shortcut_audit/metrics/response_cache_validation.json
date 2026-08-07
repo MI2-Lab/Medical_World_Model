@@ -1,6 +1,6 @@
 {
   "status": "valid",
-  "path": "/data/mi2-interns/bowen/Medical_World_Model/shortcut_audit/cache/corejepa_response_features.npz",
+  "path": "<repo-root>/shortcut_audit/cache/corejepa_response_features.npz",
   "sha256": "87698b7cd4f7d0130c30a6dac58958948dc094e29f3659f646ee2dd7ea120ac0",
   "bytes": 990610,
   "n_patients": 964,
@@ -26,7 +26,7 @@
   },
   "patient_order_exact": true,
   "feature_order_exact": true,
-  "config": "/data/mi2-interns/bowen/Medical_World_Model/shortcut_audit/configs/retrain_paper_v1.yaml",
+  "config": "<repo-root>/shortcut_audit/configs/retrain_paper_v1.yaml",
   "label_usage": "none",
   "purpose": "fold-specific pCR-free pretraining response targets"
 }

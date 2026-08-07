@@ -104,6 +104,6 @@
       "positives": 41
     }
   ],
-  "path": "/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+  "path": "<ISPY2_ROOT>/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
   "sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38"
 }

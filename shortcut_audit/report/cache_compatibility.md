@@ -5,7 +5,7 @@
 本次五折重训练使用下列现有 cache 作为独立、明确命名的 canonical 数据版本：
 
 ```text
-/data/data/Preprocessed/I-SPY2/
+<ISPY2_ROOT>/
   _mixed_ispy1_train_cache_dce8_adaptivephase_axiscanonv1_
   autoroi_t0fallback_minfrac05_z32_y96_x96
 ```
@@ -36,11 +36,11 @@
   `30bd8c52e380a3828d6ef1d8bb7186a64dfd63ea20310a6486a7b45ba188d8e1`。
 
 主要原因是 clean `_project_center` 在半体素和跨形状投影后的临界舍入造成一体素
-crop 位移。反例 `ACRIN-6698-641246` 的全图最大绝对差为 10.0、相关系数 0.8698。
+crop 位移。一个反例样本（研究 ID 已隐去）的全图最大绝对差为 10.0、相关系数 0.8698。
 
-相容例 `ACRIN-6698-102212` 和 `ISPY1_1001` 的最大差为
-`4.7683716e-7`、相关系数 1.0、ROI 与派生 q 完全一致。会触发
-`min_roi_capture=0.5` 的 `ISPY1_1005` 也仅有同量级 ULP 差；不带 `minfrac05` 的旧
+两个相容例样本（研究 ID 已隐去）的最大差为
+`4.7683716e-7`、相关系数 1.0、ROI 与派生 q 完全一致。一个会触发
+`min_roi_capture=0.5` 的样本也仅有同量级 ULP 差；不带 `minfrac05` 的旧
 cache 则最大差 6.3135，因此不得替换首选目录。
 
 ## Audit adapter

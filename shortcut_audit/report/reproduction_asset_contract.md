@@ -30,7 +30,7 @@
 当前可访问候选：
 
 ```text
-/data/data/Preprocessed/I-SPY2/
+<ISPY2_ROOT>/
   _matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/
   matched_patient_cv_splits_seed2026.csv
 ```
@@ -91,4 +91,3 @@ replacement 对该 FLR 的概率按架构应严格不变；temporal/donor audit 
 资产可以保存在任意只读位置；无需复制到 Git 工作树。请同时给出五折目录映射和
 文件哈希。审计代码只会读取这些文件，新 predictions、metrics、figures 和日志全部
 写入 `shortcut_audit/`，不会覆盖原资产。
-

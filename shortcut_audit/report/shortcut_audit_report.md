@@ -61,7 +61,7 @@ Online visit state 是 192-D `VisitProjector(VisitEncoder3D(DCE8)) + GeometryPro
 正式审计采用 seed-2026 五折 manifest：
 
 ```text
-/data/data/Preprocessed/I-SPY2/
+<ISPY2_ROOT>/
   _matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/
   matched_patient_cv_splits_seed2026.csv
 SHA256 = 143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38
@@ -168,7 +168,7 @@ conda run -n bowen python shortcut_audit/scripts/evaluate_retrained_fold.py \
   --fold-dir shortcut_audit/runs/retrain_paper_v1/fold_<XX> \
   --eval-output shortcut_audit/results/fold_<XX> \
   --donor-output shortcut_audit/donor_results/fold_<XX> \
-  --cache /data/data/Preprocessed/I-SPY2/_mixed_ispy1_train_cache_dce8_adaptivephase_axiscanonv1_autoroi_t0fallback_minfrac05_z32_y96_x96 \
+  --cache <ISPY2_ROOT>/_mixed_ispy1_train_cache_dce8_adaptivephase_axiscanonv1_autoroi_t0fallback_minfrac05_z32_y96_x96 \
   --allow-evaluation
 
 # 五折汇总、2,000 次 patient-block bootstrap 与八图
@@ -288,7 +288,7 @@ C1 去除真实 follow-up MRI appearance 后，latent error 只增加约 0.0015�
 
 ### 5.6 E：donor matching、每次 repetition 与覆盖率
 
-匹配使用 seed 1729，每名 recipient 请求 10 名 donor。807/808 人至少有一名 donor，成功率 99.88%；639 人得到完整 10 名 donor，168 人部分匹配，唯一未匹配患者为 `ISPY2-417654`（`no_hard_match_candidate`），共 7,290 对，平均 9.03 名 donor/recipient。所有 pair 的 subtype、treatment family 和 visit compatibility 匹配率均为 100%，没有 relaxed pair；MammaPrint 匹配率为 68.63%，平均 baseline volume distance 为 0.503 个 z-score，平均 age distance 为 1.063 个 z-score。完整映射、失败和 balance 文件位于 `shortcut_audit/donor_results/fold_XX/`，汇总见 [donor_matching_summary.csv](../metrics/donor_matching_summary.csv)。
+匹配使用 seed 1729，每名 recipient 请求 10 名 donor。807/808 人至少有一名 donor，成功率 99.88%；639 人得到完整 10 名 donor，168 人部分匹配，唯一未匹配患者的研究 ID 已隐去（`no_hard_match_candidate`），共 7,290 对，平均 9.03 名 donor/recipient。所有 pair 的 subtype、treatment family 和 visit compatibility 匹配率均为 100%，没有 relaxed pair；MammaPrint 匹配率为 68.63%，平均 baseline volume distance 为 0.503 个 z-score，平均 age distance 为 1.063 个 z-score。完整映射、失败和 balance 文件位于本地 `shortcut_audit/donor_results/fold_XX/`（不进入 Git），汇总见 [donor_matching_summary.csv](../metrics/donor_matching_summary.csv)。
 
 | fold | recipients | matched / unmatched | full-10 / partial | pairs | mean donors | success rate |
 |---:|---:|---:|---:|---:|---:|---:|

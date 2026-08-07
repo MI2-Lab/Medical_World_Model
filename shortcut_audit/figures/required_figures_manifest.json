@@ -24,7 +24,7 @@
       "aggregation": "折均值；菱形为 pooled OOF",
       "error_bar": "各折 AUROC 的样本标准差（ddof=1）",
       "native_reference": "黑色原生序列折均值线",
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/shortcut_audit/figures/01_native_perturbation_auroc.png",
+      "path": "shortcut_audit/figures/01_native_perturbation_auroc.png",
       "sha256": "34c089081ec5929f4ccc7c9cc8e4962ab20f0ba271b7554a440991ba84861dbc",
       "dpi": 180
     },
@@ -40,7 +40,7 @@
       "aggregation": "按留出折、相同配对患者计算",
       "error_bar": "无（每个点即一个折）",
       "native_reference": "水平零线",
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/shortcut_audit/figures/02_fold_auroc_change.png",
+      "path": "shortcut_audit/figures/02_fold_auroc_change.png",
       "sha256": "7f601f4742081656105607a8a48f51c5f891625382cf8ddbdc1f95bc86eab917",
       "dpi": 180
     },
@@ -56,7 +56,7 @@
       "aggregation": "患者等权的折均值；菱形为 pooled 结果",
       "error_bar": "各折指标的样本标准差（ddof=1）",
       "native_reference": "复制当前状态柱",
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/shortcut_audit/figures/03_learned_vs_copy_error.png",
+      "path": "shortcut_audit/figures/03_learned_vs_copy_error.png",
       "sha256": "be1397391d9648e13f67348019accd9233134520375f7a89aefc608740232ef3",
       "dpi": 180
     },
@@ -72,7 +72,7 @@
       "aggregation": "患者级",
       "error_bar": "无（箱线图+单个患者点）",
       "native_reference": "G=0 线（学习转移与复制当前状态等误差）",
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/shortcut_audit/figures/04_transition_gain_distribution.png",
+      "path": "shortcut_audit/figures/04_transition_gain_distribution.png",
       "sha256": "b73880cad877a829cb389fe2573a8caeb8ec8af5e56b631b919755cba251181f",
       "dpi": 180
     },
@@ -88,7 +88,7 @@
       "aggregation": "患者等权；donor repetitions 先在患者内取均值",
       "error_bar": "无（箱线分布）",
       "native_reference": "水平零线",
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/shortcut_audit/figures/05_repeated_t0_probability_change.png",
+      "path": "shortcut_audit/figures/05_repeated_t0_probability_change.png",
       "sha256": "f33a2c4264e2b06edd3617dc850e769661f78266b667d24e94464afe9c38ef61",
       "dpi": 180
     },
@@ -104,7 +104,7 @@
       "aggregation": "患者等权；donor repetitions 先在患者内取均值",
       "error_bar": "无（箱线分布）",
       "native_reference": "水平零线",
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/shortcut_audit/figures/06_temporal_swap_probability_change.png",
+      "path": "shortcut_audit/figures/06_temporal_swap_probability_change.png",
       "sha256": "226cf22ac2f6475443ef9516cffe0800f52fd258764ad26051f539ba6ac4353a",
       "dpi": 180
     },
@@ -120,7 +120,7 @@
       "aggregation": "患者等权；donor repetitions 先在患者内取均值",
       "error_bar": "无（箱线分布）",
       "native_reference": "水平零线",
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/shortcut_audit/figures/07_followup_swap_probability_change.png",
+      "path": "shortcut_audit/figures/07_followup_swap_probability_change.png",
       "sha256": "824dc020b6a76f042994a0b8b91d916ab8f1c64bb11c42d1f4a41321fd6a8b64",
       "dpi": 180
     },
@@ -136,7 +136,7 @@
       "aggregation": "折均值",
       "error_bar": "各折 AUROC 的样本标准差（ddof=1）",
       "native_reference": "黑色原生序列柱",
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/shortcut_audit/figures/08_f1_f5_native_comparison.png",
+      "path": "shortcut_audit/figures/08_f1_f5_native_comparison.png",
       "sha256": "2ea4befa0a14d6288b0cb4697d72149eb4b4f8c91110d10d289aa81717f29770",
       "dpi": 180
     }

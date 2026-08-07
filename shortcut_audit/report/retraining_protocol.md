@@ -15,7 +15,7 @@
 使用已验证的 seed-2026 long-format manifest：
 
 ```text
-/data/data/Preprocessed/I-SPY2/
+<ISPY2_ROOT>/
   _matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/
   matched_patient_cv_splits_seed2026.csv
 ```
@@ -43,7 +43,7 @@ SHA256：
 本次影像输入明确采用现有完整 legacy cache：
 
 ```text
-/data/data/Preprocessed/I-SPY2/
+<ISPY2_ROOT>/
   _mixed_ispy1_train_cache_dce8_adaptivephase_axiscanonv1_
   autoroi_t0fallback_minfrac05_z32_y96_x96
 ```
