@@ -1,0 +1,15 @@
+asset,expected,observed,passed
+training_seeds,5,5,True
+models,2,2,True
+seed_model_fold_cells,50,50,True
+checkpoints,50,50,True
+histories,50,50,True
+training_selections,50,50,True
+features,50,50,True
+probe_prediction_files,50,50,True
+pcr_prediction_files,50,50,True
+probe_prediction_rows,26250,26250,True
+pcr_prediction_rows,24240,24240,True
+probe_downstream_selections,50,50,True
+pcr_downstream_selections,50,50,True
+registered_png,11,11,True

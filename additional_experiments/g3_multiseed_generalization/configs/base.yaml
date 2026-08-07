@@ -1,0 +1,43 @@
+provenance:
+  source_commit: 596d6d509aaf62c5385344a83b8ed66dd301ee79
+  source_experiment: additional_experiments/direct_grounded_response_state
+
+data:
+  # Export DGRS_DATA_ROOT as the directory containing I-SPY1/ and I-SPY2/.
+  primary_labels: ${DGRS_DATA_ROOT}/I-SPY2/clinical_labels_complete4visits.csv
+  extra_labels: ${DGRS_DATA_ROOT}/I-SPY1/clinical_labels_complete4visits.csv
+  fold_manifest: ${DGRS_DATA_ROOT}/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv
+  fold_manifest_sha256: 143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38
+  cache_root: ${DGRS_DATA_ROOT}/I-SPY2/_mixed_ispy1_train_cache_dce8_adaptivephase_axiscanonv1_autoroi_t0fallback_minfrac05_z32_y96_x96
+  ftv_overlap: additional_experiments/radiomics_next_change/data_audit/radiomics_patient_overlap.csv
+  ftv_targets: additional_experiments/radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv
+  fold_provenance_status: valid_candidate_copy_without_native_checkpoint_provenance
+
+model:
+  model_name: G1
+  image_channels: 7
+  base_channels: 16
+  latent_dim: 192
+  predictor_depth: 3
+  predictor_heads: 4
+  predictor_mlp_dim: 512
+  dropout: 0.1
+
+loss:
+  lambda_ftv: 0.0
+  sigreg: 0.09
+  sigreg_projections: 256
+  step_weights: [2.0, 1.0, 0.5]
+
+train:
+  seed: 2026
+  batch_size: 32
+  workers: 4
+  epochs: 12
+  patience: 4
+  learning_rate: 0.00005
+  weight_decay: 0.0001
+  ema_momentum: 0.996
+  max_grad_norm: 5.0
+  min_representation_std: 0.05
+  deterministic_algorithms: false
