@@ -1,0 +1,81 @@
+data:
+  ispy2_root: /data/data/Preprocessed/I-SPY2
+  ispy2_labels: /data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv
+  ispy1_root: /data/data/Preprocessed/I-SPY1
+  ispy1_labels: /data/data/Preprocessed/I-SPY1/clinical_labels_complete4visits.csv
+  tensor_cache: /data/data/Preprocessed/I-SPY2/_mixed_ispy1_train_cache_dce8_adaptivephase_axiscanonv1_autoroi_t0fallback_minfrac05_z32_y96_x96
+  response_cache: /data/mi2-interns/bowen/Medical_World_Model/shortcut_audit/cache/corejepa_response_features.npz
+  breastdcedl_metadata_csv: ispy_jepa_tmi_clean/data_processing/metadata/BreastDCEDL_metadata_min_crop.csv
+  crop_size: [32, 96, 96]
+  phase_policy: adaptive_early_late
+  response_phase_policy: breastdcedl
+  auto_roi_fallback: true
+  min_roi_capture: 0.5
+  legacy_empty_ftv_full_field: true
+
+model:
+  image_channels: 8
+  geometry_dim: 9
+  base_channels: 16
+  latent_dim: 192
+  predictor_depth: 3
+  predictor_heads: 4
+  predictor_mlp_dim: 512
+  response_dim: 64
+  response_hidden_dim: 256
+  response_depth: 1
+  response_experts: 6
+  expert_hidden_dim: 128
+  expert_gate_hidden_dim: 128
+  expert_temperature: 0.4
+  expert_scale: 0.1
+  expert_init_std: 0.005
+  response_latent_scale: 0.05
+  response_target_dim: 18
+  dropout: 0.1
+  film_scale: 0.1
+
+loss:
+  prediction: 1.0
+  sigreg: 0.09
+  response_score: 0.05
+  state_delta_contrast: 0.02
+  update_score: 0.02
+  response_vector: 0.02
+  response_vector_update: 0.02
+  gate_route: 0.3
+  gate_entropy: 0.05
+  gate_balance: 0.2
+  prediction_steps: [2.0, 1.0, 0.5]
+  response_steps: [1.0, 1.0, 0.0]
+  update_steps: [1.0, 0.0]
+  score_regression: 0.1
+  score_ranking: 1.0
+  score_rank_margin: 0.1
+  update_rank_margin: 0.05
+  min_rank_target_difference: 0.05
+  contrast_temperature: 0.2
+  contrast_target_temperature: 0.5
+  contrast_condition_penalty: 1.0
+
+train:
+  output_dir: shortcut_audit/runs/retrain_paper_v1
+  split_seed: 2026
+  seed: 2026
+  batch_size: 32
+  workers: 4
+  epochs: 12
+  patience: 4
+  learning_rate: 0.00005
+  weight_decay: 0.0001
+  ema_momentum: 0.996
+  sigreg_projections: 256
+  min_latent_std: 0.05
+  gpus: [0]
+
+readout:
+  penalties: [l1, l2]
+  c_grid: [0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0, 3.0, 10.0]
+  landmark_weights: [2.0, 1.0, 0.5]
+  max_iter: 5000
+

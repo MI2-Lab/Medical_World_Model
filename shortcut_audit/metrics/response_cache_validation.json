@@ -1,0 +1,32 @@
+{
+  "status": "valid",
+  "path": "/data/mi2-interns/bowen/Medical_World_Model/shortcut_audit/cache/corejepa_response_features.npz",
+  "sha256": "87698b7cd4f7d0130c30a6dac58958948dc094e29f3659f646ee2dd7ea120ac0",
+  "bytes": 990610,
+  "n_patients": 964,
+  "x_visit_shape": [
+    964,
+    4,
+    106
+  ],
+  "raw_response_shape": [
+    964,
+    3,
+    18
+  ],
+  "feature_count": 106,
+  "nan_fraction_x_visit": 0.15078681593987317,
+  "nan_fraction_raw_response": 0.09416781927155371,
+  "minimum_finite_raw_features_per_patient_decision": 2,
+  "roi_source_counts": {
+    "automatic_enhancement_roi": 4,
+    "ftv_inclusion_region": 3166,
+    "legacy_full_field_empty_ftv": 66,
+    "released_longest_diameter_proxy": 620
+  },
+  "patient_order_exact": true,
+  "feature_order_exact": true,
+  "config": "/data/mi2-interns/bowen/Medical_World_Model/shortcut_audit/configs/retrain_paper_v1.yaml",
+  "label_usage": "none",
+  "purpose": "fold-specific pCR-free pretraining response targets"
+}
