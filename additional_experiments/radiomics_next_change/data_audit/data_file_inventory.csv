@@ -1,0 +1,16 @@
+path,exists,type,size_bytes,purpose,read_only_source
+/data/data/Breast_Cancer/I-SPY2/Multi-feature-MRI-NACT-Data.xlsx,True,xlsx,132946,原始纵向 MRI measurement/radiomics 工作簿,True
+/data/data/Breast_Cancer/I-SPY2/ISPY2-Imaging-Cohort-1-Clinical-Data.xlsx,True,xlsx,58200,原始 I-SPY2 clinical/pCR 工作簿,True
+/data/data/Preprocessed/I-SPY2/clinical_labels.csv,True,csv,290294,985 人临床与预处理状态索引,True
+/data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv,True,csv,235414,808 人完整四访临床索引,True
+/data/data/Preprocessed/I-SPY2/mri_nact_features_long.csv,True,csv,278310,384 人×4 访视纵向 measurement 长表,True
+/data/data/Preprocessed/I-SPY2/mri_nact_features_wide.csv,True,csv,163694,384 人 measurement 宽表,True
+/data/data/Preprocessed/I-SPY2/mri_nact_features_complete4visits_wide.csv,True,csv,159733,375 人同时拥有完整 MRI 的 measurement 宽表,True
+/data/data/Preprocessed/I-SPY2/mri_nact_features_with_clinical_labels.csv,True,csv,198591,384 人 measurement+clinical 合并表（仅审计/控制组）,True
+/data/data/Preprocessed/I-SPY2/mri_nact_feature_dictionary.json,True,json,6518,measurement 字段映射与摘要,True
+/data/data/Preprocessed/I-SPY2/clinical_label_dictionary.json,True,json,3003,clinical 字段字典与摘要,True
+/data/data/Preprocessed/I-SPY2/_manifest_audit.csv,True,csv,38575,MRI manifest 完整性审计,True
+/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv,True,csv,96384,seed-2026 候选五折 patient manifest,True
+/data/data/Preprocessed/I-SPY2/_mixed_ispy1_train_cache_dce8_adaptivephase_axiscanonv1_autoroi_t0fallback_minfrac05_z32_y96_x96,True,directory,,964 人 legacy DCE8 可复用只读 cache,True
+/data/data/Preprocessed/I-SPY2/_corejepa_clean_dce8,False,missing,,clean 分支期望 tensor cache（当前缺失）,True
+/data/data/Preprocessed/I-SPY2/corejepa_response_features.npz,False,npz,,clean 分支期望 response cache（当前缺失）,True
