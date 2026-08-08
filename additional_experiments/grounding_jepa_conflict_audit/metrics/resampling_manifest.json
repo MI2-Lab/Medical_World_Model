@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "created_before_new_gradient_forward": true,
+  "plan_freeze_sha256": "a8c3dc736b9f31d3b0d9f4efeaf5efa1605388b19a0604087e15dc9987287cf1",
+  "bundle": {
+    "schema_version": 2,
+    "bit_generator": "PCG64",
+    "rng_seeds": {
+      "crossed": 2026080801
+    },
+    "algorithms": {
+      "crossed_bootstrap": {
+        "name": "independent_seed_and_fold_draws_with_replacement_then_cartesian_product",
+        "formal_gate_eligible": true,
+        "synchronized_across_all_endpoints": true,
+        "missing_group_policy": "record_nonfinite_never_redraw"
+      },
+      "crossed_exact_permutation": {
+        "name": "all_seed_orders_cartesian_all_fold_orders",
+        "replicates": 14400,
+        "includes_identity": true,
+        "two_sided_tie_rule": "absolute_greater_or_equal",
+        "formal_gate_eligible": true,
+        "synchronized_across_all_endpoints": true
+      }
+    },
+    "formal_index_arrays": [
+      "crossed_seed_draws",
+      "crossed_fold_draws",
+      "crossed_permutation_seed_orders",
+      "crossed_permutation_fold_orders"
+    ],
+    "excluded_from_bundle": [
+      "iid_within_group_bootstrap_indices",
+      "unrestricted_run_permutation_indices"
+    ],
+    "arrays": {
+      "crossed_seed_draws": {
+        "shape": [
+          20000,
+          5
+        ],
+        "dtype": "|u1",
+        "raw_sha256": "a5caed7303a81aba510c5c35021ed5a6aca48d548d85d44505eef289488eeffe",
+        "canonical_index_sha256": "33c1c0e949ce9d020d63f039f2f476bda641f66cd08506bb05f0dcf38b457729"
+      },
+      "crossed_fold_draws": {
+        "shape": [
+          20000,
+          5
+        ],
+        "dtype": "|u1",
+        "raw_sha256": "97cc7cc6bd13e5c1fed82d36f7ebba957dbbaa897c0093eed08d9ce6ff7cdfa6",
+        "canonical_index_sha256": "12fb6a97918795afa08f5d68954f43760139b0d026e3a4fc9246fdc7c48b17f7"
+      },
+      "crossed_permutation_seed_orders": {
+        "shape": [
+          14400,
+          5
+        ],
+        "dtype": "|u1",
+        "raw_sha256": "2f60593581873f58ca0d14ec5000f91e08cdaa4b5f64f70bbbaace03c45c58c8",
+        "canonical_index_sha256": "4c51b8643efb1902cfe953beae1df1458f347d576e854ef5fce11e2dddb19d42"
+      },
+      "crossed_permutation_fold_orders": {
+        "shape": [
+          14400,
+          5
+        ],
+        "dtype": "|u1",
+        "raw_sha256": "ecdc403fa07c57a494fe96bb66ab07cc4797ff6c2703bbe577af3e99ef9c8622",
+        "canonical_index_sha256": "41c0cb385c2dc18af272ddf0ecadab173cefe5129ff2bb08b01ac52d86d46838"
+      }
+    },
+    "bundle_sha256": "2716972a1e8e7867a6585d238f5e98b1c91d60e0daa0bf5938baee5069940aff",
+    "npz_sha256": "f0f26eae554b84a9ac76a87660cf21013acbbb62e1e5937c4463339f38b554a1",
+    "npz_bytes": 72058
+  },
+  "contains_patient_ids": false
+}

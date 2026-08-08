@@ -1,0 +1,7 @@
+base_gate,selection_rule,within_group_rank_zero_based,seed_base,fold,base_degradation,selected_epoch,last_epoch,gradient_result_used_for_selection
+PASS,minimum,0,5026,3,-0.04274081666189603,2,6,False
+PASS,median,8,3026,1,0.01852378510188273,2,6,False
+PASS,maximum,16,4026,0,0.0497572558014174,3,7,False
+FAIL,minimum,0,5026,2,0.053532174861502295,2,6,False
+FAIL,lower_median,3,5026,1,0.082763053935025,2,6,False
+FAIL,maximum,7,3026,3,0.18062120226823075,2,6,False
