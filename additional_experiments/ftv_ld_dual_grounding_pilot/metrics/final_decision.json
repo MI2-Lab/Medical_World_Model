@@ -1,0 +1,85 @@
+{
+  "answers": {
+    "A_current_crop_observes_ld": "NO_NOT_RELIABLY_OBSERVABLE",
+    "B_large_lesion_systematic_truncation": "YES_STRONG_EVIDENCE",
+    "C_ld_zero_floor": "T0_0pct_T1_1.33pct_T2_16.53pct_T3_32.53pct",
+    "D_dual_grounding_ld_decodability": "NOT_EVALUATED_STAGE_B_BLOCKED",
+    "E_static_ld_improves_delta_ld": "NOT_EVALUATED_STAGE_B_BLOCKED",
+    "F_ftv_and_delta_ftv_preserved": "NOT_EVALUATED_STAGE_B_BLOCKED",
+    "G_base_instability": "NOT_EVALUATED_STAGE_B_BLOCKED",
+    "H_image_only_pcr_direction": "NOT_EVALUATED_PCR_NOT_READ",
+    "I_second_response_axis": "NOT_ESTABLISHED_CURRENT_INPUT_FAILS_OBSERVABILITY",
+    "J_next_step": "MODIFY_INPUT_ARCHITECTURE_THEN_REPEAT_STAGE_A"
+  },
+  "branch": "feature/ftv-ld-dual-grounding-pilot",
+  "overall_decision": "NO_GO",
+  "prohibited_inference": "No claim about B2 decodability, longitudinal geometry, optimization, or pCR is supported because Stage B was not run.",
+  "recommended_next_actions": [
+    "use a larger physical field of view or spacing-aware crop",
+    "use an adaptive crop guaranteed to contain the full lesion bbox plus context",
+    "evaluate a multi-scale lesion-and-context representation",
+    "repeat the same outcome-free containment gate before any LD grounding"
+  ],
+  "schema_version": 1,
+  "scientific_interpretation": "LD remains a plausible table-level candidate, but the current fixed lesion-centered DCE7 crop does not preserve enough full lesion support to make LD a valid observable grounding target.",
+  "source_commit": "91ce7e5a26ef3674c56e56e00fe2efa76fdb841b",
+  "stage_a": {
+    "criteria": {
+      "all_visit_sufficient_containment": {
+        "observed": 0.18666666666666668,
+        "operator": ">=",
+        "pass": false,
+        "threshold": 0.85
+      },
+      "exact_origin_recovery": {
+        "observed": 0.992,
+        "operator": ">=",
+        "pass": true,
+        "threshold": 0.99
+      },
+      "t0_t1_ld_margin_systematic_association": {
+        "observed": -0.3559277780336208,
+        "operator": ">",
+        "pass": true,
+        "threshold": -0.4
+      },
+      "t0_t1_suspected_truncation": {
+        "observed": 0.7746666666666666,
+        "operator": "<=",
+        "pass": false,
+        "threshold": 0.1
+      },
+      "t0_t1_top_quartile_suspected_truncation": {
+        "observed": 0.9897435897435898,
+        "operator": "<=",
+        "pass": false,
+        "threshold": 0.2
+      }
+    },
+    "decision": "NO_GO",
+    "failed_criteria": [
+      "t0_t1_suspected_truncation",
+      "t0_t1_top_quartile_suspected_truncation",
+      "all_visit_sufficient_containment"
+    ],
+    "patient_visits": 1500,
+    "patients": 375,
+    "sensitivity": {
+      "all_visit_bbox_fully_contained_rate": 0.20466666666666666,
+      "all_visit_exact_full_support_containment_rate": 0.20466666666666666,
+      "origin_ambiguous_fraction": 0.0,
+      "t0_t1_bbox_fully_contained_rate": 0.24533333333333332,
+      "t0_t1_exact_full_support_containment_rate": 0.24533333333333332,
+      "t0_t1_ld_margin_spearman_unique_only": -0.3559277780336208
+    }
+  },
+  "stage_b": {
+    "authorized": false,
+    "executed": false,
+    "lambda_ld_selected": null,
+    "pcr_secondary_evaluation": "SKIPPED_BY_STAGE_A_GATE_AND_PCR_NOT_READ",
+    "representation_probes": "SKIPPED_BY_STAGE_A_GATE",
+    "training": "SKIPPED_BY_STAGE_A_GATE"
+  },
+  "stop_code": "LD_NOT_OBSERVABLE_UNDER_CURRENT_CROP"
+}

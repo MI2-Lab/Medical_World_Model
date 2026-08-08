@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "frozen_at_utc": "2026-08-08T09:02:18Z",
+  "source_commit": "91ce7e5a26ef3674c56e56e00fe2efa76fdb841b",
+  "cohort": {
+    "strict_overlap_patients": 375,
+    "visits": ["T0", "T1", "T2", "T3"],
+    "expected_patient_visits": 1500,
+    "id_matching": "exact_six_digit_clinical_trial_subject_id",
+    "outcome_free": true
+  },
+  "input_contract": {
+    "cache_shape_vczyx": [4, 8, 32, 96, 96],
+    "dce_channels": 7,
+    "localization_channel": 7,
+    "crop_size_zyx": [32, 96, 96],
+    "clean_center_policy": "released_T0_bbox_center_projected_by_normalized_coordinates",
+    "legacy_origin_policy": "recover_actual_start_by_bitwise_full_mask_to_cached_roi_matching_around_clean_candidate",
+    "legacy_origin_search_radius_vox": 2,
+    "automatic_roi_recenter_min_voxels": 32,
+    "automatic_roi_recenter_min_fraction": 0.5,
+    "spatial_resampling": "none_before_fixed_voxel_crop",
+    "padding": "zero_outside_source_volume",
+    "orientation": "reader_index_order_XYZ_then_output_ZYX_not_affine_canonicalization",
+    "physical_geometry_scope": "DCE_mask_shape_spacing_axis_handling_must_match; affine_not_used"
+  },
+  "target_semantics": {
+    "reported_ld_unit_status": "LD_UNIT_NOT_EXPLICIT",
+    "reported_ld_unit": null,
+    "zero_semantics": "AMBIGUOUS_ZERO_SEMANTICS",
+    "allow_reported_ld_physical_conversion": false,
+    "allow_rank_only_ld_extent_sanity_check": true
+  },
+  "metric_definitions": {
+    "boundary_touch": "nonzero current-cache localization support on any of six crop faces",
+    "suspected_truncation": "any_boundary_touch OR exact_containment_ratio_lt_0.99 OR diagnostic_support_unavailable",
+    "severe_truncation": "exact_containment_ratio_lt_0.90",
+    "sufficient_containment": "diagnostic_support_available AND containment_ratio_ge_0.99 AND NOT any_boundary_touch",
+    "margin_voxel": "minimum signed full-support-bbox distance to requested crop boundary; negative means support extends outside crop",
+    "margin_mm": "axis-specific voxel margin multiplied by reliable canonical NIfTI spacing",
+    "crop_physical_extent_mm": "crop voxel count multiplied by canonical NIfTI spacing",
+    "approx_max_extent_mm": "maximum pairwise distance among fixed-direction extrema of full support; approximate 3-D Feret diameter",
+    "exact_full_support_containment": "cached support voxel count equals full support voxel count; conservative extent-observability sensitivity, not a gate change",
+    "extent_retention_ratio": "cached/full fixed-direction approximate maximum extent clipped to [0,1] because extremal-pair approximation is not subset-monotone; descriptive sensitivity, not formal LD calibration",
+    "large_ld_quantiles": "descriptive per-visit quantiles on the outcome-free 375-patient overlap"
+  },
+  "gate": {
+    "primary_visits": ["T0", "T1"],
+    "primary_suspected_truncation_rate_max": 0.10,
+    "primary_top_quartile_suspected_truncation_rate_max": 0.20,
+    "combined_sufficient_containment_rate_min": 0.85,
+    "strong_systematic_ld_margin_spearman_threshold": -0.40,
+    "minimum_t0_t1_diagnostic_support_fraction_for_caveat": 0.90,
+    "minimum_exact_origin_recovery_fraction": 0.99,
+    "go_with_caveat_allowed": true,
+    "missing_or_unavailable_is_conservative_suspected_truncation": true,
+    "no_threshold_relaxation_after_results": true
+  },
+  "independent_review_addendum": {
+    "status": "NON_GATE_SENSITIVITY_ADDED_WITHOUT_THRESHOLD_CHANGE",
+    "rationale": "detect small disconnected distal support that could affect maximum extent despite ratio >= 0.99",
+    "public_small_cell_minimum": 5,
+    "origin_ambiguity_reported": true,
+    "unique_only_ld_margin_sensitivity": true
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "branch": "feature/ftv-ld-dual-grounding-pilot",
+  "legacy_cache": "${DGRS_DATA_ROOT}/I-SPY2/_mixed_ispy1_train_cache_dce8_adaptivephase_axiscanonv1_autoroi_t0fallback_minfrac05_z32_y96_x96",
+  "overlap": {
+    "public_label": "radiomics_patient_overlap.csv",
+    "sha256": "91b575c9e7e351312b8181a091bdffd2d1f61b88b5a98ac3d78d54c94b63da6b"
+  },
+  "patient_visits": 1500,
+  "patients": 375,
+  "pcr_read_for_stage_a": false,
+  "preprocessed_root": "${DGRS_DATA_ROOT}/I-SPY2",
+  "schema_version": 1,
+  "source_commit": "91ce7e5a26ef3674c56e56e00fe2efa76fdb841b",
+  "workbook": {
+    "public_label": "${ISPY2_RAW_ROOT}/Multi-feature-MRI-NACT-Data.xlsx",
+    "sha256": "f714c7784b1e57daa74d7cfb20db71cd432b4e4596b9b4eacdd5a76b7f8a58dc"
+  },
+  "workbook_rows": 384
+}

@@ -1,0 +1,115 @@
+{
+  "checks": [
+    {
+      "expected": 27,
+      "name": "required_public_files_present",
+      "observed": 27,
+      "pass": true
+    },
+    {
+      "name": "patient_detail_is_git_ignored",
+      "pass": true
+    },
+    {
+      "expected": 0,
+      "name": "no_symlinks",
+      "observed": 0,
+      "pass": true
+    },
+    {
+      "expected": 0,
+      "name": "no_raw_mri_excel_or_model_artifacts",
+      "observed": 0,
+      "pass": true
+    },
+    {
+      "expected": 0,
+      "name": "public_file_size_limit",
+      "observed": 0,
+      "pass": true
+    },
+    {
+      "expected": 0,
+      "name": "known_public_file_types_only",
+      "observed": 0,
+      "pass": true
+    },
+    {
+      "expected": 0,
+      "name": "no_patient_ids_or_host_absolute_paths",
+      "observed": 0,
+      "pass": true
+    },
+    {
+      "name": "aggregate_files_parse",
+      "pass": true
+    },
+    {
+      "name": "cohort_375_patients_1500_visits",
+      "pass": true
+    },
+    {
+      "name": "aggregate_count_rate_arithmetic",
+      "pass": true
+    },
+    {
+      "name": "summary_reconciles_with_timepoints",
+      "pass": true
+    },
+    {
+      "name": "containment_distribution_reconciles",
+      "pass": true
+    },
+    {
+      "expected": ">=5",
+      "name": "no_small_published_subgroups",
+      "observed": 38,
+      "pass": true
+    },
+    {
+      "name": "aggregate_tables_are_outcome_and_identifier_free",
+      "pass": true
+    },
+    {
+      "name": "public_extent_retention_within_unit_interval",
+      "pass": true
+    },
+    {
+      "name": "stage_a_metric_semantics",
+      "pass": true
+    },
+    {
+      "name": "gate_values_recomputed_from_aggregates",
+      "pass": true
+    },
+    {
+      "name": "gate_decision_matches_recomputed_criteria",
+      "pass": true
+    },
+    {
+      "name": "final_decision_respects_no_go",
+      "pass": true
+    },
+    {
+      "name": "skipped_stages_are_explicit",
+      "pass": true
+    },
+    {
+      "expected": 6,
+      "name": "six_figures_present_and_sized",
+      "observed": 6,
+      "pass": true
+    }
+  ],
+  "policy": {
+    "manifest_self_hash": false,
+    "maximum_public_file_bytes": 10485760,
+    "minimum_public_subgroup_n": 5,
+    "patient_level_detail_public": false,
+    "raw_mri_excel_or_model_artifacts_public": false
+  },
+  "public_artifact_count_before_generated_outputs": 36,
+  "schema_version": 1,
+  "scope": "git_eligible_public_experiment_artifacts",
+  "status": "PASS"
+}

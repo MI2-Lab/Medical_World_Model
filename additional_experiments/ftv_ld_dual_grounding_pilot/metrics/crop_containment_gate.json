@@ -1,0 +1,73 @@
+{
+  "cohort": {
+    "patient_visits": 1500,
+    "patients": 375,
+    "t0_t1_patient_visits": 750
+  },
+  "criteria": {
+    "all_visit_sufficient_containment": {
+      "observed": 0.18666666666666668,
+      "operator": ">=",
+      "pass": false,
+      "threshold": 0.85
+    },
+    "exact_origin_recovery": {
+      "observed": 0.992,
+      "operator": ">=",
+      "pass": true,
+      "threshold": 0.99
+    },
+    "t0_t1_ld_margin_systematic_association": {
+      "observed": -0.3559277780336208,
+      "operator": ">",
+      "pass": true,
+      "threshold": -0.4
+    },
+    "t0_t1_suspected_truncation": {
+      "observed": 0.7746666666666666,
+      "operator": "<=",
+      "pass": false,
+      "threshold": 0.1
+    },
+    "t0_t1_top_quartile_suspected_truncation": {
+      "observed": 0.9897435897435898,
+      "operator": "<=",
+      "pass": false,
+      "threshold": 0.2
+    }
+  },
+  "decision": "NO_GO",
+  "failed_criteria": [
+    "t0_t1_suspected_truncation",
+    "t0_t1_top_quartile_suspected_truncation",
+    "all_visit_sufficient_containment"
+  ],
+  "post_review_sensitivity_not_a_gate_change": {
+    "all_visit_bbox_fully_contained_rate": 0.20466666666666666,
+    "all_visit_exact_full_support_containment_rate": 0.20466666666666666,
+    "origin_ambiguous_fraction": 0.0,
+    "t0_t1_bbox_fully_contained_rate": 0.24533333333333332,
+    "t0_t1_exact_full_support_containment_rate": 0.24533333333333332,
+    "t0_t1_ld_margin_spearman_unique_only": -0.3559277780336208
+  },
+  "schema_version": 1,
+  "stage": "A_LD_CROP_CONTAINMENT_AUDIT",
+  "stage_b_authorized": false,
+  "stop_code": "LD_NOT_OBSERVABLE_UNDER_CURRENT_CROP",
+  "support_semantics": {
+    "manual_dense_lesion_segmentation": false,
+    "reported_ld_target_replaced_by_segmentation_extent": false,
+    "source": "full-resolution FTV inclusion region"
+  },
+  "target_semantics": {
+    "extent_rank_sanity": "EXPLORATORY_ONLY",
+    "formal_reported_ld_to_mm_calibration": "NOT_PERFORMED",
+    "ld_unit_status": "LD_UNIT_NOT_EXPLICIT",
+    "zero_semantics": "AMBIGUOUS_ZERO_SEMANTICS"
+  },
+  "warnings": [
+    "FTV inclusion support is a target-observability proxy, not a manual dense lesion segmentation.",
+    "Legacy builder source and saved crop origins are unavailable; origins are recovered by exact mask matching.",
+    "Reported LD unit and zero semantics are not explicit in the source workbook."
+  ]
+}
