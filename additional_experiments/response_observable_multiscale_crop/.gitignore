@@ -1,0 +1,15 @@
+# 授权环境内的 patient-level 几何与 preview cache 不进入版本控制。
+metrics/patient_visit_contracts.csv
+metrics/patient_level_*.csv
+manifests/patient_*.jsonl
+cache_preview/*.npz
+cache_preview/*.npy
+cache_preview/*.nii
+cache_preview/*.nii.gz
+logs/**
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+!logs/.gitkeep
