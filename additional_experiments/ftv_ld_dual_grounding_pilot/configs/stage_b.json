@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "conditional_on_stage_a": ["GO", "GO_WITH_CAVEAT"],
+  "models": {
+    "B0": "DCE7_JEPA_no_grounding",
+    "B1": "DCE7_JEPA_FTV_grounding",
+    "B2": "DCE7_JEPA_FTV_LD_dual_grounding"
+  },
+  "training_seeds": [2026, 4026],
+  "folds": [0, 1, 2, 3, 4],
+  "latent_dim": 192,
+  "lambda_ftv": 0.25,
+  "lambda_ld_candidates": [0.05, 0.1, 0.25],
+  "lambda_selection": {
+    "scope": "seed_2026_fold_0_validation_only",
+    "order": "smallest_effective_lambda",
+    "static_ld_spearman_gain_min": 0.03,
+    "static_ftv_spearman_drop_max": 0.03,
+    "base_validation_loss_relative_degradation_max": 0.10,
+    "representation_std_min": 0.05,
+    "test_or_pcr_selection_forbidden": true,
+    "if_none_effective": "STOP_AND_REPORT_LAMBDA_PILOT_FAILURE"
+  },
+  "targets": {
+    "ftv_transform": "existing_G3_log_winsor_robust_train_fold_only",
+    "ld_transform": "log1p_then_winsor_robust_train_fold_only",
+    "ld_zero_policy": "retain_exact_zero_with_ambiguous_semantics_caveat",
+    "delta_losses_forbidden": true
+  },
+  "inference_inputs": ["DCE7"],
+  "forbidden_inference_inputs": [
+    "FTV",
+    "LD",
+    "radiomics",
+    "FTV_head_output",
+    "LD_head_output",
+    "mask",
+    "clinical",
+    "treatment"
+  ],
+  "success_effect_thresholds": {
+    "static_ld_mean_spearman_gain_min": 0.03,
+    "early_mid_delta_ld_mean_spearman_gain_min": 0.03,
+    "minimum_positive_cells_out_of_10": 7,
+    "ftv_mean_spearman_drop_max": 0.03,
+    "delta_ftv_mean_spearman_drop_max": 0.03,
+    "base_loss_relative_degradation_max": 0.10,
+    "representation_std_min": 0.05
+  },
+  "optimization_tricks_forbidden": [
+    "PCGrad",
+    "warm_up",
+    "two_stage_training",
+    "gradient_normalization"
+  ]
+}

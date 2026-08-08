@@ -1,0 +1,17 @@
+# Patient-level、checkpoint 与运行日志仅留在授权环境。
+checkpoints/**
+features/**
+predictions/**
+logs/**
+metrics/crop_containment_patient_visit.csv
+metrics/*patient*.csv
+metrics/*patient*.npz
+
+!checkpoints/.gitkeep
+!features/.gitkeep
+!predictions/.gitkeep
+!logs/.gitkeep
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
