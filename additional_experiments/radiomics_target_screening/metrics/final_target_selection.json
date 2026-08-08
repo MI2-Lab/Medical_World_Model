@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-08T08:35:14.227294+00:00",
+  "selection_objective": "outcome-free complementary MRI response axis beyond FTV",
+  "recommended_target": "LD",
+  "recommended_target_full_name": "longest diameter",
+  "recommendation_status": "conditional_pragmatic_first",
+  "selection_is_statistically_unique": false,
+  "pareto_nondominated_current_input_candidates": [
+    "LD",
+    "SPH"
+  ],
+  "qualitative_tiebreaker": "prioritize lower geometry-shortcut risk and current strict-DCE7 feasibility",
+  "second_choice": "SPH",
+  "statistically_attractive_but_input_mismatched": "BPE",
+  "no_model_training_performed": true,
+  "pcr_read_or_used_for_selection": false,
+  "formal_selection_scope": "each outer fold's explicit training patients only",
+  "multi_criteria_not_single_weighted_score": true,
+  "workbook": {
+    "path": "/data/data/Breast_Cancer/I-SPY2/Multi-feature-MRI-NACT-Data.xlsx",
+    "sha256": "f714c7784b1e57daa74d7cfb20db71cd432b4e4596b9b4eacdd5a76b7f8a58dc",
+    "sheet": "datawith4visits"
+  },
+  "fold_manifest": {
+    "path": "/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+    "sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+    "provenance_boundary": "locked internally validated candidate copy; native generation provenance unavailable"
+  },
+  "strict_overlap_mapping": {
+    "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/radiomics_next_change/data_audit/radiomics_patient_overlap.csv",
+    "sha256": "91b575c9e7e351312b8181a091bdffd2d1f61b88b5a98ac3d78d54c94b63da6b",
+    "validation": "patient set equals fold manifest; has_radiomics equals exact workbook/cohort ID intersection; match_rule fail-closed"
+  },
+  "cohort_mapping": {
+    "workbook_patient_count": 384,
+    "mri_cohort_patient_count": 808,
+    "strict_overlap_count": 375,
+    "workbook_only_count": 9,
+    "mri_only_count": 433,
+    "workbook_only_ids": [
+      "246134",
+      "495440",
+      "516763",
+      "652480",
+      "745633",
+      "748611",
+      "790722",
+      "889225",
+      "893874"
+    ],
+    "mapping_rule": "canonical patient_id regex 后缀 == clinical_patient_id == workbook 六位 ID；精确等值；无 fuzzy matching",
+    "fold_train_overlap_counts": {
+      "0": 247,
+      "1": 239,
+      "2": 240,
+      "3": 242,
+      "4": 225
+    }
+  },
+  "candidate_summaries": {
+    "LD": {
+      "overall": "RECOMMENDED",
+      "coverage_fraction": 1.0,
+      "static_ftv_redundancy_median_abs_spearman": 0.5959772382727349,
+      "delta_ftv_redundancy_median_abs_spearman": 0.3694658084820868,
+      "static_residual_variance_ratio": 0.681891094583235,
+      "delta_residual_variance_ratio": 0.9206414461528666,
+      "within_to_total_variance_ratio": 0.4567254691766544,
+      "shortcut_risk": "MODERATE",
+      "mri_observable": "YES_WITH_CAVEAT",
+      "observability_gate": "PASS",
+      "fold_metric_ranges": {
+        "static_median_abs_spearman_with_ftv": [
+          0.5528024479683624,
+          0.6130451968827453
+        ],
+        "delta_median_abs_spearman_with_delta_ftv": [
+          0.33418974093435466,
+          0.4035321384479824
+        ],
+        "delta_median_residual_variance_ratio": [
+          0.8965220599285247,
+          0.9570744333238868
+        ],
+        "within_to_total_variance_ratio": [
+          0.43210195811037655,
+          0.47385118409154253
+        ]
+      },
+      "rationale": "完整覆盖、当前 crop 有部分可观察证据、跨折纵向变化稳定；ΔFTV 冗余不高且 residual 较大。虽是另一种 tumor burden measure，但 shortcut 仅中等；strict-DCE7 的 ΔLD Spearman 点估计高于 ΔSPH，但二者变换口径不同且无 paired cross-target CI，不能解释为正式优效；pilot 前需做 crop-containment audit。"
+    },
+    "SPH": {
+      "overall": "POSSIBLE SECOND CHOICE",
+      "coverage_fraction": 1.0,
+      "static_ftv_redundancy_median_abs_spearman": 0.6281400126422251,
+      "delta_ftv_redundancy_median_abs_spearman": 0.10977637917091523,
+      "static_residual_variance_ratio": 0.6757475682198124,
+      "delta_residual_variance_ratio": 0.9969397326642527,
+      "within_to_total_variance_ratio": 0.40695274497746164,
+      "shortcut_risk": "HIGH",
+      "mri_observable": "YES_WITH_CAVEAT",
+      "observability_gate": "PASS_WITH_HIGH_SHORTCUT_RISK",
+      "fold_metric_ranges": {
+        "static_median_abs_spearman_with_ftv": [
+          0.6154499435022509,
+          0.6794011180749665
+        ],
+        "delta_median_abs_spearman_with_delta_ftv": [
+          0.02162774696834078,
+          0.1453966214691227
+        ],
+        "delta_median_residual_variance_ratio": [
+          0.9915038800833796,
+          0.9984101431673336
+        ],
+        "within_to_total_variance_ratio": [
+          0.37147835940363866,
+          0.44447467415964564
+        ]
+      },
+      "rationale": "提供 morphology 轴且 raw Δ 与 ΔFTV 最互补，但由 FTV mask 表面积直接定义，static geometry dependence 高，strict-DCE7 Δ几乎不可解码。"
+    },
+    "BPE": {
+      "overall": "NOT RECOMMENDED WITH CURRENT INPUT",
+      "coverage_fraction": 1.0,
+      "static_ftv_redundancy_median_abs_spearman": 0.21643067846607672,
+      "delta_ftv_redundancy_median_abs_spearman": 0.2665623683101559,
+      "static_residual_variance_ratio": 0.9532886731831498,
+      "delta_residual_variance_ratio": 0.9785045462191184,
+      "within_to_total_variance_ratio": 0.3643678695759299,
+      "shortcut_risk": "LOW",
+      "mri_observable": "NO_WITH_CURRENT_INPUT",
+      "observability_gate": "FAIL_INPUT_MISMATCH",
+      "fold_metric_ranges": {
+        "static_median_abs_spearman_with_ftv": [
+          0.1301992915776095,
+          0.23337171372831955
+        ],
+        "delta_median_abs_spearman_with_delta_ftv": [
+          0.24275404194931421,
+          0.27830951926248715
+        ],
+        "delta_median_residual_variance_ratio": [
+          0.9672866453083225,
+          0.9970328636722847
+        ],
+        "within_to_total_variance_ratio": [
+          0.3202188662689959,
+          0.38005472282260405
+        ]
+      },
+      "rationale": "统计上 static 最互补、residual 最大且 geometry 风险低，但 target 来自对侧乳腺中央组织，当前 lesion-centered input 解剖区域不匹配，architecture gate 淘汰。"
+    }
+  },
+  "selection_rule": [
+    "sufficient longitudinal coverage",
+    "not near-constant",
+    "not completely redundant with FTV or raw ΔFTV",
+    "meaningful within-patient longitudinal variation",
+    "reasonably observable from current DCE7 lesion-centered input",
+    "shortcut risk does not dominate feasibility"
+  ],
+  "required_pre_pilot_gate": "outcome-free per-visit crop-containment audit must show reported LD/lesion support is not systematically truncated; if LD fails, reconsider SPH only after its own full-3D-surface containment gate passes; otherwise conclude no suitable target under the current input contract",
+  "stopping_condition": "target screening and recommendation complete; no H0/H1/H2 pilot run"
+}
