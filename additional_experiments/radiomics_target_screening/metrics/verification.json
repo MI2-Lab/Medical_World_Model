@@ -1,0 +1,156 @@
+{
+  "status": "PASS",
+  "verified_at_utc": "2026-08-08T08:36:05.889081+00:00",
+  "checks": [
+    {
+      "check": "manifest files exist and are non-empty",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "manifest SHA256 values match",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "CSV row counts match registered structure",
+      "passed": true,
+      "detail": {
+        "table_schema.csv": 29,
+        "candidate_coverage.csv": 4,
+        "static_ftv_redundancy.csv": 72,
+        "delta_ftv_redundancy.csv": 54,
+        "residual_information.csv": 105,
+        "longitudinal_variability.csv": 72,
+        "feature_distribution_summary.csv": 16,
+        "pairwise_static_spearman.csv": 16,
+        "pairwise_delta_spearman.csv": 12,
+        "shortcut_risk_summary.csv": 4,
+        "observability_summary.csv": 4,
+        "prior_decodability_summary.csv": 10,
+        "fold_level_candidate_metrics.csv": 15,
+        "candidate_decision_matrix.csv": 3
+      }
+    },
+    {
+      "check": "fold-train overlap counts match",
+      "passed": true,
+      "detail": {
+        "0": 247,
+        "1": 239,
+        "2": 240,
+        "3": 242,
+        "4": 225
+      }
+    },
+    {
+      "check": "formal metrics contain folds 0-4 and candidates exactly once",
+      "passed": true,
+      "detail": {
+        "rows": 15
+      }
+    },
+    {
+      "check": "formal screening metrics are finite",
+      "passed": true,
+      "detail": [
+        "static_median_abs_spearman_with_ftv",
+        "delta_median_abs_spearman_with_delta_ftv",
+        "static_median_residual_variance_ratio",
+        "delta_median_residual_variance_ratio",
+        "within_to_total_variance_ratio"
+      ]
+    },
+    {
+      "check": "no pCR used in fold metrics",
+      "passed": true,
+      "detail": [
+        false
+      ]
+    },
+    {
+      "check": "decision classes match registered selection",
+      "passed": true,
+      "detail": {
+        "LD": "RECOMMENDED",
+        "SPH": "POSSIBLE SECOND CHOICE",
+        "BPE": "NOT RECOMMENDED WITH CURRENT INPUT"
+      }
+    },
+    {
+      "check": "observability gate excludes BPE only",
+      "passed": true,
+      "detail": {
+        "LD": "PASS",
+        "SPH": "PASS_WITH_HIGH_SHORTCUT_RISK",
+        "BPE": "FAIL_INPUT_MISMATCH"
+      }
+    },
+    {
+      "check": "final JSON selection is outcome-free and complete",
+      "passed": true,
+      "detail": {
+        "recommended": "LD",
+        "second": "SPH",
+        "status": "conditional_pragmatic_first",
+        "pcr_used": false
+      }
+    },
+    {
+      "check": "final report contains registered sections",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "schema report contains verified workbook facts",
+      "passed": true,
+      "detail": 6046
+    },
+    {
+      "check": "ten PNG figures are valid and readable",
+      "passed": true,
+      "detail": {
+        "01_feature_coverage.png": [
+          1629,
+          973
+        ],
+        "02_static_ftv_redundancy.png": [
+          1285,
+          1024
+        ],
+        "03_delta_ftv_redundancy.png": [
+          1285,
+          1024
+        ],
+        "04_pairwise_static_correlation.png": [
+          3765,
+          995
+        ],
+        "05_pairwise_delta_correlation.png": [
+          2884,
+          995
+        ],
+        "06_longitudinal_standardized_change.png": [
+          1872,
+          1143
+        ],
+        "07_within_between_variance.png": [
+          1531,
+          1055
+        ],
+        "08_residual_information.png": [
+          2219,
+          1147
+        ],
+        "09_candidate_fold_consistency.png": [
+          2564,
+          1810
+        ],
+        "10_final_decision_matrix.png": [
+          2202,
+          927
+        ]
+      }
+    }
+  ]
+}
