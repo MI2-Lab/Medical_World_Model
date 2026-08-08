@@ -1,0 +1,13 @@
+# 患者级映射、运行中间结果与日志严格保留在授权环境
+configs/private/**
+logs/**
+metrics/raw/**
+
+!configs/private/.gitkeep
+!logs/.gitkeep
+!metrics/raw/.gitkeep
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+

@@ -1,0 +1,4 @@
+endpoint,estimate,ci_low,ci_high,bootstrap_replicates,finite_replicates,rng_seed,bootstrap_unit,used_for_decision
+dS,0.05715207142308297,0.035300883552634256,0.07720245949443885,5000,5000,20260807,resampled_training_seeds_and_synchronized_patients_within_outer_fold,False
+dD,0.0894245382485683,0.06182932783566012,0.11862058222869382,5000,5000,20260807,resampled_training_seeds_and_synchronized_patients_within_outer_fold,False
+dD_R2,0.06044979718979264,0.03876702005558084,0.08316217162604206,5000,5000,20260807,resampled_training_seeds_and_synchronized_patients_within_outer_fold,False

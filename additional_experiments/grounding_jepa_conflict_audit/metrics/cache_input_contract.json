@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "cache_role": "DCE8 cache; audit loader uses DCE7 only",
+  "cache_files": 964,
+  "cache_total_bytes": 36390028288,
+  "content_multiset_sha256": "93382bfd4979ec0f195faa3dbf4c997f96e58384df54f10e039517c7ea197337",
+  "patient_to_content_mapping_hmac_sha256": "af3e6227b4a330eafcc5e177d19884c1c02b605eec0963c2758aa4e973947d37",
+  "hmac_key_id": "83c6c82b0a93a89c",
+  "private_manifest_permissions": "0600",
+  "contains_patient_ids": false,
+  "contains_patient_level_rows": false
+}

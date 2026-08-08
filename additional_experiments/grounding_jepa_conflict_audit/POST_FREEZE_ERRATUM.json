@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "kind": "postfreeze_provenance_only_erratum",
+  "created_at_utc": "2026-08-08T06:25:47Z",
+  "original_plan_freeze_sha256": "a8c3dc736b9f31d3b0d9f4efeaf5efa1605388b19a0604087e15dc9987287cf1",
+  "frozen_core_analysis_sha256": "4e654f169b5fc281c070f6193d51ceffa704c8b6aa8c5439cb6c173cd35d47ff",
+  "failure_signature": "ValueError: analysis input privacy flag 漂移: existing_run_metrics",
+  "failure_stage": "prepublication_analysis_input_manifest",
+  "formal_analysis_bundle_published_before_erratum": false,
+  "numeric_gradient_values_inspected_before_erratum": false,
+  "frozen_core_files_modified": false,
+  "statistical_functions_modified": false,
+  "thresholds_or_hypothesis_logic_modified": false,
+  "input_values_modified": false,
+  "scope": "existing_run_metrics privacy provenance inference only",
+  "wrapper_path": "scripts/run_analysis_with_provenance_erratum.sh",
+  "wrapper_sha256": "e15502cf3a98b2c61761e4e1e84588815cce587b1382fa0239a24e89b78000a8",
+  "payload_sha256": "2d88b394d4a6de136868233c341ecaa4d0092387bde1bfb85b20145c7923694d"
+}

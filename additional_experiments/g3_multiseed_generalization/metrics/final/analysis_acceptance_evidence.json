@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "formal_analysis": true,
+  "public_tables_contain_patient_rows": false,
+  "prediction_rows_recomputed_in_memory": {
+    "probe": 26250,
+    "pcr": 24240
+  },
+  "variance_synthetic_tests": {
+    "constant_no_variation": true,
+    "seed_only_dominates": true,
+    "fold_only_dominates": true
+  },
+  "decision_recomputed_from_unrounded_tables": true,
+  "pcr_used_in_decision": false,
+  "registered_issues": 0,
+  "coverage_all_passed": true,
+  "figure_count": 11,
+  "analysis_source_sha256": "280dbd37ea37d3ef105e4c3367d785ae36fb36efc8fd263ac600a2c3aa193852",
+  "plan_sha256": "394402aa8235b26f07b98a32426639a915bad80c53fc49cb053e7123e97ad06c",
+  "plan_freeze_sha256": "7e4cb0ea26fce8f192a0e75b26365e13876dfe8b01a9f6d5f261efa9fb273dfc",
+  "source_freeze_sha256": "5036c77f1d73bafedac16bb9837e38572cfd02d61a1506cd989506b836cdd05b",
+  "source_implementation_sha256": "9314ab06c47c5d126c4687865b4dc5f92816c7dcdb3b372abdb313b30ffe6bdf",
+  "preflight_sha256": "3fcce3e48f2b5fa1a6cb5b1fc2ab56392360e25636cb3e9d5f3eccc27d9c43df",
+  "smoke_gate_sha256": "1c33dcb047d5f42737fcc5438e1617ea13570d529c085c70dae93fae0093296b",
+  "training_implementation_sha256": "41ba62f3d12fa52e0c4f5290d7b19cca34032b1fc8ae5113bd1e353245f355ab",
+  "formal_namespace_locked": true,
+  "prediction_schema_strict": true,
+  "downstream_protocol_independently_audited": true,
+  "canonical_feature_rows_independently_verified": true,
+  "probe_targets_scalers_readouts_predictions_independently_recomputed": true,
+  "pcr_scalers_readouts_thresholds_predictions_independently_recomputed": true,
+  "paired_bootstrap_draws_synchronized": true
+}

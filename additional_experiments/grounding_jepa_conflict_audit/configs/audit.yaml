@@ -1,0 +1,239 @@
+schema_version: 1
+
+source:
+  experiment: additional_experiments/g3_multiseed_generalization
+  source_commit: 596d6d509aaf62c5385344a83b8ed66dd301ee79
+  audit_start_commit: 703a2d6febec93f75298183e3d170f18ad666589
+
+grid:
+  seed_bases: [2026, 3026, 4026, 5026, 6026]
+  folds: [0, 1, 2, 3, 4]
+  model: G3
+  lambda_ftv: 0.25
+  selected_checkpoint: best.pt
+
+audit_batches:
+  audit_seed: 20260808
+  splits: [train, validation]
+  batches_per_split: 8
+  batch_size: 32
+  minimum_ftv_patients: 8
+  train_pool: effective_pretrain_train
+  validation_pool: outer_validation
+  sampling: proportional_stratified_balanced_cycle
+  strata: [ispy2_ftv, ispy2_noftv, ispy1_noftv]
+  within_batch_replacement: false
+  across_batch_reuse: balanced_only_when_needed
+  public_patient_identifiers: forbidden
+
+gradient:
+  model_mode: train_with_fixed_stochastic_seed
+  estimand: controlled_training_graph_posthoc_not_original_rng_replay
+  deterministic_algorithms: true
+  cublas_workspace_config: ":4096:8"
+  cudnn_benchmark: false
+  cudnn_deterministic: true
+  tf32: false
+  float32_matmul_precision: highest
+  stochastic_seeds_per_run_split: 8
+  stochastic_seed_shared_across_training_seeds_within_fold: true
+  paired_forward_outputs_must_match_exactly: true
+  optimizer_creation: forbidden
+  optimizer_step: forbidden
+  independent_forward_backward_per_loss: true
+  sigreg_weight: 0.09
+  sigreg_projections: 256
+  step_weights: [2.0, 1.0, 0.5]
+  base_component: state_loss_plus_sigreg
+  ftv_component: raw_patient_mean_smooth_l1
+  groups:
+    - encoder_overall
+    - encoder_stage_1
+    - encoder_stage_2
+    - encoder_stage_3
+    - encoder_stage_4
+    - response_projection
+    - all_shared
+  negative_cosine_thresholds: [0.0, -0.1, -0.25]
+  zero_norm_policy: record_undefined_never_impute_zero
+
+trajectory:
+  checkpoint_kinds: [selected, last]
+  pass_examples: [minimum_degradation, median_degradation, maximum_passing_degradation]
+  fail_examples: [minimum_failing_degradation, lower_median_failing_degradation, maximum_degradation]
+  expected_examples_per_class: 3
+  fallback_duplicate_state_policy: do_not_count_as_distinct_timepoint
+
+statistics:
+  analysis_seed: 20260808
+  run_is_only_inferential_unit: true
+  batch_pseudoreplication_forbidden: true
+  p_sidedness: two_sided
+  decision_p_field: p_holm
+  decision_ci_role: descriptive_only
+  rng:
+    bit_generator: PCG64
+    crossed_bootstrap_seed: 2026080801
+    persist_resampling_indices: true
+  crossed_bootstrap:
+    replicates: 20000
+    algorithm: cartesian_seed_and_fold_level_resampling
+    seed_draws_per_replicate: 5
+    fold_draws_per_replicate: 5
+    synchronize_across_all_endpoints: true
+  group_bootstrap:
+    replicates: 20000
+    algorithm: cartesian_seed_and_fold_level_resampling_of_metric_gate_pairs
+    uses_crossed_bootstrap_indices: true
+    missing_group_replicate: nonfinite_no_redraw
+    synchronize_across_all_endpoints: true
+  permutation:
+    replicates: 14400
+    fail_count: 8
+    pass_count: 17
+    sampling: exhaustive_seed_order_x_fold_order_outcome_relabeling
+    seed_level_orders: 120
+    fold_level_orders: 120
+    identity_included: true
+    exact_denominator: 14400
+    plus_one_correction: false
+    tie_rule: greater_or_equal
+    synchronize_across_all_endpoints: true
+  fold_level_permutation:
+    replicates: 120
+    sampling: exhaustive_fold_label_orders
+    identity_included: true
+  confidence_interval:
+    method: percentile
+    confidence_level: 0.95
+    quantile_method: linear
+    redraw_nonfinite_replicates: false
+    minimum_finite_fraction: 0.95
+  nonfinite_policy:
+    core_run_value: fail_acceptance
+    constant_input: unavailable_not_failure
+    holm_substitute_p_for_unavailable: 1.0
+    imputation: forbidden
+  multiple_testing:
+    method: holm
+    diagnostic_adjusted_p_threshold: 0.10
+    retain_all_preregistered_members: true
+    report_raw_and_adjusted: true
+
+hypothesis_rules:
+  cosine_practical_difference: -0.10
+  fraction_practical_difference: 0.10
+  margin_practical_difference: -0.10
+  correlation_practical_magnitude: 0.35
+  norm_ratio_fail_over_pass: 1.50
+  norm_ratio_absolute_difference: 0.25
+  mbase_failure_fraction_difference: 0.05
+  dynamics_anchor_oriented_rho: 0.50
+  dynamics_support_oriented_rho: 0.35
+  primary_split: validation
+  replication_split: train
+  replication_interpretation: patient_composition_sensitivity_not_independent_sample
+  threshold_equality_counts_as_practical: true
+  h1:
+    minimum_primary_signals: 3
+    minimum_train_directional_signals: 3
+    evidence_requires_qualifying_endpoint_holm: true
+    family_size: 6
+  h2:
+    require_h1_primary_signal_count_below: 3
+    train_scale_direction_required: true
+    train_correlation_direction_required: true
+    family_size: 2
+  h3:
+    family_size: 8
+    anchor_requires_holm_p: true
+    support_must_be_distinct_endpoint: true
+    practical_small_requires_all_nine_gradient_conditions: true
+    slope_window: selected_through_last_inclusive
+    slope_minimum_epochs: 3
+    risk_orientations:
+      selected_epoch: 1
+      last_epoch: 1
+      last_minus_selected_epoch: 1
+      representation_collapse: -1
+      ftv_pressure: -1
+      cumulative_grounded_exposure: 1
+      post_selected_base_deterioration: 1
+      post_selected_ftv_improvement: -1
+  hierarchy: [H1, H2, H3, H4]
+  invalid_analysis_label: UNDETERMINED_DATA_QUALITY
+
+output_contracts:
+  source_manifest:
+    rows: 126
+    key: [artifact_id]
+  asset_manifest:
+    rows: 31
+    key: [seed_base, fold, checkpoint_kind]
+  public_batch_manifest:
+    rows: 80
+    key: [fold, split, batch_index]
+  private_batch_membership:
+    rows: 2560
+    key: [batch_id, position]
+    publish: false
+  run_level_existing_metrics:
+    rows: 25
+    key: [seed_base, fold]
+  training_history_audit:
+    rows: 161
+    key: [seed_base, fold, epoch]
+  representative_runs:
+    rows: 6
+    key: [seed_base, fold]
+  batch_gradient_metrics:
+    rows: 2800
+    key: [seed_base, fold, checkpoint_kind, split, batch_id, group]
+  trajectory_batch_gradient_metrics:
+    rows: 672
+    key: [seed_base, fold, checkpoint_kind, split, batch_id, group]
+  layer_level_conflict_metrics:
+    rows: 350
+    key: [seed_base, fold, split, group]
+  run_level_conflict_metrics:
+    rows: 50
+    key: [seed_base, fold, split]
+  pass_fail_comparison:
+    rows: 84
+    key: [split, group, metric]
+  gradient_correlation_metrics:
+    rows: 56
+    key: [split, group, endpoint]
+  phase_a_gain_correlations:
+    rows: 3
+    key: [endpoint]
+  dynamics_correlations:
+    rows: 8
+    key: [endpoint]
+  ftv_coverage_metrics:
+    rows: 10
+    key: [fold, split]
+  coverage_correlations:
+    rows: 4
+    key: [endpoint]
+  layer_localization_metrics:
+    rows: 5
+    key: [group]
+  fold_signature_metrics:
+    rows: 10
+    key: [fold, split]
+  trajectory_conflict_metrics:
+    rows: 168
+    key: [seed_base, fold, checkpoint_kind, split, group]
+  trajectory_change_metrics:
+    rows: 84
+    key: [seed_base, fold, split, group]
+  hypothesis_decision:
+    rows: 4
+    key: [hypothesis]
+  analysis_input_manifest:
+    rows: 9
+    key: [artifact_role]
+  figure_manifest:
+    rows: 14
+    key: [figure_id]

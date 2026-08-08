@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "final_analysis_manifest_sha256": "a3f0251e2925682637848b9d7d1c2e8e03380100d681c45b1cf9865455cc742e",
+  "source_contract_sha256": "36166871cf24803cb6d13774a0e74515c1692c7849f5d725e98829284e4bb486",
+  "diagnosis_sha256": "ad4cb7cf1402173f9df3280aee71f2e47366cc728739af5b89861b672ba8c381",
+  "analysis_commit": "703a2d6febec93f75298183e3d170f18ad666589",
+  "contains_patient_ids": false
+}

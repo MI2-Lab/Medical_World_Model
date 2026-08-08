@@ -1,0 +1,197 @@
+{
+  "schema_version": 2,
+  "status": "accepted",
+  "passed": true,
+  "conclusion": "PROMISING BUT UNSTABLE",
+  "criteria": [
+    {
+      "criterion": "1_verifier_negative_and_variance_selftests",
+      "passed": true,
+      "evidence": {
+        "negative": {
+          "strict_false_string_preserved": true,
+          "illegal_boolean_rejected": true,
+          "nan_boolean_rejected": true,
+          "duplicate_grid_rejected": true,
+          "missing_grid_rejected": true,
+          "missing_metric_row_rejected": true,
+          "tampered_live_prediction_rejected": true,
+          "malformed_saved_coefficient_rejected": true,
+          "test_fitted_ridge_rejected_by_train_refit": true,
+          "test_fitted_logistic_rejected_by_train_refit": true,
+          "state_dict_model_state_mismatch_rejected": true,
+          "duplicate_required_figure_rejected": true,
+          "english_stub_report_rejected": true,
+          "wrong_report_conclusion_rejected": true,
+          "absolute_path_rejected": true,
+          "patient_identifier_rejected": true,
+          "secret_rejected": true,
+          "decision_signature_excludes_pcr": true
+        },
+        "variance": {
+          "constant_no_variation": true,
+          "seed_only_dominates": true,
+          "fold_only_dominates": true
+        }
+      }
+    },
+    {
+      "criterion": "2_frozen_plan_and_source_provenance",
+      "passed": true,
+      "evidence": {
+        "plan_sha256": "394402aa8235b26f07b98a32426639a915bad80c53fc49cb053e7123e97ad06c",
+        "plan_freeze_sha256": "7e4cb0ea26fce8f192a0e75b26365e13876dfe8b01a9f6d5f261efa9fb273dfc",
+        "source_freeze_sha256": "5036c77f1d73bafedac16bb9837e38572cfd02d61a1506cd989506b836cdd05b",
+        "source_implementation_sha256": "9314ab06c47c5d126c4687865b4dc5f92816c7dcdb3b372abdb313b30ffe6bdf",
+        "preflight_sha256": "3fcce3e48f2b5fa1a6cb5b1fc2ab56392360e25636cb3e9d5f3eccc27d9c43df",
+        "smoke_gate_sha256": "1c33dcb047d5f42737fcc5438e1617ea13570d529c085c70dae93fae0093296b",
+        "training_implementation_sha256": "41ba62f3d12fa52e0c4f5290d7b19cca34032b1fc8ae5113bd1e353245f355ab",
+        "source_commit": "596d6d509aaf62c5385344a83b8ed66dd301ee79",
+        "frozen_source_files": 25
+      }
+    },
+    {
+      "criterion": "3_exact_fixed_manifest_grid_and_live_hashes",
+      "passed": true,
+      "evidence": {
+        "checkpoints": 50,
+        "histories": 50,
+        "training_selections": 50,
+        "features": 50,
+        "probe_files": 50,
+        "pcr_files": 50
+      }
+    },
+    {
+      "criterion": "4_checkpoint_history_selection_feature_schema_hash_closure",
+      "passed": true,
+      "evidence": {
+        "asset_cells": 50,
+        "feature_shape": [
+          808,
+          4,
+          192
+        ],
+        "checkpoint_tensor_audit": "recursive_live",
+        "canonical_fold_fingerprints": 5
+      }
+    },
+    {
+      "criterion": "5_downstream_validation_only_selection_and_test_once",
+      "passed": true,
+      "evidence": {
+        "probe_selections": 50,
+        "pcr_selections": 50
+      }
+    },
+    {
+      "criterion": "6_live_target_feature_saved_parameter_prediction_recomputation",
+      "passed": true,
+      "evidence": {
+        "probe_rows": 26250,
+        "pcr_rows": 24240,
+        "probe_patients_per_seed": 375,
+        "pcr_patients_per_seed": 808,
+        "probe_recomputed_fields": [
+          "y_true",
+          "y_true_standardized",
+          "b0_prediction",
+          "y_pred"
+        ],
+        "pcr_recomputed_fields": [
+          "probability",
+          "predicted_label"
+        ]
+      }
+    },
+    {
+      "criterion": "7_all_seed_fold_probe_and_pcr_metrics_recomputed",
+      "passed": true,
+      "evidence": {
+        "probe_seed_cells": 70,
+        "probe_seed_fold_cells": 350,
+        "pcr_seed_model_cells": 30,
+        "seed_fold_effects": 25
+      }
+    },
+    {
+      "criterion": "8_seed_uncertainty_loso_lofo_and_variance_recomputed",
+      "passed": true,
+      "evidence": {
+        "uncertainty_rows": 11,
+        "loo_rows": 35
+      }
+    },
+    {
+      "criterion": "9_bootstrap_row_rng_and_synchronized_draw_contract",
+      "passed": true,
+      "evidence": {
+        "conditional_rows": 55,
+        "conditional_replicates": 2000,
+        "crossed_rows": 3,
+        "crossed_replicates": 5000,
+        "rng_seed": 20260807
+      }
+    },
+    {
+      "criterion": "10_R1_R4_decision_gates_mechanically_recomputed_without_pcr",
+      "passed": true,
+      "evidence": {
+        "conclusion": "PROMISING BUT UNSTABLE",
+        "gates": {
+          "R1_static_reproducibility": true,
+          "R2_dynamic_reproducibility": true,
+          "R3_optimization_safety": false,
+          "R4_no_collapse": true
+        }
+      }
+    },
+    {
+      "criterion": "11_summary_evidence_source_and_zero_issue_closure",
+      "passed": true,
+      "evidence": {
+        "analysis_source_sha256": "280dbd37ea37d3ef105e4c3367d785ae36fb36efc8fd263ac600a2c3aa193852",
+        "issues": 0
+      }
+    },
+    {
+      "criterion": "12_eleven_required_distinct_png_hash_decode",
+      "passed": true,
+      "evidence": {
+        "figures": [
+          "01_static_seed_conditional_ci.png",
+          "02_dynamic_seed_conditional_ci.png",
+          "03_base_degradation_heatmap.png",
+          "04_dynamic_gain_heatmap.png",
+          "05_fold3_base_degradation.png",
+          "06_static_gain_distribution.png",
+          "07_dynamic_gain_distribution.png",
+          "08_pcr_secondary_auroc.png",
+          "09_variance_decomposition.png",
+          "10_fold_level_mean_sd.png",
+          "11_selected_epoch_representation_std.png"
+        ]
+      }
+    },
+    {
+      "criterion": "13_chinese_report_seven_answers_evidence_and_decision_match",
+      "passed": true,
+      "evidence": {
+        "cjk_characters": 788,
+        "questions": 7
+      }
+    },
+    {
+      "criterion": "14_public_privacy_and_git_tracking_gate",
+      "passed": true,
+      "evidence": {
+        "public_text_files_scanned": 26,
+        "git_tracked_files": 0
+      }
+    }
+  ],
+  "public_patient_rows": 0,
+  "pcr_used_in_decision": false,
+  "formal_output_name": "final",
+  "frozen_plan_sha256": "394402aa8235b26f07b98a32426639a915bad80c53fc49cb053e7123e97ad06c"
+}

@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "freeze_kind": "result_blind_grounding_jepa_protocol",
+  "created_at_utc": "2026-08-08T06:01:44.012021+00:00",
+  "objective": {
+    "path_role": "codex_goal_attachment",
+    "sha256": "5b0fa91fdefe8bd33d27902491c6ba1d6d3d9d6e50531a1807c7ec21ed0d8557",
+    "lines": 1314
+  },
+  "git": {
+    "branch": "feature/ispy-clean-corejepa",
+    "audit_start_commit": "703a2d6febec93f75298183e3d170f18ad666589",
+    "source_training_commit": "596d6d509aaf62c5385344a83b8ed66dd301ee79",
+    "status_short_at_freeze": [
+      "?? additional_experiments/grounding_jepa_conflict_audit/",
+      "?? shortcut_audit/"
+    ],
+    "protected_source_status_clean": true
+  },
+  "environment": {
+    "python": "3.11.14 (main, Oct 21 2025, 18:31:21) [GCC 11.2.0]",
+    "platform": "Linux-5.15.0-161-generic-x86_64-with-glibc2.35",
+    "torch": "2.9.1+cu130",
+    "torch_cuda_build": "13.0",
+    "cuda_available": true,
+    "cudnn": 91300,
+    "gpu_count": 3,
+    "gpus": [
+      {
+        "index": 0,
+        "name": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition",
+        "total_memory_bytes": 101971722240,
+        "compute_capability": "12.0"
+      },
+      {
+        "index": 1,
+        "name": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition",
+        "total_memory_bytes": 101971722240,
+        "compute_capability": "12.0"
+      },
+      {
+        "index": 2,
+        "name": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition",
+        "total_memory_bytes": 101968576512,
+        "compute_capability": "12.0"
+      }
+    ],
+    "conda_environment": "bowen"
+  },
+  "prefreeze_scan": {
+    "allowed_file_count": 33,
+    "observed_file_count": 33,
+    "core_protocol_file_count": 29,
+    "executable_source_file_count": 25,
+    "exact_executable_source_set": true,
+    "ignored_runtime_caches": [
+      "__pycache__/",
+      "*.pyc",
+      ".pytest_cache/"
+    ],
+    "formal_outputs_present": false
+  },
+  "core_protocol_sha256": {
+    ".gitignore": "fc33be7e7bd82a59c379e262d26f4aac39c88c6dd973b1e0616b8d98dd3f91f3",
+    "EXPERIMENT_PLAN.md": "75605f86c4b57c5f447093322fccec5d249d845e6b2a6608375063f829efb411",
+    "configs/audit.yaml": "695791aa55c330377336642cfbfca83e1329f54ff8b632f0c04683839dbe7447",
+    "reports/asset_and_graph_inspection.md": "ab97a56af3429e72f5b82af5e82ccf77931e0f46774bb910b99ae2ec7e3915e3",
+    "src/gjca/__init__.py": "79437480f4fbddf6f3ab148f31f2600e095ffbd116a096e7696d3c5ad654661d",
+    "src/gjca/contracts.py": "84c1b6a9c4cc3d20b53a67c59003795edf3bfecc66d59ce11081231c5b117689",
+    "src/gjca/assets.py": "c616d1f559a10c077714a21384a9ae77a2b271390930fa6ca5150604d1e5762c",
+    "src/gjca/batches.py": "14b4e4035e4dbe260821620502790ba5c51046a2d95cd89dfb45371fa396bffb",
+    "src/gjca/existing.py": "b688c8bb2e0abedd2fd6a82b6fb2196b55445e8388518c97daf0299391d06f72",
+    "src/gjca/gradients.py": "23ddd948a79fcecf941acea57e167c004f6bb795c505815059ff302353baa7be",
+    "src/gjca/freeze.py": "3b089b340f76093f2ad42b2acac2c00c5712f756ac639f67a7a3245e50b26245",
+    "src/gjca/source_contract.py": "23d89f3813530d2e2ce52422886fc36de89589e1ed34e73d8d39cfa6469245cf",
+    "src/gjca/statistics.py": "2a0c909cf27e8dd354b81cb058c7453023400ab4fa5cd9f53b0d571609cf8f7f",
+    "src/gjca/phase_a.py": "4991a0ff8eb2e6ca4117a31a71449a20687b01d2d7eb87f9fb8e31c57cab16e3",
+    "src/gjca/diagnosis.py": "e33b4ead417c8f5e18a3def71c1b3a70d4388249ea324fdaec219c08f94a74f9",
+    "src/gjca/aggregation.py": "e0948b5579dc6ba33ca15ac4b478219ef840018a944f5df11a49c779aa561244",
+    "src/gjca/analysis.py": "4e654f169b5fc281c070f6193d51ceffa704c8b6aa8c5439cb6c173cd35d47ff",
+    "src/gjca/delivery.py": "5be6a02653feca9e26191fc0263347df8a8d428f428db373d769eaeb04120712",
+    "scripts/freeze_plan.py": "b4be9dba6e2c9158c9ab8eb9be89062b037d3e1db2a701529adb12b0b21c06d6",
+    "scripts/build_existing_metrics.py": "693eff1b2dccd608dcc91448f28a036d2d06f9ea6db6db0ba7cd9e6aabfac2bd",
+    "scripts/inspect_and_prepare.py": "6bb56415fa181ab6467acf8caf4200775cd2367a85c9789233a76dccc3275027",
+    "scripts/extract_gradients.py": "9c67f4e9934150cd3b9f42d36eb94433b82c23e3afedec68b41cc511ae55b54c",
+    "scripts/run_gradient_matrix.py": "278f1fdc10b44eebb21b1c1a9cdca8913bb2318a69293b86bf67be1ac142aa36",
+    "scripts/test_statistics.py": "12b9810690dc147f8e56fddbb74b2794d56b4d9dcbe1398082bc32564f167bf4",
+    "scripts/run_phase_a.py": "f0182859fdd3728de0e06060f4e845f5f6f89f0f3495f77da038c20b1f0e156c",
+    "scripts/aggregate_metrics.py": "29dce05c1b45434c9b232f70adc04c27248d955e5c1ed17d678fb527a90d3ce4",
+    "scripts/analyze_conflicts.py": "f40f5a04d0101fa30bbb893049dc4545171418a0535880054e4aeb939be6c1f1",
+    "scripts/make_deliverables.py": "7927da35ce93640ba69462e44c2c3672a076ea5687a727e468668b9c4380ddb2",
+    "scripts/validate_acceptance.py": "a42ed82fdac4720293bb60f77e213ef57d8ae40388d94fa9dabc50cd7f3c1039"
+  },
+  "upstream_source_sha256": {
+    "EXPERIMENT_PLAN.md": "394402aa8235b26f07b98a32426639a915bad80c53fc49cb053e7123e97ad06c",
+    "PLAN_FREEZE.json": "7e4cb0ea26fce8f192a0e75b26365e13876dfe8b01a9f6d5f261efa9fb273dfc",
+    "SOURCE_FREEZE.json": "5036c77f1d73bafedac16bb9837e38572cfd02d61a1506cd989506b836cdd05b",
+    "src/dgrs/model.py": "ce39878a0fef5af1f92a86811faabbe73b39f57cdaf6d7580bbd65bd855d4ed9",
+    "src/dgrs/training.py": "76f9108df0ca8c0ff69e514cff3bab1d5e316d946da60c5f530dd7b9706d3815",
+    "src/dgrs/data.py": "15b4b68ad45c935e313b893b0ce849877311c98d6c5c0c45495e8e9200240943",
+    "src/dgrs/targets.py": "28fbf66f93c8541dfa5ecc7ebcf65d4143a9a605b3ce98be48355d5ab679ffac",
+    "src/dgrs/config.py": "4460ce3413e2cb936a6fd3cbb7f16224af3af286b6784933688cd12d0ec47516",
+    "configs/base.yaml": "562bb525d04ba2f006f60a67ca61bfb06ea7de1006f1fd76fbfd095253225ff3",
+    "configs/ftv_transform_fold_0.json": "8df48a908a5d56f76a2dd1a5f52b7189b03ce64e60743f856ef14afca07ebd5b",
+    "configs/ftv_transform_fold_1.json": "6b582c2bb22e8208bc2e149eec032d179182fde212b94bcf6161bd274b38b4d4",
+    "configs/ftv_transform_fold_2.json": "fcdf72ea26da1ff49efbdc937c78761e41d54640dae20289ac73a193e9cee23a",
+    "configs/ftv_transform_fold_3.json": "a666b556e87c955214869547c6d54f083b8f975838c12461cc1158332532792c",
+    "configs/ftv_transform_fold_4.json": "cb207a387900cc9ebc3deb7dca8e448bdbea083aae495af07fd11200008d6a9c",
+    "metrics/final/training_stability_seed_fold.csv": "87887aaadeb21348fb4dee43e42cff8712295f3dfde0f6266c4d714c6644c041",
+    "metrics/final/seed_fold_effects.csv": "9b4d674f0613856e2bcf6f286fea174a7b7f041867a97cb8f29a796a8aa87351",
+    "metrics/final/probe_seed_fold_cell_metrics.csv": "4fe0afb68ec28dc57ae30063516ec1ad9fdaf362e241e722b943ca9df15efa1b",
+    "metrics/final/input_manifest.csv": "f74bf4d6bc67767867a489ed2c5430e69e3b6d5b996f6f0e04a1a6e72828a2e0",
+    "metrics/training/formal/training_matrix_manifest.json": "d53d04b11384ae4dff8a3d2e6be463f3333233a1dcc30de9d8bc49d994906a54",
+    "metrics/acceptance_check.json": "fac2e12a3b356ea0295912ae40b60119a3178e148c09e3e06426068ab5e71da7"
+  },
+  "formal_gradient_results_observed_before_freeze": false,
+  "formal_derived_outputs_present_at_freeze": false,
+  "contains_patient_ids": false,
+  "payload_sha256": "f32428f6b17e72119bd8ab4f56ba088fee70db1d9fe01ba41f728268d740774c"
+}
