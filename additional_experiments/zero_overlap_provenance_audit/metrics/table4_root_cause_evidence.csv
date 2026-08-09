@@ -1,0 +1,6 @@
+case_alias,hypothesis,evidence_status,evidence,selected
+CASE_ZERO_OVERLAP_001,R1_AUTHORITATIVE_GEOMETRY_REPAIR,AGAINST,"raw affine, LPS-to-RAS, canonical footprint, and frozen raw rebuild agree",False
+CASE_ZERO_OVERLAP_001,R2_UNIQUE_VALID_ALTERNATE_ACQUISITION,AGAINST,current native DCE is valid and strict alternate count is zero,False
+CASE_ZERO_OVERLAP_001,R3_TRUE_OR_PLAUSIBLE_EXTREME_REPOSITIONING,COMPATIBLE_NOT_IDENTIFIABLE,large single-visit displacement is compatible with repositioning but not uniquely proven,False
+CASE_ZERO_OVERLAP_001,R4_UNRESOLVED_COORDINATE_PROVENANCE,SUPPORTED,"different frames, no authoritative registration relationship, no unique source correction",True
+CASE_ZERO_OVERLAP_001,R5_AMBIGUOUS_REPAIR,AGAINST,no competing source-semantic repair candidates were found,False

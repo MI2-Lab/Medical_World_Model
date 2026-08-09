@@ -1,0 +1,42 @@
+{
+  "analysis_scope": "DIAGNOSTIC_ONLY",
+  "anatomy_dice_after": 0.49477115169010216,
+  "anatomy_dice_before": 0.0,
+  "failure_code": "NONE",
+  "final_mattes_mi": -0.09904612718453053,
+  "fixed_anatomy_valid_fraction_after": 0.7572534362733186,
+  "optimizer_converged": true,
+  "optimizer_iterations": 178,
+  "optimizer_stop_condition_category": "STEP_OR_GRADIENT_STOP",
+  "rotation_magnitude_deg": 34.14395464518621,
+  "settings": {
+    "gradient_magnitude_tolerance": 1e-06,
+    "histogram_bins": 48,
+    "initialization": "intensity_moments",
+    "learning_rate": 2.0,
+    "maximum_iterations": 600,
+    "minimum_step_mm": 0.0001,
+    "number_of_threads": 1,
+    "random_seed": 1729,
+    "relaxation_factor": 0.5,
+    "sampling_percentage": 0.3,
+    "sampling_strategy": "RANDOM",
+    "shrink_factors": [
+      4,
+      2,
+      1
+    ],
+    "smoothing_sigmas_mm": [
+      2.0,
+      1.0,
+      0.0
+    ]
+  },
+  "similarity_after_ncc": 0.47240500270194713,
+  "similarity_before_ncc": null,
+  "success": true,
+  "transform_used_as_repair": false,
+  "translation_magnitude_mm": 179.01844765265673,
+  "valid_overlap_fraction_after": 0.6766918182373047,
+  "valid_overlap_fraction_before": 0.0
+}

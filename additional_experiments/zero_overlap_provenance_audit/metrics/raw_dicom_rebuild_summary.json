@@ -1,0 +1,77 @@
+{
+  "all_visits_pass": true,
+  "cached_coordinates_used_as_geometry_truth": false,
+  "case_alias": "CASE_ZERO_OVERLAP_001",
+  "second_pixel_decode": true,
+  "source_is_raw_dicom": true,
+  "visits": {
+    "T0": {
+      "file_count": 180,
+      "finite": true,
+      "nonconstant": true,
+      "second_pixel_comparison_exact": true,
+      "shape_xyzt": [
+        512,
+        512,
+        60,
+        3
+      ],
+      "status": "PASS",
+      "verified_cell_count": 180,
+      "volume_max": 208.0,
+      "volume_min": 0.0,
+      "volume_std": 16.164660367267427
+    },
+    "T1": {
+      "file_count": 180,
+      "finite": true,
+      "nonconstant": true,
+      "second_pixel_comparison_exact": true,
+      "shape_xyzt": [
+        256,
+        256,
+        60,
+        3
+      ],
+      "status": "PASS",
+      "verified_cell_count": 180,
+      "volume_max": 176.0,
+      "volume_min": 0.0,
+      "volume_std": 19.747844038856996
+    },
+    "T2": {
+      "file_count": 168,
+      "finite": true,
+      "nonconstant": true,
+      "second_pixel_comparison_exact": true,
+      "shape_xyzt": [
+        512,
+        512,
+        56,
+        3
+      ],
+      "status": "PASS",
+      "verified_cell_count": 168,
+      "volume_max": 1930.0,
+      "volume_min": 0.0,
+      "volume_std": 194.63848891065717
+    },
+    "T3": {
+      "file_count": 224,
+      "finite": true,
+      "nonconstant": true,
+      "second_pixel_comparison_exact": true,
+      "shape_xyzt": [
+        512,
+        512,
+        56,
+        4
+      ],
+      "status": "PASS",
+      "verified_cell_count": 224,
+      "volume_max": 5599.0,
+      "volume_min": 0.0,
+      "volume_std": 206.73686102263156
+    }
+  }
+}

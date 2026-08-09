@@ -1,0 +1,21 @@
+{
+  "amendment_population_not_rerun_in_this_audit": true,
+  "amendment_rule": "Eligible(patient)=AND over t in {T0,T1,T2,T3} [valid_source_voxels(patient,t)>0]",
+  "c1b_crop_contract_modified": false,
+  "case_alias": "CASE_ZERO_OVERLAP_001",
+  "clinical_or_treatment_fields_read": [],
+  "decision": "AUDIT-NOT-REPAIRABLE",
+  "expected_population_change_not_confirmed": "948_to_947_requires_new_run",
+  "four_visit_valid_source_overlap_amendment_recommended": true,
+  "lesion_or_ftv_fields_read": [],
+  "manual_transform_trials": 0,
+  "model_training_run": false,
+  "outcome_fields_read": [],
+  "prior_stage_a_decision_modified": false,
+  "registration_transform_used_for_repair": false,
+  "repair_allowed": false,
+  "root_cause_class": "R4_UNRESOLVED_COORDINATE_PROVENANCE",
+  "schema_version": 1,
+  "stage_b_run": false,
+  "technical_eligibility_failure": true
+}

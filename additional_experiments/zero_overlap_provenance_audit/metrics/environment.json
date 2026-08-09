@@ -1,0 +1,12 @@
+{
+  "SimpleITK": "2.5.3",
+  "lesion_or_ftv_fields_read": [],
+  "matplotlib": "3.10.8",
+  "nibabel": "5.3.3",
+  "numpy": "2.2.6",
+  "outcome_fields_read": [],
+  "pydicom": "3.0.2",
+  "python": "3.11.14",
+  "python_executable_role": "dedicated_audit_environment",
+  "scipy": "1.16.3"
+}

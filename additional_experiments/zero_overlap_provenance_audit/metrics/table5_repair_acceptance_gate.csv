@@ -1,0 +1,12 @@
+case_alias,gate,status,evidence
+CASE_ZERO_OVERLAP_001,source_only,PASS,all selection inputs are raw imaging metadata/pixels
+CASE_ZERO_OVERLAP_001,outcome_free,PASS,"no clinical, treatment, pCR, LD, FTV, or model performance read"
+CASE_ZERO_OVERLAP_001,unique_source_authoritative_correction,FAIL,no metadata-defined correction exists
+CASE_ZERO_OVERLAP_001,auditable,PASS,"raw headers, pixels, hashes, and code provenance retained privately"
+CASE_ZERO_OVERLAP_001,programmatic,FAIL,there is no accepted correction rule to apply
+CASE_ZERO_OVERLAP_001,raw_pixel_verified,PASS,all four current acquisitions rebuilt and compared twice
+CASE_ZERO_OVERLAP_001,no_lesion_based_choice,PASS,T0 acquisition-center fallback; no lesion inputs
+CASE_ZERO_OVERLAP_001,no_manual_trial_transform,PASS,manual transform trials equal zero
+CASE_ZERO_OVERLAP_001,generalizable_correction_rule,FAIL,no correction rule was identified
+CASE_ZERO_OVERLAP_001,corrected_valid_source_overlap_positive,FAIL,no corrected visit is authorized
+CASE_ZERO_OVERLAP_001,other_qc_preserved_after_correction,FAIL,not testable without an accepted correction
