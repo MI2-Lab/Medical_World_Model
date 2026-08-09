@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "fold_manifest": "/absolute/path/to/matched_patient_cv_splits_seed2026.csv",
+  "fold_manifest_sha256": "REPLACE_WITH_64_HEX_SHA256",
+  "ispy1_eligibility_manifest": "/absolute/path/to/ispy1_base_eligibility_patients.private.csv",
+  "ispy1_eligibility_manifest_sha256": "REPLACE_WITH_64_HEX_SHA256",
+  "legacy_cache_manifest": "/absolute/path/to/stage_b_legacy_cache.private.csv",
+  "legacy_cache_manifest_sha256": "REPLACE_WITH_64_HEX_SHA256",
+  "c1b_cache_manifest": "/absolute/path/to/stage_b_c1b_cache.private.csv",
+  "c1b_cache_manifest_sha256": "REPLACE_WITH_64_HEX_SHA256",
+  "ftv_transition_table": "/absolute/path/to/radiomics_transition_targets_raw.csv",
+  "ftv_transition_table_sha256": "REPLACE_WITH_64_HEX_SHA256",
+  "observability_manifest": "/absolute/path/to/grounding_observability_manifest.private.csv",
+  "observability_manifest_sha256": "REPLACE_WITH_64_HEX_SHA256"
+}

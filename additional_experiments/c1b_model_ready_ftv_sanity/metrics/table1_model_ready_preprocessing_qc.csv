@@ -1,0 +1,11 @@
+gate,status,observed,requirement
+repaired_dicom_pixel_geometry,PASS,"{'repaired_visits': 146, 'verified_cells': 153112, 'max_cell_error': 0.0}",146/146 singular model-input visits pass exact pixel/geometry rebuild
+true_canonical_orientation,PASS,"{'patients': 948, 'visits': 3792, 'canonical_ras_fraction': 1.0}","948x4 true RAS+ array reorientation, not header-only relabeling"
+registration_success_and_strategy,PASS,"{'chosen_strategy': 'H', 'successful_pairs': 858, 'formal_pairs': 1125, 'success_rate': 0.7626666666666667}","complete 1,125-pair sensitivity audit and uniquely frozen C1B-H decision"
+formal_support_containment,PASS,"{'formal_visits': 1500, 'exact_containment_rate': 0.978}",">=0.95 exact containment over all 1,500 formal visits"
+formal_ftv_retention_q05,PASS,"{'q05': 1.0, 'posthoc_registration_audit_q05': 1.0}",>=0.95 physical FTV volume retention at Q05
+resampling_and_source_overlap,FAIL,"{'failure_code': 'ZERO_VALID_SOURCE_OVERLAP', 'failed_visits': 1, 'minimum_valid_source_voxels': 0, 'header_audit_rows': 3792, 'exact_frozen_population_coverage': True}",all frozen visits must have at least one valid source voxel
+complete_dce7_builder_and_cache,FAIL,"{'atomic_caches_present': 262, 'validation_patients': 263, 'cohort_cache_contract_completed': False}",263/263 validation caches and complete schema-3 cohort contract
+leakage_exclusion_contract,PASS,"{'outcome_fields_read': [], 'clinical_or_outcome_tables_read': [], 'public_identifiers': False}","no clinical, treatment, pCR, LD, identifier, or path leakage"
+geometry_and_mask_scope_contract,PASS,"{'anchor_uses_t0_only': True, 'future_support_used_for_grid': False, 'grounding_mask_is_model_input': False, 'grounding_observable_visits': 1486}",T0-only anchor; future support excluded; grounding mask is loss-only
+stage_a_model_ready,FAIL,"{'frozen_patients': 948, 'frozen_visits': 3792}",every Stage-A hard gate must pass without eligibility changes

@@ -1,0 +1,28 @@
+{
+  "anchor_uses_t0_only": true,
+  "contains_patient_identifiers": false,
+  "exact_full_support_containment_rate": 0.978,
+  "formal_patients": 375,
+  "formal_visits": 1500,
+  "future_support_used_for_grid": false,
+  "minimum_margin_mm": {
+    "maximum": 66.9592497766018,
+    "median": 39.01079781353474,
+    "minimum": -62.46230137348175,
+    "n": 1500,
+    "q05": 8.693530030548573,
+    "q95": 56.99088021361059
+  },
+  "physical_volume_retention": {
+    "maximum": 1.0,
+    "median": 1.0,
+    "minimum": 0.16306010928961748,
+    "n": 1500,
+    "q05": 1.0,
+    "q95": 1.0
+  },
+  "schema_version": 1,
+  "source_boundary_touch_visits": 14,
+  "strategy": "C1B-H",
+  "target_boundary_touch_visits": 32
+}

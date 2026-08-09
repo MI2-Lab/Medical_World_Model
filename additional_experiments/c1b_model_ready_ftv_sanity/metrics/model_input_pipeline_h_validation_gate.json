@@ -1,0 +1,31 @@
+{
+  "atomic_caches_present_for_selected_patients": 262,
+  "builder_contract_sha256": "bf2533d50a1e2bd13ae9b2f60f5118a5494060b8ab6955feb29c46a5d1ab1750",
+  "cache_contract_completed": false,
+  "cache_schema_version": 3,
+  "contains_patient_identifiers": false,
+  "failure_codes": {
+    "ZERO_VALID_SOURCE_OVERLAP": 1
+  },
+  "failure_stage": "catastrophic_source_overlap_preflight",
+  "frozen_population_patients": 948,
+  "frozen_population_visits": 3792,
+  "full_scope_cache_build_forbidden": true,
+  "header_audit_exact_population_coverage": true,
+  "header_audit_rows": 3792,
+  "minimum_valid_source_voxels": 0,
+  "private_evidence_sha256": {
+    "complete_header_audit": "0f8a735194d02062bb9e94d09dc6858da7ff6c6ce15002428eb9238fb6c535dc",
+    "failure_table": "99d882332d10f6921aeaa5b0d2d3f665800ed315c16ce2cc481f1962f12e84c2",
+    "selection_manifest": "d1919cc2ab380455ac02ebe90c7898cc022b9b6e08f1e426e59faed215c60322"
+  },
+  "schema_version": 1,
+  "scope": "validation",
+  "selected_patients": 263,
+  "selected_visits": 1052,
+  "stage_b_authorized": false,
+  "status": "FAIL",
+  "strategy": "C1B-H",
+  "thresholds_relaxed": false,
+  "zero_valid_source_overlap_visits": 1
+}

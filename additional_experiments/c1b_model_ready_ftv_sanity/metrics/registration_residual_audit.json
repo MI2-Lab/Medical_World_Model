@@ -1,0 +1,125 @@
+{
+  "analysis": "post-hoc anatomy-versus-localization physical-centroid residual audit",
+  "by_visit": {
+    "T1": {
+      "lesion_evaluable": 308,
+      "median_anatomy_residual_after_mm": 9.557974844905342,
+      "median_lesion_residual_after_mm": 7.071900449566912,
+      "successful_transforms": 308,
+      "threshold_pattern_count": 15,
+      "threshold_pattern_rate": 0.048701298701298704
+    },
+    "T2": {
+      "lesion_evaluable": 283,
+      "median_anatomy_residual_after_mm": 10.198623982743278,
+      "median_lesion_residual_after_mm": 10.273241793421061,
+      "successful_transforms": 283,
+      "threshold_pattern_count": 5,
+      "threshold_pattern_rate": 0.0176678445229682
+    },
+    "T3": {
+      "lesion_evaluable": 267,
+      "median_anatomy_residual_after_mm": 11.357602486461209,
+      "median_lesion_residual_after_mm": 15.036324286644541,
+      "successful_transforms": 267,
+      "threshold_pattern_count": 2,
+      "threshold_pattern_rate": 0.00749063670411985
+    }
+  },
+  "cohort": {
+    "audit_failure_codes": {},
+    "audit_failures": 0,
+    "audit_successes": 1125,
+    "identity_header_fallback_pairs": 267,
+    "lesion_residual_evaluable_successful_pairs": 858,
+    "pairs": 1125,
+    "successful_fitted_transforms": 858
+  },
+  "contains_paths": false,
+  "contains_patient_identifiers": false,
+  "distributions": {
+    "anatomy_residual_after_mm": {
+      "count": 858,
+      "maximum": 116.83797806854973,
+      "mean": 12.733253435366917,
+      "median": 10.445070317230915,
+      "minimum": 1.1696269253920948,
+      "q05": 3.249875819168998,
+      "q95": 28.243369403481278
+    },
+    "anatomy_residual_before_mm": {
+      "count": 858,
+      "maximum": 117.0931020960071,
+      "mean": 24.958093959065433,
+      "median": 21.004007287507697,
+      "minimum": 1.569295816004942,
+      "q05": 6.636223459211335,
+      "q95": 56.08334704625421
+    },
+    "anatomy_residual_reduction_mm": {
+      "count": 858,
+      "maximum": 108.18766246705302,
+      "mean": 12.224840523698514,
+      "median": 8.354180622319419,
+      "minimum": -110.3781040927354,
+      "q05": -5.599299275366437,
+      "q95": 42.9881853370598
+    },
+    "lesion_residual_after_mm": {
+      "count": 858,
+      "maximum": 174.003037174345,
+      "mean": 13.033133543130798,
+      "median": 9.868167323216998,
+      "minimum": 0.43824755235657736,
+      "q05": 2.553198377950716,
+      "q95": 30.167657714227193
+    },
+    "lesion_residual_before_mm": {
+      "count": 858,
+      "maximum": 105.72799918102191,
+      "mean": 24.96338436302271,
+      "median": 21.144565910307133,
+      "minimum": 1.752519822269767,
+      "q05": 6.591785724986076,
+      "q95": 54.4366191611104
+    },
+    "lesion_residual_reduction_mm": {
+      "count": 858,
+      "maximum": 95.87625924357945,
+      "mean": 11.930250819891913,
+      "median": 9.4495455432375,
+      "minimum": -160.38899986720915,
+      "q05": -8.067269797909944,
+      "q95": 40.89017407145592
+    }
+  },
+  "failure_disposition": {
+    "failed_transform_is_never_applied": true,
+    "if_global_strategy_is_C1B_H": "all pairs use identity/header physical alignment",
+    "pair_count": 267,
+    "policy": "C1B_H_IDENTITY_HEADER_FALLBACK"
+  },
+  "provenance": {
+    "localization_use": "post-registration QC only",
+    "private_residual_metrics_sha256": "958e50ccba6967822d8106177989fe70c1c3484f6768e443e428f96656997e0a",
+    "whole_anatomy_mask_source": "precontrast intensity only"
+  },
+  "registration_inputs_changed": false,
+  "residual_definitions": {
+    "after": "frozen source-to-T0 rigid transform, or identity/header fallback on failed registration",
+    "anatomy": "Euclidean distance between precontrast-derived whole-anatomy physical centroids",
+    "before": "identity/header physical coordinates",
+    "lesion": "Euclidean distance between localization-mask physical centroids; QC only"
+  },
+  "schema_version": 1,
+  "threshold_pattern": {
+    "compressed_from_ge2_count": 22,
+    "compressed_from_ge2_rate": 0.02564102564102564,
+    "count": 22,
+    "criterion_status": "FAIL",
+    "definition": "successful transform with anatomy residual after >5 mm and lesion residual after <2 mm",
+    "interpretation": "No numerical rate defining 'systematic' was preregistered; any observed cases require blinded technical review.",
+    "rate_among_lesion_evaluable_successful_pairs": 0.02564102564102564
+  },
+  "transform_refit_or_selection_performed": false
+}
