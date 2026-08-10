@@ -1,0 +1,23 @@
+{
+  "contains_patient_identifiers": false,
+  "delink_method": "copy_or_reflink_then_full_byte_compare_then_atomic_replace",
+  "hardlinks_were_created_then_removed": true,
+  "locked_prior_contract_unchanged": true,
+  "locked_prior_file_sha256": {
+    "STAGE_A_NO_GO.json": "ad2604d35c9fca645f6487c7decf297a0c8f0711136973491d537ac42aa8f080",
+    "reports/final_report.md": "50d7ce177a431ae536ccddef7faf1f93dde753d9b87d0cacb4a115077b1e4976"
+  },
+  "new_cache_files": 947,
+  "new_cache_multilink_count_after_delink": 0,
+  "prior_bytes_and_mtime_unchanged": true,
+  "prior_cache_files": 262,
+  "prior_cache_multilink_count_after_delink": 0,
+  "prior_inode_ctime_may_have_changed": true,
+  "reused_cache_byte_equal_count": 262,
+  "reused_cache_files_compared": 262,
+  "reused_cache_mtime_match_count": 262,
+  "reused_cache_size_match_count": 262,
+  "schema_version": 1,
+  "shared_inode_count_after_delink": 0,
+  "status": "PASS"
+}

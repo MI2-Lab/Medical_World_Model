@@ -1,0 +1,24 @@
+{
+  "c1b_envelope_checks": [
+    "exact_schema3_npz_members",
+    "integer_scalar_schema_version_3",
+    "embedded_patient_identity"
+  ],
+  "c1b_manifest_sha256": "672ad7436b19f30a89640a2b36504f1e7fbaaff83fd07bc058c008b204d2a3c9",
+  "cache_rows_pin": [
+    "sha256",
+    "size_bytes",
+    "mtime_ns"
+  ],
+  "candidate_patients": 948,
+  "data_contract_sha256": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27",
+  "eligible_patients": 947,
+  "fold_eligible_patients": 808,
+  "legacy_manifest_sha256": "03a7c2a12ef17637a8a99ed2955b3dc3f14b1841749bfb7059c685f31bd25dc2",
+  "patients": 947,
+  "private_manifests_contain_identifiers_and_paths": true,
+  "schema_version": 2,
+  "stage_a_sentinel_sha256": "0b2c9e0af63ce8806525fb15ac9a27f6ab525b0259ccf16001981ca5091afbdb",
+  "technical_excluded_patients": 1,
+  "upstream_authorized_train_only_patients": 139
+}

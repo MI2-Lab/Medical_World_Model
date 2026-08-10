@@ -1,0 +1,14 @@
+{
+  "contains_patient_identifiers": false,
+  "exact_full_support_containment_rate": 0.978,
+  "formal_patients_after_intersection": 375,
+  "formal_patients_before_intersection": 375,
+  "formal_patients_excluded": 0,
+  "formal_visits_after_intersection": 1500,
+  "grounding_ineligible_visits": 14,
+  "grounding_observable_visits": 1486,
+  "method": "formal_patient_ids_intersect_technical_eligible_ids_then_reaggregate",
+  "physical_volume_retention_q05": 1.0,
+  "schema_version": 1,
+  "status": "PASS"
+}

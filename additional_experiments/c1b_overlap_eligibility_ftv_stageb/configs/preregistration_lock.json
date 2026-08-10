@@ -1,0 +1,13 @@
+{
+  "branch": "feature/c1b-overlap-eligibility-ftv-stageb",
+  "created_utc": "2026-08-09T11:47:43Z",
+  "eligibility_rule": "AND over T0,T1,T2,T3: valid_source_voxels(patient, visit) > 0",
+  "expected_population_change_is_not_a_result": true,
+  "plan_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/EXPERIMENT_PLAN.md",
+  "plan_sha256": "72c440302b3992a09bc74b0a6a59b8bf11d0e20835322f58cbbd5bd43608d588",
+  "preregistered_before_new_cohort_statistics": true,
+  "schema_version": 1,
+  "source_commit": "283b4e40205df8cf47b688d350e6090eed95727a",
+  "stage_b_requires_stage_a_go": true
+}
+

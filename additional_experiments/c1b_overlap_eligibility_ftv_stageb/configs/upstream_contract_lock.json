@@ -1,0 +1,38 @@
+{
+  "builder_semantic_contract_sha256": "bf2533d50a1e2bd13ae9b2f60f5118a5494060b8ab6955feb29c46a5d1ab1750",
+  "file_sha256": {
+    "additional_experiments/c1b_model_ready_ftv_sanity/STAGE_A_NO_GO.json": "ad2604d35c9fca645f6487c7decf297a0c8f0711136973491d537ac42aa8f080",
+    "additional_experiments/c1b_model_ready_ftv_sanity/manifests/grounding_observability_summary.json": "9ea4b6442294857eef4b967fb45f6c973a802aa1f497ff4407caf6f10f205f1e",
+    "additional_experiments/c1b_model_ready_ftv_sanity/manifests/ispy1_base_eligibility_patients.private.csv": "d9029507607dcdb327db8066f7fd7a712d10e157e4d2b8f79ab3c9f0daad6513",
+    "additional_experiments/c1b_model_ready_ftv_sanity/manifests/ispy1_base_eligibility_visits.private.csv": "a80214a3da799934a9711c1a5c22ba31cbfe71441e2a7bf09c1cdf8c8a28b702",
+    "additional_experiments/c1b_model_ready_ftv_sanity/manifests/model_input_inventory.private.csv": "40f7d1db7af108b2cb0c07863db208ee4db2124ffaf660771feaa7270809df0a",
+    "additional_experiments/c1b_model_ready_ftv_sanity/metrics/dicom_pixel_rebuild_gate.json": "ea287c3947e49123311d7b591bd74c69c58d52eee119ecf7aa1ddf943471ceed",
+    "additional_experiments/c1b_model_ready_ftv_sanity/metrics/orientation_resampling_patient_visit.private.csv": "0f8a735194d02062bb9e94d09dc6858da7ff6c6ce15002428eb9238fb6c535dc",
+    "additional_experiments/c1b_model_ready_ftv_sanity/metrics/orientation_validation_gate.json": "c95ef76eb137c77ae4cb5e7e25931afd6eed4f43ca91bb9e8c62f0bb0b4275ce",
+    "additional_experiments/c1b_model_ready_ftv_sanity/metrics/registration_strategy_decision.json": "389684a3f28a020d53ee3597a2a587ba3b6ec478048e2f725e1bac36a9502d30",
+    "additional_experiments/c1b_model_ready_ftv_sanity/metrics/support_containment_h_summary.json": "26f00d7f2194513f4101101502380744dc66d834fe6a66977b915f6c92fded23",
+    "additional_experiments/c1b_model_ready_ftv_sanity/reports/final_report.md": "50d7ce177a431ae536ccddef7faf1f93dde753d9b87d0cacb4a115077b1e4976",
+    "additional_experiments/c1b_model_ready_ftv_sanity/src/c1b_sanity/builder.py": "fc08f5aa3d08bdedcc503ba99f8df2591bfae16e1ef5671af66aef2a70aee41d",
+    "additional_experiments/c1b_model_ready_ftv_sanity/src/c1b_sanity/cache.py": "6bc36a4d8dac356ed4d6f0fc5858607a7bbd4845a66fc83b214025d22f1f2af7",
+    "additional_experiments/c1b_model_ready_ftv_sanity/src/c1b_sanity/dce7.py": "928d1ca6cb5f3afe13d9ca46fd955f276154940f61529d8cc116d0302e3f2252",
+    "additional_experiments/c1b_model_ready_ftv_sanity/src/c1b_sanity/dicom_pixel_rebuild.py": "7c9987a7f9f72f82d9d8f703c54a786af4e7f4c5519ad5545ef9a2484e943286",
+    "additional_experiments/c1b_model_ready_ftv_sanity/src/c1b_sanity/geometry.py": "4921d09eeee7b8e57ff01a2c2dc6a1a92b901cf3ccfb2b3048987c724a9c5c3c",
+    "additional_experiments/zero_overlap_provenance_audit/AUDIT_NOT_REPAIRABLE.json": "042dd629fdb10a7b08bfdeceaa6cf51d9d9e7e713fa5a86027a4d569640d0ffd",
+    "additional_experiments/zero_overlap_provenance_audit/reports/final_report.md": "2438cff32ae283cbac7a59dc547643e5411beb63278170cfc65268dc3ee8e5ed"
+  },
+  "prior_stage_a_decision_must_remain_no_go": true,
+  "prior_zero_overlap_decision_must_remain_not_repairable": true,
+  "schema_version": 1,
+  "source_commit": "283b4e40205df8cf47b688d350e6090eed95727a",
+  "tracked_trees": {
+    "additional_experiments/c1b_model_ready_ftv_sanity": {
+      "file_count": 103,
+      "sha256": "ee767dd718b20cc8783816b3f295ef4f5210f004b09e7c18105a1d890499a6cf"
+    },
+    "additional_experiments/zero_overlap_provenance_audit": {
+      "file_count": 37,
+      "sha256": "405298764a71fcfebdd3c929802bd0aabf4844b2bdfb22ac1097cafbff157044"
+    }
+  }
+}
+

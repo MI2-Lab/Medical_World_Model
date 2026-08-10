@@ -1,0 +1,20 @@
+# Patient-level/private and large reproducible assets stay in the authorized workspace.
+cache/**
+checkpoints/**
+features/**
+predictions/**
+logs/**
+manifests/*private*
+metrics/*private*
+configs/*private*
+reports/*private*
+
+!cache/.gitkeep
+!checkpoints/.gitkeep
+!features/.gitkeep
+!predictions/.gitkeep
+!logs/.gitkeep
+
+__pycache__/
+*.py[cod]
+.pytest_cache/

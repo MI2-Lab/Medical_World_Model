@@ -1,0 +1,36 @@
+{
+  "data_contract_sha256": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27",
+  "figure_targets": [
+    "04_static_ftv_spearman.png",
+    "05_static_ftv_natural_r2.png",
+    "06_static_ftv_predicted_vs_true_natural.png",
+    "07_literal_delta_ftv_spearman.png",
+    "08_literal_delta_ftv_natural_r2.png",
+    "09_state_loss_degradation_heatmap.png",
+    "10_representation_std.png",
+    "11_grounding_difference_in_differences.png",
+    "12_representative_training_curves.png"
+  ],
+  "formal_tag": "formal_4x8_restart1",
+  "implementation_sha256": {
+    "aggregate_cli": "4c9f89b801a89b68552898218fbffaee84aaaf717292aa066b511b96ef4623d5",
+    "analysis": "c0a69ca31bda8907b807c8804d6abcd66f90cfad3f8f715a808305565f2a8298",
+    "postprocess_driver": "ed646113a1270179153574ab643cc8379ee2f00ae2e534949592e6d037c7f5b6"
+  },
+  "matrix_complete_sha256": "0adbcf7daf74f31e70c64c1ec9a5bb259411792fb0dfa4d093ee9d3e3210b4a2",
+  "nonresumable": true,
+  "postprocessing_complete_sha256": "4a599f5d76482677056f9df11e46faa1b8d4f277eedabb63d60306531e841558",
+  "schema_version": 1,
+  "selection_history_inventory_sha256": "04718afbc33edfdfd1e5aaf3116b18a3c188f2ade85cac31bc209197f2606584",
+  "stage_a_sentinel_sha256": "0b2c9e0af63ce8806525fb15ac9a27f6ab525b0259ccf16001981ca5091afbdb",
+  "status": "CLAIMED",
+  "summary_is_commit_marker": true,
+  "summary_target": "stage_b_aggregation_summary.json",
+  "table_targets": [
+    "table2_static_ftv.csv",
+    "table3_literal_observed_delta_ftv.csv",
+    "table4_optimization_safety.csv",
+    "table5_difference_in_differences.csv",
+    "table5_fold_level_sensitivity.csv"
+  ]
+}
