@@ -1,0 +1,18 @@
+{
+  "allclose_observed_fraction": 1.0,
+  "allclose_required_fraction": 1.0,
+  "atol": 1e-06,
+  "bitwise_equal_fraction": 1.0,
+  "compared_elements": 24821760,
+  "feature_dimension": 192,
+  "formal_cells": 40,
+  "maximum_absolute_error": 0.0,
+  "mean_absolute_error": 0.0,
+  "patients_per_cell": 808,
+  "preregistration_lock_sha256": "0f51dd38539d2e2e9e0b8c5e2975b17f24328c9b611132deb7cbcf683d2fd57c",
+  "probe_execution_authorized": true,
+  "rtol": 1e-05,
+  "schema_version": 1,
+  "status": "PASS",
+  "visits_per_patient": 4
+}

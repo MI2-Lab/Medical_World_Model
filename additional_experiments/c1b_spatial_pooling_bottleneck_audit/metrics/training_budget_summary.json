@@ -1,0 +1,46 @@
+{
+  "any_n_arm_undertraining_plausible": false,
+  "arm_summary": {
+    "L1": {
+      "cells": 10,
+      "hit_configured_max_rate": 0.0,
+      "median_last_three_normalized_slope": 0.2873479827949761,
+      "selected_epoch_median": 3.0,
+      "selected_last_two_rate": 0.0
+    },
+    "L3": {
+      "cells": 10,
+      "hit_configured_max_rate": 0.0,
+      "median_last_three_normalized_slope": 0.3110116027035519,
+      "selected_epoch_median": 3.0,
+      "selected_last_two_rate": 0.0
+    },
+    "N1": {
+      "cells": 10,
+      "hit_configured_max_rate": 0.0,
+      "median_last_three_normalized_slope": 0.22046271033297182,
+      "selected_epoch_median": 3.0,
+      "selected_last_two_rate": 0.0
+    },
+    "N3": {
+      "cells": 10,
+      "hit_configured_max_rate": 0.0,
+      "median_last_three_normalized_slope": 0.19658235526742812,
+      "selected_epoch_median": 3.0,
+      "selected_last_two_rate": 0.0
+    }
+  },
+  "new_training_performed": false,
+  "normalization_for_last_three_slope": "OLS slope divided by absolute mean of last 3 finite validation state losses",
+  "schema_version": 1,
+  "status": "COMPLETE",
+  "undertraining_plausible": {
+    "N1": false,
+    "N3": false
+  },
+  "undertraining_thresholds": {
+    "maximum_median_normalized_last3_slope": -0.005,
+    "minimum_hit_max_rate": 0.6,
+    "minimum_selected_last_two_rate": 0.6
+  }
+}

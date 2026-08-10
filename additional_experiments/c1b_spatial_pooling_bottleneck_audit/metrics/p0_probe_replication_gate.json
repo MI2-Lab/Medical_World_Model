@@ -1,0 +1,17 @@
+{
+  "alternate_pooling_interpretation_authorized": true,
+  "formal_cells": 40,
+  "maximum_pooled_metric_absolute_difference": 0.0,
+  "maximum_prediction_absolute_difference": 0.0,
+  "outer_test_prediction_rows": 41704,
+  "pooled_metric_atol": 1e-06,
+  "pooled_natural_metric_rows": 144,
+  "prediction_allclose_fraction": 1.0,
+  "prediction_atol": 1e-06,
+  "prediction_contract_exact_fraction": 1.0,
+  "prediction_rtol": 1e-05,
+  "schema_version": 1,
+  "selection_cells": 560,
+  "selection_contract_exact_fraction": 1.0,
+  "status": "PASS"
+}
