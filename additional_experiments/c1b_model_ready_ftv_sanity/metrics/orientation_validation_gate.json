@@ -1,0 +1,28 @@
+{
+  "anterior_posterior_consistent": true,
+  "array_reordering_implemented_and_unit_tested": true,
+  "canonical_ras_fraction": 1.0,
+  "canonical_roundtrip_corner_error_mm_max": 8.038873388460929e-14,
+  "contains_patient_identifiers": false,
+  "dce_mask_footprint_corner_error_mm_max": 0.001835644245147705,
+  "header_only_label_change": false,
+  "left_right_consistent": true,
+  "model_input_patients": 948,
+  "model_input_visits": 3792,
+  "orientation_after": {
+    "RAS+": 3792
+  },
+  "orientation_before_resolved": {
+    "LAS": 1021,
+    "LIP": 1,
+    "LPS": 146,
+    "PIR": 559,
+    "RPS": 2065
+  },
+  "repaired_pixel_volumes_used": 706,
+  "schema_version": 1,
+  "singular_ispy2_rebuilt_volumes_used": 146,
+  "strict_ispy1_eligible_patients": 140,
+  "strict_ispy1_rebuilt_volumes_used": 560,
+  "superior_inferior_consistent": true
+}

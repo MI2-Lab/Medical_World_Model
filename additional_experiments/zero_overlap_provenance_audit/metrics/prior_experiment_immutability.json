@@ -1,0 +1,13 @@
+{
+  "after": {
+    "sha256": "ee767dd718b20cc8783816b3f295ef4f5210f004b09e7c18105a1d890499a6cf",
+    "tracked_file_count": 103
+  },
+  "before": {
+    "sha256": "ee767dd718b20cc8783816b3f295ef4f5210f004b09e7c18105a1d890499a6cf",
+    "tracked_file_count": 103
+  },
+  "prior_experiment": "c1b_model_ready_ftv_sanity",
+  "stage_a_no_go_preserved": true,
+  "unchanged": true
+}

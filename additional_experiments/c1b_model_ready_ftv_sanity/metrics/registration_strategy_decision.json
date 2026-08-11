@@ -1,0 +1,80 @@
+{
+  "catastrophic_gate": {
+    "observed_all_pairs": 0.015111111111111112,
+    "observed_successful_transforms": 0.019813519813519812,
+    "status": "FAIL",
+    "threshold": "<=0.01"
+  },
+  "catastrophic_rate": 0.015111111111111112,
+  "chosen_strategy": "H",
+  "contains_paths": false,
+  "contains_patient_identifiers": false,
+  "decision_frozen": true,
+  "decision_reason": "one or more preregistered registration gates failed",
+  "exact_containment_gate_status": "PASS",
+  "failed_pair_disposition": "C1B_H_IDENTITY_HEADER_FALLBACK",
+  "failed_pair_fallback_count": 267,
+  "formal_registration_pairs": 1125,
+  "ftv_retention_gate_status": "PASS",
+  "manual_review_case_count": 4,
+  "manual_review_complete": true,
+  "manual_review_pass": true,
+  "manual_review_status": "PASS_CHOSEN_H",
+  "nonworse_gate": {
+    "observed_all_pairs_failures_count_as_not_nonworse": 0.7386666666666667,
+    "observed_successful_transforms": 0.9685314685314685,
+    "status": "FAIL",
+    "threshold": ">=0.75"
+  },
+  "padding_gate": {
+    "observed_median": -0.049700372869318166,
+    "observed_q95": 0.063863099416097,
+    "status": "FAIL",
+    "threshold_median": "<=0.02",
+    "threshold_q95": "<=0.05"
+  },
+  "physical_support_audit_pairs": 1125,
+  "physical_support_audit_visits": 1500,
+  "r_rejected": true,
+  "r_rejection_reasons": [
+    "anatomy_lesion_residual_pattern",
+    "blinded_technical_review",
+    "catastrophic_transform_rate",
+    "finite_transform_success_rate",
+    "nonworse_moving_visit_fraction",
+    "padding_increase"
+  ],
+  "r_specific_manual_review_status": "FAIL",
+  "r_specific_residual_status": "FAIL",
+  "registration_failure_pairs": 267,
+  "registration_physical_support_summary_sha256": "d66455abc54fe5e0b1cb448019d6b8ca3501623e7a6cf6950e41c2356c06b0b7",
+  "registration_residual_audit_sha256": "25e0a345dd530dc860c0536fc201227387e7e0b5cdb3de7e161390f0ef664f37",
+  "registration_sensitivity_summary_sha256": "e3166a4dfc86eff613dbb6d2e7b7560c2ddfe3666b8aee6c3f6c4601436c64a5",
+  "registration_success_pairs": 858,
+  "registration_success_rate": 0.7626666666666667,
+  "residual_audit_failures": 0,
+  "residual_audit_pairs": 1125,
+  "residual_audit_pass": true,
+  "residual_audit_status": "PASS_CHOSEN_H",
+  "residual_audit_successes": 1125,
+  "safe_phase_resample": {
+    "model_resampling_padding_mode": "reflect",
+    "phase_policy": "legacy_adaptive_early_late_outcome_free",
+    "registration_channel": "selected_precontrast_only",
+    "registration_interpolation": "linear",
+    "registration_qc_outside_value": 0.0,
+    "registration_qc_outside_value_is_model_padding": false,
+    "valid_source_mask_is_model_input": false
+  },
+  "schema_version": 1,
+  "similarity_gate": {
+    "observed": 0.21167115919272694,
+    "status": "PASS",
+    "threshold": ">0.02"
+  },
+  "success_gate": {
+    "observed": 0.7626666666666667,
+    "status": "FAIL",
+    "threshold": ">=0.95"
+  }
+}

@@ -1,0 +1,14 @@
+features/**
+probes/**
+logs/**
+manifests/*private*
+metrics/*private*
+reports/*private*
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+!features/.gitkeep
+!probes/.gitkeep
+!logs/.gitkeep
+

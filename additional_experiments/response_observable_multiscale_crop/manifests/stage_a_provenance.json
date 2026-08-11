@@ -1,0 +1,28 @@
+{
+  "branch": "feature/response-observable-multiscale-crop",
+  "config_sha256": "a2205a601d329c68e1d1140866d187735c7152a3612e622e49c2ea470e4c78de",
+  "contract_visit_rows": 13500,
+  "experiment_source_sha256": {
+    "EXPERIMENT_PLAN.md": "c74433e5e4c3e5195c01930e5d507d46976208c9243224cdddeb61e1f6d12bae",
+    "configs/stage_a.json": "a2205a601d329c68e1d1140866d187735c7152a3612e622e49c2ea470e4c78de",
+    "scripts/make_previews.py": "43b6871a96bfa53d2d4b8dd7a44490114d9e81f57fa63dda42ae5e6465273472",
+    "scripts/run_dicom_geometry_audit.py": "254b80f80c3e2bc3a720738f7974192c86999cf1d1acbe0d96b93b3d230b3555",
+    "scripts/run_stage_a.py": "fc0a86167ec298738d33dc8c6d4f7b71c01c68bdc1ee53e0b8fffcd4a7875e97",
+    "src/observable_crop/__init__.py": "f3e861ef182148972bea664b198e283740ff643b1e703335641337cf51836b30",
+    "src/observable_crop/dicom_geometry.py": "97462f25ac1ec2322695a51dd92103f5d3b14c326537618149b7eddd171591e4",
+    "src/observable_crop/geometry.py": "c794e7c33188e48b2314926e4878d65d2036dc19020406ebe83ffebe0ab9b8cb",
+    "src/observable_crop/nifti.py": "6d36821d5c6503d9236686599b6723431edcb6b37fcd2be9b4418a2b798e481d"
+  },
+  "experiment_worktree_dirty": true,
+  "legacy_table_sha256": "66cfa0d70ed335ed22a6f2b38188252fcf7c0dd9509f1274c190a8b8808a43e4",
+  "model_training_executed": false,
+  "overlap_sha256": "91b575c9e7e351312b8181a091bdffd2d1f61b88b5a98ac3d78d54c94b63da6b",
+  "patient_visits": 1500,
+  "patients": 375,
+  "pcr_clinical_treatment_read": false,
+  "preprocessed_root": "${DGRS_DATA_ROOT}/I-SPY2",
+  "schema_version": 1,
+  "repository_head_commit": "8570da3eb384defc1bec00b5b471f0fd45850059",
+  "workbook": "${ISPY2_RAW_ROOT}/Multi-feature-MRI-NACT-Data.xlsx",
+  "workbook_sha256": "f714c7784b1e57daa74d7cfb20db71cd432b4e4596b9b4eacdd5a76b7f8a58dc"
+}

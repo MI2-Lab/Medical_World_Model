@@ -1,0 +1,65 @@
+{
+  "answers": {
+    "10_selected_architecture": "LOCAL",
+    "11_spatial_aggregation_interpretation": "SUPPORTED_AS_END_TO_END_BOTTLENECK_IN_PILOT",
+    "12_direct_entry_to_ftv_plus_ld": false,
+    "13_ftv_plus_ld_architecture_after_confirmation": "LOCAL",
+    "1_local0_stably_better_than_gap0": true,
+    "2_frozen_local_advantage_transferred": true,
+    "3_lg0_stably_better_than_local0": false,
+    "4_global_branch_necessary": false,
+    "5_ftv_grounding_effective_for_candidate": true,
+    "5_grounding_evidence_table": "table5_grounding_effects.csv",
+    "6_observed_delta_ftv_improvement": {
+      "grounded_candidate_minus_base_macro_spearman_by_seed": {
+        "2026": 0.03364683126635559,
+        "3026": 0.03837182842189102
+      },
+      "local0_minus_gap0_macro_spearman_by_seed": {
+        "2026": 0.2320520347403952,
+        "3026": 0.19222573671634996
+      }
+    },
+    "7_natural_scale_r2_improvement": {
+      "grounded_candidate_minus_base_static_macro_by_seed": {
+        "2026": 0.014063025599451162,
+        "3026": 0.016606804020445787
+      },
+      "lg0_minus_local0_static_macro_by_seed": {
+        "2026": -0.022408890966111233,
+        "3026": -0.02128647269174691
+      },
+      "local0_minus_gap0_static_macro_by_seed": {
+        "2026": 0.09363948948250356,
+        "3026": 0.108581496923571
+      }
+    },
+    "8_prediction_compression_relief_evidence_table": "table7_prediction_variance_calibration.csv",
+    "9_grounded_optimization_safety": {
+      "candidate_comparison": "LOCAL3-LOCAL0",
+      "checks": {
+        "minimum_safe_folds": true,
+        "paired_fold_count_exact": true
+      },
+      "pass": true,
+      "required_safe_folds": 9,
+      "safe_folds": 10,
+      "thresholds": {
+        "candidate_paired_folds_required": 9,
+        "candidate_paired_folds_total": 10,
+        "maximum_state_loss_degradation_fraction": 0.05
+      },
+      "total_folds": 10
+    }
+  },
+  "classification": "A. LOCAL STATE VALIDATED IN PILOT",
+  "final_report_prose_written": false,
+  "language_for_final_report": "zh-CN",
+  "next_stage": {
+    "direct_ftv_plus_ld_authorized_by_this_pilot": false,
+    "pilot_supports_ftv_plus_ld_after_confirmation": true,
+    "selected_architecture_requires_multiseed_confirmation_first": true
+  },
+  "schema_version": 1,
+  "winner": "LOCAL"
+}

@@ -1,0 +1,18 @@
+{
+  "audit_upper_bound": "C1C_ORACLE_UNION_AUDIT_ONLY",
+  "decision": "INPUT-CONTRACT PARTIAL",
+  "ld_grounding_executed": false,
+  "multiscale_candidate": "C2B_PENDING_CONTEXT_VALUE_AND_FAILED_GATES",
+  "primary_deployable_candidate": "C1B_PENDING_FAILED_GATES",
+  "required_before_model_ready_cache": [
+    "rebuild_72_singular_sform_visits_from_raw_DICOM_and_verify_pixel_order",
+    "review_source_image_boundary_censoring_in_large_LD_cases",
+    "freeze_anatomical_orientation_and_header_or_image_rigid_registration_policy",
+    "resolve_any_extreme_resampling_gate_failure",
+    "validate_full_3D_DCE7_phase_selection_resampling_normalization_and_cache_roundtrip",
+    "keep_mask_and_geometry_sidecars_out_of_model_batch"
+  ],
+  "schema_version": 1,
+  "stage_b_authorized": false,
+  "stage_b_executed": false
+}

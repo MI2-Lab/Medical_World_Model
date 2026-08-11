@@ -1,0 +1,71 @@
+{
+  "analysis_scope": "DIAGNOSTIC_ONLY",
+  "case_alias": "CASE_ZERO_OVERLAP_001",
+  "coverage_50_percent": {
+    "achieved_valid_fraction": 0.5016183035714286,
+    "achieved_valid_voxels": 1582064,
+    "attainable": true,
+    "current_valid_fraction": 0.0,
+    "current_valid_voxels": 0,
+    "maximum_attainable_valid_fraction": 0.8792410714285714,
+    "maximum_attainable_valid_voxels": 2773056,
+    "required_valid_fraction": 0.5,
+    "required_valid_voxels": 1576960,
+    "translation_magnitude_mm": 92.68169965454037
+  },
+  "coverage_90_percent": {
+    "achieved_valid_fraction": null,
+    "achieved_valid_voxels": null,
+    "attainable": false,
+    "current_valid_fraction": 0.0,
+    "current_valid_voxels": 0,
+    "maximum_attainable_valid_fraction": 0.8792410714285714,
+    "maximum_attainable_valid_voxels": 2773056,
+    "required_valid_fraction": 0.9,
+    "required_valid_voxels": 2838528,
+    "translation_magnitude_mm": null
+  },
+  "coverage_95_percent": {
+    "achieved_valid_fraction": null,
+    "achieved_valid_voxels": null,
+    "attainable": false,
+    "current_valid_fraction": 0.0,
+    "current_valid_voxels": 0,
+    "maximum_attainable_valid_fraction": 0.8792410714285714,
+    "maximum_attainable_valid_voxels": 2773056,
+    "required_valid_fraction": 0.95,
+    "required_valid_voxels": 2996224,
+    "translation_magnitude_mm": null
+  },
+  "current_valid_source_voxels": 0,
+  "one_voxel": {
+    "achieved_valid_fraction": 0.0052512428977272724,
+    "achieved_valid_voxels": 16562,
+    "attainable": true,
+    "current_valid_fraction": 0.0,
+    "current_valid_voxels": 0,
+    "maximum_attainable_valid_fraction": 0.8792410714285714,
+    "maximum_attainable_valid_voxels": 2773056,
+    "required_valid_fraction": 3.1706574675324675e-07,
+    "required_valid_voxels": 1,
+    "translation_magnitude_mm": 13.191351000000012
+  },
+  "schema_version": 1,
+  "target_grid": {
+    "anchor": "t0_acquisition_physical_center_fallback",
+    "contract": "C1B-H",
+    "shape_zyx": [
+      112,
+      176,
+      160
+    ],
+    "spacing_xyz_mm": [
+      0.9,
+      0.9,
+      2.0
+    ],
+    "target_grid_voxels": 3153920
+  },
+  "translation_used_as_repair": false,
+  "translation_vector_public": false
+}

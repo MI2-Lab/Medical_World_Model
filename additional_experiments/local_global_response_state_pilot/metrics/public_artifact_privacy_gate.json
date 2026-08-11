@@ -1,0 +1,13 @@
+{
+  "absolute_path_findings": [],
+  "identifier_findings": [],
+  "preregistration_lock": "PREREGISTRATION_LOCK.json",
+  "preregistration_lock_sha256": "d2fcbd6e92300debe462da1968d74f4809a03bfdccaea2cd82edfead846c4daa",
+  "private_identifier_values_checked": 1120,
+  "private_permission_findings": [],
+  "scanned_public_artifacts": 55,
+  "scanner_sha256": "8f269e2f280e7b5be939e1577474f6430acfc62238bfe169ce538a84cee66459",
+  "schema_version": 1,
+  "status": "PASS",
+  "unsupported_public_artifact_findings": []
+}

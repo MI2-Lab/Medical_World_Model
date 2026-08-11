@@ -1,0 +1,4 @@
+contract,views,visits,dce_channels,spatial_voxels_per_visit,float32_values_per_patient,float32_megabytes_per_patient,relative_to_legacy,excludes_activations_optimizer_and_padding_mask
+C0,legacy,4,7,294912,8257536,33.030144,1.0,True
+C1B,detail,4,7,3153920,88309760,353.23904,10.694444444444445,True
+C2B,detail+context,4,7,4464640,125009920,500.03968,15.13888888888889,True

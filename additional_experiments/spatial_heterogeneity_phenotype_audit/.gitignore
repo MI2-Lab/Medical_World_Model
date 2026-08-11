@@ -1,0 +1,30 @@
+# Patient-level artifacts and frozen spatial statistics remain private.
+features/**
+predictions/**
+logs/**
+manifests/*private*
+metrics/*private*
+reports/*private*
+manifests/**/*private*
+metrics/**/*private*
+reports/**/*private*
+data/**
+checkpoints/**
+# Defense in depth: this audit never versions images, arrays, or checkpoints.
+**/*.nii
+**/*.nii.gz
+**/*.dcm
+**/*.npy
+**/*.npz
+**/*.pt
+**/*.pth
+**/*.ckpt
+**/*.h5
+**/*.hdf5
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+!features/.gitkeep
+!predictions/.gitkeep
+!logs/.gitkeep

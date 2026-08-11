@@ -1,0 +1,45 @@
+# All identity-bearing provenance stays outside version control.
+private/
+private_*/
+**/private/
+**/private_*/
+**/*_private/
+**/*-private*/
+**/*private*
+
+# Defensive filename rules for patient-level or source-level artifacts.
+manifests/*private*
+manifests/patient_*
+manifests/subject_*
+manifests/*uid*
+manifests/*source_path*
+metrics/*private*
+metrics/patient_*
+metrics/subject_*
+reports/*private*
+figures/*private*
+
+# Raw/rebuilt imaging, registration work products, and local execution state.
+raw_dicom/
+rebuilds/
+registration_diagnostics/
+repair_candidate/private/
+cache/
+logs/
+tmp/
+*.dcm
+*.ima
+*.nii
+*.nii.gz
+*.npy
+*.npz
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Keep the empty public output directories in the scaffold.
+!metrics/.gitkeep
+!figures/.gitkeep
+!manifests/.gitkeep
+!reports/.gitkeep

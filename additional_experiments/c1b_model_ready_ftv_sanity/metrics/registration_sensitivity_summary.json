@@ -1,0 +1,566 @@
+{
+  "analysis": "Stage A5 C1B-H versus C1B-R image-only registration sensitivity",
+  "by_visit": {
+    "T1": {
+      "failures": 67,
+      "median_rotation_deg": 3.5849472737533863,
+      "median_similarity_gain": 0.2084088970192131,
+      "median_translation_mm": 17.268826713039147,
+      "pairs": 375,
+      "success_rate": 0.8213333333333334,
+      "successes": 308
+    },
+    "T2": {
+      "failures": 92,
+      "median_rotation_deg": 3.6451249503363212,
+      "median_similarity_gain": 0.22401317107223595,
+      "median_translation_mm": 18.6557912550077,
+      "pairs": 375,
+      "success_rate": 0.7546666666666667,
+      "successes": 283
+    },
+    "T3": {
+      "failures": 108,
+      "median_rotation_deg": 3.875515480553187,
+      "median_similarity_gain": 0.2058245965804133,
+      "median_translation_mm": 20.218490971326354,
+      "pairs": 375,
+      "success_rate": 0.712,
+      "successes": 267
+    }
+  },
+  "cohort": {
+    "complete": true,
+    "expected_pairs": 1125,
+    "expected_patients": 375,
+    "observed_pairs": 1125
+  },
+  "contains_paths": false,
+  "contains_patient_identifiers": false,
+  "distributions": {
+    "anatomy_dice_after": {
+      "count": 858,
+      "maximum": 0.9518226798767166,
+      "mean": 0.7205393184462945,
+      "median": 0.7441513438994608,
+      "minimum": 0.029283308467033888,
+      "q05": 0.47140133159974107,
+      "q25": 0.6412611219916913,
+      "q75": 0.8219483186667818,
+      "q95": 0.9090306519793395
+    },
+    "anatomy_dice_before": {
+      "count": 858,
+      "maximum": 0.9328771723897105,
+      "mean": 0.6064293155830474,
+      "median": 0.6178706206165923,
+      "minimum": 0.15751059150934696,
+      "q05": 0.3184246186348152,
+      "q25": 0.5005977460840403,
+      "q75": 0.7233570751352845,
+      "q95": 0.8398673262618671
+    },
+    "anatomy_dice_gain": {
+      "count": 858,
+      "maximum": 0.6188323990693649,
+      "mean": 0.11411000286324707,
+      "median": 0.09913991398550476,
+      "minimum": -0.8407657644056811,
+      "q05": -0.008935819545008487,
+      "q25": 0.04200543602485052,
+      "q75": 0.17542543566302188,
+      "q95": 0.3239153916365752
+    },
+    "histogram_mi_after": {
+      "count": 858,
+      "maximum": 0.6603481985531849,
+      "mean": 0.17427548054474085,
+      "median": 0.16119350896821683,
+      "minimum": 0.009650637667822287,
+      "q05": 0.06074584962006451,
+      "q25": 0.10987637654074453,
+      "q75": 0.22235823440472266,
+      "q95": 0.33939944440601744
+    },
+    "histogram_mi_before": {
+      "count": 858,
+      "maximum": 0.3576729877313545,
+      "mean": 0.06764254275117475,
+      "median": 0.05225680821947957,
+      "minimum": 0.002328277361082999,
+      "q05": 0.01234511757815981,
+      "q25": 0.026915913011468486,
+      "q75": 0.09383780109635527,
+      "q95": 0.1691364827891248
+    },
+    "histogram_mi_gain": {
+      "count": 858,
+      "maximum": 0.5685328574654471,
+      "mean": 0.1066329377935661,
+      "median": 0.09376705200510928,
+      "minimum": -0.16865229880362456,
+      "q05": 0.018090307767843154,
+      "q25": 0.056149180894164194,
+      "q75": 0.1424335697263946,
+      "q95": 0.24089690332055214
+    },
+    "histogram_nmi_after": {
+      "count": 858,
+      "maximum": 0.17705901325842432,
+      "mean": 0.046096975808583886,
+      "median": 0.043100437113205964,
+      "minimum": 0.0025155565968942497,
+      "q05": 0.01623197673164101,
+      "q25": 0.029582914391000935,
+      "q75": 0.059158676875532154,
+      "q95": 0.0891982140969819
+    },
+    "histogram_nmi_before": {
+      "count": 858,
+      "maximum": 0.09317809820392077,
+      "mean": 0.017977454266152763,
+      "median": 0.013873302500517586,
+      "minimum": 0.0006192325755732172,
+      "q05": 0.0032296940021321763,
+      "q25": 0.007057132037673331,
+      "q75": 0.025023951233386636,
+      "q95": 0.04607796078535758
+    },
+    "histogram_nmi_gain": {
+      "count": 858,
+      "maximum": 0.15051699840814428,
+      "mean": 0.028119521542431122,
+      "median": 0.024819765077577938,
+      "minimum": -0.041746355192592,
+      "q05": 0.005451704172124011,
+      "q25": 0.015163124326292214,
+      "q75": 0.03810101616894032,
+      "q95": 0.06374287355921042
+    },
+    "maximum_absolute_rotation_deg": {
+      "count": 858,
+      "maximum": 60.734321504219366,
+      "mean": 3.7690336738510344,
+      "median": 3.0074196002902136,
+      "minimum": 0.24015555136835184,
+      "q05": 0.8921582011401754,
+      "q25": 1.9933882752347447,
+      "q75": 4.765337084626502,
+      "q95": 8.509371841817739
+    },
+    "optimizer_mattes_mi": {
+      "count": 858,
+      "maximum": -0.007146350562491506,
+      "mean": -0.17957917917899952,
+      "median": -0.1665674296564031,
+      "minimum": -0.6554351435361525,
+      "q05": -0.35104566851487523,
+      "q25": -0.22972655256158298,
+      "q75": -0.11170873342587834,
+      "q95": -0.06042744048982155
+    },
+    "padding_fraction_after": {
+      "count": 858,
+      "maximum": 0.77768431769477,
+      "mean": 0.13486574735778883,
+      "median": 0.10903262870624097,
+      "minimum": 0.0,
+      "q05": 0.03709666252136231,
+      "q25": 0.07138143669115765,
+      "q75": 0.1645730257034302,
+      "q95": 0.31460014254694946
+    },
+    "padding_fraction_before": {
+      "count": 858,
+      "maximum": 0.7510823143853081,
+      "mean": 0.20495320103408948,
+      "median": 0.17850073059993005,
+      "minimum": 0.0,
+      "q05": 0.05144580841064451,
+      "q25": 0.10959243774414062,
+      "q75": 0.2665147569444445,
+      "q95": 0.45332833607991535
+    },
+    "padding_fraction_delta": {
+      "count": 858,
+      "maximum": 0.7135567135281033,
+      "mean": -0.07008745367630065,
+      "median": -0.049700372869318166,
+      "minimum": -0.5407776832580566,
+      "q05": -0.26647592071533205,
+      "q25": -0.12538007764673947,
+      "q75": -0.002935727437337249,
+      "q95": 0.063863099416097
+    },
+    "rotation_magnitude_deg": {
+      "count": 858,
+      "maximum": 60.74448721030388,
+      "mean": 4.496836255649007,
+      "median": 3.645635640752398,
+      "minimum": 0.2658485132541848,
+      "q05": 1.1492833420952626,
+      "q25": 2.4741657714621725,
+      "q75": 5.799499924056315,
+      "q95": 10.209667549874837
+    },
+    "similarity_after": {
+      "count": 858,
+      "maximum": 0.8636424347020742,
+      "mean": 0.4469726145060738,
+      "median": 0.4580076229380401,
+      "minimum": -0.4128351726061306,
+      "q05": 0.20862420937996362,
+      "q25": 0.35776384123025096,
+      "q75": 0.5464779605501839,
+      "q95": 0.672980166952891
+    },
+    "similarity_before": {
+      "count": 858,
+      "maximum": 0.6624518671178763,
+      "mean": 0.2238910296928307,
+      "median": 0.20914047918754702,
+      "minimum": -0.1401442180527246,
+      "q05": 0.014045749357115488,
+      "q25": 0.11440308826163088,
+      "q75": 0.3206243934606872,
+      "q95": 0.46570570309498216
+    },
+    "similarity_gain": {
+      "count": 858,
+      "maximum": 0.7822826781498591,
+      "mean": 0.22308158481324306,
+      "median": 0.21167115919272694,
+      "minimum": -1.0323676053275932,
+      "q05": 0.01726363316760149,
+      "q25": 0.12313502013447244,
+      "q75": 0.3091013363797198,
+      "q95": 0.5021291402127639
+    },
+    "translation_magnitude_mm": {
+      "count": 858,
+      "maximum": 133.6113561975826,
+      "mean": 23.569508270673353,
+      "median": 18.645735073062585,
+      "minimum": 0.4971192513479658,
+      "q05": 4.962628847288826,
+      "q25": 11.052365987201021,
+      "q75": 30.721790165199454,
+      "q95": 58.78018137114606
+    },
+    "valid_overlap_fraction_after": {
+      "count": 858,
+      "maximum": 1.0,
+      "mean": 0.8651342526422112,
+      "median": 0.890967371293759,
+      "minimum": 0.22231568230523002,
+      "q05": 0.6853998574530504,
+      "q25": 0.8354269742965699,
+      "q75": 0.9286185633088424,
+      "q95": 0.9629033374786377
+    },
+    "valid_overlap_fraction_before": {
+      "count": 858,
+      "maximum": 1.0,
+      "mean": 0.7950467989659105,
+      "median": 0.82149926940007,
+      "minimum": 0.24891768561469185,
+      "q05": 0.5466716639200846,
+      "q25": 0.7334852430555555,
+      "q75": 0.8904075622558594,
+      "q95": 0.9485541915893555
+    }
+  },
+  "failure_disposition": {
+    "failed_transform_is_never_applied": true,
+    "if_global_strategy_is_C1B_H": "all pairs use identity/header physical alignment",
+    "pair_count": 267,
+    "policy": "C1B_H_IDENTITY_HEADER_FALLBACK"
+  },
+  "gate": {
+    "criteria": {
+      "anatomy_lesion_residual_pattern": {
+        "definition": "successful transform with anatomy residual after >5 mm and lesion residual after <2 mm",
+        "note": "No numerical rate defining 'systematic' was preregistered; any observed cases require blinded technical review.",
+        "observed_count": 22,
+        "observed_rate": 0.02564102564102564,
+        "status": "FAIL"
+      },
+      "available_support_exact_containment": {
+        "c1b_h_exact_containment_rate": 0.978,
+        "c1b_r_exact_containment_rate": 0.9826666666666667,
+        "failed_pairs_use_identity_header_fallback": true,
+        "r_minus_h_points": 0.004666666666666708,
+        "status": "PASS",
+        "threshold": ">=-0.005"
+      },
+      "blinded_technical_review": {
+        "figure": "figures/04_representative_t0_t3_c1b_h_vs_r.png",
+        "review_scope": "ghosting, left-right reflection, deformation, and alignment",
+        "status": "FAIL",
+        "strata": [
+          "small",
+          "medium",
+          "large",
+          "high-transform"
+        ]
+      },
+      "catastrophic_transform_rate": {
+        "observed_all_pairs": 0.015111111111111112,
+        "observed_successful_transforms": 0.019813519813519812,
+        "status": "FAIL",
+        "threshold": "<=0.01"
+      },
+      "finite_transform_success_rate": {
+        "observed": 0.7626666666666667,
+        "status": "FAIL",
+        "threshold": ">=0.95"
+      },
+      "ftv_retention_q05": {
+        "c1b_h_q05": 1.0,
+        "c1b_r_q05": 1.0,
+        "failed_pairs_use_identity_header_fallback": true,
+        "status": "PASS",
+        "threshold": ">=0.95"
+      },
+      "median_whole_anatomy_similarity_gain": {
+        "observed": 0.21167115919272694,
+        "status": "PASS",
+        "threshold": ">0.02"
+      },
+      "nonworse_moving_visit_fraction": {
+        "observed_all_pairs_failures_count_as_not_nonworse": 0.7386666666666667,
+        "observed_successful_transforms": 0.9685314685314685,
+        "status": "FAIL",
+        "threshold": ">=0.75"
+      },
+      "padding_increase": {
+        "observed_median": -0.049700372869318166,
+        "observed_q95": 0.063863099416097,
+        "status": "FAIL",
+        "threshold_median": "<=0.02",
+        "threshold_q95": "<=0.05"
+      }
+    },
+    "decision": "C1B-H",
+    "decision_reason": "one or more preregistered registration gates failed",
+    "image_only_metrics_pass": false,
+    "thresholds": {
+      "catastrophic_rotation_deg": 20.0,
+      "catastrophic_translation_mm": 75.0,
+      "maximum_catastrophic_rate": 0.01,
+      "maximum_padding_median_increase": 0.02,
+      "maximum_padding_q95_increase": 0.05,
+      "minimum_median_similarity_gain": 0.02,
+      "minimum_nonworse_fraction": 0.75,
+      "minimum_success_rate": 0.95,
+      "nonworse_tolerance": 0.01
+    }
+  },
+  "outcomes": {
+    "catastrophic_rate_all_pairs": 0.015111111111111112,
+    "catastrophic_rate_successful_transforms": 0.019813519813519812,
+    "catastrophic_transforms": 17,
+    "failure_codes": {
+      "INSUFFICIENT_OVERLAP": 2,
+      "NONCONVERGED": 265
+    },
+    "failures": 267,
+    "nonworse_fraction_all_pairs_failures_count_as_not_nonworse": 0.7386666666666667,
+    "nonworse_fraction_successful_transforms": 0.9685314685314685,
+    "nonworse_pairs": 831,
+    "success_rate": 0.7626666666666667,
+    "successes": 858
+  },
+  "posthoc_residual_audit": {
+    "analysis": "post-hoc anatomy-versus-localization physical-centroid residual audit",
+    "by_visit": {
+      "T1": {
+        "lesion_evaluable": 308,
+        "median_anatomy_residual_after_mm": 9.557974844905342,
+        "median_lesion_residual_after_mm": 7.071900449566912,
+        "successful_transforms": 308,
+        "threshold_pattern_count": 15,
+        "threshold_pattern_rate": 0.048701298701298704
+      },
+      "T2": {
+        "lesion_evaluable": 283,
+        "median_anatomy_residual_after_mm": 10.198623982743278,
+        "median_lesion_residual_after_mm": 10.273241793421061,
+        "successful_transforms": 283,
+        "threshold_pattern_count": 5,
+        "threshold_pattern_rate": 0.0176678445229682
+      },
+      "T3": {
+        "lesion_evaluable": 267,
+        "median_anatomy_residual_after_mm": 11.357602486461209,
+        "median_lesion_residual_after_mm": 15.036324286644541,
+        "successful_transforms": 267,
+        "threshold_pattern_count": 2,
+        "threshold_pattern_rate": 0.00749063670411985
+      }
+    },
+    "cohort": {
+      "audit_failure_codes": {},
+      "audit_failures": 0,
+      "audit_successes": 1125,
+      "identity_header_fallback_pairs": 267,
+      "lesion_residual_evaluable_successful_pairs": 858,
+      "pairs": 1125,
+      "successful_fitted_transforms": 858
+    },
+    "contains_paths": false,
+    "contains_patient_identifiers": false,
+    "distributions": {
+      "anatomy_residual_after_mm": {
+        "count": 858,
+        "maximum": 116.83797806854973,
+        "mean": 12.733253435366917,
+        "median": 10.445070317230915,
+        "minimum": 1.1696269253920948,
+        "q05": 3.249875819168998,
+        "q95": 28.243369403481278
+      },
+      "anatomy_residual_before_mm": {
+        "count": 858,
+        "maximum": 117.0931020960071,
+        "mean": 24.958093959065433,
+        "median": 21.004007287507697,
+        "minimum": 1.569295816004942,
+        "q05": 6.636223459211335,
+        "q95": 56.08334704625421
+      },
+      "anatomy_residual_reduction_mm": {
+        "count": 858,
+        "maximum": 108.18766246705302,
+        "mean": 12.224840523698514,
+        "median": 8.354180622319419,
+        "minimum": -110.3781040927354,
+        "q05": -5.599299275366437,
+        "q95": 42.9881853370598
+      },
+      "lesion_residual_after_mm": {
+        "count": 858,
+        "maximum": 174.003037174345,
+        "mean": 13.033133543130798,
+        "median": 9.868167323216998,
+        "minimum": 0.43824755235657736,
+        "q05": 2.553198377950716,
+        "q95": 30.167657714227193
+      },
+      "lesion_residual_before_mm": {
+        "count": 858,
+        "maximum": 105.72799918102191,
+        "mean": 24.96338436302271,
+        "median": 21.144565910307133,
+        "minimum": 1.752519822269767,
+        "q05": 6.591785724986076,
+        "q95": 54.4366191611104
+      },
+      "lesion_residual_reduction_mm": {
+        "count": 858,
+        "maximum": 95.87625924357945,
+        "mean": 11.930250819891913,
+        "median": 9.4495455432375,
+        "minimum": -160.38899986720915,
+        "q05": -8.067269797909944,
+        "q95": 40.89017407145592
+      }
+    },
+    "failure_disposition": {
+      "failed_transform_is_never_applied": true,
+      "if_global_strategy_is_C1B_H": "all pairs use identity/header physical alignment",
+      "pair_count": 267,
+      "policy": "C1B_H_IDENTITY_HEADER_FALLBACK"
+    },
+    "provenance": {
+      "localization_use": "post-registration QC only",
+      "private_residual_metrics_sha256": "958e50ccba6967822d8106177989fe70c1c3484f6768e443e428f96656997e0a",
+      "whole_anatomy_mask_source": "precontrast intensity only"
+    },
+    "registration_inputs_changed": false,
+    "residual_definitions": {
+      "after": "frozen source-to-T0 rigid transform, or identity/header fallback on failed registration",
+      "anatomy": "Euclidean distance between precontrast-derived whole-anatomy physical centroids",
+      "before": "identity/header physical coordinates",
+      "lesion": "Euclidean distance between localization-mask physical centroids; QC only"
+    },
+    "schema_version": 1,
+    "threshold_pattern": {
+      "compressed_from_ge2_count": 22,
+      "compressed_from_ge2_rate": 0.02564102564102564,
+      "count": 22,
+      "criterion_status": "FAIL",
+      "definition": "successful transform with anatomy residual after >5 mm and lesion residual after <2 mm",
+      "interpretation": "No numerical rate defining 'systematic' was preregistered; any observed cases require blinded technical review.",
+      "rate_among_lesion_evaluable_successful_pairs": 0.02564102564102564
+    },
+    "transform_refit_or_selection_performed": false
+  },
+  "provenance": {
+    "deterministic_sampling_seed": 1729,
+    "formal_patient_count": 375,
+    "inventory_sha256": "40f7d1db7af108b2cb0c07863db208ee4db2124ffaf660771feaa7270809df0a",
+    "phase_metadata_sha256": "042c531ce155362215afce433b84360b20bf810175a5de7fa0f74f8c72a5e216",
+    "private_pair_metrics_sha256": "40f4c288bdd1019613b73a43266992bca5e2e57412c4a6bef8072cca0594c61f",
+    "registration_config": {
+      "gradient_magnitude_tolerance": 1e-06,
+      "histogram_bins": 48,
+      "learning_rate": 2.0,
+      "maximum_iterations": 600,
+      "minimum_anatomy_voxels": 128,
+      "minimum_step_mm": 0.0001,
+      "minimum_valid_overlap_fraction": 0.2,
+      "number_of_threads": 1,
+      "random_seed": 1729,
+      "relaxation_factor": 0.5,
+      "sampling_percentage": 0.3,
+      "shrink_factors": [
+        4,
+        2,
+        1
+      ],
+      "smoothing_sigmas_mm": [
+        2.0,
+        1.0,
+        0.0
+      ]
+    },
+    "registration_source_sha256": "35a2751a291315f261abbc4ebff2d1b4d535aa369b200b6809d330fe08c4a50e",
+    "run_signature": "d15eb85101a7bf7baaeadf0f4063ada9cffb9706c3cbbcc42ce35fb9e4a91f8e",
+    "schema_version": 1,
+    "simpleitk_version": "2.5.3"
+  },
+  "registration_inputs": {
+    "automatic_mask": "whole-anatomy mask from precontrast intensity only",
+    "fixed": "T0 selected precontrast",
+    "moving": "T1-T3 selected precontrast",
+    "phase_policy": "legacy_adaptive_early_late_outcome_free",
+    "singular_visit_source": "repaired NIfTI required; no original fallback",
+    "uses_clinical_treatment_response_or_pcr": false,
+    "uses_ftv_or_localization": false
+  },
+  "repair_strata": {
+    "at_least_one_repaired_visit": {
+      "pairs": 55,
+      "success_rate": 0.6363636363636364,
+      "successes": 35
+    },
+    "no_repaired_visit": {
+      "pairs": 1070,
+      "success_rate": 0.7691588785046729,
+      "successes": 823
+    }
+  },
+  "representative_figure_audit": {
+    "localization_masks_read": 858,
+    "localization_was_registration_input": false,
+    "selection_quantiles": {
+      "large": "Q80",
+      "medium": "Q50",
+      "small": "Q20"
+    },
+    "selection_use_only": true,
+    "status": "PASS"
+  },
+  "schema_version": 1
+}

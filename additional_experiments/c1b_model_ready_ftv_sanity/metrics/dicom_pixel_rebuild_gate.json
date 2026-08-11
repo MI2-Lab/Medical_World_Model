@@ -1,0 +1,52 @@
+{
+  "all_model_input_singular_visits": {
+    "all_finite_nonconstant": true,
+    "all_qform_sform_valid": true,
+    "decoded_cells": 153112,
+    "dicom_files": 153112,
+    "failed": 0,
+    "max_cell_error": 0.0,
+    "max_center_corner_error_mm": 2.4647591625394535e-05,
+    "max_footprint_corner_error_mm": 2.4654460230326754e-05,
+    "passed": 146,
+    "pixel_order_verified_fraction": 1.0,
+    "scope": "ALL",
+    "verified_cells": 153112,
+    "visits": 146
+  },
+  "base_only_extension": {
+    "all_finite_nonconstant": true,
+    "all_qform_sform_valid": true,
+    "decoded_cells": 75320,
+    "dicom_files": 75320,
+    "failed": 0,
+    "max_cell_error": 0.0,
+    "max_center_corner_error_mm": 2.4647591625394535e-05,
+    "max_footprint_corner_error_mm": 2.4654460230326754e-05,
+    "passed": 74,
+    "pixel_order_verified_fraction": 1.0,
+    "scope": "BASE_ONLY_EXTENSION_74",
+    "verified_cells": 75320,
+    "visits": 74
+  },
+  "formal": {
+    "all_finite_nonconstant": true,
+    "all_qform_sform_valid": true,
+    "decoded_cells": 77792,
+    "dicom_files": 77792,
+    "failed": 0,
+    "max_cell_error": 0.0,
+    "max_center_corner_error_mm": 2.1858977349499193e-05,
+    "max_footprint_corner_error_mm": 2.1864245105181427e-05,
+    "passed": 72,
+    "pixel_order_verified_fraction": 1.0,
+    "scope": "FORMAL_72",
+    "verified_cells": 77792,
+    "visits": 72
+  },
+  "inventory_sha256": "40f7d1db7af108b2cb0c07863db208ee4db2124ffaf660771feaa7270809df0a",
+  "patient_identifiers_in_public_outputs": false,
+  "required_formal_visits": 72,
+  "schema_version": 1,
+  "status": "PASS"
+}

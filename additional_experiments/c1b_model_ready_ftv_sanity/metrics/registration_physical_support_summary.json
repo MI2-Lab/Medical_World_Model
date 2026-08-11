@@ -1,0 +1,53 @@
+{
+  "c1b_h_exact_containment_rate": 0.978,
+  "c1b_h_ftv_retention": {
+    "maximum": 1.0,
+    "median": 1.0,
+    "minimum": 0.16306010928961748,
+    "n": 1500,
+    "q05": 1.0,
+    "q95": 1.0
+  },
+  "c1b_h_ftv_retention_q05": 1.0,
+  "c1b_r_exact_containment_rate": 0.9826666666666667,
+  "c1b_r_ftv_retention": {
+    "maximum": 1.0,
+    "median": 1.0,
+    "minimum": 0.0,
+    "n": 1500,
+    "q05": 1.0,
+    "q95": 1.0
+  },
+  "c1b_r_ftv_retention_q05": 1.0,
+  "c1b_r_minus_h_exact_containment_points": 0.004666666666666708,
+  "contains_patient_identifiers": false,
+  "failed_transform_used": false,
+  "formal_patients": 375,
+  "formal_visits": 1500,
+  "h_lesion_centroid_displacement_followup_mm": {
+    "maximum": 127.32846970836066,
+    "median": 21.601294994039527,
+    "minimum": 1.7525198222697784,
+    "n": 1125,
+    "q05": 6.9976429757719565,
+    "q95": 55.42240357674827
+  },
+  "localization_opened_only_posthoc": true,
+  "private_support_metrics_rows": 1500,
+  "private_support_metrics_sha256": "6e16300fddf138413c4726608f6a85f31758640000d84cb3f6f98fcf87c99f88",
+  "r_exact_drop_gate_pass": true,
+  "r_lesion_centroid_displacement_followup_mm": {
+    "maximum": 174.003037174345,
+    "median": 12.869737757949158,
+    "minimum": 0.4382475523565875,
+    "n": 1125,
+    "q05": 2.7943779509061892,
+    "q95": 42.34231985518253
+  },
+  "r_retention_q05_gate_pass": true,
+  "registration_fitted_with_localization": false,
+  "registration_identity_fallback_pairs": 267,
+  "registration_pairs": 1125,
+  "registration_success_pairs": 858,
+  "schema_version": 1
+}

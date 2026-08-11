@@ -1,0 +1,67 @@
+{
+  "audited_patient_count": 19,
+  "audited_singular_visit_count": 72,
+  "decision": "HEADER_GEOMETRY_PASS_PIXEL_REBUILD_PENDING",
+  "decision_counts": {
+    "MASK_SFORM_GEOMETRY_CANDIDATE": 37,
+    "TRUST_DCE_QFORM": 35
+  },
+  "dicom_header_count": 77792,
+  "expected_singular_visit_count": 72,
+  "failed_model_ready_checks": [
+    "pixel_rebuild_executed_for_all_72",
+    "pixel_order_verified_for_all_72",
+    "model_ready_for_all_72"
+  ],
+  "header_checks": {
+    "acquisition_time_groups_complete": true,
+    "all_headers_readable": true,
+    "decisions_reproduce_stage_a": true,
+    "expected_35_37_decision_partition": true,
+    "expected_singular_visit_count": true,
+    "file_counts_match_xyz_t": true,
+    "iop_consistent_and_orthonormal": true,
+    "ipp_slice_grid_complete_and_regular": true,
+    "mask_sform_matches_dicom_volume": true,
+    "no_quarantined_series": true,
+    "pixel_data_was_not_read": true,
+    "pixel_spacing_consistent": true,
+    "required_headers_complete": true,
+    "rows_columns_match_nifti": true,
+    "temporal_groupings_agree": true,
+    "temporal_position_groups_complete": true,
+    "unique_patient_visit_rows": true
+  },
+  "header_geometry_audit_pass": true,
+  "mask_candidate_qform_dicom_corner_hausdorff": {
+    "max_mm": 197.49999839071236,
+    "median_mm": 171.6000074038816,
+    "min_mm": 38.87742816998195,
+    "q95_mm": 192.5000068599706
+  },
+  "mask_dicom_corner_hausdorff_max_mm": 2.1858977349499193e-05,
+  "model_ready": false,
+  "model_ready_checks": {
+    "header_geometry_audit_pass": true,
+    "model_ready_for_all_72": false,
+    "pixel_order_verified_for_all_72": false,
+    "pixel_rebuild_executed_for_all_72": false
+  },
+  "outcome_free": true,
+  "patient_level_geometry_sha256": "55ffc864127d695722048c374688d620e50ba54bb7d5e6422639ef336a46f565",
+  "pixel_data_read": false,
+  "pixel_order_verified": false,
+  "pixel_rebuild_executed": false,
+  "pixel_rebuild_required": true,
+  "required_next_action": "rebuild_all_72_singular_visits_from_raw_DICOM_pixels_then_verify_voxel_order_and_affine_before_model_use",
+  "schema_version": 1,
+  "stage": "A_DICOM_HEADER_GEOMETRY_ONLY",
+  "stage_b_authorized": false,
+  "thresholds": {
+    "affine_corner_atol_mm": 0.1,
+    "in_plane_position_atol_mm": 0.1,
+    "minimum_public_cell": 5,
+    "slice_spacing_atol_mm": 0.001
+  },
+  "trusted_qform_dicom_corner_hausdorff_max_mm": 1.169667763453884e-05
+}

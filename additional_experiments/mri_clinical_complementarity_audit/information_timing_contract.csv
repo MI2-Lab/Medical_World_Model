@@ -1,0 +1,5 @@
+timing,clinical_profile,treatment_if_enabled,mri_state,ftv,forbidden_future_mri,forbidden_future_ftv,interpretation
+T0,pretreatment_only,assigned_arm,r_T0,FTV_T0,r_T1;r_T2;r_T3,FTV_T1;FTV_T2;FTV_T3,pre-NAC prediction
+T1,pretreatment_only,assigned_arm,r_T0;r_T1,FTV_T0;FTV_T1,r_T2;r_T3,FTV_T2;FTV_T3,early-NAC response assessment
+T2,pretreatment_only,assigned_arm,r_T0;r_T1;r_T2,FTV_T0;FTV_T1;FTV_T2,r_T3,FTV_T3,inter-regimen response assessment
+T3,pretreatment_only,assigned_arm,r_T0;r_T1;r_T2;r_T3,FTV_T0;FTV_T1;FTV_T2;FTV_T3,,,late pre-surgery response assessment reported separately

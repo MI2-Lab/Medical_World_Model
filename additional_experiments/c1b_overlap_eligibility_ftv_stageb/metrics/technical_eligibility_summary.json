@@ -1,0 +1,43 @@
+{
+  "candidate_patients": 948,
+  "candidate_visits": 3792,
+  "clinical_treatment_subtype_fields_read": [],
+  "contains_patient_identifiers": false,
+  "elapsed_seconds": 2.4953243440249935,
+  "eligibility_input_allowlist": [
+    "imaging_source",
+    "raw_or_rebuilt_source_geometry",
+    "frozen_c1b_h_physical_grid",
+    "valid_source_overlap"
+  ],
+  "eligibility_rule": "AND over T0,T1,T2,T3: valid_source_voxels > 0",
+  "eligible_patients": 947,
+  "excluded_patients": 1,
+  "exclusion_reason_aggregate": {
+    "ZERO_VALID_SOURCE_OVERLAP_IN_REQUIRED_VISIT": 1
+  },
+  "hardcoded_population_result": false,
+  "lesion_ftv_ld_sph_bpe_fields_read": [],
+  "minimum_valid_source_voxels": 0,
+  "model_loss_representation_performance_fields_read": [],
+  "outcome_pcr_fields_read": [],
+  "patient_specific_rules": [],
+  "preregistered_before_eligibility_results": true,
+  "preregistration_plan_sha256": "72c440302b3992a09bc74b0a6a59b8bf11d0e20835322f58cbbd5bd43608d588",
+  "private_manifest_sha256": {
+    "eligible_model_input_inventory.private.csv": "8fe0f4303245e44f027b36c175bb5f28a2cd3d027a32527ce066bc9b14f5823e",
+    "frozen_c1b_grids.private.csv": "c864e9f49a7d0a7ac964e0dc9ff0e837cfac37b3b272dc990850aea5bb572aff",
+    "technical_eligibility_patients.private.csv": "041f11877bb55d70a611e14a811f5610a3572c4437470bbde54cbdf19121f2c7",
+    "technical_eligibility_visits.private.csv": "e67b04d0cc927366e72baa9829053af51609d9ce7a486dc4b280908af0d085d9"
+  },
+  "run_is_new_and_does_not_amend_prior_no_go": true,
+  "schema_version": 1,
+  "source_provenance_sha256": {
+    "candidate_inventory": "40f7d1db7af108b2cb0c07863db208ee4db2124ffaf660771feaa7270809df0a",
+    "candidate_key_manifest": "0f8a735194d02062bb9e94d09dc6858da7ff6c6ce15002428eb9238fb6c535dc",
+    "ispy1_visit_source_eligibility": "a80214a3da799934a9711c1a5c22ba31cbfe71441e2a7bf09c1cdf8c8a28b702"
+  },
+  "status": "PASS",
+  "valid_visits": 3791,
+  "zero_overlap_visits": 1
+}

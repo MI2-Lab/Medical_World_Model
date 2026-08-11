@@ -1,0 +1,791 @@
+{
+  "analysis_outputs_present_before_freeze": false,
+  "branch": "feature/c1b-spatial-pooling-bottleneck-audit",
+  "config_sha256": "ad19c58dbbd4ed4ba694686608c19f9968a2339b29f395fea620ffb41038d227",
+  "formal_cell_count": 40,
+  "formal_p0_references": {
+    "seed_2026/L1/fold_0": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L1/fold_0/response_state.private.metadata.json",
+      "feature_metadata_sha256": "f5c35ac3177acd9c5fc85ad620dcb8b4534f37adc5f0db46fa13243b736da401",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L1/fold_0/response_state.private.npz",
+      "feature_sha256": "4bf16234f41591fe7ce0c3ae1b96d5f49bf3a6157ff77e9f31e276851afa0ebe",
+      "patient_order_sha256": "944eec13b9d3c785c85ff32ccbb05a533f17da21caa7e60ff3abe2c0c78f2078",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "44f9ae2f2871b6545c9b1be1d0d109378afb210b233129627cb7b988e26ec872",
+        "probe_metrics.csv": "29f175ba323743c3bc6c89cfda7da13712c9f8dc52f92dbe80e273676e645649",
+        "ridge_predictions.private.csv": "41505d7cb5d90345f85915db26780cb0d0ca3adf5da3d6ff1606ebd15c3a7df8",
+        "ridge_selection.csv": "0db3879f24c7f12613ad54594c1876e97dd7148d3ce7d1fd9bfba32975420cbc"
+      }
+    },
+    "seed_2026/L1/fold_1": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L1/fold_1/response_state.private.metadata.json",
+      "feature_metadata_sha256": "9c9682655e7c713c84ccf8e5b70a39ed353d9e05197c03e6ca53dba2435d262c",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L1/fold_1/response_state.private.npz",
+      "feature_sha256": "2879ce78a3e7d1c3511e315325bc953a02365f4f94d044b8cf7a1e482c0508a3",
+      "patient_order_sha256": "cbf0d678fc06dcc0c3ca899a53ba9e1fb98b0cd55db4e2e10cbdeaa9f36fdd1a",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "6ab704b9b7456b925b000fb6a621eafca474cf46ca35e09d31ecd5964febbe6c",
+        "probe_metrics.csv": "938789bc13f98d6234a2d25e983fa103a5a5128343bd578c0aeb28cec43f7a39",
+        "ridge_predictions.private.csv": "49f59875a4bdbb640d0d95959ef778e8312f7b8b4da96a2eb7b1b1296f46d831",
+        "ridge_selection.csv": "6ceb88a3f3f2173d33df90f9a394bb193fb976bd271a99ef9af27831eb87d247"
+      }
+    },
+    "seed_2026/L1/fold_2": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L1/fold_2/response_state.private.metadata.json",
+      "feature_metadata_sha256": "a34572b5489a0743f1f65b4f37a09727e92b3f07f13fda4ecdb2d024f0021e8a",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L1/fold_2/response_state.private.npz",
+      "feature_sha256": "fc2b71c98e7c5db891fea662118060830cf79319dadfd9eff7452db4b61b3be7",
+      "patient_order_sha256": "96143bcfeb066eac4162054ed61baaddf93d10a1be921d1c87b1fffcd9d4e6bf",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "1a0634d641a46b5ee03efb39002d70051df68366ea69ec6af898e257ff0017b3",
+        "probe_metrics.csv": "5b474614a7750239a53455746003ff5622bb644504b85334991fcd3459085c44",
+        "ridge_predictions.private.csv": "a13297c3d9f94b74830c0fb021644a20e4202cda3b347eb8d06703e8adf80374",
+        "ridge_selection.csv": "9daca1031252096f5faed02d91708af1ca9036241d2641caa6fa8f274dd92c9d"
+      }
+    },
+    "seed_2026/L1/fold_3": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L1/fold_3/response_state.private.metadata.json",
+      "feature_metadata_sha256": "c255504523becbf0cdd24ef1b11a83a51cf0ce9a6687a55fef4ee9a6476908f3",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L1/fold_3/response_state.private.npz",
+      "feature_sha256": "ad1ff02218aca764ad730386a9d19f6b636031ea472449718be32cf2f7a6ed79",
+      "patient_order_sha256": "5a5e3292f9cd8a5508353ce49cdbe0749224657063229a221d55ab4dc5aef2b5",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "9c4e8bb34edb817cf292b738e8174735a92860ed7abc9a4f1173e934fa04a73a",
+        "probe_metrics.csv": "cc11ecccd0432f01cad26eb778a0bf21675280606ff3fad85d7f23e8eb522e89",
+        "ridge_predictions.private.csv": "f72df577855c27853315c51f770bdbfbef46a697b31826dd2a64a117fb351804",
+        "ridge_selection.csv": "7721c10813253d4f76467046c81efe1797286bbc99dc2dabf18ad8a2c4b18a53"
+      }
+    },
+    "seed_2026/L1/fold_4": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L1/fold_4/response_state.private.metadata.json",
+      "feature_metadata_sha256": "d8cd69bb9a3fed3a378da6a1bfe0cc4d92d0a854c5fe3b7a519cc40452825223",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L1/fold_4/response_state.private.npz",
+      "feature_sha256": "f9c397020faf68d4c7af1198f001c62e07fd06290225a7060fba2a220ed8794f",
+      "patient_order_sha256": "aab713640f75ace30df017b4f375982e0d8bbee17fc2c1cff6428f9cd084d203",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "e4e01b75f9ccac2dd61b64a5e4e323fd74ec29e9b8f14919afafb1773fac9e60",
+        "probe_metrics.csv": "786e477e50393eabd78b3ed24bed8794e5904e3b1eef2c2079c3ff3425a945a0",
+        "ridge_predictions.private.csv": "53cad1af9a5784bd152edff2634b42fa14d0225fcacf55cfd3f56cd8c0a4dbbf",
+        "ridge_selection.csv": "1ce0d2d6dc222b8f73c03bd187429ef16e14f8fa9a679c5a5fc3c2e868690664"
+      }
+    },
+    "seed_2026/L3/fold_0": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L3/fold_0/response_state.private.metadata.json",
+      "feature_metadata_sha256": "b4498bd3be50000cc388cfd1b3d1554b4fa31391211599bf1de12a8ddd02562e",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L3/fold_0/response_state.private.npz",
+      "feature_sha256": "2e7bb5a50dd0ba858c879554020494cb465ae37da25c3b57d9c91066e3268640",
+      "patient_order_sha256": "944eec13b9d3c785c85ff32ccbb05a533f17da21caa7e60ff3abe2c0c78f2078",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "d6e46a11d25fb18e51d20171cf1a2981e7fa1ddae2c3dc37e28824b2131e96c8",
+        "probe_metrics.csv": "5194dcea89821de261fe40ab42430f4194be091b4b6155cf79281d5d7a5b11cc",
+        "ridge_predictions.private.csv": "ba462da83a1a6832f6c163995c783a0135d68dbb44930b60c7b5c7ad81e6cbfb",
+        "ridge_selection.csv": "b900771d1ec41faf83b3c4d244dad600f5613d1007416a099592fb8073ae6dec"
+      }
+    },
+    "seed_2026/L3/fold_1": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L3/fold_1/response_state.private.metadata.json",
+      "feature_metadata_sha256": "f28d607d7c05f34a701f77657c57a549ee40c5516acc55b89850eca8daf285ae",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L3/fold_1/response_state.private.npz",
+      "feature_sha256": "1dcfaf6164e99c7ebcf498cf31f8d0d1ff6962a6bdf65c319f36873a95e0967b",
+      "patient_order_sha256": "cbf0d678fc06dcc0c3ca899a53ba9e1fb98b0cd55db4e2e10cbdeaa9f36fdd1a",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "65989565fc60a2cee311223e56e80d205dbc0a20c94bdf29c87f6807a9a987c8",
+        "probe_metrics.csv": "da4fadeebd0f424a04bd052723404493ae6b81e8361194d4d7d1a67751ef2740",
+        "ridge_predictions.private.csv": "c5a91e66f57f07d883812550f8fb4c126dfe602a435b4e0cc17070438cb0c7e4",
+        "ridge_selection.csv": "c32d7ad6affbeb67e7e315494a91df5353c5ade16cc6b5897dc7d2c0916e3dcd"
+      }
+    },
+    "seed_2026/L3/fold_2": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L3/fold_2/response_state.private.metadata.json",
+      "feature_metadata_sha256": "7a6819e6ad5cb7605690ab37251254d69c656af4af62e5092a072ae7debe912b",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L3/fold_2/response_state.private.npz",
+      "feature_sha256": "05ef4fa18eb91b67fcff3a21337f12a133fbc0d62b3175fe68765dcded8dfcaa",
+      "patient_order_sha256": "96143bcfeb066eac4162054ed61baaddf93d10a1be921d1c87b1fffcd9d4e6bf",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "8ab7a231ab79008a9c4e34d1b347ca084eb7686e75e2e57cf0fe4252b80fb93e",
+        "probe_metrics.csv": "e79415ebe44601aa67874500c9a4656e175f785ca9a653023ce7e177693f9254",
+        "ridge_predictions.private.csv": "7b2f979616fbdabc881d2d721bf9eefeb28d481233d5d3b0b6445c9aba643f87",
+        "ridge_selection.csv": "41d7c120f1baaaf07daabec30eb2bd3c07531fb2c7efc8d386734d9ebf6df216"
+      }
+    },
+    "seed_2026/L3/fold_3": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L3/fold_3/response_state.private.metadata.json",
+      "feature_metadata_sha256": "2f19dfb487e91601c60ec2c35714d0ef76edb842d4ef9d95574fdd120c6dd767",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L3/fold_3/response_state.private.npz",
+      "feature_sha256": "0dfc189d7d8a5937eb79c070801a65f2a0ea387693f77a66ca786ee771f9f3b6",
+      "patient_order_sha256": "5a5e3292f9cd8a5508353ce49cdbe0749224657063229a221d55ab4dc5aef2b5",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "02b3851647121689d8e5544faf5370a0691d64b62162fb97d13753d993127c19",
+        "probe_metrics.csv": "75f563a81bcfdb49449cea72aa931e68040648ff9bb979a2c958aa74fda40058",
+        "ridge_predictions.private.csv": "28ea56aade79226840f1925a3a2c8547d85d65571a3f70a6089ec5711e263dd0",
+        "ridge_selection.csv": "392aa902c57fc30e02a5568e063a8620d2f5ff25e60b2b150b8ce8b4e8918c4f"
+      }
+    },
+    "seed_2026/L3/fold_4": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L3/fold_4/response_state.private.metadata.json",
+      "feature_metadata_sha256": "47cde8053d7bff354a6cd70f2e644cc10cb3a743e359b630b0cffccb4caeb4cf",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/L3/fold_4/response_state.private.npz",
+      "feature_sha256": "14f654d0ca5880b1137b4325cfbd9f57c6f47f9f9d04fe883bd64d27d9531045",
+      "patient_order_sha256": "aab713640f75ace30df017b4f375982e0d8bbee17fc2c1cff6428f9cd084d203",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "03de7176b72b9ca6b05f70dc100e659e1274dc32f24c5e60980433d8cf5b3fe2",
+        "probe_metrics.csv": "4912d7292e504b582128a24d2616172f2c8f48846560a6880b66995e6c53327e",
+        "ridge_predictions.private.csv": "1567eba151960f01b1ccf642ab794fa3563868fdc8246491b5be01e556b8bc3d",
+        "ridge_selection.csv": "b9fb72ababefc45550cecae3e58f8b472a977a66003b6a711d2435c61b3f366b"
+      }
+    },
+    "seed_2026/N1/fold_0": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N1/fold_0/response_state.private.metadata.json",
+      "feature_metadata_sha256": "560b3df9e46420f82f1015b3052e7138bfa4b8c2a6446369ab3a2e26630193ce",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N1/fold_0/response_state.private.npz",
+      "feature_sha256": "443598efa6834125bbb1032234fd63677667a29beb87fdc975642e1a421918de",
+      "patient_order_sha256": "944eec13b9d3c785c85ff32ccbb05a533f17da21caa7e60ff3abe2c0c78f2078",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "91d02cc0e937ef8aa5f6605b380bc2ec5abbf1743132fbcf213257cc915bbcca",
+        "probe_metrics.csv": "fc15aaf01378c2d280f91fb49c87404ede2bc1e67b54c6181f2f5073a78b8def",
+        "ridge_predictions.private.csv": "1205c664340327d3a4fab23af3cca99eb085bb529bd322d83e6e77f76be155a9",
+        "ridge_selection.csv": "f2f1f118b975b4671e68cb9ba2d661cf9217d8b42c6cd729a081af8971b35e86"
+      }
+    },
+    "seed_2026/N1/fold_1": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N1/fold_1/response_state.private.metadata.json",
+      "feature_metadata_sha256": "65baa548f9cb1e9d8d1eb672b16fd5cf98e83cbae44d0058dd3cb03a5578f074",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N1/fold_1/response_state.private.npz",
+      "feature_sha256": "58291d7bf9c9cf7c51340d60977b68b9028a79bf65d5cd3f204ba2f8404e0ff9",
+      "patient_order_sha256": "cbf0d678fc06dcc0c3ca899a53ba9e1fb98b0cd55db4e2e10cbdeaa9f36fdd1a",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "bd72e8ef2b11370202c54f7c15a0e78c9ecaba3bffd44a0fdd641c166e3c6ce7",
+        "probe_metrics.csv": "18c916abefcc0b99e9e24b9627bdb92c2c4962819094e12eddfd64bf7d857851",
+        "ridge_predictions.private.csv": "5f72b5008014a563cede277ff2acce41c4ac3b03830b2e8944a92b3beaedaa91",
+        "ridge_selection.csv": "01d4877ad1ec0de05ac6e6333a12945c345b770e08037541f793ce9a99e9ac0e"
+      }
+    },
+    "seed_2026/N1/fold_2": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N1/fold_2/response_state.private.metadata.json",
+      "feature_metadata_sha256": "c72ad1a88bf150577d651a66991a98e0ae4d4e5e0e9046432e269d64026df52f",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N1/fold_2/response_state.private.npz",
+      "feature_sha256": "71b1e8172edf124b7be71f07a28afd1c9515603de4743a89313c8011950f2dde",
+      "patient_order_sha256": "96143bcfeb066eac4162054ed61baaddf93d10a1be921d1c87b1fffcd9d4e6bf",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "75e3c36279c235c94e4a1518481b469d3624c20fe923a7c6353dcd150e455d43",
+        "probe_metrics.csv": "f6b15bec688803a1a4d1f3e2df9034fd6aaf441eb95378bf9aea4b18320f6679",
+        "ridge_predictions.private.csv": "3a3ad087d26cef89c32d8120d5169b421ca1f58da80e9eb2ec8cbe1fb2e3f848",
+        "ridge_selection.csv": "4f859beac6f8e95ac556957b1e99bd58a0472e44201bec34a5e78840c0bf1282"
+      }
+    },
+    "seed_2026/N1/fold_3": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N1/fold_3/response_state.private.metadata.json",
+      "feature_metadata_sha256": "2c26091d3abf81415425c100bc2d7c4fbe21fa1e53eabcd924aa00395ad83910",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N1/fold_3/response_state.private.npz",
+      "feature_sha256": "ab6a93d8378b67b883b8fdbc7d693daeb4446ac3d388b27e66db6a5c471f07b1",
+      "patient_order_sha256": "5a5e3292f9cd8a5508353ce49cdbe0749224657063229a221d55ab4dc5aef2b5",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "a3d897092cc2f0e3d29ae73cd86cd5c3bd2640024fe582fd84c6903cc046b6a9",
+        "probe_metrics.csv": "2e29a36bee339b7437434e17f6d07c56119b6d3be7f9bb90f275834f152f9c45",
+        "ridge_predictions.private.csv": "464f8f5b700303bb7e7f79f6f5604d838e28ec5b272c281484eb7d16dcaf7ca8",
+        "ridge_selection.csv": "dd4d36001a52c7b75d157eb7d57d7c32ebbbb54bc4b9f2c055ecef651961e9d8"
+      }
+    },
+    "seed_2026/N1/fold_4": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N1/fold_4/response_state.private.metadata.json",
+      "feature_metadata_sha256": "39b7afb2bd9a6276a19abd3850a67270a8292e54e619c7371bd06441b4188f82",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N1/fold_4/response_state.private.npz",
+      "feature_sha256": "ca94052c2fa849e7f771883cc1528eee57577ca47fb7d293e7c71f8756e28965",
+      "patient_order_sha256": "aab713640f75ace30df017b4f375982e0d8bbee17fc2c1cff6428f9cd084d203",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "479a4bdd4b58e5864111cd8ebcefacd19d81b1e92a554b8dac7a5a3bf3afa906",
+        "probe_metrics.csv": "9aa2a76d7719e425c42cb2865dc5e2c61714adbc2837731d8168b41e5370b5a3",
+        "ridge_predictions.private.csv": "85d8fc50e59876cd6397f30acdf76804615f726cb1a8590d2bf017ef0dc91f39",
+        "ridge_selection.csv": "4e4663b234ad0f02ec46ea451241eb5dfd3ef784461845024a6eb4dba612bd41"
+      }
+    },
+    "seed_2026/N3/fold_0": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N3/fold_0/response_state.private.metadata.json",
+      "feature_metadata_sha256": "0ec68cfec589daad81bc4464a8859f68a9115fc7b4afcd41da6ee67afb4f6446",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N3/fold_0/response_state.private.npz",
+      "feature_sha256": "5fc6c877d7d0f775b7004efa66810536dd93791cf8fc8b30f8cfdb62845ffb57",
+      "patient_order_sha256": "944eec13b9d3c785c85ff32ccbb05a533f17da21caa7e60ff3abe2c0c78f2078",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "863be084e28c03840e38b7c43426240f022818cbebc10a75a3063b67aaf5becf",
+        "probe_metrics.csv": "d96f8677b1e53b5caed6b4705ddb9ba45b7d145d79d6969e3721bb77c4a30085",
+        "ridge_predictions.private.csv": "c6f0a55a1223c74fbcd230e521f1403d01ab152e2f2d2501b8f8cd9b32b0b280",
+        "ridge_selection.csv": "afc47e02ce26ae49c03a6e6c4f6765de4878f98ecfd60d43c5b0165445d54ef0"
+      }
+    },
+    "seed_2026/N3/fold_1": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N3/fold_1/response_state.private.metadata.json",
+      "feature_metadata_sha256": "9fd5dbe1903968a787fe4ce426b2563bb608c45476053141d38870854a9828db",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N3/fold_1/response_state.private.npz",
+      "feature_sha256": "097213d106050d881c68343ee352ae8180d9eb1d11e2139ae9731b01c8d06b73",
+      "patient_order_sha256": "cbf0d678fc06dcc0c3ca899a53ba9e1fb98b0cd55db4e2e10cbdeaa9f36fdd1a",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "4016a83737ec6d49100d522ada626e21061442ce7dd5b7969305c50566711848",
+        "probe_metrics.csv": "1cb513eeb57a03fed33002f8cbd47412b59c5414bf5f42cb585e71afe41e519c",
+        "ridge_predictions.private.csv": "86dc956d95a21426c2e87d68086f69a94fd12818a4f30bf0504a1382e5eb0d77",
+        "ridge_selection.csv": "8e3fe38f853610adf0d368a526b31119c41f0e19780bec88cb769c98e6b3fad1"
+      }
+    },
+    "seed_2026/N3/fold_2": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N3/fold_2/response_state.private.metadata.json",
+      "feature_metadata_sha256": "55c12d9fe45c7189ba88d76cec94d42d284ec927968c9971e289f4f448c9bf1e",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N3/fold_2/response_state.private.npz",
+      "feature_sha256": "fbc2b06c02183488809fab0404ca2ca9cc188ecd31b82d6ee4072c5fc817df7a",
+      "patient_order_sha256": "96143bcfeb066eac4162054ed61baaddf93d10a1be921d1c87b1fffcd9d4e6bf",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "6296665fe54752e4f2c0f644cb9495b1af55b8564bc56f40cb24d204de5e55ff",
+        "probe_metrics.csv": "1c980809a620fed1555107e5ea85fad9adc3ae6a746eb4a46b4c28cfc9369816",
+        "ridge_predictions.private.csv": "1bbf19256dbf12bc80691831c93755e2853e6709947a1111e936af43124e5771",
+        "ridge_selection.csv": "e9254e4547d891543721bb3a0f0381f86bd3479bb240cc45d2b99b9d29eaca22"
+      }
+    },
+    "seed_2026/N3/fold_3": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N3/fold_3/response_state.private.metadata.json",
+      "feature_metadata_sha256": "df62c7e476947300902c7c49815a2ec356b1d4dd65ba116e9dd2c6e315a57305",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N3/fold_3/response_state.private.npz",
+      "feature_sha256": "9f0c159276ba02e325698bf19b84c037c5ac185c2d1d4d459c1c6f91158f92f6",
+      "patient_order_sha256": "5a5e3292f9cd8a5508353ce49cdbe0749224657063229a221d55ab4dc5aef2b5",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "035d4df2d8fc061c2c9bea57836f49a558ea1377eeb99ad1bffd2333de6dbd8d",
+        "probe_metrics.csv": "da57525a0823b002833fff9fbb07f4f3a551e9b52fc7f2c2014a250a00063835",
+        "ridge_predictions.private.csv": "3c6d5bf5b934f11190667b3541a3ad82f294e8be5ab69819b5bfebcd78a68619",
+        "ridge_selection.csv": "0d84682e73220f6906cb68275fdf770f74536083a9fe1b1fcc5626b4495b65da"
+      }
+    },
+    "seed_2026/N3/fold_4": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N3/fold_4/response_state.private.metadata.json",
+      "feature_metadata_sha256": "87f21d7d16c101b2443d475a04a6451ac7cfb0eb7ad9b8e9d90ffa57247f6274",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_2026/N3/fold_4/response_state.private.npz",
+      "feature_sha256": "6c8588e076de4920fd5e10b89ac10312a1f04c7a3bae0d96edf9d65aa1019bdb",
+      "patient_order_sha256": "aab713640f75ace30df017b4f375982e0d8bbee17fc2c1cff6428f9cd084d203",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "c806f60220de775cc4f9a54faf5402321ea1f575e64777a93db2a90150556b22",
+        "probe_metrics.csv": "fe290353b8dfb2e2ad99b1fb384ab8ce4bb6b30c180c25d72551db53d0723b20",
+        "ridge_predictions.private.csv": "7c89166d8bbe8f12a97a5093ed0f7dae5df487a79aff675ee058314c86298af2",
+        "ridge_selection.csv": "4c77e959b72f4eb4bdb807d4ac96627b77362b997b5ace6263bb2190952ea9b9"
+      }
+    },
+    "seed_3026/L1/fold_0": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L1/fold_0/response_state.private.metadata.json",
+      "feature_metadata_sha256": "3a0ca5b66fda409ba82c3ca75a175abc09d6107229d569df24afafe95faa4e84",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L1/fold_0/response_state.private.npz",
+      "feature_sha256": "c82024ce364bad01f23882c442dc9c3ae6d68d28644bc309566a155b7fe1a6dc",
+      "patient_order_sha256": "944eec13b9d3c785c85ff32ccbb05a533f17da21caa7e60ff3abe2c0c78f2078",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "8f9c0cf9a76324ecbcf7810017a80b5ec76381dc898a71c9d57ca1c12a5b55cf",
+        "probe_metrics.csv": "3802e3f6cfa33d529600537b8602b56acb59db74bd4a909a851884bc5e7a69e5",
+        "ridge_predictions.private.csv": "4fda80cf4c510972793518e60e96ebf85e0e18d194ce6e19f8113c8946b08122",
+        "ridge_selection.csv": "59b86f25006faf948e6f8175327277ac36eb86c5494072c698bc7ed9df743319"
+      }
+    },
+    "seed_3026/L1/fold_1": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L1/fold_1/response_state.private.metadata.json",
+      "feature_metadata_sha256": "db2cc0df4bc9435e8fa07e42b0ff806584e6d7a284427a437ce99cd8f6674dfb",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L1/fold_1/response_state.private.npz",
+      "feature_sha256": "6c74dc8d0718c3b9215831073633bfaa90e0edc78fa6cafcecd71ed146499c54",
+      "patient_order_sha256": "cbf0d678fc06dcc0c3ca899a53ba9e1fb98b0cd55db4e2e10cbdeaa9f36fdd1a",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "660fa99acfbfa5df7ef7fab84c5d80387d85aadc88922b0e3d0cb41347e09d02",
+        "probe_metrics.csv": "43a063084871b105f49dfe0fc344f4bd043915861053f50da4737d473d492de7",
+        "ridge_predictions.private.csv": "adb3ed9d9a86b2aaf55e1aeb09ad27ca182c9c5a78b4ccdc188ddd489dcdad18",
+        "ridge_selection.csv": "14255495d9bbebd71eed6cd3a64340a5f17e0455b5e529daa7d2ddce36b0898d"
+      }
+    },
+    "seed_3026/L1/fold_2": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L1/fold_2/response_state.private.metadata.json",
+      "feature_metadata_sha256": "188ffb783c50e62c3e855d5a5438c1e1463a97c13a11ec9d8b0788eee33d5d22",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L1/fold_2/response_state.private.npz",
+      "feature_sha256": "14dea9799eca0e6ac0320bd4b2a8bcada714251f0ee716576171742f7309f5e8",
+      "patient_order_sha256": "96143bcfeb066eac4162054ed61baaddf93d10a1be921d1c87b1fffcd9d4e6bf",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "8be5068ff3d564795a4591db02fdeeb486f78774ac49bece14c8db1080018808",
+        "probe_metrics.csv": "0c5146ebc7b38bad0064cebd5df90665d0484bd10d0383edb5e30011f52cb39a",
+        "ridge_predictions.private.csv": "9f7a332fd52e7b0ab84959d54743bfcfe33de3a74e5b650951db675c352828d2",
+        "ridge_selection.csv": "44e28b6f0fc2bafd53698b9a4af521793ec16ee74280e19cf2c3f52e72a16888"
+      }
+    },
+    "seed_3026/L1/fold_3": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L1/fold_3/response_state.private.metadata.json",
+      "feature_metadata_sha256": "a3ed31ed4bfc823659fc50d356c9b9e16407219a06616bdc8e77a851b451c3bc",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L1/fold_3/response_state.private.npz",
+      "feature_sha256": "be3587c46f9df24d6cae846a6f1b4ac33c09d788e8af1953086308306d1ea1e9",
+      "patient_order_sha256": "5a5e3292f9cd8a5508353ce49cdbe0749224657063229a221d55ab4dc5aef2b5",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "56e041d5295a8510cca2f838923ec2ffb38fa04215617df8d11daad651edeb2d",
+        "probe_metrics.csv": "1617273c4e5f3781810d630e8e7b872af64cfd188b4808b695a9ae0dc07e12b1",
+        "ridge_predictions.private.csv": "65fe4ad5fa1e1df3939961a2a4ad51775ba91fc8e550ccd1be1679e0a9fe8f0a",
+        "ridge_selection.csv": "a79bfd41b6982ce2aff67f2fb4ceeafb4586e0e5e54ea8709529a5c2b1469c3e"
+      }
+    },
+    "seed_3026/L1/fold_4": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L1/fold_4/response_state.private.metadata.json",
+      "feature_metadata_sha256": "8173fedd7569a03f2f3b7a03d62c8cbcdef20939565db6a306a59a74039e6c02",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L1/fold_4/response_state.private.npz",
+      "feature_sha256": "313785bad1b518339f3d0adc7b808e7897c4371248b4c7285530cbadb6aed4e1",
+      "patient_order_sha256": "aab713640f75ace30df017b4f375982e0d8bbee17fc2c1cff6428f9cd084d203",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "10eeb68ed48c360c6f3e1dac89cca46b5554417b517a7aeb5b75a97081b9be4b",
+        "probe_metrics.csv": "93073ed47b835e7b65d62bbf046bf15243f821cc9e75008fec6b643261d7539a",
+        "ridge_predictions.private.csv": "48a1a0ba3f0e2a0b2d0a5e4748c675cbbcd06478352d071676e1f292107e93de",
+        "ridge_selection.csv": "f71abc5680fc2eb40963bcac3e957e79d44feae894b223123f686507f3db58c8"
+      }
+    },
+    "seed_3026/L3/fold_0": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L3/fold_0/response_state.private.metadata.json",
+      "feature_metadata_sha256": "bd7702454f4d47df397e5fba0b4af1c84c73e1c2ab099dcf6bf1ceffd01c6ae4",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L3/fold_0/response_state.private.npz",
+      "feature_sha256": "e99a5ce392cf53a445eec37225fe3403ca573fe4fc1d10a0513cf624ecb66ffc",
+      "patient_order_sha256": "944eec13b9d3c785c85ff32ccbb05a533f17da21caa7e60ff3abe2c0c78f2078",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "019ca5385f0bf06bfa8227e457c7587572d3f3a082106b543504fe3d851a9eca",
+        "probe_metrics.csv": "a4f07dbf99ffbc3b6b3af84e33a147889270321ee8257748a97428c092c9d097",
+        "ridge_predictions.private.csv": "ebfdda7ef537d12e7efbac5e81793f246462b5af70be82561d9098f4ffe1eb8d",
+        "ridge_selection.csv": "b18b46c03a58582caa512426531f4f26d70c739fa317549a71fc6962b11fbd0b"
+      }
+    },
+    "seed_3026/L3/fold_1": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L3/fold_1/response_state.private.metadata.json",
+      "feature_metadata_sha256": "7881ea260711c38eba96b8c96230f36107f4aaf0777d5bc5b6b0563ff077df6f",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L3/fold_1/response_state.private.npz",
+      "feature_sha256": "f15cbf7cf95ed89f5e8de96f3be75bdce9120b18b32338068c79388b3472ab5a",
+      "patient_order_sha256": "cbf0d678fc06dcc0c3ca899a53ba9e1fb98b0cd55db4e2e10cbdeaa9f36fdd1a",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "d4e3d1dfa7b33ab0aee3644e3328445cd3c1e7c99d4ae961a0507d94c0211704",
+        "probe_metrics.csv": "4d696b56880fb529d26bee5306736786ffe9a37d345eeb3aba83a0ec48582d5d",
+        "ridge_predictions.private.csv": "dfad589ea660c3f44435b25fb54466e1689574f26558538ac6ffb0da7de74bb6",
+        "ridge_selection.csv": "2484deef488f5186c8a5d9a569d5a3e8d1808e024d95080e56ca65e4036113d5"
+      }
+    },
+    "seed_3026/L3/fold_2": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L3/fold_2/response_state.private.metadata.json",
+      "feature_metadata_sha256": "dfca9442eaa41d56f7c771894faa4859d70391820bb255cb5c77f043157e8d95",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L3/fold_2/response_state.private.npz",
+      "feature_sha256": "11bf160929fd83ac0361f47fc2fa2b103d9de0f4464e73fba546096b47eb3850",
+      "patient_order_sha256": "96143bcfeb066eac4162054ed61baaddf93d10a1be921d1c87b1fffcd9d4e6bf",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "7f77f6ea1d199a73b64cda4f6941b0654bd67b9b78a5f3cd03ef1b11aa0573b7",
+        "probe_metrics.csv": "17e6d7102e829ad801f121d9a2b713432365ca08014951df2746e69cfc25f3de",
+        "ridge_predictions.private.csv": "9f4990a0c951c680e6d22962de78369cb003973fcabd6f608f90caeea73faca3",
+        "ridge_selection.csv": "90cbd86cc626d42abb3a011916a514cc488697fb8cd02e6b9c53f71351e0f030"
+      }
+    },
+    "seed_3026/L3/fold_3": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L3/fold_3/response_state.private.metadata.json",
+      "feature_metadata_sha256": "0289e568dd7597aea7e5ec4b42538857cd09d510aaf3b7e82a9641c37ee44975",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L3/fold_3/response_state.private.npz",
+      "feature_sha256": "ee3e755d13f57eb4b5b2fb161f736257013d77736f4db3de4903d4cb5e52834a",
+      "patient_order_sha256": "5a5e3292f9cd8a5508353ce49cdbe0749224657063229a221d55ab4dc5aef2b5",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "6c2782e9cea70438867aa8970bb495e1ce3b4c2aa7334ab5ca67e8af9561d17e",
+        "probe_metrics.csv": "d1d5340183c482b3ff25c0ad18ca0ea6846a2905f9d24ee9467db2bb6cb3f49d",
+        "ridge_predictions.private.csv": "38cd2e3c30c66cf550dd6d34a2eddb33fd258008667cfc78c8cb6e345a9a709b",
+        "ridge_selection.csv": "2be4dd28c4f7b6fda1c74804ddd9c5c851e0376c80e6448fdc50e09e4d36e250"
+      }
+    },
+    "seed_3026/L3/fold_4": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L3/fold_4/response_state.private.metadata.json",
+      "feature_metadata_sha256": "99b9c37f546c96a488e18f9ce2d84818be7b0c5f67febc90d59d7cab52af9cd3",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/L3/fold_4/response_state.private.npz",
+      "feature_sha256": "fdd1f108c49f6697e98dfcc702729e50a6373283ba6572d705b30caaea4c0bdd",
+      "patient_order_sha256": "aab713640f75ace30df017b4f375982e0d8bbee17fc2c1cff6428f9cd084d203",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "b07c7acc26e457a9a78bf5a3af143d8bcc53c7a51a4dd18ec1d55befa6367b60",
+        "probe_metrics.csv": "15b4991569d5b801c1b870b52686082984c8e83f25546363b6b1d9dd8c21d4fe",
+        "ridge_predictions.private.csv": "962f7bc5104d78122a1ff52088e2d771cc2bc09ea3da3ccf3a475d8f2310057c",
+        "ridge_selection.csv": "e86adb5c751c5669873953e7339613f2a5055af1f2967646c6118f139c2c51ec"
+      }
+    },
+    "seed_3026/N1/fold_0": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N1/fold_0/response_state.private.metadata.json",
+      "feature_metadata_sha256": "af131ba589c64863ca5414b0352b43969fab3ce5f5f8fcda3eb44403569412a3",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N1/fold_0/response_state.private.npz",
+      "feature_sha256": "ba95f30d840d3480533bb167aa4acd24aa85f0a5d5a6a46853e2fe51703debd4",
+      "patient_order_sha256": "944eec13b9d3c785c85ff32ccbb05a533f17da21caa7e60ff3abe2c0c78f2078",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "17262a8e1b0a678cb96a0b198c6f140ec538f579e4969307ad666701b48d58d5",
+        "probe_metrics.csv": "f21b811abdc26bb23dd9e0acdae94542d7b0fff9ab47a151413173a553b02cae",
+        "ridge_predictions.private.csv": "ac721e62e3c6bb2159fceab5678f229bcc0204beac99ada38ac6dee40f63113b",
+        "ridge_selection.csv": "abd5e58b338034a18face1cb2e7d368f63ba00bb4a4a908443420873c41abfd1"
+      }
+    },
+    "seed_3026/N1/fold_1": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N1/fold_1/response_state.private.metadata.json",
+      "feature_metadata_sha256": "c7c7be054c0015aad7e3eb828c1e94c6dc538eaff4fb96a7e2ef93fe8ee6b032",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N1/fold_1/response_state.private.npz",
+      "feature_sha256": "732941381efed7667222c7d9d6f678af3b4b2a1b6fdeedf6d942ad32e8933c59",
+      "patient_order_sha256": "cbf0d678fc06dcc0c3ca899a53ba9e1fb98b0cd55db4e2e10cbdeaa9f36fdd1a",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "16353a89a0271853dffca8266760c66e49f3d87f259248fc90561b3ebf385ee9",
+        "probe_metrics.csv": "fe8c5f2e292b027205570fb77b88a73e68843b2e968ddb995e1d4bbcfba4264b",
+        "ridge_predictions.private.csv": "84a675750d32f9358073ae59ab3c4474f936ffef3bac98cfac319bd2479c9b17",
+        "ridge_selection.csv": "e12acbaf1bf494a13054e55348c053f51f604d778ed8c9ce6e87797113ff95a7"
+      }
+    },
+    "seed_3026/N1/fold_2": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N1/fold_2/response_state.private.metadata.json",
+      "feature_metadata_sha256": "4c6cc024c7e321eeb67bb534f5365307a8fef1397b5c702c0f2382ad92192abf",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N1/fold_2/response_state.private.npz",
+      "feature_sha256": "bdf726ff749bab8cc8049a421a50ae6bf04204d5f37f9572343de5a3cf67466e",
+      "patient_order_sha256": "96143bcfeb066eac4162054ed61baaddf93d10a1be921d1c87b1fffcd9d4e6bf",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "eebd66ea6eab4d3622501a1323d86b25f8e3792451cec44f965e738c60d64002",
+        "probe_metrics.csv": "d31ec049a91962134935bf0b1430285d3407bc7ad40203acf9dd9fabf1222e09",
+        "ridge_predictions.private.csv": "e181993c9ed9a05fa2874fff045c7a5e00d69f63b554fb7c18973ff85a5440a0",
+        "ridge_selection.csv": "2794ebf9f5fa1e35b4b432926d61da569a5f450e824fb652a3edd6766a4c9571"
+      }
+    },
+    "seed_3026/N1/fold_3": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N1/fold_3/response_state.private.metadata.json",
+      "feature_metadata_sha256": "4b024c08a2bfd1f561fd442697e348ef09ad4142a290b090f16e19a255dfcebe",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N1/fold_3/response_state.private.npz",
+      "feature_sha256": "d67a43d91a3c93b7a00ec65a7395ca0d84d34054225e80501d6102381e14421d",
+      "patient_order_sha256": "5a5e3292f9cd8a5508353ce49cdbe0749224657063229a221d55ab4dc5aef2b5",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "5ae00e220b8a661fe2b4bba526fb33fcaacae5e786f811539491f25cef2b9347",
+        "probe_metrics.csv": "b0247e0cb33490accea72ddfa41aba4c8bc35415846048d92472183642685010",
+        "ridge_predictions.private.csv": "044beb93846458cece40511928244491d173ea46a6a793d86b0f9b9e161c9e44",
+        "ridge_selection.csv": "ac891492091c26edf722e5c6ca2bd6346ce794abe8e2caaf679ef8fcc8af1d7a"
+      }
+    },
+    "seed_3026/N1/fold_4": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N1/fold_4/response_state.private.metadata.json",
+      "feature_metadata_sha256": "cfe4454fe195b1cc8e9710845db34d9daa34b1ae2e5378d3e02d4a653dcb9df3",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N1/fold_4/response_state.private.npz",
+      "feature_sha256": "361241d1d0d14b2b47127afedfda83b57f301d332f2837fa1048b7bbf316fbbf",
+      "patient_order_sha256": "aab713640f75ace30df017b4f375982e0d8bbee17fc2c1cff6428f9cd084d203",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "3510b880143d9a6173eed5bbb8c5d229c14624c39d95542b0d3ec0e4d2ae845b",
+        "probe_metrics.csv": "f15d61340333110a4f0881c6390857233935f1d519f6fcb4e83c766126bea257",
+        "ridge_predictions.private.csv": "d4fec24242da494ff30dec2421c0830b3a5e921741146acad79fe171f23db4d0",
+        "ridge_selection.csv": "552843ee16aa87383a449e18d197523eb0422e5891d429c94427038c6ebf4e48"
+      }
+    },
+    "seed_3026/N3/fold_0": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N3/fold_0/response_state.private.metadata.json",
+      "feature_metadata_sha256": "6e3e53d82932121941051bae1d403b8a437544ada5e274e360e0abae4bc28534",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N3/fold_0/response_state.private.npz",
+      "feature_sha256": "757081a394ca821cc1b354acc1247b3b4488d6ee6807b8998f8f0ce249212f72",
+      "patient_order_sha256": "944eec13b9d3c785c85ff32ccbb05a533f17da21caa7e60ff3abe2c0c78f2078",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "e79747ef3e0f99e53986099032544762b874d9e41a374c7a8a6c65d7d1538520",
+        "probe_metrics.csv": "302a202784fdee55782987b2baac51d2c5d9b39a2eac203e4d7395952d1fff10",
+        "ridge_predictions.private.csv": "2ac968d0e4cb26f1d8da2dd1a3e3167424310d902448314c7907fee8344cff6f",
+        "ridge_selection.csv": "e0981f9774a9d7ce6beb99af060287254834f6f2faa68d1ee4c116d6266cff5b"
+      }
+    },
+    "seed_3026/N3/fold_1": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N3/fold_1/response_state.private.metadata.json",
+      "feature_metadata_sha256": "7baa60c70cc7bfca62bf6dff495ba983fdc724ebe49410314d9fc35126f26a17",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N3/fold_1/response_state.private.npz",
+      "feature_sha256": "0e2141b5c57bf39867940ee4de709c2869d49cbe405a726b607146aab0f291cf",
+      "patient_order_sha256": "cbf0d678fc06dcc0c3ca899a53ba9e1fb98b0cd55db4e2e10cbdeaa9f36fdd1a",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "cc6e7785f694aa2f601b369467b7e67e66e0dc939a55b1bb31941e74bf2b21d4",
+        "probe_metrics.csv": "4108e14a20a863356b1c86447c1051f108f6d3c659d2cc09a58f71defa48e033",
+        "ridge_predictions.private.csv": "e08ee65c32cccd92f6c19315b230f0e1afdeb131827ee518134bee51b3951754",
+        "ridge_selection.csv": "2603ec436b93adf8189a0cff34c25a525c8f0a8ad3cf1b5b9e8954ce63f226d4"
+      }
+    },
+    "seed_3026/N3/fold_2": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N3/fold_2/response_state.private.metadata.json",
+      "feature_metadata_sha256": "4d934077465e06ce6071336947d375a10b9b6c6e88c9c1f75564b574d77f4f64",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N3/fold_2/response_state.private.npz",
+      "feature_sha256": "74096b236eb532166deb36d9b9946ef0f6db7080020d51e4d35e07779d96eabe",
+      "patient_order_sha256": "96143bcfeb066eac4162054ed61baaddf93d10a1be921d1c87b1fffcd9d4e6bf",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "07f971e5970701fd8ef76e9b56263362f0965bd1fb58d3b61a5993b18e8aba2e",
+        "probe_metrics.csv": "24403d6184820b291f5313061b931ef44ee30dfb7d296c1f6fbc19fe164804db",
+        "ridge_predictions.private.csv": "00ae0f2376005de750366280a0af8eb8bcf6d0d5a3027ffaf3518c0f49fc4b51",
+        "ridge_selection.csv": "17cccd167c6aa08b7792217bdfcf4c36900a40ea3898248c6ea910a712f3bb9c"
+      }
+    },
+    "seed_3026/N3/fold_3": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N3/fold_3/response_state.private.metadata.json",
+      "feature_metadata_sha256": "9761bb820e927015eb61c802361e1ef067e3a62bceb2d66725d840028e73bcec",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N3/fold_3/response_state.private.npz",
+      "feature_sha256": "d15c04fdabb1e7aaf93a8f06f6e39ee51468751b3dc82cc9f88543e19f22cccd",
+      "patient_order_sha256": "5a5e3292f9cd8a5508353ce49cdbe0749224657063229a221d55ab4dc5aef2b5",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "e8d72a264e87fb3492cd4b32a052e2c9e590e18bc2c9db3a14f1b0aa4491b24e",
+        "probe_metrics.csv": "4faa515ba1c67822129583284263ee790b384b432280527e8b64c211709a2300",
+        "ridge_predictions.private.csv": "2973589fe5267dfb62e11d924305ff1056aac2c6a16fcb6d9d6d1cc800e99887",
+        "ridge_selection.csv": "564e2e31cccde2f4e5084ee623aa86bb0920fcf8f10ce4c9f912447d4c34f9b2"
+      }
+    },
+    "seed_3026/N3/fold_4": {
+      "feature_metadata_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N3/fold_4/response_state.private.metadata.json",
+      "feature_metadata_sha256": "9a3f1f1919545305129fc42ead4e782a22789c301c109ad08d61b8219d5623ba",
+      "feature_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/features/formal_4x8_restart1/seed_3026/N3/fold_4/response_state.private.npz",
+      "feature_sha256": "ec5563f033cd85fd45f7b7fb9318ae73a0cd998a0689f5b3177faac56d8b832b",
+      "patient_order_sha256": "aab713640f75ace30df017b4f375982e0d8bbee17fc2c1cff6428f9cd084d203",
+      "probe_outputs_sha256": {
+        "probe_metadata.json": "c30f8898e793ee01116f8de8841ce62012d9ae3b762eefd8ab68ac96d7ca461d",
+        "probe_metrics.csv": "9b71ec959402e2836aae2f702e8f8509348bb8784805a20fee8e69cc3a13ba62",
+        "ridge_predictions.private.csv": "a7427bf92e50b86f7e350500b09f550a87427bd44ea8e542fb82f3b2fc06d10a",
+        "ridge_selection.csv": "fe7ef8205443284c01cc1d06939fdad1d3215b87506a7e49fb933cb374589a15"
+      }
+    }
+  },
+  "frozen_at_utc": "2026-08-10T09:30:32Z",
+  "ftv_results_read_before_freeze": false,
+  "new_training_performed": false,
+  "plan_sha256": "3120b7df0d47199c02227821913e536f58945691a9e5358fcd289d6abe61a477",
+  "schema_version": 1,
+  "selected_checkpoints": {
+    "seed_2026/L1/fold_0": {
+      "mtime_ns": 1786281243562641506,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/L1/fold_0/selected.pt",
+      "sha256": "006b9b16af86194d4d6977a597f35622cf4c11e06a2e4328e68e0ed98c88858c",
+      "size_bytes": 31451083
+    },
+    "seed_2026/L1/fold_1": {
+      "mtime_ns": 1786281194958342918,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/L1/fold_1/selected.pt",
+      "sha256": "6e7bc823dfada12c2bb8bd357ed55fa8493111b96dc4b88ac038001318af0cf4",
+      "size_bytes": 31450763
+    },
+    "seed_2026/L1/fold_2": {
+      "mtime_ns": 1786281193938336649,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/L1/fold_2/selected.pt",
+      "sha256": "659cb4aa4e9ebc340b3a9c3578feefb5ed14860885c9bffe555639d1f8da283d",
+      "size_bytes": 31450763
+    },
+    "seed_2026/L1/fold_3": {
+      "mtime_ns": 1786285999769036182,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/L1/fold_3/selected.pt",
+      "sha256": "1f34f3f5fdb581c62ec916e11fe4d9148e0cffae8bcfecfa76765a9295adaed9",
+      "size_bytes": 31451083
+    },
+    "seed_2026/L1/fold_4": {
+      "mtime_ns": 1786285921236536099,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/L1/fold_4/selected.pt",
+      "sha256": "33a4a7aec3e2ea2920347211bfa2158e6861ec43fddcb74701119f80d29aeacf",
+      "size_bytes": 31451083
+    },
+    "seed_2026/L3/fold_0": {
+      "mtime_ns": 1786283629164887481,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/L3/fold_0/selected.pt",
+      "sha256": "b75518b5dc7e241aa3baa7dfb56dbc7848279a5d89cf4027420a09456f31ca73",
+      "size_bytes": 31460523
+    },
+    "seed_2026/L3/fold_1": {
+      "mtime_ns": 1786283560080283326,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/L3/fold_1/selected.pt",
+      "sha256": "98e38e016e4743bacff34186994a3f3e8933b937fe3a85946b5b229ff9357aa3",
+      "size_bytes": 31459883
+    },
+    "seed_2026/L3/fold_2": {
+      "mtime_ns": 1786283589564543727,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/L3/fold_2/selected.pt",
+      "sha256": "b38a732bbc80d1a880e284225a8ccdc8aaf0fc0ea85dd6721886f570d9c38e19",
+      "size_bytes": 31460203
+    },
+    "seed_2026/L3/fold_3": {
+      "mtime_ns": 1786288318655818655,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/L3/fold_3/selected.pt",
+      "sha256": "e4125caa7faa7bdbdc7b38c362f8d3e10d637b1c42cce0d1847b8449b67badad",
+      "size_bytes": 31460523
+    },
+    "seed_2026/L3/fold_4": {
+      "mtime_ns": 1786288230603255115,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/L3/fold_4/selected.pt",
+      "sha256": "49b0b585b73695b4a54e913f626003ff7e595af33216f5c4489b9420f6e73dbf",
+      "size_bytes": 31460523
+    },
+    "seed_2026/N1/fold_0": {
+      "mtime_ns": 1786283387050846230,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/N1/fold_0/selected.pt",
+      "sha256": "3066468cf9c3f9817b5c03aaa8ebf9a95e4ebbc6dcc2cd6e646b4e3e485856d7",
+      "size_bytes": 31451083
+    },
+    "seed_2026/N1/fold_1": {
+      "mtime_ns": 1786283351558636232,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/N1/fold_1/selected.pt",
+      "sha256": "c8118f0e12f3f0ca25c62573c4d0ba9861d6a18b71357824485394d7b308a401",
+      "size_bytes": 31451083
+    },
+    "seed_2026/N1/fold_2": {
+      "mtime_ns": 1786283343686589663,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/N1/fold_2/selected.pt",
+      "sha256": "9a7125f48b4cee5af4c801240dce5970363e81472ba4b9f1f0805342985ba8e5",
+      "size_bytes": 31451083
+    },
+    "seed_2026/N1/fold_3": {
+      "mtime_ns": 1786288081214299832,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/N1/fold_3/selected.pt",
+      "sha256": "1b4ef80b29e6372c1d9763d52e5fd3d248fc4ac41f6444fb23218079c76ffc76",
+      "size_bytes": 31451083
+    },
+    "seed_2026/N1/fold_4": {
+      "mtime_ns": 1786287993493739479,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/N1/fold_4/selected.pt",
+      "sha256": "f422ae68e3ff8c8368c88cf01c9af31788a8983407a0d2ab39f8694ca1c5dd54",
+      "size_bytes": 31451083
+    },
+    "seed_2026/N3/fold_0": {
+      "mtime_ns": 1786285757379496241,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/N3/fold_0/selected.pt",
+      "sha256": "ec9ecd09fbe4c20e9b479d0b06d988df0d36f01cf4bc0c474069757fbd6a88dc",
+      "size_bytes": 31460523
+    },
+    "seed_2026/N3/fold_1": {
+      "mtime_ns": 1786285679271002641,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/N3/fold_1/selected.pt",
+      "sha256": "a8d298cac567f3b2258fd79cfc135082b05bd70bff9b97b92afcdc23034a076c",
+      "size_bytes": 31460523
+    },
+    "seed_2026/N3/fold_2": {
+      "mtime_ns": 1786285711095203565,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/N3/fold_2/selected.pt",
+      "sha256": "e7b7e9b8af4ffa5788d63cf30a7c5075d09d58164bde06ae3e7a18c9a61772e2",
+      "size_bytes": 31460523
+    },
+    "seed_2026/N3/fold_3": {
+      "mtime_ns": 1786290373745353394,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/N3/fold_3/selected.pt",
+      "sha256": "119224dc6440a30251ac097bcd572ef922775597167f3122394096e06d6e20ec",
+      "size_bytes": 31460523
+    },
+    "seed_2026/N3/fold_4": {
+      "mtime_ns": 1786290289368801461,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_2026/N3/fold_4/selected.pt",
+      "sha256": "f4d5fc6c69f540936e6231cc6a658ca2acf6625134bc0c548196222d85b0f8db",
+      "size_bytes": 31460523
+    },
+    "seed_3026/L1/fold_0": {
+      "mtime_ns": 1786285952820737106,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/L1/fold_0/selected.pt",
+      "sha256": "7612cb4d668ccf8f25e5cdd9f0122654b673f21a22074011fb67edebed488371",
+      "size_bytes": 31451083
+    },
+    "seed_3026/L1/fold_1": {
+      "mtime_ns": 1786290613290917074,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/L1/fold_1/selected.pt",
+      "sha256": "21a6c73c800330817631a1cd48dca4d70f90790ea9b6983a2964b3755a392728",
+      "size_bytes": 31451083
+    },
+    "seed_3026/L1/fold_2": {
+      "mtime_ns": 1786290528070361254,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/L1/fold_2/selected.pt",
+      "sha256": "386d67aab98205373e1742a42a7a525dc6c13c68689dcf6d0b55f1c92507d185",
+      "size_bytes": 31451083
+    },
+    "seed_3026/L1/fold_3": {
+      "mtime_ns": 1786290263736633646,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/L1/fold_3/selected.pt",
+      "sha256": "1f3dcec31d165471745439c799be2b72d2efc7fb73a7058af8b219c15328cd5d",
+      "size_bytes": 31451083
+    },
+    "seed_3026/L1/fold_4": {
+      "mtime_ns": 1786295158105815945,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/L1/fold_4/selected.pt",
+      "sha256": "b394c0008d1cb0124a003b83f379bc1b3bd6d69f5d399f78b98f61cf72a005f5",
+      "size_bytes": 31451083
+    },
+    "seed_3026/L3/fold_0": {
+      "mtime_ns": 1786288262127456835,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/L3/fold_0/selected.pt",
+      "sha256": "acdd59b8eab13a28de9b1348d742ac2a7b599d368ac04725e511b2f0f61783fb",
+      "size_bytes": 31460587
+    },
+    "seed_3026/L3/fold_1": {
+      "mtime_ns": 1786292881983622890,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/L3/fold_1/selected.pt",
+      "sha256": "659ecdb2b4cab6be4a2827f77b95363f946baf06e1b562406d8fe78ac23a2ffe",
+      "size_bytes": 31460523
+    },
+    "seed_3026/L3/fold_2": {
+      "mtime_ns": 1786292512853195493,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/L3/fold_2/selected.pt",
+      "sha256": "92e058ad180bed4452280652d7b9c9bd404f030e2d9388ea5e0226e356754fcf",
+      "size_bytes": 31460523
+    },
+    "seed_3026/L3/fold_3": {
+      "mtime_ns": 1786292219463526717,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/L3/fold_3/selected.pt",
+      "sha256": "d0e3b690d087fc30b83a2ea6c2872655b1e6099bb59099075919b9f216bdf1cd",
+      "size_bytes": 31460203
+    },
+    "seed_3026/L3/fold_4": {
+      "mtime_ns": 1786297389138165989,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/L3/fold_4/selected.pt",
+      "sha256": "3ebe9f7c9949b4018278bfdd1e3dc79664e71eb424d187a18eee169e58b69f9a",
+      "size_bytes": 31460523
+    },
+    "seed_3026/N1/fold_0": {
+      "mtime_ns": 1786288024685938674,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/N1/fold_0/selected.pt",
+      "sha256": "5384b8d7bb1884c2904cda47f2f2d4826be57bddb2a9fd3deec23c06072543ee",
+      "size_bytes": 31451083
+    },
+    "seed_3026/N1/fold_1": {
+      "mtime_ns": 1786292647657984515,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/N1/fold_1/selected.pt",
+      "sha256": "4b85ce17500d46bccb9bb24118925d7b2a9f953dd5d852519925c32af3d02149",
+      "size_bytes": 31451083
+    },
+    "seed_3026/N1/fold_2": {
+      "mtime_ns": 1786292280563870281,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/N1/fold_2/selected.pt",
+      "sha256": "56cd6df2ab607ec4a3c75e316202dee91df741660b0aebad34d0ee48222899f6",
+      "size_bytes": 31450763
+    },
+    "seed_3026/N1/fold_3": {
+      "mtime_ns": 1786292015238399312,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/N1/fold_3/selected.pt",
+      "sha256": "dd2807fcd687e710838b02176a8898502012a24f4005dbbf31e51fb882b1a0b1",
+      "size_bytes": 31450763
+    },
+    "seed_3026/N1/fold_4": {
+      "mtime_ns": 1786297156645214297,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/N1/fold_4/selected.pt",
+      "sha256": "ff32bcd9cf39f3d5f86f416a6d81edeb0f10ded1d73e7194c6ee1def60e5e414",
+      "size_bytes": 31451083
+    },
+    "seed_3026/N3/fold_0": {
+      "mtime_ns": 1786290026287074912,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/N3/fold_0/selected.pt",
+      "sha256": "5aa5105fb1b54c684901b2e0ce551392493d4392a21ff20c930ecd5f1303b19e",
+      "size_bytes": 31460203
+    },
+    "seed_3026/N3/fold_1": {
+      "mtime_ns": 1786294925796490613,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/N3/fold_1/selected.pt",
+      "sha256": "8e16fbc84368b2eb43ae10f0e1441b53fd1503ce649bc71d1d89b6b56b9e5478",
+      "size_bytes": 31460523
+    },
+    "seed_3026/N3/fold_2": {
+      "mtime_ns": 1786294260320406503,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/N3/fold_2/selected.pt",
+      "sha256": "291f03d94a9630c5157110c3a808e138f0eeac5ffd76060e9fee924003475e66",
+      "size_bytes": 31459883
+    },
+    "seed_3026/N3/fold_3": {
+      "mtime_ns": 1786294256036380075,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/N3/fold_3/selected.pt",
+      "sha256": "aac181c62a996795b30172581ba1e52fc17b1a9599433cee7a52b129de446e40",
+      "size_bytes": 31460203
+    },
+    "seed_3026/N3/fold_4": {
+      "mtime_ns": 1786299377328005805,
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/checkpoints/formal_4x8_restart1/seed_3026/N3/fold_4/selected.pt",
+      "sha256": "63efa4e4b5de5b79fd5d9f7e6d9baf076a6f11df52f219a9fccb212e3e1d50ca",
+      "size_bytes": 31460523
+    }
+  },
+  "source_commit": "4433a08f2268fb12d23e793025105f4ac60b8897",
+  "status": "FROZEN_BEFORE_NEW_FEATURE_OR_PROBE",
+  "upstream_completion_sha256": {
+    "checkpoints/formal_4x8_restart1/matrix_complete.json": "0adbcf7daf74f31e70c64c1ec9a5bb259411792fb0dfa4d093ee9d3e3210b4a2",
+    "features/formal_4x8_restart1/feature_export_complete.json": "f8bc1a158c93c0563b11e46cb02c4b0ef5681048febd94ab6d674d3ea4fdc40d",
+    "manifests/stage_b_data_contract.private.json": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27",
+    "metrics/stage_b_aggregation_summary.json": "2c70c429d7b32640160f8ffbbf9b3f3f7b991838227a964387bd2f4090e445c4",
+    "predictions/formal_4x8_restart1/postprocessing_complete.json": "4a599f5d76482677056f9df11e46faa1b8d4f277eedabb63d60306531e841558"
+  },
+  "upstream_source_sha256": {
+    "additional_experiments/c1b_model_ready_ftv_sanity/src/c1b_sanity/geometry.py": "4921d09eeee7b8e57ff01a2c2dc6a1a92b901cf3ccfb2b3048987c724a9c5c3c",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/probes.py": "5cb42e886204823cea2aa86cb2361592123b0d6921652fe18665ebc4eb52295e",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/targets.py": "06434db46cf76e6f39ff6eb1c476933885e90ed0a4c952dcc0a3477a25996c7b",
+    "additional_experiments/g3_multiseed_generalization/src/dgrs/model.py": "ce39878a0fef5af1f92a86811faabbe73b39f57cdaf6d7580bbd65bd855d4ed9"
+  },
+  "upstream_tracked_tree": "fb84dfb220a9294324a3b2ba71f14e94f2a342bf"
+}

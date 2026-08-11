@@ -1,0 +1,24 @@
+{
+  "absolute_ipp_and_centers_public": false,
+  "authoritative_registration_relationship_found": false,
+  "case_alias": "CASE_ZERO_OVERLAP_001",
+  "failed_study_candidate_seal": {
+    "candidate_selection_used_lesion_or_outcome": false,
+    "candidate_selection_used_overlap": false,
+    "current_selected_is_strict_candidate": true,
+    "selection_sealed_before_registration": true,
+    "strict_alternate_count": 0,
+    "strict_candidate_count": 1
+  },
+  "frame_equivalence_class_count": 4,
+  "frame_of_reference_classification": "DIFFERENT_ACROSS_VISITS",
+  "frame_uid_values_public": false,
+  "outcome_fields_read": [],
+  "patient_position_values": {
+    "T0": "FFP",
+    "T1": "FFP",
+    "T2": "FFP",
+    "T3": "FFP"
+  },
+  "registration_object_count": 0
+}

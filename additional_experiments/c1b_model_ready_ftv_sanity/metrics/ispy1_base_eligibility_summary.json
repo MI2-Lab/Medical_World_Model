@@ -1,0 +1,95 @@
+{
+  "blocked_current_source_reason_counts": {
+    "CURRENT_SEMANTIC_REJECTION": 1,
+    "INSUFFICIENT_VALID_PHASES": 1,
+    "UNSAFE_PHASE_FOV_OVERLAP": 14,
+    "UNSAFE_PHASE_GEOMETRY": 4
+  },
+  "clinical_or_outcome_tables_read": [],
+  "contract": "strict_outcome_free_ispy1_base_eligibility_v1",
+  "counts": {
+    "patients_eligible": 140,
+    "patients_ineligible": 16,
+    "patients_total": 156,
+    "raw_pixel_cells_verified": 115906,
+    "resampled_phases": 2,
+    "visits_fail": 20,
+    "visits_pass": 604,
+    "visits_total": 624,
+    "visits_with_filtered_current_stack": 20,
+    "visits_with_safe_phase_resampling": 1,
+    "visits_with_same_study_replacement": 8
+  },
+  "failure_reason_counts": {
+    "NO_CLEAR_SAME_STUDY_REPLACEMENT": 20
+  },
+  "generated_utc": "2026-08-08T17:39:10+00:00",
+  "orientation_counts": {
+    "LIP": 1,
+    "PIR": 603
+  },
+  "outcome_fields_read": [],
+  "patient_eligible_rule": "all four visits T0,T1,T2,T3 must PASS",
+  "patient_failing_visit_count_distribution": {
+    "0": 140,
+    "1": 13,
+    "2": 2,
+    "3": 1
+  },
+  "phase_count_distribution": {
+    "19": 1,
+    "2": 12,
+    "3": 511,
+    "4": 35,
+    "5": 1,
+    "6": 44
+  },
+  "private_manifest_sha256": {
+    "patients": "d9029507607dcdb327db8066f7fd7a712d10e157e4d2b8f79ab3c9f0daad6513",
+    "phase_contract": "c955c2f0b3dc21f8a6a34798347fafb220a1d023581e0c3878e72099f4111fcb",
+    "visits": "a80214a3da799934a9711c1a5c22ba31cbfe71441e2a7bf09c1cdf8c8a28b702"
+  },
+  "public_artifact_contains_identifiers_or_paths": false,
+  "schema_version": 1,
+  "selected_mode_counts": {
+    "dynamic": 437,
+    "phase_stack": 167
+  },
+  "selection_provenance_counts": {
+    "current_filtered_original_primary": 20,
+    "current_raw_verified": 576,
+    "same_study_original_primary_replacement": 8
+  },
+  "smoke_case_outcomes": {},
+  "smoke_strata": {},
+  "thresholds": {
+    "in_plane_position_tolerance_mm": 0.1,
+    "safe_resample_boundary_mode": "reflect",
+    "safe_resample_max_direction_angle_degrees": 1.0,
+    "safe_resample_max_spacing_relative_error": 0.02,
+    "safe_resample_min_valid_source_fraction": 0.99,
+    "source_corner_tolerance_mm": 0.1
+  },
+  "timing_source_counts": {
+    "dicom_acquisition_or_content_time": 603,
+    "indices_only_missing_dicom_time": 1
+  },
+  "visit_status_counts": {
+    "T0": {
+      "FAIL": 6,
+      "PASS": 150
+    },
+    "T1": {
+      "FAIL": 7,
+      "PASS": 149
+    },
+    "T2": {
+      "FAIL": 3,
+      "PASS": 153
+    },
+    "T3": {
+      "FAIL": 4,
+      "PASS": 152
+    }
+  }
+}

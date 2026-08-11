@@ -1,0 +1,247 @@
+{
+  "candidate_results": {
+    "C1A": {
+      "checks": {
+        "anisotropy": true,
+        "causally_deployable": true,
+        "ftv_retention_q05": true,
+        "geometry_model_ready": false,
+        "large_ld_top_10pct": true,
+        "large_ld_top_quartile": true,
+        "model_input_pipeline_validated": false,
+        "morphology_surface_q05": true,
+        "no_direct_geometry_input": true,
+        "no_extreme_downsampling": false,
+        "orientation_contract_validated": false,
+        "overall_exact_full_support": true,
+        "overall_sufficient_containment": true,
+        "source_boundary_observability": true,
+        "temporal_frame_validated": false,
+        "temporal_no_recentering_normalization": false,
+        "upstream_acquisition_large_ld_sensitivity": false
+      },
+      "contract": "C1A",
+      "evaluated_views": [
+        "detail"
+      ],
+      "failed_checks": [
+        "upstream_acquisition_large_ld_sensitivity",
+        "no_extreme_downsampling",
+        "temporal_no_recentering_normalization",
+        "temporal_frame_validated",
+        "orientation_contract_validated",
+        "geometry_model_ready",
+        "model_input_pipeline_validated"
+      ],
+      "large_ld_gate_scope": "WORST_VISIT_AND_VIEW",
+      "large_ld_primary_definition": "PRE_REGISTERED_CROP_SUSPECTED_TRUNCATION_ON_AVAILABLE_SUPPORT",
+      "observed": {
+        "ftv_retention_q05": 1.0,
+        "geometry_model_ready_fraction": 0.952,
+        "max_cardinal_obliquity_deg": 12.500000923929592,
+        "max_resize_anisotropy_ratio": 3.4722177725756236,
+        "max_resize_factor": 2.88,
+        "overall_exact_full_support_rate": 1.0,
+        "overall_sufficient_containment_rate": 1.0,
+        "source_uncensored_and_exact_rate": 0.9906666666666667,
+        "surface_retention_q05": 1.0,
+        "top_10pct_suspected_truncation_rate": 0.0,
+        "top_10pct_upstream_censoring_adjusted_suspected_rate": 0.07894736842105263,
+        "top_quartile_suspected_truncation_rate": 0.0,
+        "top_quartile_upstream_censoring_adjusted_suspected_rate": 0.05102040816326531
+      },
+      "passed": false,
+      "source_boundary_sensitivity_does_not_redefine_primary_metrics": true,
+      "view": "detail"
+    },
+    "C1B": {
+      "checks": {
+        "anisotropy": true,
+        "causally_deployable": true,
+        "ftv_retention_q05": true,
+        "geometry_model_ready": false,
+        "large_ld_top_10pct": true,
+        "large_ld_top_quartile": true,
+        "model_input_pipeline_validated": false,
+        "morphology_surface_q05": true,
+        "no_direct_geometry_input": true,
+        "no_extreme_downsampling": false,
+        "orientation_contract_validated": false,
+        "overall_exact_full_support": true,
+        "overall_sufficient_containment": true,
+        "source_boundary_observability": true,
+        "temporal_frame_validated": false,
+        "temporal_no_recentering_normalization": true,
+        "upstream_acquisition_large_ld_sensitivity": false
+      },
+      "contract": "C1B",
+      "evaluated_views": [
+        "detail"
+      ],
+      "failed_checks": [
+        "upstream_acquisition_large_ld_sensitivity",
+        "no_extreme_downsampling",
+        "temporal_frame_validated",
+        "orientation_contract_validated",
+        "geometry_model_ready",
+        "model_input_pipeline_validated"
+      ],
+      "large_ld_gate_scope": "WORST_VISIT_AND_VIEW",
+      "large_ld_primary_definition": "PRE_REGISTERED_CROP_SUSPECTED_TRUNCATION_ON_AVAILABLE_SUPPORT",
+      "observed": {
+        "ftv_retention_q05": 1.0,
+        "geometry_model_ready_fraction": 0.952,
+        "max_cardinal_obliquity_deg": 12.500000923929592,
+        "max_resize_anisotropy_ratio": 3.4722177725756236,
+        "max_resize_factor": 2.88,
+        "overall_exact_full_support_rate": 0.9793333333333333,
+        "overall_sufficient_containment_rate": 0.9793333333333333,
+        "source_uncensored_and_exact_rate": 0.9706666666666667,
+        "surface_retention_q05": 1.0,
+        "top_10pct_suspected_truncation_rate": 0.05263157894736842,
+        "top_10pct_upstream_censoring_adjusted_suspected_rate": 0.10526315789473684,
+        "top_quartile_suspected_truncation_rate": 0.04950495049504951,
+        "top_quartile_upstream_censoring_adjusted_suspected_rate": 0.08163265306122448
+      },
+      "passed": false,
+      "source_boundary_sensitivity_does_not_redefine_primary_metrics": true,
+      "view": "detail"
+    },
+    "C2A": {
+      "checks": {
+        "anisotropy": true,
+        "causally_deployable": true,
+        "ftv_retention_q05": true,
+        "geometry_model_ready": false,
+        "large_ld_top_10pct": true,
+        "large_ld_top_quartile": true,
+        "model_input_pipeline_validated": false,
+        "morphology_surface_q05": true,
+        "no_direct_geometry_input": true,
+        "no_extreme_downsampling": false,
+        "orientation_contract_validated": false,
+        "overall_exact_full_support": true,
+        "overall_sufficient_containment": true,
+        "source_boundary_observability": true,
+        "temporal_frame_validated": false,
+        "temporal_no_recentering_normalization": false,
+        "upstream_acquisition_large_ld_sensitivity": false
+      },
+      "contract": "C2A",
+      "evaluated_views": [
+        "detail",
+        "context"
+      ],
+      "failed_checks": [
+        "upstream_acquisition_large_ld_sensitivity",
+        "no_extreme_downsampling",
+        "temporal_no_recentering_normalization",
+        "temporal_frame_validated",
+        "orientation_contract_validated",
+        "geometry_model_ready",
+        "model_input_pipeline_validated"
+      ],
+      "large_ld_gate_scope": "WORST_VISIT_AND_VIEW",
+      "large_ld_primary_definition": "PRE_REGISTERED_CROP_SUSPECTED_TRUNCATION_ON_AVAILABLE_SUPPORT",
+      "observed": {
+        "ftv_retention_q05": 1.0,
+        "geometry_model_ready_fraction": 0.952,
+        "max_cardinal_obliquity_deg": 12.500000923929592,
+        "max_resize_anisotropy_ratio": 3.4722177725756236,
+        "max_resize_factor": 4.8,
+        "overall_exact_full_support_rate": 1.0,
+        "overall_sufficient_containment_rate": 1.0,
+        "source_uncensored_and_exact_rate": 0.9906666666666667,
+        "surface_retention_q05": 1.0,
+        "top_10pct_suspected_truncation_rate": 0.0,
+        "top_10pct_upstream_censoring_adjusted_suspected_rate": 0.07894736842105263,
+        "top_quartile_suspected_truncation_rate": 0.0,
+        "top_quartile_upstream_censoring_adjusted_suspected_rate": 0.05102040816326531
+      },
+      "passed": false,
+      "source_boundary_sensitivity_does_not_redefine_primary_metrics": true,
+      "view": "detail+context"
+    },
+    "C2B": {
+      "checks": {
+        "anisotropy": true,
+        "causally_deployable": true,
+        "ftv_retention_q05": true,
+        "geometry_model_ready": false,
+        "large_ld_top_10pct": true,
+        "large_ld_top_quartile": true,
+        "model_input_pipeline_validated": false,
+        "morphology_surface_q05": true,
+        "no_direct_geometry_input": true,
+        "no_extreme_downsampling": false,
+        "orientation_contract_validated": false,
+        "overall_exact_full_support": true,
+        "overall_sufficient_containment": true,
+        "source_boundary_observability": true,
+        "temporal_frame_validated": false,
+        "temporal_no_recentering_normalization": true,
+        "upstream_acquisition_large_ld_sensitivity": false
+      },
+      "contract": "C2B",
+      "evaluated_views": [
+        "detail",
+        "context"
+      ],
+      "failed_checks": [
+        "upstream_acquisition_large_ld_sensitivity",
+        "no_extreme_downsampling",
+        "temporal_frame_validated",
+        "orientation_contract_validated",
+        "geometry_model_ready",
+        "model_input_pipeline_validated"
+      ],
+      "large_ld_gate_scope": "WORST_VISIT_AND_VIEW",
+      "large_ld_primary_definition": "PRE_REGISTERED_CROP_SUSPECTED_TRUNCATION_ON_AVAILABLE_SUPPORT",
+      "observed": {
+        "ftv_retention_q05": 1.0,
+        "geometry_model_ready_fraction": 0.952,
+        "max_cardinal_obliquity_deg": 12.500000923929592,
+        "max_resize_anisotropy_ratio": 3.4722177725756236,
+        "max_resize_factor": 4.8,
+        "overall_exact_full_support_rate": 0.9793333333333333,
+        "overall_sufficient_containment_rate": 0.9793333333333333,
+        "source_uncensored_and_exact_rate": 0.9706666666666667,
+        "surface_retention_q05": 1.0,
+        "top_10pct_suspected_truncation_rate": 0.05263157894736842,
+        "top_10pct_upstream_censoring_adjusted_suspected_rate": 0.10526315789473684,
+        "top_quartile_suspected_truncation_rate": 0.04950495049504951,
+        "top_quartile_upstream_censoring_adjusted_suspected_rate": 0.08163265306122448
+      },
+      "passed": false,
+      "source_boundary_sensitivity_does_not_redefine_primary_metrics": true,
+      "view": "detail+context"
+    }
+  },
+  "containment_passing_candidates": [
+    "C1A",
+    "C1B",
+    "C2A",
+    "C2B"
+  ],
+  "decision": "INPUT-CONTRACT PARTIAL",
+  "ld_grounding_authorized": false,
+  "oracle_union_is_never_deployable": true,
+  "passing_candidates": [],
+  "reason": "available-support crop observability子门通过，但上游acquisition边界、geometry、temporal、resampling或model-input pipeline仍有未解决项",
+  "schema_version": 1,
+  "source_boundary_policy": "REPORT_AS_UPSTREAM_CENSORING_SENSITIVITY_WITHOUT_POSTHOC_REDEFINING_PRE_REGISTERED_CROP_METRICS",
+  "stage": "A_INPUT_OBSERVABILITY_ONLY",
+  "stage_b_authorized": false,
+  "thresholds": {
+    "ftv_retention_q05_min": 0.95,
+    "max_anisotropy_ratio": 4.0,
+    "max_effective_axis_scale_factor": 2.0,
+    "no_posthoc_threshold_relaxation": true,
+    "overall_exact_full_support_min": 0.95,
+    "overall_sufficient_containment_min": 0.95,
+    "require_causal_deployability": true,
+    "require_no_direct_geometry_input": true,
+    "top_10pct_suspected_truncation_max": 0.1,
+    "top_quartile_suspected_truncation_max": 0.05
+  }
+}

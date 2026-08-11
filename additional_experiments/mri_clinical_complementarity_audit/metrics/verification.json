@@ -1,0 +1,1208 @@
+{
+  "checks": [
+    {
+      "evidence": {
+        "columns": [
+          "patient_id",
+          "fold",
+          "population",
+          "seed",
+          "arm",
+          "timing",
+          "model",
+          "clinical_contract",
+          "y_true",
+          "predicted_probability",
+          "predicted_label",
+          "threshold"
+        ],
+        "rows": 105712
+      },
+      "name": "artifact:predictions/pcr_oof.private.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "patient_id",
+          "fold",
+          "seed",
+          "arm",
+          "view",
+          "target",
+          "y_true",
+          "predicted_probability",
+          "predicted_label",
+          "threshold",
+          "prob_hr_pos_her2_neg",
+          "prob_hr_neg_her2_neg",
+          "prob_hr_pos_her2_pos",
+          "prob_hr_neg_her2_pos"
+        ],
+        "rows": 67872
+      },
+      "name": "artifact:predictions/profile_oof.private.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "patient_id",
+          "fold",
+          "seed",
+          "arm",
+          "timing",
+          "subgroup",
+          "model",
+          "y_true",
+          "predicted_probability",
+          "predicted_label",
+          "threshold"
+        ],
+        "rows": 38784
+      },
+      "name": "artifact:predictions/subgroup_oof.private.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "population",
+          "seed",
+          "arm",
+          "timing",
+          "model",
+          "clinical_contract",
+          "n",
+          "n_positive",
+          "n_negative",
+          "auroc",
+          "auprc",
+          "balanced_accuracy",
+          "brier"
+        ],
+        "rows": 208
+      },
+      "name": "artifact:metrics/pcr_oof_metrics.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "population",
+          "seed",
+          "arm",
+          "timing",
+          "model",
+          "clinical_contract",
+          "fold",
+          "n",
+          "n_positive",
+          "n_negative",
+          "auroc",
+          "auprc",
+          "balanced_accuracy",
+          "brier"
+        ],
+        "rows": 1040
+      },
+      "name": "artifact:metrics/pcr_fold_metrics.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "seed",
+          "arm",
+          "view",
+          "target",
+          "n",
+          "n_positive",
+          "n_negative",
+          "auroc",
+          "auprc",
+          "balanced_accuracy",
+          "brier"
+        ],
+        "rows": 84
+      },
+      "name": "artifact:metrics/profile_oof_metrics.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "population",
+          "clinical_contract",
+          "n",
+          "n_positive",
+          "n_negative",
+          "auroc",
+          "auprc",
+          "balanced_accuracy",
+          "brier"
+        ],
+        "rows": 10
+      },
+      "name": "artifact:metrics/clinical_baseline_metrics.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "population",
+          "seed",
+          "arm",
+          "timing",
+          "clinical_contract",
+          "comparison",
+          "reference_model",
+          "comparison_model",
+          "n",
+          "delta_auroc",
+          "delta_auprc",
+          "brier_improvement"
+        ],
+        "rows": 48
+      },
+      "name": "artifact:metrics/incremental_effects.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "population",
+          "seed",
+          "arm",
+          "timing",
+          "comparison",
+          "reference_model",
+          "comparison_model",
+          "metric",
+          "reference_value",
+          "comparison_value",
+          "improvement",
+          "ci_lower",
+          "ci_upper",
+          "confidence_level",
+          "n_patients",
+          "n_folds",
+          "n_bootstrap",
+          "n_valid_bootstrap",
+          "bootstrap_unit",
+          "ci_method",
+          "orientation"
+        ],
+        "rows": 144
+      },
+      "name": "artifact:metrics/bootstrap_ci.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "seed",
+          "arm",
+          "timing",
+          "subgroup",
+          "model",
+          "n",
+          "n_positive",
+          "n_negative",
+          "auroc",
+          "auprc",
+          "balanced_accuracy",
+          "brier"
+        ],
+        "rows": 144
+      },
+      "name": "artifact:metrics/subgroup_metrics.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "population",
+          "seed",
+          "arm",
+          "timing",
+          "n",
+          "mse",
+          "r2",
+          "pearson",
+          "spearman",
+          "clinical_auroc",
+          "corrected_auroc",
+          "delta_auroc",
+          "clinical_auprc",
+          "corrected_auprc",
+          "delta_auprc",
+          "clinical_brier",
+          "corrected_brier",
+          "brier_improvement"
+        ],
+        "rows": 32
+      },
+      "name": "artifact:metrics/clinical_residual_metrics.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "population",
+          "n",
+          "pcr_positive",
+          "pcr_prevalence",
+          "hr_positive",
+          "her2_positive",
+          "mp1",
+          "age_missing",
+          "race_missing",
+          "menopause_missing"
+        ],
+        "rows": 3
+      },
+      "name": "artifact:metrics/cohort_summary.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "task",
+          "fold",
+          "seed",
+          "arm",
+          "view",
+          "target",
+          "selected_C",
+          "validation_auroc",
+          "validation_threshold",
+          "train_rows",
+          "validation_rows",
+          "feature_dim",
+          "population",
+          "clinical_contract",
+          "timing",
+          "model",
+          "selected_alpha",
+          "validation_mse",
+          "subgroup"
+        ],
+        "rows": 2230
+      },
+      "name": "artifact:metrics/hyperparameter_selections.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "kind",
+          "seed",
+          "arm",
+          "fold",
+          "path",
+          "sha256",
+          "size_bytes",
+          "checkpoint_sha256",
+          "selection_sha256"
+        ],
+        "rows": 24
+      },
+      "name": "artifact:metrics/input_manifest.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "figure_id",
+          "path",
+          "sha256",
+          "size_bytes"
+        ],
+        "rows": 6
+      },
+      "name": "artifact:metrics/figure_manifest.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "reports/clinical_feature_inventory.md": {
+          "bytes": 26687,
+          "sha256": "50cbc417b3c60d67067f3d8c673ee9ac0e0ee200cfba9aff40a787e0ca36f262"
+        },
+        "reports/final_report.md": {
+          "bytes": 19286,
+          "sha256": "0236fd20d4d1170720b4bdc9e3af913a139be38bfcd711df316b9d21de142f3f"
+        }
+      },
+      "name": "reports:inventory_and_final",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "patient_id",
+          "fold",
+          "population",
+          "seed",
+          "arm",
+          "timing",
+          "model",
+          "clinical_contract",
+          "y_true",
+          "predicted_probability",
+          "predicted_label",
+          "threshold"
+        ],
+        "resolved_semantics": {
+          "arm": "arm",
+          "fold": "fold",
+          "label": "y_true",
+          "model": "model",
+          "patient": "patient_id",
+          "population": "population",
+          "probability": "predicted_probability",
+          "seed": "seed",
+          "timing": "timing"
+        },
+        "rows": 105712
+      },
+      "name": "schema:predictions/pcr_oof.private.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "patient_id",
+          "fold",
+          "seed",
+          "arm",
+          "view",
+          "target",
+          "y_true",
+          "predicted_probability",
+          "predicted_label",
+          "threshold",
+          "prob_hr_pos_her2_neg",
+          "prob_hr_neg_her2_neg",
+          "prob_hr_pos_her2_pos",
+          "prob_hr_neg_her2_pos"
+        ],
+        "resolved_semantics": {
+          "arm": "arm",
+          "fold": "fold",
+          "label": "y_true",
+          "patient": "patient_id",
+          "prediction": "predicted_label",
+          "seed": "seed",
+          "target": "target",
+          "view": "view"
+        },
+        "rows": 67872
+      },
+      "name": "schema:predictions/profile_oof.private.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "patient_id",
+          "fold",
+          "seed",
+          "arm",
+          "timing",
+          "subgroup",
+          "model",
+          "y_true",
+          "predicted_probability",
+          "predicted_label",
+          "threshold"
+        ],
+        "resolved_semantics": {
+          "arm": "arm",
+          "fold": "fold",
+          "label": "y_true",
+          "model": "model",
+          "patient": "patient_id",
+          "probability": "predicted_probability",
+          "seed": "seed",
+          "subgroup": "subgroup",
+          "timing": "timing"
+        },
+        "rows": 38784
+      },
+      "name": "schema:predictions/subgroup_oof.private.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "population",
+          "seed",
+          "arm",
+          "timing",
+          "model",
+          "clinical_contract",
+          "n",
+          "n_positive",
+          "n_negative",
+          "auroc",
+          "auprc",
+          "balanced_accuracy",
+          "brier"
+        ],
+        "resolved_semantics": {
+          "arm": "arm",
+          "model": "model",
+          "n": "n",
+          "population": "population",
+          "seed": "seed",
+          "timing": "timing"
+        },
+        "rows": 208
+      },
+      "name": "schema:metrics/pcr_oof_metrics.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "population",
+          "seed",
+          "arm",
+          "timing",
+          "model",
+          "clinical_contract",
+          "fold",
+          "n",
+          "n_positive",
+          "n_negative",
+          "auroc",
+          "auprc",
+          "balanced_accuracy",
+          "brier"
+        ],
+        "resolved_semantics": {
+          "arm": "arm",
+          "fold": "fold",
+          "model": "model",
+          "n": "n",
+          "population": "population",
+          "seed": "seed",
+          "timing": "timing"
+        },
+        "rows": 1040
+      },
+      "name": "schema:metrics/pcr_fold_metrics.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "seed",
+          "arm",
+          "view",
+          "target",
+          "n",
+          "n_positive",
+          "n_negative",
+          "auroc",
+          "auprc",
+          "balanced_accuracy",
+          "brier"
+        ],
+        "resolved_semantics": {
+          "arm": "arm",
+          "n": "n",
+          "seed": "seed",
+          "target": "target",
+          "view": "view"
+        },
+        "rows": 84
+      },
+      "name": "schema:metrics/profile_oof_metrics.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "population",
+          "clinical_contract",
+          "n",
+          "n_positive",
+          "n_negative",
+          "auroc",
+          "auprc",
+          "balanced_accuracy",
+          "brier"
+        ],
+        "resolved_semantics": {
+          "clinical_contract": "clinical_contract",
+          "n": "n",
+          "population": "population"
+        },
+        "rows": 10
+      },
+      "name": "schema:metrics/clinical_baseline_metrics.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "population",
+          "seed",
+          "arm",
+          "timing",
+          "clinical_contract",
+          "comparison",
+          "reference_model",
+          "comparison_model",
+          "n",
+          "delta_auroc",
+          "delta_auprc",
+          "brier_improvement"
+        ],
+        "resolved_semantics": {
+          "arm": "arm",
+          "clinical_contract": "clinical_contract",
+          "comparison_model": "comparison_model",
+          "n": "n",
+          "population": "population",
+          "reference_model": "reference_model",
+          "seed": "seed",
+          "timing": "timing"
+        },
+        "rows": 48
+      },
+      "name": "schema:metrics/incremental_effects.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "population",
+          "seed",
+          "arm",
+          "timing",
+          "comparison",
+          "reference_model",
+          "comparison_model",
+          "metric",
+          "reference_value",
+          "comparison_value",
+          "improvement",
+          "ci_lower",
+          "ci_upper",
+          "confidence_level",
+          "n_patients",
+          "n_folds",
+          "n_bootstrap",
+          "n_valid_bootstrap",
+          "bootstrap_unit",
+          "ci_method",
+          "orientation"
+        ],
+        "resolved_semantics": {
+          "arm": "arm",
+          "bootstrap_replicates": "n_bootstrap",
+          "bootstrap_unit": "bootstrap_unit",
+          "ci_lower": "ci_lower",
+          "ci_upper": "ci_upper",
+          "comparison_model": "comparison_model",
+          "comparison_value": "comparison_value",
+          "improvement": "improvement",
+          "metric": "metric",
+          "population": "population",
+          "reference_model": "reference_model",
+          "reference_value": "reference_value",
+          "seed": "seed",
+          "timing": "timing",
+          "valid_bootstrap": "n_valid_bootstrap"
+        },
+        "rows": 144
+      },
+      "name": "schema:metrics/bootstrap_ci.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "seed",
+          "arm",
+          "timing",
+          "subgroup",
+          "model",
+          "n",
+          "n_positive",
+          "n_negative",
+          "auroc",
+          "auprc",
+          "balanced_accuracy",
+          "brier"
+        ],
+        "resolved_semantics": {
+          "arm": "arm",
+          "model": "model",
+          "n": "n",
+          "seed": "seed",
+          "subgroup": "subgroup",
+          "timing": "timing"
+        },
+        "rows": 144
+      },
+      "name": "schema:metrics/subgroup_metrics.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "population",
+          "seed",
+          "arm",
+          "timing",
+          "n",
+          "mse",
+          "r2",
+          "pearson",
+          "spearman",
+          "clinical_auroc",
+          "corrected_auroc",
+          "delta_auroc",
+          "clinical_auprc",
+          "corrected_auprc",
+          "delta_auprc",
+          "clinical_brier",
+          "corrected_brier",
+          "brier_improvement"
+        ],
+        "resolved_semantics": {
+          "arm": "arm",
+          "n": "n",
+          "population": "population",
+          "seed": "seed",
+          "timing": "timing"
+        },
+        "rows": 32
+      },
+      "name": "schema:metrics/clinical_residual_metrics.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "population",
+          "n",
+          "pcr_positive",
+          "pcr_prevalence",
+          "hr_positive",
+          "her2_positive",
+          "mp1",
+          "age_missing",
+          "race_missing",
+          "menopause_missing"
+        ],
+        "resolved_semantics": {
+          "n": "n",
+          "population": "population"
+        },
+        "rows": 3
+      },
+      "name": "schema:metrics/cohort_summary.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "task",
+          "fold",
+          "seed",
+          "arm",
+          "view",
+          "target",
+          "selected_C",
+          "validation_auroc",
+          "validation_threshold",
+          "train_rows",
+          "validation_rows",
+          "feature_dim",
+          "population",
+          "clinical_contract",
+          "timing",
+          "model",
+          "selected_alpha",
+          "validation_mse",
+          "subgroup"
+        ],
+        "resolved_semantics": {
+          "analysis": "task",
+          "fold": "fold"
+        },
+        "rows": 2230
+      },
+      "name": "schema:metrics/hyperparameter_selections.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "kind",
+          "seed",
+          "arm",
+          "fold",
+          "path",
+          "sha256",
+          "size_bytes",
+          "checkpoint_sha256",
+          "selection_sha256"
+        ],
+        "resolved_semantics": {
+          "artifact": "kind",
+          "path": "path",
+          "sha256": "sha256"
+        },
+        "rows": 24
+      },
+      "name": "schema:metrics/input_manifest.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "columns": [
+          "figure_id",
+          "path",
+          "sha256",
+          "size_bytes"
+        ],
+        "resolved_semantics": {
+          "artifact": "figure_id",
+          "path": "path",
+          "sha256": "sha256"
+        },
+        "rows": 6
+      },
+      "name": "schema:metrics/figure_manifest.csv",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "arms": [
+          "LOCAL0",
+          "LOCAL3"
+        ],
+        "groups": 208,
+        "pairing": "exact patient/fold/label signature across every model and run",
+        "populations": [
+          "ftv_complete_375",
+          "full_808"
+        ],
+        "probability_column": "predicted_probability",
+        "probability_range": [
+          0.0,
+          1.0
+        ],
+        "rows": 105712,
+        "seeds": [
+          2026,
+          3026
+        ],
+        "timings": [
+          "T0",
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      "name": "oof:pcr_pairing_and_coverage",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "groups": 84,
+        "rows": 67872,
+        "score_contract": {
+          "class_probability_columns": [
+            "prob_hr_pos_her2_neg",
+            "prob_hr_neg_her2_neg",
+            "prob_hr_pos_her2_pos",
+            "prob_hr_neg_her2_pos"
+          ],
+          "scalar_probability": {
+            "column": "predicted_probability",
+            "range": [
+              3.3652027343633952e-21,
+              1.0
+            ]
+          }
+        },
+        "targets": [
+          "her2",
+          "hr",
+          "subtype"
+        ]
+      },
+      "name": "oof:profile_coverage",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "groups": 144,
+        "pairing": "exact patient/fold/label signature across subgroup models",
+        "rows": 38784,
+        "subgroup_sizes": {
+          "HER2+": 201,
+          "HR+/HER2-": 320,
+          "HR-/HER2-": 287
+        }
+      },
+      "name": "oof:subgroup_pairing_and_coverage",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "metric_ranges": {
+          "auprc": [
+            0.2716448071578244,
+            0.55106469666838
+          ],
+          "auroc": [
+            0.4770497427101201,
+            0.726106346483705
+          ],
+          "balanced_accuracy": [
+            0.4691252144082332,
+            0.6797598627787307
+          ],
+          "brier": [
+            0.1879431858034445,
+            0.3268544807420908
+          ]
+        },
+        "rows": 208
+      },
+      "name": "metrics:pcr_oof",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "metric_ranges": {
+          "auprc": [
+            0.2175695565154199,
+            0.745945356205181
+          ],
+          "auroc": [
+            0.307909604519774,
+            0.8396293656450463
+          ],
+          "balanced_accuracy": [
+            0.3760593220338983,
+            0.7661934338952973
+          ],
+          "brier": [
+            0.1486453725634292,
+            0.4740509327435795
+          ]
+        },
+        "rows": 1040
+      },
+      "name": "metrics:pcr_folds",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "metric_ranges": {
+          "auprc": [
+            0.2488853512479047,
+            0.6122650471614275
+          ],
+          "auroc": [
+            0.4743836084942325,
+            0.5784504167793652
+          ],
+          "balanced_accuracy": [
+            0.2391529622118423,
+            0.5682460842410682
+          ]
+        },
+        "rows": 84
+      },
+      "name": "metrics:profile",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "contracts": [
+          "C1_hr_her2",
+          "C2_full_with_treatment",
+          "C2_full_without_treatment",
+          "C_condition_with_treatment",
+          "C_condition_without_treatment"
+        ],
+        "metric_ranges": {
+          "auprc": [
+            0.4241404575980221,
+            0.5424197284072237
+          ],
+          "auroc": [
+            0.616843910806175,
+            0.6966723842195541
+          ],
+          "balanced_accuracy": [
+            0.5602421968275627,
+            0.6563464837049743
+          ],
+          "brier": [
+            0.2081901795498054,
+            0.2492722986202896
+          ]
+        },
+        "populations": [
+          "ftv_complete_375",
+          "full_808"
+        ],
+        "rows": 10
+      },
+      "name": "metrics:clinical_baselines",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "bootstrap_replicates": 2000,
+        "bootstrap_unit": "patient_within_outer_fold",
+        "orientation": {
+          "auprc": "comparison-reference",
+          "auroc": "comparison-reference",
+          "brier": "reference-comparison"
+        },
+        "rows": 144,
+        "valid_replicates_min": 2000
+      },
+      "name": "metrics:bootstrap",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "metric_ranges": {
+          "auprc": [
+            0.1704917620513682,
+            0.65007274287347
+          ],
+          "auroc": [
+            0.4141599050069266,
+            0.6606681248757208
+          ],
+          "balanced_accuracy": [
+            0.4165099940629329,
+            0.6343209385563731
+          ],
+          "brier": [
+            0.1556653749440474,
+            0.3939695152326603
+          ]
+        },
+        "rows": 144
+      },
+      "name": "metrics:subgroups",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "identity": {
+          "arm": "arm",
+          "n": "n",
+          "population": "population",
+          "seed": "seed",
+          "timing": "timing"
+        },
+        "metric_ranges": {
+          "brier_improvement": [
+            0.0041999326549918,
+            0.036964261912916
+          ],
+          "clinical_auprc": [
+            0.5362125873999827,
+            0.5424197284072237
+          ],
+          "clinical_auroc": [
+            0.6796145318096538,
+            0.6966723842195541
+          ],
+          "clinical_brier": [
+            0.2258384791318524,
+            0.2430950945429407
+          ],
+          "corrected_auprc": [
+            0.3159202315779459,
+            0.511617544325951
+          ],
+          "corrected_auroc": [
+            0.5170840480274443,
+            0.6484325430666894
+          ],
+          "corrected_brier": [
+            0.2061308326300246,
+            0.2216385464768605
+          ],
+          "delta_auprc": [
+            -0.2202923558220367,
+            -0.0308021840812727
+          ],
+          "delta_auroc": [
+            -0.1795883361921098,
+            -0.0311819887429644
+          ],
+          "mse": [
+            0.2061330214893587,
+            0.2227223379051829
+          ],
+          "pearson": [
+            -0.056042881725691,
+            0.1826790339029313
+          ],
+          "r2": [
+            -0.074025506537936,
+            0.0221935858052541
+          ],
+          "spearman": [
+            -0.065156908084755,
+            0.2453640674221512
+          ]
+        },
+        "rows": 32
+      },
+      "name": "metrics:clinical_residual",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "cohorts": {
+          "ftv_complete_375": 375,
+          "ftv_unavailable_433": 433,
+          "full_808": 808
+        },
+        "rows": 3
+      },
+      "name": "metrics:cohort_summary",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "rows": 2230,
+        "selection_columns": [
+          "selected_C",
+          "selected_alpha",
+          "validation_auroc",
+          "validation_mse",
+          "validation_threshold"
+        ],
+        "task_rows": {
+          "clinical_baseline": 50,
+          "clinical_error_ridge": 160,
+          "pcr": 880,
+          "profile_binary": 280,
+          "profile_multiclass": 140,
+          "subgroup": 720
+        }
+      },
+      "name": "metrics:hyperparameters",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "orientation": {
+          "brier_improvement": "reference-comparison",
+          "delta_auprc": "comparison-reference",
+          "delta_auroc": "comparison-reference"
+        },
+        "paired_comparisons": [
+          "ftv_complete_375:C+F->C+F+M",
+          "ftv_complete_375:C->C+M",
+          "full_808:C->C+M"
+        ],
+        "rows": 48
+      },
+      "name": "metrics:incremental_effects",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "rows": 24,
+        "verified_paths": [
+          "/data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv",
+          "/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv",
+          "/data/mi2-interns/bowen/Medical_World_Model_mri_complementarity/additional_experiments/local_global_response_state_pilot/PREREGISTRATION_LOCK.json",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_0/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_1/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_2/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_3/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_4/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_0/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_1/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_2/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_3/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_4/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_0/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_1/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_2/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_3/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_4/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_0/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_1/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_2/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_3/response_state.private.npz",
+          "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_4/response_state.private.npz"
+        ]
+      },
+      "name": "manifest:inputs",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "rows": 6,
+        "verified_paths": [
+          "figures/profile_auroc_heatmap.png",
+          "figures/primary_pcr_auroc_by_timing.png",
+          "figures/full_cohort_incremental_forest.png",
+          "figures/beyond_ftv_incremental_forest.png",
+          "figures/residual_mri_comparison.png",
+          "figures/subgroup_auroc.png"
+        ]
+      },
+      "name": "manifest:figures",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "allowed_private_roots": [
+          "features",
+          "logs",
+          "predictions"
+        ],
+        "findings": 0,
+        "identifier_pattern": "canonical ISPY2/ACRIN patient keys",
+        "scanned_public_files": 38
+      },
+      "name": "privacy:no_public_patient_identifiers",
+      "passed": true
+    },
+    {
+      "evidence": {
+        "command": "git check-ignore",
+        "private_outputs_ignored": 8,
+        "public_outputs_not_ignored": 21
+      },
+      "name": "git:private_ignored_public_visible",
+      "passed": true
+    }
+  ],
+  "experiment": "mri_clinical_complementarity_audit",
+  "experiment_root": "mri_clinical_complementarity_audit",
+  "schema_version": 1,
+  "status": "PASS",
+  "summary": {
+    "checks_failed": 0,
+    "checks_passed": 48,
+    "checks_total": 48,
+    "failed_checks": []
+  }
+}

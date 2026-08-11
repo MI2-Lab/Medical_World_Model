@@ -1,0 +1,78 @@
+schema_version: 2
+authorized_only_if_stage_a_go: true
+frozen_upstream_sha256:
+  model: ce39878a0fef5af1f92a86811faabbe73b39f57cdaf6d7580bbd65bd855d4ed9
+  objective: 76f9108df0ca8c0ff69e514cff3bab1d5e316d946da60c5f530dd7b9706d3815
+  legacy_data_contract: 15b4b68ad45c935e313b893b0ce849877311c98d6c5c0c45495e8e9200240943
+  ftv_targets: 28fbf66f93c8541dfa5ecc7ebcf65d4143a9a605b3ce98be48355d5ab679ffac
+  c1b_cache_contract: 6bc36a4d8dac356ed4d6f0fc5858607a7bbd4845a66fc83b214025d22f1f2af7
+stage_a_gate:
+  sentinel: STAGE_A_GO.json
+  require_new_eligibility_freeze: true
+  require_exact_cache_completion_fraction: 1.0
+  require_eligible_population_and_manifest_hash: true
+cohort:
+  fixed_patient_count: null
+  locked_seed2026_fold_manifest_sha256: 143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38
+  locked_train_only_source_manifest_sha256: d9029507607dcdb327db8066f7fd7a712d10e157e4d2b8f79ab3c9f0daad6513
+  locked_ftv_transition_table_sha256: 26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d
+  locked_grounding_observability_manifest_sha256: 0203da10f2efee626ae948fe0f7190771b67503639694dcd49c03762f4bde39c
+  derivation: technical_eligibility_x_seed2026_folds_plus_upstream_train_only
+  fold_assigned: intersect_without_refill_or_patient_movement
+  fold_external_eligible: require_upstream_source_qualified_train_only_manifest
+  train_only_enters_validation_or_test: false
+  all_four_arms_use_identical_patient_sets: true
+models:
+  L1: {input: legacy_dce7, direct_ftv_grounding: false}
+  L3: {input: legacy_dce7, direct_ftv_grounding: true}
+  N1: {input: c1b_dce7, direct_ftv_grounding: false}
+  N3: {input: c1b_dce7, direct_ftv_grounding: true}
+loss:
+  lambda_ftv: 0.25
+  sigreg: 0.09
+  step_weights: [2.0, 1.0, 0.5]
+train:
+  seed_bases: [2026, 3026]
+  folds: [0, 1, 2, 3, 4]
+  effective_batch_size: 32
+  preferred_physical_batch_size: 4
+  preferred_accumulation_steps: 8
+  fallback_physical_batch_size: 2
+  fallback_accumulation_steps: 16
+  data_loader_workers: 2
+  prefetch_factor: 1
+  effective_batch_drop_last: true
+  optimizer_and_ema_per_logical_batch: true
+  sigreg_evaluation_batch: exact_logical_32
+  ftv_patient_numerator_count_across_microbatches: true
+  epochs: 12
+  patience: 4
+  learning_rate: 0.00005
+  weight_decay: 0.0001
+  ema_momentum: 0.996
+  max_grad_norm: 5.0
+  min_representation_std: 0.05
+  transition_modification: false
+  pcr_supervision: false
+  ld_supervision: false
+targets:
+  static_grounding:
+    fit_scope: outer_fold_train_observable_visits_only
+    transform: log_ftv_plus_outer_train_epsilon
+    winsor_quantiles: [0.01, 0.99]
+    standardization: outer_train_median_iqr
+    grounding_observable_mask_is_loss_side_only: true
+  delta_supervision: forbidden
+analysis:
+  static_ftv:
+    fit_space: transformed_outer_train
+    report_scales: [transformed_outer_train, inverse_natural_ftv]
+    endpoints: [T0, T1, T2, T3, macro]
+  observed_delta_ftv:
+    semantics: literal_natural_ftv_end_minus_ftv_start
+    endpoints: [T0_to_T1, T1_to_T2, T2_to_T3, macro]
+  metrics: [spearman, pearson, r2, rmse, mae, mean_baseline_rmse_gain, prediction_variance_ratio]
+  optimization_safety:
+    metric: selected_validation_state_loss_degradation
+    maximum_fraction: 0.05
+  comparisons: [N1_minus_L1, N3_minus_N1, L3_minus_L1, difference_in_differences]

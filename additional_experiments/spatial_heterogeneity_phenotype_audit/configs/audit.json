@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "experiment": "spatial_heterogeneity_phenotype_audit",
+  "branch": "feature/spatial-heterogeneity-phenotype-audit",
+  "evidence_status": "preregistered_frozen_feature_diagnostic",
+  "paths": {
+    "source_repo": "/data/mi2-interns/bowen/Medical_World_Model",
+    "checkpoint_root": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8",
+    "local_feature_root": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8",
+    "local_preregistration_lock": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/PREREGISTRATION_LOCK.json",
+    "local_preregistration_lock_sha256": "d2fcbd6e92300debe462da1968d74f4809a03bfdccaea2cd82edfead846c4daa",
+    "spatial_sidecar": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/manifests/audit_sidecars.private.npz",
+    "spatial_sidecar_sha256": "bfe495b114adc3e90abe527a874340ff278f3295aed72e10b1be6bb122d80545",
+    "stage_b_data_contract": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/manifests/stage_b_data_contract.private.json",
+    "stage_b_data_contract_sha256": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27",
+    "stage_b_upstream_authorization": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/STAGE_A_GO.json",
+    "stage_b_upstream_authorization_sha256": "0b2c9e0af63ce8806525fb15ac9a27f6ab525b0259ccf16001981ca5091afbdb",
+    "c1b_cache_manifest": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/manifests/stage_b_c1b_cache.private.csv",
+    "c1b_cache_manifest_sha256": "672ad7436b19f30a89640a2b36504f1e7fbaaff83fd07bc058c008b204d2a3c9",
+    "support_inventory": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_model_ready_ftv_sanity/manifests/model_input_inventory.private.csv",
+    "support_inventory_sha256": "40f7d1db7af108b2cb0c07863db208ee4db2124ffaf660771feaa7270809df0a",
+    "clinical_labels": "/data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv",
+    "clinical_labels_sha256": "b3355f8ac80cf8f0fa95722b8d8a8b73d96790e9ded5c491ddb5b2e6a7793436",
+    "fold_manifest": "/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+    "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+    "ftv_table": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv",
+    "ftv_table_sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d"
+  },
+  "upstream_code": {
+    "spatial_pooling_sha256": "630a717a98a7e80d69d3a462dd3086c2de81449c91910312cbc0bfce0fd58d54",
+    "complementarity_data_contracts_sha256": "8ea6f0f3a5208f3cf95b1cc9be9a07c1945af3ab15cd9139e83baede0af9aea6",
+    "complementarity_modeling_sha256": "46f34142d24218ec84c17e7ee499885f0ce7a94a1a55b047f8b78e93121191b7"
+  },
+  "frozen_cells": {
+    "arms": ["LOCAL0", "LOCAL3"],
+    "seed_bases": [2026, 3026],
+    "folds": [0, 1, 2, 3, 4],
+    "visits": ["T0", "T1", "T2", "T3"],
+    "patient_count": 808,
+    "ftv_complete_patient_count": 375,
+    "selected_checkpoint_filename": "selected.pt"
+  },
+  "feature_contract": {
+    "tensor": "full_model_encoder_output_before_spatial_pooling",
+    "channels": 128,
+    "input_shape_zyx": [112, 176, 160],
+    "anticipated_feature_shape_zyx": [14, 22, 20],
+    "feature_shape_policy": "derive_from_actual_output_then_require_anticipated_formal_shape",
+    "local_window_mm_xyz": [64.0, 64.0, 64.0],
+    "local_weight": "shared_fractional_feature_sampling_cell_overlap",
+    "std": "weighted_population_ddof_0",
+    "quantiles": [0.25, 0.5, 0.75],
+    "quantile_definition": "left_continuous_weighted_empirical_inverse_cdf",
+    "p1_projection_parity": {"rtol": 1e-5, "atol": 1e-6}
+  },
+  "poolings": {
+    "P1": {"components": ["mean"], "dimension": 128, "role": "reference"},
+    "P2": {"components": ["std"], "dimension": 128, "role": "variation_only"},
+    "P3": {"components": ["mean", "std"], "dimension": 256, "role": "primary_candidate"},
+    "P4": {"components": ["q25", "q50", "q75"], "dimension": 384, "role": "secondary_candidate"},
+    "P5": {"components": ["mean", "std", "q25", "q50", "q75"], "dimension": 640, "role": "diagnostic_upper_bound"}
+  },
+  "oracle": {
+    "patient_count": 808,
+    "visit_count": 3232,
+    "visit_slot_count": 3232,
+    "source_mask_path_inventory_count": 3232,
+    "source_authorized_visit_count": 1933,
+    "source_authorized_by_visit": {"T0": 808, "T1": 375, "T2": 375, "T3": 375},
+    "upstream_core_parity_visit_count": 1500,
+    "spacing_zyx_mm": [2.0, 0.9, 0.9],
+    "peri_boundaries_mm": [10.0, 20.0],
+    "regions": ["CORE", "PERI10", "PERI20", "LOCAL_REST"],
+    "variants": ["CORE", "PERI10", "PERI20", "LOCAL_REST", "CORE_PERI"],
+    "feature_per_region": "mean_plus_std",
+    "region_dimension": 256,
+    "combined_dimension": 768,
+    "mapping": "theoretical_receptive_field_fraction_with_zero_external_padding",
+    "feature_support_confinement": "multiply_every_region_RF_occupancy_by_exact_c1b_local_fractional_sampling_cell_weight",
+    "core_provenance_check": "on_exact_upstream_c1b_oracle_valid_visits_unconfined_RF_occupancy_bitwise_equal_to_upstream_core_before_local_confinement",
+    "source_authority": "visit_local_cache_support_available_no_all_four_prefilter",
+    "empty_support": "post_LOCAL_mapped_empty_invalid_no_fallback",
+    "comparison_population": "comparator_and_current_prefix_specific_complete_case_intersection"
+  },
+  "analysis": {
+    "phenotype_targets": ["HR", "HER2", "subtype_4class"],
+    "phenotype_views": ["T0", "T1", "T2", "T3"],
+    "pcr_timings": ["T0", "T0-T1", "T0-T2", "T0-T3"],
+    "pcr_populations": ["full_808", "ftv_complete_375"],
+    "primary_pcr_population": "ftv_complete_375",
+    "primary_clinical_contract": "C2_full_with_treatment",
+    "beyond_ftv_models": ["C", "C+F", "C+F+P1", "C+F+P3", "C+F+P4"],
+    "residual_models": ["P1_res", "P3_res", "C+F+P1_res", "C+F+P3_res"],
+    "longitudinal_transitions": ["T0->T1", "T1->T2", "T2->T3"],
+    "longitudinal_variants": ["DELTA_MEAN", "DELTA_STD", "P3_PLUS_DELTA"]
+  },
+  "view_feature_contract": {
+    "prefix_order": "visit_chronological_then_statistic_component_then_channel",
+    "T0": ["T0"],
+    "T0-T1": ["T0", "T1"],
+    "T0-T2": ["T0", "T1", "T2"],
+    "T0-T3": ["T0", "T1", "T2", "T3"],
+    "mask_free_dimensions_by_visit_count": {
+      "P1": [128, 256, 384, 512],
+      "P2": [128, 256, 384, 512],
+      "P3": [256, 512, 768, 1024],
+      "P4": [384, 768, 1152, 1536],
+      "P5": [640, 1280, 1920, 2560]
+    },
+    "beyond_ftv_block_order": ["clinical_C", "causal_log1p_FTV_prefix", "causal_MRI_prefix"]
+  },
+  "clinical_contracts": {
+    "C2_full_with_treatment": ["label_hr", "label_her2", "label_mp", "age_at_screening", "race_simple", "menopausal_status_simple", "ethnicity", "arm"]
+  },
+  "logistic": {
+    "penalty": "l2",
+    "c_grid": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "strong_c_grid": [0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1],
+    "solver": "liblinear",
+    "max_iter": 10000,
+    "phenotype_class_weight": "balanced",
+    "pcr_class_weight": null,
+    "selection_metric": "validation_auroc",
+    "tie_break": "smaller_C"
+  },
+  "residualization": {
+    "model": "unregularized_multioutput_ordinary_least_squares",
+    "fit_intercept": true,
+    "predictors": "causal_log1p_FTV_prefix_in_chronological_order",
+    "predictor_scaling": "outer_train_StandardScaler_mean_and_population_variance",
+    "response": "raw_causal_MRI_prefix_without_response_scaling",
+    "fit_split": "outer_train_only",
+    "application": "subtract_train_fitted_prediction_from_raw_MRI_prefix_on_train_validation_test"
+  },
+  "gates": {
+    "A": {"minimum_auroc_gain_each_seed": 0.03},
+    "B": {"timings": ["T0", "T0-T1", "T0-T2"], "minimum_gain_each_seed_strictly_gt": 0.0},
+    "C": {"minimum_matched_auroc_gain_each_seed": 0.03},
+    "D": {
+      "minimum_seed_mean_auroc_near_chance": 0.45,
+      "maximum_seed_mean_auroc_near_chance": 0.55
+    }
+  },
+  "stage_b": {
+    "authorization": "gate_A_or_gate_C",
+    "seed_bases": [2026],
+    "folds": [0, 1, 2, 3, 4],
+    "effective_seed": "seed_base_plus_fold",
+    "architecture": {
+      "support": "exact_fixed_64mm_fractional_LOCAL",
+      "mean": "weighted_mean_128_then_Linear_128x96",
+      "std": "weighted_population_ddof0_128_then_Linear_128x96",
+      "std_zero_variance_backward": "exact_forward_with_subgradient_0_and_finite_gradients",
+      "concatenation_order": ["mean_96", "std_96"],
+      "normalization": "joint_LayerNorm_192_after_concatenation",
+      "state": "online_preprojector_192"
+    },
+    "cohort": {
+      "primary_patient_count": 808,
+      "external_train_only_patient_count": 139,
+      "authenticated_cache_patient_count": 947,
+      "train_split": "outer_fold_primary_train_plus_exact_external_train_only",
+      "validation_split": "outer_fold_primary_validation_only",
+      "test_split": "outer_fold_primary_test_only",
+      "require_all_cache_content_proof_before_data_access": true
+    },
+    "authorization_evidence": {
+      "require_stage_a_run_summary_complete": true,
+      "require_gates_hash_from_run_summary_artifacts": true,
+      "require_authorization_hash_from_run_summary_artifacts": true
+    },
+    "initialization": {
+      "source": "fresh_canonical_grounded_LOCAL3_at_effective_seed",
+      "mean_branch": "rows_0_through_95_of_baseline_Linear_128x192",
+      "std_branch": "rows_96_through_191_of_baseline_Linear_128x192",
+      "joint_norm": "exact_copy_of_baseline_LayerNorm_192",
+      "equivalence_condition": "dual_state_equals_baseline_state_when_std_equals_mean",
+      "shared_modules": "bitwise_unchanged_from_fresh_baseline"
+    },
+    "trainable": [
+      "online_encoder",
+      "mean_projection",
+      "std_projection",
+      "joint_layer_norm",
+      "projector",
+      "transition",
+      "FTV_head"
+    ],
+    "ema_only": [
+      "target_encoder",
+      "target_mean_projection",
+      "target_std_projection",
+      "target_joint_layer_norm",
+      "target_projector"
+    ],
+    "objective": {
+      "formula": "L_JEPA_plus_0.25_L_FTV",
+      "lambda_ftv": 0.25,
+      "sigreg_weight": 0.09,
+      "sigreg_projections": 256,
+      "temporal_step_weights": [2.0, 1.0, 0.5],
+      "grounding": "FTV_only"
+    },
+    "training": {
+      "physical_batch_size": 4,
+      "accumulation_steps": 8,
+      "logical_batch_size": 32,
+      "optimizer": "AdamW",
+      "learning_rate": 0.00005,
+      "weight_decay": 0.0001,
+      "epochs_max": 12,
+      "early_stopping_patience": 4,
+      "ema_momentum": 0.996,
+      "max_grad_norm": 5.0,
+      "workers": 2,
+      "minimum_validation_representation_std": 0.05,
+      "augmentation": "none"
+    },
+    "checkpoint_selection": {
+      "eligible": "finite_and_validation_representation_std_at_least_0.05",
+      "metric": "minimum_validation_total_objective",
+      "tie_break": "earliest_epoch",
+      "test_data_used": false,
+      "refit_after_selection": false
+    },
+    "post_selection_probes": {
+      "feature": "selected_online_preprojector_192",
+      "phenotype": ["HR", "HER2", "subtype_4class"],
+      "pcr_views": ["T0", "T0-T1", "T0-T2", "T0-T3"],
+      "pcr_populations": ["full_808", "ftv_complete_375"],
+      "paired_stage_a_baseline": "seed2026_LOCAL3_P1_same_view_target_population_n",
+      "paired_metrics": ["auroc", "auprc", "balanced_accuracy", "pcr_brier_improvement_baseline_minus_dual"],
+      "reuse_stage_a_outer_fold_logistic_contract": true
+    },
+    "forbidden": ["attention_pooling", "transformer_pooling", "new_transformer_module", "mask_input", "oracle_region_input", "HR_supervision", "HER2_supervision", "pCR_supervision", "delta_supervision"]
+  }
+}

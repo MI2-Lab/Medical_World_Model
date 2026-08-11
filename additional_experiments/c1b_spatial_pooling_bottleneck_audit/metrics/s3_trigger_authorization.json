@@ -1,0 +1,42 @@
+{
+  "analysis_implementation_sha256": "af090de835c561355357bd8c7a526be66d69645f14de00cec9659a01b56c42a7",
+  "config_sha256": "ad19c58dbbd4ed4ba694686608c19f9968a2339b29f395fea620ffb41038d227",
+  "decision_contract": "final_stage_strong_oracle_recovery_false",
+  "final_probe_cell_count": 180,
+  "final_probe_metadata_inventory_sha256": "8295d52c970cedbce7e17aac0eea337f1b8956a679eba85a91c894efb88ed500",
+  "final_probe_root": "probes/final",
+  "final_stage_strong_oracle_recovery": {
+    "per_seed": {
+      "2026": {
+        "absolute_spearman_gain": 0.27491853816112344,
+        "pass": true,
+        "recovery_defined": true,
+        "recovery_ratio": 0.9140486313371763
+      },
+      "3026": {
+        "absolute_spearman_gain": 0.283782884417311,
+        "pass": true,
+        "recovery_defined": true,
+        "recovery_ratio": 1.0981082034209273
+      }
+    },
+    "status": "SUPPORTED_IN_PILOT",
+    "supported": true,
+    "thresholds": {
+      "minimum_recovery_each_seed": 0.5,
+      "minimum_spearman_gain_each_seed": 0.15
+    }
+  },
+  "new_training_performed": false,
+  "p0_equivalence_gate_sha256": "4852d40939f46584179efec1c8b19469f5037d0f02fc1f532046d4f924fb50fb",
+  "p0_probe_replication_gate_sha256": "16d0b93ca44e3caf6d911f4f9cb01cf9920cef8cf96176b05b4374198d33c95f",
+  "patient_identifiers_present": false,
+  "plan_sha256": "3120b7df0d47199c02227821913e536f58945691a9e5358fcd289d6abe61a477",
+  "preregistration_lock_sha256": "0f51dd38539d2e2e9e0b8c5e2975b17f24328c9b611132deb7cbcf683d2fd57c",
+  "probe_adapter_sha256": "1af18705169f5f8708deab76825f26fdacc47c1bc58d1171a74a5a9d576e681f",
+  "probe_refit_performed": false,
+  "s3_execution_authorized": false,
+  "schema_version": 1,
+  "status": "NOT_TRIGGERED_FINAL_ORACLE_STRONG",
+  "trigger_implementation_sha256": "e9331d34882f304e6cc4b5de5ef886bd93fa9b11cf8c37234f1be30d3ddfbdc0"
+}

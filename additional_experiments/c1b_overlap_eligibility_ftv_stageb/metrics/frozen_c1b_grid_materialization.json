@@ -1,0 +1,35 @@
+{
+  "candidate_grid_rows": 948,
+  "computes_eligibility": false,
+  "contains_patient_identifiers": false,
+  "evaluates_followup_overlap": false,
+  "grid_shape_zyx": [
+    112,
+    176,
+    160
+  ],
+  "grid_spacing_xyz_mm": [
+    0.9,
+    0.9,
+    2.0
+  ],
+  "outcome_clinical_treatment_model_fields_read": [],
+  "preregistration_plan_sha256": "72c440302b3992a09bc74b0a6a59b8bf11d0e20835322f58cbbd5bd43608d588",
+  "prior_schema3_cache_contract_proof_sha256": "06b6322cade9f03acd708a4177b7566a6544521f14ff3895191e483a1bdcad4a",
+  "prior_schema3_cache_grid_matches": 262,
+  "prior_schema3_cache_grids_checked": 262,
+  "private_grid_manifest_sha256": "c864e9f49a7d0a7ac964e0dc9ff0e837cfac37b3b272dc990850aea5bb572aff",
+  "purpose": "materialize_inherited_frozen_c1b_h_grids_before_eligibility",
+  "schema_version": 1,
+  "source_provenance_sha256": {
+    "candidate_inventory": "40f7d1db7af108b2cb0c07863db208ee4db2124ffaf660771feaa7270809df0a",
+    "candidate_key_manifest": "0f8a735194d02062bb9e94d09dc6858da7ff6c6ce15002428eb9238fb6c535dc",
+    "ispy1_visit_source_eligibility": "a80214a3da799934a9711c1a5c22ba31cbfe71441e2a7bf09c1cdf8c8a28b702",
+    "prior_builder_py": "fc08f5aa3d08bdedcc503ba99f8df2591bfae16e1ef5671af66aef2a70aee41d",
+    "prior_dce7_py": "928d1ca6cb5f3afe13d9ca46fd955f276154940f61529d8cc116d0302e3f2252",
+    "prior_geometry_py": "4921d09eeee7b8e57ff01a2c2dc6a1a92b901cf3ccfb2b3048987c724a9c5c3c",
+    "repair_record_set": "26fc29ed0e9d11e6192b1b9cf3ddc5e739249fdae86eaee2d4140bd11b9ebfc5"
+  },
+  "status": "PASS",
+  "t0_localization_used_only_to_recreate_frozen_grid": true
+}

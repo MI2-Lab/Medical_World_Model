@@ -1,0 +1,127 @@
+{
+  "chosen_input_strategy": "C1B-H",
+  "contains_patient_identifiers": false,
+  "failure_code": "ZERO_VALID_SOURCE_OVERLAP",
+  "frozen_population_changed": false,
+  "gates": [
+    {
+      "gate": "repaired_dicom_pixel_geometry",
+      "observed": {
+        "max_cell_error": 0.0,
+        "repaired_visits": 146,
+        "verified_cells": 153112
+      },
+      "requirement": "146/146 singular model-input visits pass exact pixel/geometry rebuild",
+      "status": "PASS"
+    },
+    {
+      "gate": "true_canonical_orientation",
+      "observed": {
+        "canonical_ras_fraction": 1.0,
+        "patients": 948,
+        "visits": 3792
+      },
+      "requirement": "948x4 true RAS+ array reorientation, not header-only relabeling",
+      "status": "PASS"
+    },
+    {
+      "gate": "registration_success_and_strategy",
+      "observed": {
+        "chosen_strategy": "H",
+        "formal_pairs": 1125,
+        "success_rate": 0.7626666666666667,
+        "successful_pairs": 858
+      },
+      "requirement": "complete 1,125-pair sensitivity audit and uniquely frozen C1B-H decision",
+      "status": "PASS"
+    },
+    {
+      "gate": "formal_support_containment",
+      "observed": {
+        "exact_containment_rate": 0.978,
+        "formal_visits": 1500
+      },
+      "requirement": ">=0.95 exact containment over all 1,500 formal visits",
+      "status": "PASS"
+    },
+    {
+      "gate": "formal_ftv_retention_q05",
+      "observed": {
+        "posthoc_registration_audit_q05": 1.0,
+        "q05": 1.0
+      },
+      "requirement": ">=0.95 physical FTV volume retention at Q05",
+      "status": "PASS"
+    },
+    {
+      "gate": "resampling_and_source_overlap",
+      "observed": {
+        "exact_frozen_population_coverage": true,
+        "failed_visits": 1,
+        "failure_code": "ZERO_VALID_SOURCE_OVERLAP",
+        "header_audit_rows": 3792,
+        "minimum_valid_source_voxels": 0
+      },
+      "requirement": "all frozen visits must have at least one valid source voxel",
+      "status": "FAIL"
+    },
+    {
+      "gate": "complete_dce7_builder_and_cache",
+      "observed": {
+        "atomic_caches_present": 262,
+        "cohort_cache_contract_completed": false,
+        "validation_patients": 263
+      },
+      "requirement": "263/263 validation caches and complete schema-3 cohort contract",
+      "status": "FAIL"
+    },
+    {
+      "gate": "leakage_exclusion_contract",
+      "observed": {
+        "clinical_or_outcome_tables_read": [],
+        "outcome_fields_read": [],
+        "public_identifiers": false
+      },
+      "requirement": "no clinical, treatment, pCR, LD, identifier, or path leakage",
+      "status": "PASS"
+    },
+    {
+      "gate": "geometry_and_mask_scope_contract",
+      "observed": {
+        "anchor_uses_t0_only": true,
+        "future_support_used_for_grid": false,
+        "grounding_mask_is_model_input": false,
+        "grounding_observable_visits": 1486
+      },
+      "requirement": "T0-only anchor; future support excluded; grounding mask is loss-only",
+      "status": "PASS"
+    },
+    {
+      "gate": "stage_a_model_ready",
+      "observed": {
+        "frozen_patients": 948,
+        "frozen_visits": 3792
+      },
+      "requirement": "every Stage-A hard gate must pass without eligibility changes",
+      "status": "FAIL"
+    }
+  ],
+  "provenance_sha256": {
+    "manifests/cache_validation_selection.private.csv": "d1919cc2ab380455ac02ebe90c7898cc022b9b6e08f1e426e59faed215c60322",
+    "manifests/grounding_observability_summary.json": "9ea4b6442294857eef4b967fb45f6c973a802aa1f497ff4407caf6f10f205f1e",
+    "metrics/dicom_pixel_rebuild_gate.json": "ea287c3947e49123311d7b591bd74c69c58d52eee119ecf7aa1ddf943471ceed",
+    "metrics/ispy1_base_eligibility_summary.json": "7eae7d8539f5325a08dd499104b116b6c030f02fe329a908f25ee7f171ac1728",
+    "metrics/model_input_pipeline_h_validation_failures.private.csv": "99d882332d10f6921aeaa5b0d2d3f665800ed315c16ce2cc481f1962f12e84c2",
+    "metrics/model_input_pipeline_h_validation_gate.json": "e3d4bb8d5337c1c21ec7f606b8a8a34536c67c540e7c534ba2515a7572777c8a",
+    "metrics/orientation_resampling_patient_visit.private.csv": "0f8a735194d02062bb9e94d09dc6858da7ff6c6ce15002428eb9238fb6c535dc",
+    "metrics/orientation_validation_gate.json": "c95ef76eb137c77ae4cb5e7e25931afd6eed4f43ca91bb9e8c62f0bb0b4275ce",
+    "metrics/registration_physical_support_summary.json": "d66455abc54fe5e0b1cb448019d6b8ca3501623e7a6cf6950e41c2356c06b0b7",
+    "metrics/registration_strategy_decision.json": "389684a3f28a020d53ee3597a2a587ba3b6ec478048e2f725e1bac36a9502d30",
+    "metrics/support_containment_h_summary.json": "26f00d7f2194513f4101101502380744dc66d834fe6a66977b915f6c92fded23"
+  },
+  "schema_version": 1,
+  "stage": "A",
+  "stage_b_authorized": false,
+  "status": "NO-GO",
+  "thresholds_relaxed": false
+}

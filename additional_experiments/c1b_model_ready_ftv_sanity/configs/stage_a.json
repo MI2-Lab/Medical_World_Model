@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "cohorts": {
+    "formal_ftv_overlap_patients": 375,
+    "formal_ftv_overlap_visits": 1500,
+    "primary_base_patients": 808,
+    "extra_base_only_candidates": 156,
+    "strict_eligible_extra_base_only_patients": 140,
+    "model_ready_patients": 948,
+    "visits": ["T0", "T1", "T2", "T3"]
+  },
+  "paths": {
+    "ispy2_preprocessed_root": "${C1B_DATA_ROOT}/I-SPY2",
+    "ispy1_preprocessed_root": "${C1B_DATA_ROOT}/I-SPY1",
+    "ispy2_raw_root": "${ISPY2_RAW_ROOT}",
+    "phase_metadata": "ispy_jepa_tmi_clean/data_processing/metadata/BreastDCEDL_metadata_min_crop.csv",
+    "ftv_overlap": "additional_experiments/radiomics_next_change/data_audit/radiomics_patient_overlap.csv",
+    "ftv_targets": "additional_experiments/radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv",
+    "fold_manifest": "${C1B_DATA_ROOT}/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv"
+  },
+  "geometry": {
+    "canonical_orientation": "RAS+",
+    "output_shape_zyx": [112, 176, 160],
+    "spacing_xyz_mm": [0.9, 0.9, 2.0],
+    "nominal_fov_xyz_mm": [144.0, 158.4, 224.0],
+    "t0_anchor": true,
+    "allow_later_visit_recentering": false,
+    "overflow_policy": "fixed_grid_record_containment_failure",
+    "affine_corner_atol_mm": 0.1,
+    "anti_alias_factor_threshold": 1.5,
+    "extreme_downsample_factor": 2.0,
+    "padding_mode": "reflect",
+    "valid_source_mask_is_model_input": false
+  },
+  "phase": {
+    "policy": "legacy_adaptive_early_late_outcome_free",
+    "peak_window": "all_indices_1_through_last",
+    "channels": [
+      "pre",
+      "early",
+      "late",
+      "early_minus_pre",
+      "late_minus_pre",
+      "peak_relative_enhancement",
+      "late_minus_peak_relative_enhancement"
+    ]
+  },
+  "normalization": {
+    "scope": "per_visit_per_channel_valid_source",
+    "clip_percentiles": [1.0, 99.0],
+    "scale": "iqr_div_1.349_std_fallback",
+    "output_clip": [-5.0, 5.0],
+    "uses_cross_patient_statistics": false
+  },
+  "registration_gate": {
+    "minimum_success_rate": 0.95,
+    "catastrophic_translation_mm": 75.0,
+    "catastrophic_rotation_deg": 20.0,
+    "maximum_catastrophic_rate": 0.01,
+    "minimum_median_similarity_gain": 0.02,
+    "minimum_nonworse_fraction": 0.75,
+    "nonworse_tolerance": 0.01,
+    "maximum_exact_containment_drop": 0.005,
+    "minimum_ftv_retention_q05": 0.95,
+    "maximum_padding_median_increase": 0.02,
+    "maximum_padding_q95_increase": 0.05
+  },
+  "stage_a_gate": {
+    "required_formal_pixel_rebuild_visits": 72,
+    "required_pixel_order_verified_fraction": 1.0,
+    "required_model_input_orientation_fraction": 1.0,
+    "required_cache_validation_fraction": 1.0,
+    "minimum_exact_containment": 0.95,
+    "minimum_ftv_retention_q05": 0.95,
+    "require_registration_decision": true,
+    "require_no_catastrophic_resampling": true,
+    "require_no_future_information": true,
+    "require_dce7_only_model_tensor": true,
+    "no_posthoc_threshold_relaxation": true
+  }
+}

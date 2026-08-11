@@ -1,0 +1,9 @@
+category,label,count,fraction,q95,maximum
+affine_decision,TRUST_DCE_SFORM,1428,,,
+affine_decision,MASK_SFORM_GEOMETRY_CANDIDATE_REBUILD_DICOM_PIXELS,37,,,
+affine_decision,TRUST_DCE_QFORM_SFORM_SINGULAR,35,,,
+mask_orientation,RPS,1032,,,
+mask_orientation,LAS,468,,,
+visit_spacing_variation,X,139,0.37066666666666664,0.10416668653488159,0.2782738208770752
+visit_spacing_variation,Y,139,0.37066666666666664,0.10416668653488159,0.2782738208770752
+visit_spacing_variation,Z,17,0.04533333333333334,0.0,0.5

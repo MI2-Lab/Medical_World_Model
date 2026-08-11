@@ -1,0 +1,5 @@
+stage,analysis_role,input_contract,input_shape_zyx,feature_channels,feature_shape_zyx,jump_input_voxels,center_offset_input_voxels,theoretical_receptive_field_input_voxels,local_window_mm_xyz,jump_x_mm_median,jump_x_mm_q25,jump_x_mm_q75,jump_y_mm_median,jump_y_mm_q25,jump_y_mm_q75,jump_z_mm_median,jump_z_mm_q25,jump_z_mm_q75,spacing_basis
+final,primary,c1b,112x176x160,128,14x22x20,8,0,47,64x64x64,7.2,7.2,7.2,7.2,7.2,7.2,16.0,16.0,16.0,frozen_0.9x0.9x2.0_mm
+final,primary,legacy,32x96x96,128,4x12x12,8,0,47,64x64x64,5.468800067901611,5.0,5.937600135803223,5.468800067901611,5.0,5.937600135803223,16.0,9.5999755859375,17.5999755859375,visit_native_spacing_pooled_distribution
+s3,conditional_secondary,c1b,112x176x160,64,28x44x40,4,0,23,64x64x64,3.6,3.6,3.6,3.6,3.6,3.6,8.0,8.0,8.0,frozen_0.9x0.9x2.0_mm
+s3,conditional_secondary,legacy,32x96x96,64,8x24x24,4,0,23,64x64x64,2.7344000339508057,2.5,2.9688000679016113,2.7344000339508057,2.5,2.9688000679016113,8.0,4.79998779296875,8.79998779296875,visit_native_spacing_pooled_distribution

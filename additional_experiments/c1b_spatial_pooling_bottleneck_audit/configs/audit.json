@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "frozen_at_utc": "2026-08-10T09:30:32Z",
+  "seeds": [2026, 3026],
+  "folds": [0, 1, 2, 3, 4],
+  "arms": ["L1", "L3", "N1", "N3"],
+  "primary_poolings": ["P0", "PVALID", "PLOCAL", "PLOCAL+GLOBAL", "PORACLE"],
+  "secondary_poolings": ["PLOCAL+PVALID_SECONDARY"],
+  "feature_contract": {
+    "final_module": "encoder.features[3]",
+    "channels": 128,
+    "jump_input_voxels": 8,
+    "center_offset_input_voxels": 0,
+    "theoretical_receptive_field_input_voxels": 47,
+    "response_projection": "frozen online Linear(128,192)+LayerNorm",
+    "single_view_dim": 192,
+    "local_global_dim": 384
+  },
+  "secondary_s3_contract": {
+    "trigger": "final_stage_strong_oracle_recovery_false",
+    "module": "encoder.features[2]",
+    "channels": 64,
+    "jump_input_voxels": 4,
+    "center_offset_input_voxels": 0,
+    "theoretical_receptive_field_input_voxels": 23
+  },
+  "local_window_mm_xyz": [64.0, 64.0, 64.0],
+  "mask_mapping": "theoretical_receptive_field_fraction_with_zero_external_padding",
+  "p0_allclose": {"rtol": 1e-5, "atol": 1e-6, "required_fraction": 1.0},
+  "p0_metric_max_abs_difference": 1e-6,
+  "ridge_alphas": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0],
+  "strong_oracle": {"minimum_spearman_gain_each_seed": 0.15, "minimum_recovery_each_seed": 0.5},
+  "deployable_local": {"minimum_spearman_gain_each_seed": 0.1, "minimum_recovery_each_seed": 0.33},
+  "padding_geometry": {"minimum_spearman_gain_each_seed": 0.1, "minimum_recovery_each_seed": 0.33, "minimum_p0_nuisance_r2_each_seed": 0.2, "minimum_nuisance_r2_reduction_each_seed": 0.1},
+  "downsampling_bins": ["<=1.5", "(1.5,2]", ">2"],
+  "undertraining": {"minimum_hit_max_rate": 0.6, "minimum_selected_last_two_rate": 0.6, "maximum_median_normalized_last3_slope": -0.005},
+  "legacy_pvalid": "NA_no_source_authoritative_mask",
+  "legacy_poracle": "NA_incomplete_source_authoritative_support_1488_of_1500",
+  "training_forbidden": true,
+  "pcr_forbidden": true,
+  "clinical_treatment_forbidden": true
+}

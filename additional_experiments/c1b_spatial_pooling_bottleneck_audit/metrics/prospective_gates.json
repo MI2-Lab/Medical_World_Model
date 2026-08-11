@@ -1,0 +1,173 @@
+{
+  "classification": {
+    "classification": "A POOLING BOTTLENECK",
+    "code": "A",
+    "next": "Local\u2013Global Response State Pilot"
+  },
+  "conditional_s3": {
+    "deployable_local_recovery": null,
+    "strong_oracle_recovery": null,
+    "trigger_status": "NOT_TRIGGERED_FINAL_ORACLE_STRONG"
+  },
+  "final_stage": {
+    "deployable_local_recovery": {
+      "methods": {
+        "PLOCAL": {
+          "pass": true,
+          "per_seed": {
+            "2026": {
+              "absolute_spearman_gain": 0.204754923152329,
+              "pass": true,
+              "recovery_ratio": 0.6807687779761408
+            },
+            "3026": {
+              "absolute_spearman_gain": 0.193124104155236,
+              "pass": true,
+              "recovery_ratio": 0.7473007524277802
+            }
+          }
+        },
+        "PLOCAL+GLOBAL": {
+          "pass": true,
+          "per_seed": {
+            "2026": {
+              "absolute_spearman_gain": 0.21692411184729624,
+              "pass": true,
+              "recovery_ratio": 0.7212288733393701
+            },
+            "3026": {
+              "absolute_spearman_gain": 0.2079206112151462,
+              "pass": true,
+              "recovery_ratio": 0.804556375217806
+            }
+          }
+        }
+      },
+      "qualifying_poolings": [
+        "PLOCAL",
+        "PLOCAL+GLOBAL"
+      ],
+      "status": "SUPPORTED_IN_PILOT",
+      "supported": true,
+      "thresholds": {
+        "minimum_recovery_each_seed": 0.33,
+        "minimum_spearman_gain_each_seed": 0.1
+      }
+    },
+    "padding_geometry_evidence": {
+      "nuisance_targets": {
+        "padding_fraction": {
+          "pass": false,
+          "per_seed": {
+            "2026": {
+              "p0_natural_r2": 0.19190702519641809,
+              "pass": false,
+              "pvalid_natural_r2": 0.22410232533637744,
+              "r2_reduction": -0.03219530013995936
+            },
+            "3026": {
+              "p0_natural_r2": 0.1905271649427797,
+              "pass": false,
+              "pvalid_natural_r2": 0.26034829912823704,
+              "r2_reduction": -0.06982113418545735
+            }
+          }
+        },
+        "valid_source_fraction": {
+          "pass": false,
+          "per_seed": {
+            "2026": {
+              "p0_natural_r2": 0.19190728659971218,
+              "pass": false,
+              "pvalid_natural_r2": 0.22410199838051176,
+              "r2_reduction": -0.03219471178079958
+            },
+            "3026": {
+              "p0_natural_r2": 0.1905270496113551,
+              "pass": false,
+              "pvalid_natural_r2": 0.26034799474264536,
+              "r2_reduction": -0.06982094513129025
+            }
+          }
+        }
+      },
+      "pvalid_ftv": {
+        "pass": false,
+        "per_seed": {
+          "2026": {
+            "absolute_spearman_gain": 0.05757913326909889,
+            "pass": false,
+            "recovery_ratio": 0.19143899247476504
+          },
+          "3026": {
+            "absolute_spearman_gain": 0.00803350627420471,
+            "pass": false,
+            "recovery_ratio": 0.031085945017618383
+          }
+        }
+      },
+      "qualifying_nuisance_targets": [],
+      "status": "NOT_SUPPORTED_IN_PILOT",
+      "supported": false,
+      "thresholds": {
+        "minimum_nuisance_r2_reduction_each_seed": 0.1,
+        "minimum_p0_nuisance_r2_each_seed": 0.2,
+        "minimum_recovery_each_seed": 0.33,
+        "minimum_spearman_gain_each_seed": 0.1
+      }
+    },
+    "strong_oracle_recovery": {
+      "per_seed": {
+        "2026": {
+          "absolute_spearman_gain": 0.27491853816112344,
+          "pass": true,
+          "recovery_defined": true,
+          "recovery_ratio": 0.9140486313371763
+        },
+        "3026": {
+          "absolute_spearman_gain": 0.283782884417311,
+          "pass": true,
+          "recovery_defined": true,
+          "recovery_ratio": 1.0981082034209273
+        }
+      },
+      "status": "SUPPORTED_IN_PILOT",
+      "supported": true,
+      "thresholds": {
+        "minimum_recovery_each_seed": 0.5,
+        "minimum_spearman_gain_each_seed": 0.15
+      }
+    }
+  },
+  "natural_metrics": "pooled_five_outer_test_folds_before_metric",
+  "new_training_performed": false,
+  "probe_refit_during_aggregation": false,
+  "schema_version": 1,
+  "status": "COMPLETE",
+  "training_budget": {
+    "any_n_arm_undertraining_plausible": false,
+    "arms": {
+      "N1": {
+        "cells": 10,
+        "hit_configured_max_rate": 0.0,
+        "median_last_three_normalized_slope": 0.2204627103329718,
+        "selected_last_two_rate": 0.0,
+        "undertraining_plausible": false
+      },
+      "N3": {
+        "cells": 10,
+        "hit_configured_max_rate": 0.0,
+        "median_last_three_normalized_slope": 0.1965823552674281,
+        "selected_last_two_rate": 0.0,
+        "undertraining_plausible": false
+      }
+    },
+    "status": "SECONDARY_CONFOUND_ONLY",
+    "thresholds": {
+      "maximum_median_normalized_last3_slope": -0.005,
+      "minimum_hit_max_rate": 0.6,
+      "minimum_selected_last_two_rate": 0.6
+    }
+  },
+  "transformed_metrics": "outer_fold_summaries_only"
+}

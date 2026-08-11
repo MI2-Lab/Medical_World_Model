@@ -1,0 +1,116 @@
+{
+  "code_and_plan_sha256": {
+    "additional_experiments/local_global_response_state_pilot/.gitignore": "0da0f554bdb5ed01462c69f23b6b5255ca7e5c7a934aba15d4ba79a550935e2c",
+    "additional_experiments/local_global_response_state_pilot/EXPERIMENT_PLAN.md": "ce4b7ce2cdd9383f7ace9c2ed814f0d6b3548ad2fd04f05413e9e540a02ca1b7",
+    "additional_experiments/local_global_response_state_pilot/configs/pilot.json": "399dfa7327aca3a4c0cc3e711c117e6e0a828b85045f7ee5953b3ab4b06f548e",
+    "additional_experiments/local_global_response_state_pilot/scripts/aggregate_results.py": "9318e825ed2341bb10c0adfa0ef0ffff3542324e1aceef553fa2de226e4993ae",
+    "additional_experiments/local_global_response_state_pilot/scripts/audit_public_artifacts.py": "8f269e2f280e7b5be939e1577474f6430acfc62238bfe169ce538a84cee66459",
+    "additional_experiments/local_global_response_state_pilot/scripts/export_features.py": "397e65f0234cb15648e713543198d5489dd2713e3928bdac0825752f43b3b8b2",
+    "additional_experiments/local_global_response_state_pilot/scripts/freeze_preregistration.py": "4b01be633d89019b050c9f53c5366df7335faeef27d2f5672a1cb0bb172a6b1f",
+    "additional_experiments/local_global_response_state_pilot/scripts/generate_figures.py": "ca12b5fb96ce4605dc16101889b70ab873633d7655b5f6bdc46a0a27f7e64448",
+    "additional_experiments/local_global_response_state_pilot/scripts/run_matrix.py": "862936637c44f5ca241fa0ad3229b3df39cfaf7e45143a7cf461f86329ece1fe",
+    "additional_experiments/local_global_response_state_pilot/scripts/run_postprocessing.py": "78ee27addcecfdb73cf56b6d67d6da5b8a231d0db6e34d2151a1172b5691274d",
+    "additional_experiments/local_global_response_state_pilot/scripts/run_probes.py": "4db39763d694b7e16ad9bed7bc125c5c5944f303db47afeaee15e23ef71dbd38",
+    "additional_experiments/local_global_response_state_pilot/scripts/train_cell.py": "30b4160f0c564e434f593e46c61a02b1cde920cdfb7c6023a538a3a282a9f15d",
+    "additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/__init__.py": "0958d0c6530e249d2da6fa27ff1866ba717ccab31eea8c1402acac686d11504b",
+    "additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/analysis.py": "0625a95909bfe2ffa8aa85c195ab8536a11052937ea1f3cea6428adef439fbdc",
+    "additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/contracts.py": "12298a28a5958cf75ced3412a07a49607afa53d4aed060dd844d1326b21d52a2",
+    "additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/features.py": "8b27b0c452514756a7b6af91b25a26534ab62c50070f92e1498e7a94dd314e87",
+    "additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/figures.py": "f3eb7841e7cc68d05c13c065fc0e8d721cf8b5b80383657f99c040bf7eb7b7df",
+    "additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/matrix.py": "a826fb5b5c14fe6fff4ca1fce25d12efd49d25ce49541e38abacc130d198a29a",
+    "additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/model.py": "09cc2959480bec953fe1fa7e92a53dbdf8be6c4d174151e00fef73e70929df76",
+    "additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/pooling.py": "52ef08c85ed256a46c686c7f1afd1b66219735508f4a29cc0922fdb6096bb25c",
+    "additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/probes.py": "d7c1a6957a254d64bce27fef39654ac66fe782e80d4387fe1aba09e96437e3df",
+    "additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/security.py": "88268975e13fb02c07a8da30017b08b7b3747974b90bf57bbfc27be343c9b460",
+    "additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/training.py": "f344f17fa722c4e942a3f5e42092bfaac06dabdcf6d672280384e804e6f0bd9e",
+    "additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/upstream.py": "8e537d514eabdd7f7c1d7c2234d6fc221610ea0ab5791e9e628e58c6f0e7a4de",
+    "additional_experiments/local_global_response_state_pilot/tests/test_evaluation_pipeline.py": "cd15d12b0333b74b5a8d2ce0968c3d5b5b0a476b026f7cb88966a0ea96d0234a",
+    "additional_experiments/local_global_response_state_pilot/tests/test_hardening.py": "f17e1bfc219a82b2600e99b5f4034e8808fd656f5396aca74fad233af6c899d7",
+    "additional_experiments/local_global_response_state_pilot/tests/test_model_contract.py": "2df55b321def50fdf724f5f9b2a1ea70d4b923b27d89d4fa3b840ff6fdb8e68a",
+    "additional_experiments/local_global_response_state_pilot/tests/test_preregistration.py": "1286f070eeaf40862d9ae6fcbfa087aee3d928b3a6d71b72a2685c40a3d52e26",
+    "additional_experiments/local_global_response_state_pilot/tests/test_security_gates.py": "b5b30fae9de8857376418a86e6c932049c3c88a515f0c16bb910fd1503b11037",
+    "additional_experiments/local_global_response_state_pilot/tests/test_training_orchestration.py": "bff887a6fe323f32a3beea4bc503398749ecd3499aef75a7a37112b31c50e09c"
+  },
+  "config_sha256": "399dfa7327aca3a4c0cc3e711c117e6e0a828b85045f7ee5953b3ab4b06f548e",
+  "decision_rules": {
+    "A_LOCAL_STATE_WORKS": {
+      "delta_macro_spearman_gain_each_seed_strictly_gt": 0.0,
+      "static_macro_spearman_gain_each_seed_min": 0.1,
+      "static_natural_r2_systematic_worsening_forbidden": true
+    },
+    "B_LOCAL_GLOBAL_ADDS_VALUE": {
+      "static_macro_spearman_gain_at_least_one_seed_min": 0.02,
+      "static_macro_spearman_gain_each_seed_min": 0.0,
+      "static_natural_r2_systematic_worsening_forbidden": true
+    },
+    "C_GROUNDING_COMPATIBILITY": {
+      "candidate_delta_macro_spearman_gain_at_least_one_seed_min": 0.02,
+      "candidate_static_macro_spearman_gain_each_seed_strictly_gt": 0.0,
+      "static_natural_r2_systematic_worsening_forbidden": true
+    },
+    "D_OPTIMIZATION_SAFETY": {
+      "candidate_paired_folds_required": 9,
+      "candidate_paired_folds_total": 10,
+      "maximum_state_loss_degradation_fraction": 0.05
+    }
+  },
+  "experiment": "local_global_response_state_pilot",
+  "formal_result_file_count_before_lock": 0,
+  "frozen_at_utc": "2026-08-10T12:45:29.175531+00:00",
+  "ftv_plus_ld_authorized_by_this_lock": false,
+  "gate_operationalization": {
+    "folds_are_paired_sensitivity_not_independent_replicates": true,
+    "meaningful_delta_spearman_gain": 0.02,
+    "natural_r2_systematic_worsening": "effect is strictly negative in both seeds",
+    "thresholds_are_descriptive_not_statistical_significance": true
+  },
+  "git": {
+    "branch": "feature/local-global-response-state-pilot",
+    "head": "020164fc2b0a829d4993199840b4478adff5b6f7"
+  },
+  "matrix": {
+    "arms": [
+      "GAP0",
+      "GAP3",
+      "LOCAL0",
+      "LOCAL3",
+      "LG0",
+      "LG3"
+    ],
+    "cells": 60,
+    "folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "seeds": [
+      2026,
+      3026
+    ]
+  },
+  "schema_version": 1,
+  "status": "FROZEN_BEFORE_FORMAL_RESULTS",
+  "thresholds_are_not_statistical_significance": true,
+  "upstream_sha256": {
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/STAGE_A_GO.json": "0b2c9e0af63ce8806525fb15ac9a27f6ab525b0259ccf16001981ca5091afbdb",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/manifests/stage_b_data_contract.private.json": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/__init__.py": "2976c6d040c506b4f1b1db5374718d1c3edf341805d0e6a9d176f0c02fa37a47",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/contracts.py": "48d7738b6764780ba2e784f826be44ac718fdbb0beb526ec31c3c5525cba4bf9",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/data.py": "948a25aa00eeaf68a11f5a0bcf7c4d0c7592786a36ebb9bce472361745eebb59",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/gate.py": "babb748a71eba0c36d802a8e15c861387d506de67cf754ec58ae96f1d3341555",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/inputs.py": "40965e509afa059ce2674c7a7fde18cd9097e1eb00d05021738d8cf9f6346177",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/targets.py": "06434db46cf76e6f39ff6eb1c476933885e90ed0a4c952dcc0a3477a25996c7b",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/training.py": "2edf546628e447bdd1b9715f60f105d1a5952763bd782aabddbae298fae62f52",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/upstream.py": "dfc03ab80590d1b57240a8ce210c75245bce4dd3bad9a4d655d8d63a1f96d54f",
+    "additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/__init__.py": "55dbb7a79f6248075464cb983617296bc71cd391b0c08d956c077f3ce0c75584",
+    "additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/pooling.py": "630a717a98a7e80d69d3a462dd3086c2de81449c91910312cbc0bfce0fd58d54",
+    "additional_experiments/g3_multiseed_generalization/src/dgrs/__init__.py": "c18fa03739e604a77018975ec1d2e7ed00339d8b6a529562446c845e9200b9b8",
+    "additional_experiments/g3_multiseed_generalization/src/dgrs/config.py": "4460ce3413e2cb936a6fd3cbb7f16224af3af286b6784933688cd12d0ec47516",
+    "additional_experiments/g3_multiseed_generalization/src/dgrs/data.py": "15b4b68ad45c935e313b893b0ce849877311c98d6c5c0c45495e8e9200240943",
+    "additional_experiments/g3_multiseed_generalization/src/dgrs/model.py": "ce39878a0fef5af1f92a86811faabbe73b39f57cdaf6d7580bbd65bd855d4ed9",
+    "additional_experiments/g3_multiseed_generalization/src/dgrs/targets.py": "28fbf66f93c8541dfa5ecc7ebcf65d4143a9a605b3ce98be48355d5ab679ffac",
+    "additional_experiments/g3_multiseed_generalization/src/dgrs/training.py": "76f9108df0ca8c0ff69e514cff3bab1d5e316d946da60c5f530dd7b9706d3815"
+  }
+}

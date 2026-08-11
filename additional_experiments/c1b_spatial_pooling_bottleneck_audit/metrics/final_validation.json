@@ -1,0 +1,128 @@
+{
+  "all_checks_passed": true,
+  "checks": {
+    "conditional_s3": {
+      "findings": [],
+      "schema_version": 1,
+      "status": "PASS",
+      "validated_s3_feature_assets": 0,
+      "validated_s3_probe_cells": 0
+    },
+    "final_inventories": {
+      "alternate_probe_cells": 140,
+      "expected_checkpoint_cells": 40,
+      "expected_feature_assets": 180,
+      "expected_formal_probe_cells": 180,
+      "findings": [],
+      "p0_probe_cells": 40,
+      "primary_probe_cells": 160,
+      "probe_completion_inventories": 2,
+      "schema_version": 1,
+      "secondary_local_valid_probe_cells": 20,
+      "status": "PASS",
+      "validated_feature_assets": 180,
+      "validated_formal_probe_cells": 180
+    },
+    "locked_input_integrity": {
+      "checkpoint_files": 40,
+      "checkpoint_mtime_mismatches_informational": 0,
+      "expected_formal_cells": 40,
+      "findings": [],
+      "git_tree_checks": {
+        "head_tree_matches": true,
+        "index_tracked_tree_clean": true,
+        "live_tracked_tree_clean": true,
+        "no_nonignored_untracked_upstream_paths": true,
+        "source_commit_ancestor_of_head": true,
+        "source_commit_tree_matches": true
+      },
+      "preregistration_lock_sha256": "0f51dd38539d2e2e9e0b8c5e2975b17f24328c9b611132deb7cbcf683d2fd57c",
+      "reference_feature_files": 80,
+      "reference_probe_files": 160,
+      "schema_version": 1,
+      "status": "PASS",
+      "upstream_completion_files": 5,
+      "upstream_source_files": 4
+    },
+    "no_new_training": {
+      "false_training_declarations_checked": 186,
+      "findings": [],
+      "json_files_checked": 372,
+      "new_training_performed": false,
+      "schema_version": 1,
+      "status": "PASS"
+    },
+    "p0_stop_gates": {
+      "equivalence_cells_checked": 40,
+      "findings": [],
+      "p0_equivalence_gate_sha256": "4852d40939f46584179efec1c8b19469f5037d0f02fc1f532046d4f924fb50fb",
+      "p0_probe_replication_gate_sha256": "16d0b93ca44e3caf6d911f4f9cb01cf9920cef8cf96176b05b4374198d33c95f",
+      "replication_cells_checked": 40,
+      "replication_pooled_rows_checked": 144,
+      "schema_version": 1,
+      "status": "PASS"
+    },
+    "permissions": {
+      "findings": [],
+      "private_assets_checked": 1426,
+      "private_git_hygiene_passed": true,
+      "private_git_paths_checked": 1423,
+      "private_paths_disclosed": false,
+      "public_directories_checked": 9,
+      "public_trackable_files_checked": 83,
+      "schema_version": 1,
+      "status": "PASS"
+    },
+    "privacy_gate_binding": {
+      "findings": [],
+      "privacy_gate_current": true,
+      "privacy_gate_sha256": "4484732b7d3b75ca95d67758e96d14f7c70bb614a4b991c28d65fd82b941b978",
+      "schema_version": 1,
+      "status": "PASS"
+    },
+    "public_deliverables": {
+      "findings": [],
+      "numbered_report_answers": 14,
+      "registered_png_sha256": {
+        "01_feature_map_pooling_schematic.png": "6df108e7e8912da7ced42d721c03206b7941d050e69f54809c8df62f8a7bd80e",
+        "02_pooling_weight_illustration.png": "514ca949c7b8b081e32db4e30548f59e80620267ffb0f92dc222aabaf2a21bdc",
+        "03_static_macro_spearman.png": "c1258cdc1d426660aeeff580cdd3d2c58d70047a68495696d925c3a80edefe72",
+        "04_static_natural_r2.png": "db3d7f92b2358ea07fe3ca25d1b8e9e11dafe60e569de0625c703fdd011033a2",
+        "05_delta_macro_spearman.png": "405eef115597cd6b3ab9f29798b4783e4d4bbbd5b67c99ed7ec60d130eed461a",
+        "06_legacy_deficit_recovery.png": "1e198bda4cc4aef3d13679ddc0347c5c658b4847f6247c81f252ab34c5b95fa2",
+        "07_oracle_vs_local_recovery.png": "ad5c851168eed005aa45b5feb491542250b8ec7838c9549ec403c4eb140bba73",
+        "08_padding_valid_source_decodability.png": "1ab269d68de988d241d24d4a54960a79c5f6d9d835a6247135bd9f2914e03906",
+        "09_ftv_vs_nuisance_information.png": "94231378a59978f6b5d6635722d2e0f35540bd167974266eb5721f7f6ec3db01",
+        "10_occupancy_n1_l1_degradation.png": "995fdde944a4be08a02db9330f400daa93fbf8af71610a35a0e6e734ed1761f3",
+        "11_selected_epoch_training_budget.png": "90076b8ebaa7fdccf4455d2f1c41c2f41a21815446d296ed4a7546fdc61ddea9",
+        "12_representative_activation_montage.png": "3c57b7837767cf4ad7e73ce279d0a41b553abccbd665ca40166b3dba7dc74766"
+      },
+      "required_public_tables": 7,
+      "required_registered_png_figures": 12,
+      "schema_version": 1,
+      "status": "PASS",
+      "table_row_counts": {
+        "table1_feature_map_contract.csv": 4,
+        "table2_static_ftv.csv": 220,
+        "table3_delta_ftv.csv": 176,
+        "table4_legacy_deficit_recovery.csv": 20,
+        "table5_nuisance_decodability.csv": 1200,
+        "table6_occupancy_downsampling.csv": 72,
+        "table7_training_budget.csv": 40
+      },
+      "validated_public_tables": 7,
+      "validated_registered_png_figures": 12
+    },
+    "report_links": {
+      "external_or_anchor_links_skipped": 0,
+      "findings": [],
+      "local_links_checked": 38,
+      "schema_version": 1,
+      "status": "PASS"
+    }
+  },
+  "new_training_performed": false,
+  "schema_version": 1,
+  "scientific_metrics_recomputed": false,
+  "status": "PASS"
+}

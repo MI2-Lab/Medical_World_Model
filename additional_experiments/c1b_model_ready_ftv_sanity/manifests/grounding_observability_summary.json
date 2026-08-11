@@ -1,0 +1,20 @@
+{
+  "affected_patients": 12,
+  "contains_patient_identifiers": false,
+  "definition": "1 unless FTV inclusion support touches any source acquisition voxel face",
+  "does_not_filter_base_training": true,
+  "formal_patients": 375,
+  "formal_visits": 1500,
+  "ineligible_by_visit": {
+    "T0": 1,
+    "T1": 8,
+    "T2": 3,
+    "T3": 2
+  },
+  "ineligible_visits": 14,
+  "is_model_input": false,
+  "observable_visits": 1486,
+  "private_manifest_sha256": "0203da10f2efee626ae948fe0f7190771b67503639694dcd49c03762f4bde39c",
+  "schema_version": 1,
+  "scope": "grounding_loss_eligibility_only"
+}

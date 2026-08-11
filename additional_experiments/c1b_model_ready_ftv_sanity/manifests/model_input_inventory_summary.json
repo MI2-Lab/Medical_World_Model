@@ -1,0 +1,55 @@
+{
+  "clinical_treatment_pcr_columns_read": false,
+  "contains_patient_identifiers": false,
+  "formal_ftv_visits": 1500,
+  "orientation_before": {
+    "LAS": 1021,
+    "LSP": 1,
+    "PSR": 439,
+    "RAS": 184,
+    "RPS": 2065,
+    "UNKNOWN": 146
+  },
+  "patients": {
+    "I-SPY1": 156,
+    "I-SPY2": 808,
+    "total": 964
+  },
+  "phase_count_by_cohort": {
+    "I-SPY1": {
+      "19": 1,
+      "2": 15,
+      "3": 497,
+      "4": 46,
+      "5": 16,
+      "6": 40,
+      "8": 2,
+      "80": 1,
+      "85": 6
+    },
+    "I-SPY2": {
+      "10": 8,
+      "11": 2,
+      "4": 7,
+      "5": 14,
+      "6": 634,
+      "7": 1453,
+      "8": 979,
+      "9": 135
+    }
+  },
+  "private_inventory_sha256": "40f7d1db7af108b2cb0c07863db208ee4db2124ffaf660771feaa7270809df0a",
+  "schema_version": 1,
+  "singular_base_only_extension_visits": 74,
+  "singular_formal_ftv_visits": 72,
+  "singular_model_input_visits": 146,
+  "t0_anchor_patients": {
+    "acquisition_center_fallback": 156,
+    "released_support": 808
+  },
+  "visits": {
+    "I-SPY1": 624,
+    "I-SPY2": 3232,
+    "total": 3856
+  }
+}

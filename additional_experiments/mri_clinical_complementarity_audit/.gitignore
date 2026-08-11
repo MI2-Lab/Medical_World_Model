@@ -1,0 +1,16 @@
+# Patient-level and potentially identifying artifacts remain owner-private.
+features/**/*.npz
+features/**/*.csv
+features/**/*.json
+predictions/**/*.csv
+predictions/**/*.json
+logs/**/*.log
+logs/**/*.txt
+!features/.gitkeep
+!predictions/.gitkeep
+!logs/.gitkeep
+
+# Python/runtime debris.
+**/__pycache__/
+*.py[cod]
+.pytest_cache/

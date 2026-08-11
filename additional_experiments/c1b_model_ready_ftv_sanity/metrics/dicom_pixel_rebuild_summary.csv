@@ -1,0 +1,4 @@
+scope,visits,passed,failed,dicom_files,decoded_cells,verified_cells,pixel_order_verified_fraction,max_cell_error,max_center_corner_error_mm,max_footprint_corner_error_mm,all_finite_nonconstant,all_qform_sform_valid
+FORMAL_72,72,72,0,77792,77792,77792,1.0,0.0,2.1858977349499193e-05,2.1864245105181427e-05,True,True
+BASE_ONLY_EXTENSION_74,74,74,0,75320,75320,75320,1.0,0.0,2.4647591625394535e-05,2.4654460230326754e-05,True,True
+ALL,146,146,0,153112,153112,153112,1.0,0.0,2.4647591625394535e-05,2.4654460230326754e-05,True,True

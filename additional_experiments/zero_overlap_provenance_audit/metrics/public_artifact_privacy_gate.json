@@ -1,0 +1,42 @@
+{
+  "allowed_case_aliases": [
+    "CASE_ZERO_OVERLAP_001"
+  ],
+  "contains_sensitive_identifiers_or_paths": false,
+  "identifier_or_path_findings": [],
+  "privacy_findings": [],
+  "private_artifacts_ignored": true,
+  "scanned_by_type": {
+    "csv": 5,
+    "json": 8,
+    "md": 3,
+    "png": 6
+  },
+  "scanned_files_sha256": {
+    "AUDIT_NOT_REPAIRABLE.json": "042dd629fdb10a7b08bfdeceaa6cf51d9d9e7e713fa5a86027a4d569640d0ffd",
+    "EXPERIMENT_PLAN.md": "035546940133790f01074fc207bd212b54e2732648b95ea595a476d1171a59b6",
+    "figures/01_t0_t3_source_physical_boxes.png": "f7eb652e5fb4f57e754337ba544a6c12135ec825f151f2b968e351129fd1f7e9",
+    "figures/02_t0_failed_physical_footprint.png": "adccdf416bbb0653dfb05c43ec6cafd24432c466b0c496e99447b7d6c807cbf0",
+    "figures/03_visit_center_displacement.png": "59736aba1b6c672feed2d247a0568e623669b95d5eb92e2e901f8fe06f089b90",
+    "figures/04_orientation_angle_differences.png": "ba449d42df4f1f46a850630edc393eb0faada0bca24c0f19d9ba27707468a9ab",
+    "figures/05_minimum_volume_separation.png": "2883e3cf2ed506de81076f635cc5ee1f09430212ee6c4911e6d6910e47a7e279",
+    "figures/06_diagnostic_registration_montage.png": "481fa344fb87602eb4559fb6d6b21cbcf97acbfdf4edeaf8c1ab60bab8319fa5",
+    "metrics/audit_decision.json": "042dd629fdb10a7b08bfdeceaa6cf51d9d9e7e713fa5a86027a4d569640d0ffd",
+    "metrics/dicom_provenance_summary.json": "7051ac5ccea5cb232651dff49c936b1dd5c17987e8e37a93fad9f9bf2f340bc6",
+    "metrics/environment.json": "0ba1a6eebbc2bfc8e1ecb6c0e3e5d86d6085257cc5497e914e18200c66220b8c",
+    "metrics/image_registration_diagnostic.json": "c00260e25a176bcb3776e33763f356de062fa902f2af13ed91bf9ddb08bc9111",
+    "metrics/prior_experiment_immutability.json": "724e4c52733a9b014124a97ba29c4f533e960c25b13006bdd07b47007b16650d",
+    "metrics/raw_dicom_rebuild_summary.json": "8ac74aa76d2a4ca9087589e60120ae7c730c03838dd8c42934aeedd22bde8a33",
+    "metrics/required_overlap_translation_summary.json": "398c040fffd392e000a5f106d97f0af07e279f86ca8e61e9429cc912dc14ef15",
+    "metrics/table1_four_visit_metadata_geometry_summary.csv": "16bb08a458a672f31d26c4cc4627005e1fbd773fb52ff714777246a638b64bb0",
+    "metrics/table2_pairwise_geometry.csv": "90faf985bc77dd971001cc4a272277280ed512c836b45589a8b20d8e088b451e",
+    "metrics/table3_same_study_dce_candidate_semantic_audit.csv": "076330b706694de829025483663834f6cb0846fdc0745153116711fe4c6fe6e3",
+    "metrics/table4_root_cause_evidence.csv": "941117c9130dd82ca7eba308978e0a071053e655c59db4e94564c291ac0ccb86",
+    "metrics/table5_repair_acceptance_gate.csv": "77cce92338bc0d716ad0a30f1a890bfc94828b32580a3b4e982432117a63e457",
+    "reports/dicom_provenance_inventory.md": "0b701f23d14af210f37d89aa73d9896b61fa80de5a2137c31fa5f34c531fa628",
+    "reports/final_report.md": "2438cff32ae283cbac7a59dc547643e5411beb63278170cfc65268dc3ee8e5ed"
+  },
+  "scanned_public_artifacts": 22,
+  "schema_version": 1,
+  "status": "PASS"
+}
