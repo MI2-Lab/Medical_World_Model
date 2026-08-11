@@ -1,0 +1,426 @@
+{
+  "analysis_outputs_before_freeze": [],
+  "analysis_outputs_present_before_freeze": false,
+  "branch": "feature/spatial-heterogeneity-phenotype-audit",
+  "config_canonical_sha256": "e154e554aeae50866edacf576e1d1e18274d2dd86d5f88bbf75e19feb0682e06",
+  "config_sha256": "73b9cc72f540a07b8fbcfc24bd7d130cd3e0205b19ea27db9c4a21f5e006d359",
+  "formal_cell_count": 20,
+  "git_provenance_before_freeze": {
+    "all_dirty_paths_confined_to_new_experiment": true,
+    "base_head": "064e0596348f0972decc39774336580f58e8da61",
+    "branch": "feature/spatial-heterogeneity-phenotype-audit",
+    "tracked_paths_before_freeze": [],
+    "untracked_paths_before_freeze": [
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/.gitignore",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/EXPERIMENT_PLAN.md",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/configs/audit.json",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/features/.gitkeep",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/figures/.gitkeep",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/logs/.gitkeep",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/manifests/.gitkeep",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/.gitkeep",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/predictions/.gitkeep",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/reports/.gitkeep",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/build_oracle_sidecars.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/common.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/export_features.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/freeze_preregistration.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/generate_figures.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/generate_report.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/pooling.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/run_audit.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/run_feature_matrix.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/stage_b_pilot.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/validate_results.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/verify_cache_integrity.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/tests/test_cache_integrity.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/tests/test_delivery_contracts.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/tests/test_gates.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/tests/test_oracle_regions.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/tests/test_pooling.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/tests/test_stage_b_pilot.py"
+    ]
+  },
+  "implementation_sha256": {
+    "scripts/build_oracle_sidecars.py": "4968dc430b1a540622c801ee91cbb1ff23249758315366ae8c4257ea9e0f37c2",
+    "scripts/common.py": "7d9cb12d1395b3ea3682878ee1b714c8d7573c9de83d020c48df3fe0634b705a",
+    "scripts/export_features.py": "884ebea58b5e854996b1321e69cdbe0cb34d3b471128939ac455505a5732fc31",
+    "scripts/freeze_preregistration.py": "ad845cb44492d9144aa41c7ee43201e2c0927d1f5bd7ee2971d46bc8c3e76ce2",
+    "scripts/generate_figures.py": "eb958a1cea2b8999c0e1a55d5d913d7c3e53945ec396cddf66823fa40a8528ae",
+    "scripts/generate_report.py": "b51c74f71d8a34740094cc8fbd7328137d2c47155bd91d049b8f839ca8451983",
+    "scripts/pooling.py": "94412e990c71e5e4134f7f620c84a25e2d6972be268d1e37cdee40751dd997a7",
+    "scripts/run_audit.py": "b5146a9a831eeff5ccb96012de462cc7b1e63d36a23e3e97f032eeb6a166ada6",
+    "scripts/run_feature_matrix.py": "95636bc9d19039cebe6feaf937b0313e314cc39e2a83df74e15724b7b28ec587",
+    "scripts/stage_b_pilot.py": "8e34a85766f87b65a6caaa741f6485421cc0c9d589b849da58196beb35d54ad9",
+    "scripts/validate_results.py": "858ae67335324ba043f5c07a7a45558124854cfed978a0f9d971ec69cf490b1d",
+    "scripts/verify_cache_integrity.py": "71b92fc07782aa7435df2adb08732bbf64c573fffff78f1007dba9d7adae29b9"
+  },
+  "plan_sha256": "b710d2ca788a0b2897d1cc50328185527d7f96575495563546f62926ef3e26d3",
+  "privacy_policy_sha256": "dbe260cc06c8b0799514c2c2fb10b427eddb6c33c1c094eee4b1288d74b22f3d",
+  "runtime_environment": {
+    "Pillow": "12.0.0",
+    "matplotlib": "3.10.8",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "platform_machine": "x86_64",
+    "platform_release": "5.15.0-161-generic",
+    "platform_system": "Linux",
+    "python": "3.11.14",
+    "python_executable": "/home/bowen/.conda/envs/bowen/bin/python3.11",
+    "python_implementation": "CPython",
+    "scikit-learn": "1.8.0",
+    "scipy": "1.16.3",
+    "torch": "2.9.1+cu130",
+    "torch_cuda_build": "13.0",
+    "torch_cudnn_version": "91300"
+  },
+  "schema_version": 2,
+  "selected_cells": {
+    "seed_2026/LOCAL0/fold_0": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_0/selected.pt",
+      "checkpoint_sha256": "2c16fc0311c075f464352ad69aeeef2f6ad2d086168ea618f6fc95f14e1dcf3c",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_0/response_state.private.metadata.json",
+        "metadata_sha256": "d005629794835e9088c516d598b6afcf2486a2645cabd450112e53f7e321a9b4",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_0/response_state.private.npz",
+        "patient_order_sha256": "944eec13b9d3c785c85ff32ccbb05a533f17da21caa7e60ff3abe2c0c78f2078",
+        "sha256": "360cd7b4e642b2a44110cb42d246c4c2b36c8364fdb007c3a30221de2de5b143",
+        "split_order_sha256": "5e0520f06973201a7ec233cc8cc15b1c7b818e96526d6558fc0f88e0ef50b8bc"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_0/selection.json",
+      "selection_sha256": "cbc6f0e6c62c47f5364d148daafca1a4632dcbc505ddccbde6fcaa7013c10187"
+    },
+    "seed_2026/LOCAL0/fold_1": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_1/selected.pt",
+      "checkpoint_sha256": "ec315e2d40b72b97cc9813a4fabbd7adff2495189e60c34ccdf2927a2873b386",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_1/response_state.private.metadata.json",
+        "metadata_sha256": "df7dc668ec377202b6c28e65e0cd1ee73b7bbf4dd810c8f701a89fd3af3e048c",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_1/response_state.private.npz",
+        "patient_order_sha256": "cbf0d678fc06dcc0c3ca899a53ba9e1fb98b0cd55db4e2e10cbdeaa9f36fdd1a",
+        "sha256": "525db16f5e7071713289a5cec4fc8c8266c2855159886c886904de1348f55a53",
+        "split_order_sha256": "5e0520f06973201a7ec233cc8cc15b1c7b818e96526d6558fc0f88e0ef50b8bc"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_1/selection.json",
+      "selection_sha256": "c816c7b2e0a35057af8778bbe6af2d9f42c3633df8466ac7b05e1a4ffed706f2"
+    },
+    "seed_2026/LOCAL0/fold_2": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_2/selected.pt",
+      "checkpoint_sha256": "f9fa38d112f9fa4bbfa39281a399a795a358c117d0e56f57387c1dc3a508d65e",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_2/response_state.private.metadata.json",
+        "metadata_sha256": "31d1f9d97e27557f3f04cb62769d7723f7ae5c87f8666b9e45f0212846e996f5",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_2/response_state.private.npz",
+        "patient_order_sha256": "96143bcfeb066eac4162054ed61baaddf93d10a1be921d1c87b1fffcd9d4e6bf",
+        "sha256": "6c1d6c02da00c0e1600e15bf09eed1050146805139bbd87640b7ad9588b93aeb",
+        "split_order_sha256": "5e0520f06973201a7ec233cc8cc15b1c7b818e96526d6558fc0f88e0ef50b8bc"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_2/selection.json",
+      "selection_sha256": "96b322e3adfe165029a7478bdccceb3fab8817015886ebe3f9a623d672166cf3"
+    },
+    "seed_2026/LOCAL0/fold_3": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_3/selected.pt",
+      "checkpoint_sha256": "73a824ef99a5bd579ab3f0460ed312602cfa97e237cc3bf774261b07bafed17c",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_3/response_state.private.metadata.json",
+        "metadata_sha256": "03d46fa11e4d57a5f6cc8f08343b95c90ec4f4173bd8b664b4ce219bf57798db",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_3/response_state.private.npz",
+        "patient_order_sha256": "5a5e3292f9cd8a5508353ce49cdbe0749224657063229a221d55ab4dc5aef2b5",
+        "sha256": "f6f0210e6dfafffd94fe88a180e2d4618a97b40ea499fb6670c6ddaf6d59f99c",
+        "split_order_sha256": "486610f98c173b85ecefe62a4cb8d137a9d1a3baad65ed9c739e9d23c1500ae5"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_3/selection.json",
+      "selection_sha256": "b54ec7e10e320fec54cb317da284fe1298be5bde3a80a0c43ea509b610a38588"
+    },
+    "seed_2026/LOCAL0/fold_4": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_4/selected.pt",
+      "checkpoint_sha256": "f2c34863ab7099c9e6090e266ba8083653de291e5f4abb9e0a45858f1a7c9022",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_4/response_state.private.metadata.json",
+        "metadata_sha256": "a6f19835481caa28e54c259bc1b72e421b8bd284984a26ffe0b8f25ce9d10f67",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_4/response_state.private.npz",
+        "patient_order_sha256": "aab713640f75ace30df017b4f375982e0d8bbee17fc2c1cff6428f9cd084d203",
+        "sha256": "a8ad868a5972e287d0922a53c6c4dd99fb13a9e4b5aa7cfed9e1e695fff95cef",
+        "split_order_sha256": "486610f98c173b85ecefe62a4cb8d137a9d1a3baad65ed9c739e9d23c1500ae5"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_4/selection.json",
+      "selection_sha256": "a973d57519a0540c1670d6bbfba18414ab5e3e0a463a312356dc36a6e189a8e2"
+    },
+    "seed_2026/LOCAL3/fold_0": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_0/selected.pt",
+      "checkpoint_sha256": "d712dcf451b4b9b3604d8cd389e5f836c347565ee8fa29b1eb7e817e388ecc80",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_0/response_state.private.metadata.json",
+        "metadata_sha256": "f81364cf7ba20a45b3a3ababe1123050fee515a1ce65d99b10ea2408bf060aab",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_0/response_state.private.npz",
+        "patient_order_sha256": "944eec13b9d3c785c85ff32ccbb05a533f17da21caa7e60ff3abe2c0c78f2078",
+        "sha256": "1c9662d5379cc825ece13a54bdfb209d9b1c7319e98ef40e3ea2f7c0b5a96575",
+        "split_order_sha256": "5e0520f06973201a7ec233cc8cc15b1c7b818e96526d6558fc0f88e0ef50b8bc"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_0/selection.json",
+      "selection_sha256": "569966508c962e40367d0473d573188aa9e6b440ba84b5fe8852fabd603ad8e3"
+    },
+    "seed_2026/LOCAL3/fold_1": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_1/selected.pt",
+      "checkpoint_sha256": "3fb33332085a909545d66ea75aeb0fcadeb1cdc92efb39b44116fbe40d2a0f2d",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_1/response_state.private.metadata.json",
+        "metadata_sha256": "3580a313ab4d1b3e0fec25c81d57b35694d5b83a4fd9de230dd9329984616c51",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_1/response_state.private.npz",
+        "patient_order_sha256": "cbf0d678fc06dcc0c3ca899a53ba9e1fb98b0cd55db4e2e10cbdeaa9f36fdd1a",
+        "sha256": "5142d9400608145c728cfe4777ad00061fecbf4176c16e814ccaa7bd68022c14",
+        "split_order_sha256": "5e0520f06973201a7ec233cc8cc15b1c7b818e96526d6558fc0f88e0ef50b8bc"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_1/selection.json",
+      "selection_sha256": "081266b3ab8d8bb9aa565fa87dac9756efb46a296577c4dfa1245fe4ea234a3b"
+    },
+    "seed_2026/LOCAL3/fold_2": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_2/selected.pt",
+      "checkpoint_sha256": "f513b8564b2d89bb074dd5b20abb66f22549d00418a1b5ba123da850daf50137",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_2/response_state.private.metadata.json",
+        "metadata_sha256": "0898099b75a22e56efa5f67dc4c89136fff67268c2e4e02f2e3cc1d0472f24c4",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_2/response_state.private.npz",
+        "patient_order_sha256": "96143bcfeb066eac4162054ed61baaddf93d10a1be921d1c87b1fffcd9d4e6bf",
+        "sha256": "c4c3ad0eb753c9d2caf8e0e4383321ecef38ddc4316f1ecfa75526298e73c59e",
+        "split_order_sha256": "5e0520f06973201a7ec233cc8cc15b1c7b818e96526d6558fc0f88e0ef50b8bc"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_2/selection.json",
+      "selection_sha256": "a1d2d31023258c7146551bcf08a3da198e5c963023ecba32d861b202cc7495fe"
+    },
+    "seed_2026/LOCAL3/fold_3": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_3/selected.pt",
+      "checkpoint_sha256": "f21067a0c0df7237109cfcc7ce79f42b80f2d313a94436449ce34cb1325c0f55",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_3/response_state.private.metadata.json",
+        "metadata_sha256": "9943324fbcc67512b429a10a1f9559b06d99ef0ef8a3d85df02cf0f829c4e4ee",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_3/response_state.private.npz",
+        "patient_order_sha256": "5a5e3292f9cd8a5508353ce49cdbe0749224657063229a221d55ab4dc5aef2b5",
+        "sha256": "951168ecf002aaa221dd1a3b3084cc3f99b07e43ac82fd37184d44d375d74c0e",
+        "split_order_sha256": "486610f98c173b85ecefe62a4cb8d137a9d1a3baad65ed9c739e9d23c1500ae5"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_3/selection.json",
+      "selection_sha256": "125b44f2a5907bd5b9a4b9dcf42ab47445f0dbf34ae0acd08b91743786d2cd15"
+    },
+    "seed_2026/LOCAL3/fold_4": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_4/selected.pt",
+      "checkpoint_sha256": "cb6291e4611f3d9b3749efd31e126887d99cb5b1d514bd5e517a685e9bd116ea",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_4/response_state.private.metadata.json",
+        "metadata_sha256": "0c7af90f6de529f0b15bdb74bfc5a48c6a42a45d5456f8a41ee4f06b87b22f2f",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_4/response_state.private.npz",
+        "patient_order_sha256": "aab713640f75ace30df017b4f375982e0d8bbee17fc2c1cff6428f9cd084d203",
+        "sha256": "358806aeeab3aa2c7db3d828ae5f5fd0c3baf2f5c5fee43aefeea9c1f3696ace",
+        "split_order_sha256": "486610f98c173b85ecefe62a4cb8d137a9d1a3baad65ed9c739e9d23c1500ae5"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_4/selection.json",
+      "selection_sha256": "cc09abbcbcc997fba244906e0c7af8e4cbf601a932830be85579102790bab769"
+    },
+    "seed_3026/LOCAL0/fold_0": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_0/selected.pt",
+      "checkpoint_sha256": "345c622cad1d292de4aa73308cfc3bb2a74f2c8d4861b42a583b04b465f70c5a",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_0/response_state.private.metadata.json",
+        "metadata_sha256": "892c3e883ec813a81f44d2eb1c1cd2af4cf367c74e88f7345c7a832c73ccbfcf",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_0/response_state.private.npz",
+        "patient_order_sha256": "944eec13b9d3c785c85ff32ccbb05a533f17da21caa7e60ff3abe2c0c78f2078",
+        "sha256": "e07d1dcdbcbedf941ca3024f840c6b46980f0049401737a062f331c1ba9fcfe8",
+        "split_order_sha256": "5e0520f06973201a7ec233cc8cc15b1c7b818e96526d6558fc0f88e0ef50b8bc"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_0/selection.json",
+      "selection_sha256": "03dee13013eadadec418b1a8685aef547a958495a6667855032c28162301837f"
+    },
+    "seed_3026/LOCAL0/fold_1": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_1/selected.pt",
+      "checkpoint_sha256": "2c03d9f51eb50cabd91b0a78c53e84f0d560a836316f6b27d65af76fbce8ab1d",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_1/response_state.private.metadata.json",
+        "metadata_sha256": "57f56c122330077609b9709909fd8aa44235539dd62f562c383ccbc24fdcd0ab",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_1/response_state.private.npz",
+        "patient_order_sha256": "cbf0d678fc06dcc0c3ca899a53ba9e1fb98b0cd55db4e2e10cbdeaa9f36fdd1a",
+        "sha256": "9f4398006bd99f1698355e7e930351aa214c4752b2af5554f8fa85fa04251198",
+        "split_order_sha256": "5e0520f06973201a7ec233cc8cc15b1c7b818e96526d6558fc0f88e0ef50b8bc"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_1/selection.json",
+      "selection_sha256": "53c3bb064ac6a6d834df69bf0644a24d07f5400bb3c042c210a323f61ccfe5a8"
+    },
+    "seed_3026/LOCAL0/fold_2": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_2/selected.pt",
+      "checkpoint_sha256": "16ca9c9ac30af8d83cab711a9bfedd0a61cf749eabe4165cb5b38f8b2e061774",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_2/response_state.private.metadata.json",
+        "metadata_sha256": "d00f7f61ca6c834f506c0eb713a906e66b195b48d8d035ffeff0ac6927695e7c",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_2/response_state.private.npz",
+        "patient_order_sha256": "96143bcfeb066eac4162054ed61baaddf93d10a1be921d1c87b1fffcd9d4e6bf",
+        "sha256": "3da4f7ed5df3ef2a7d36777b5f7099233db74c5c86a0060add35cfe0cdcc53fe",
+        "split_order_sha256": "5e0520f06973201a7ec233cc8cc15b1c7b818e96526d6558fc0f88e0ef50b8bc"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_2/selection.json",
+      "selection_sha256": "0c3c5fd4d961580d0c91f6cc5a03d88de6da21d24271549f5217c3272869271f"
+    },
+    "seed_3026/LOCAL0/fold_3": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_3/selected.pt",
+      "checkpoint_sha256": "6166e7682e2661fa99af2b4a381df0d034bb3e0ac51fa7d13e941648d999c443",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_3/response_state.private.metadata.json",
+        "metadata_sha256": "b9a54ab4067f7c41eb2bf0075cb5e42e3c22380ab49adc1ac971c9d2c44e643a",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_3/response_state.private.npz",
+        "patient_order_sha256": "5a5e3292f9cd8a5508353ce49cdbe0749224657063229a221d55ab4dc5aef2b5",
+        "sha256": "d704099fda25ef10a05e745ef66aa4b004a74fd8dc644404ccfbbf88a7653bb4",
+        "split_order_sha256": "486610f98c173b85ecefe62a4cb8d137a9d1a3baad65ed9c739e9d23c1500ae5"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_3/selection.json",
+      "selection_sha256": "a3f2d34a7b4ac89f29c8f6b333dae3414a3427a2099779ce1814f0eb939e2600"
+    },
+    "seed_3026/LOCAL0/fold_4": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_4/selected.pt",
+      "checkpoint_sha256": "ac6956eb31ba9f22354af367d626e25f456faaa1f68ea7ebee2952508f118d25",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_4/response_state.private.metadata.json",
+        "metadata_sha256": "8381188cc5c542d54da3d1f06780261c8887a6d7d20ce5a9b33ed47c7ccc689a",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_4/response_state.private.npz",
+        "patient_order_sha256": "aab713640f75ace30df017b4f375982e0d8bbee17fc2c1cff6428f9cd084d203",
+        "sha256": "37e86e26d9d3706fceaffaebca1aebec255599dbec0b2d4cc406c20459be608e",
+        "split_order_sha256": "486610f98c173b85ecefe62a4cb8d137a9d1a3baad65ed9c739e9d23c1500ae5"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_4/selection.json",
+      "selection_sha256": "1e07dfa6733baa0599c80f36e11e81bade92dedf8033bf6174c3d980cee257d8"
+    },
+    "seed_3026/LOCAL3/fold_0": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_0/selected.pt",
+      "checkpoint_sha256": "90cdf554d553fe677f7854a5e25c6a1bed99a157204a3282f11f78fb1e17f0a5",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_0/response_state.private.metadata.json",
+        "metadata_sha256": "9749ef7f85ecb58bbe638e71d15997a901e5b49e5f0e8444c219c41f38ace8da",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_0/response_state.private.npz",
+        "patient_order_sha256": "944eec13b9d3c785c85ff32ccbb05a533f17da21caa7e60ff3abe2c0c78f2078",
+        "sha256": "148032113477327481bca60cc6eabdc1cac59eda4b69fddbdb5071cd6e2afaaa",
+        "split_order_sha256": "5e0520f06973201a7ec233cc8cc15b1c7b818e96526d6558fc0f88e0ef50b8bc"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_0/selection.json",
+      "selection_sha256": "f90a765130c13f91f2a23df8576de06cf8b050a755788d92e73ac3628a044e61"
+    },
+    "seed_3026/LOCAL3/fold_1": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_1/selected.pt",
+      "checkpoint_sha256": "c974d2c2192821c7e3d93ba4acdc0d31fb70d800ef42c7557745c3bf451d70bf",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_1/response_state.private.metadata.json",
+        "metadata_sha256": "16d690e06ddb8926c0a37d12e5efb1e007e2daab8017633feaab1fdb743c49bd",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_1/response_state.private.npz",
+        "patient_order_sha256": "cbf0d678fc06dcc0c3ca899a53ba9e1fb98b0cd55db4e2e10cbdeaa9f36fdd1a",
+        "sha256": "b5277206a01b0455e474cb38209d6a51c2fd6bf28907b5846143e154d0ec090e",
+        "split_order_sha256": "5e0520f06973201a7ec233cc8cc15b1c7b818e96526d6558fc0f88e0ef50b8bc"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_1/selection.json",
+      "selection_sha256": "e6fee71a1d46ab2d479ae2d3cf8f122aaafdfeae2937c7468b40a0ccc0a269b4"
+    },
+    "seed_3026/LOCAL3/fold_2": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_2/selected.pt",
+      "checkpoint_sha256": "2a6d6e139b5a7816c88933ecfb72e7fc356694d3fecf5c4aaf849925a635a72d",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_2/response_state.private.metadata.json",
+        "metadata_sha256": "d05b79711c2448881dd2de98d142a6c7ed2f9526c0b8b1b78cb389f7c7df7e0e",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_2/response_state.private.npz",
+        "patient_order_sha256": "96143bcfeb066eac4162054ed61baaddf93d10a1be921d1c87b1fffcd9d4e6bf",
+        "sha256": "56dbdb0fd1d5fcc360ec2c134f4331c42bbadceecc2e82a7cc9d03e651fa878b",
+        "split_order_sha256": "5e0520f06973201a7ec233cc8cc15b1c7b818e96526d6558fc0f88e0ef50b8bc"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_2/selection.json",
+      "selection_sha256": "7c1cacad4905db4fc10e055c68c1fb546829f81f6bd76f81f786225351e694e4"
+    },
+    "seed_3026/LOCAL3/fold_3": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_3/selected.pt",
+      "checkpoint_sha256": "34f27dc2caf033d49308f1e353abf1f90ec3582d525f5470b8c9544dd898eb95",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_3/response_state.private.metadata.json",
+        "metadata_sha256": "2a0da760e134e54449039fa303cc38e031b48004d73d6995510c421813b8fb8a",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_3/response_state.private.npz",
+        "patient_order_sha256": "5a5e3292f9cd8a5508353ce49cdbe0749224657063229a221d55ab4dc5aef2b5",
+        "sha256": "a957acd97dc6abe388133a838778e7b70572ced73183ace4c7731eb9962fbcfa",
+        "split_order_sha256": "486610f98c173b85ecefe62a4cb8d137a9d1a3baad65ed9c739e9d23c1500ae5"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_3/selection.json",
+      "selection_sha256": "b0e85ecb80794aa5517f10269df190e28022a9dbd29c2b373536eaa1dc4e2637"
+    },
+    "seed_3026/LOCAL3/fold_4": {
+      "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_4/selected.pt",
+      "checkpoint_sha256": "cf4192bee6de45b046208177fc66802f802124e4c5afdf1d411e790579103799",
+      "reference": {
+        "metadata_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_4/response_state.private.metadata.json",
+        "metadata_sha256": "96f53959e9b73189ff42d6d7967f68ebccf5a63cfaf68dc3ab8f97f981b9db46",
+        "path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_4/response_state.private.npz",
+        "patient_order_sha256": "aab713640f75ace30df017b4f375982e0d8bbee17fc2c1cff6428f9cd084d203",
+        "sha256": "a993a6081e87703bf02db0f9bc0cdf30e1cee330775873d724af5f52aec74cae",
+        "split_order_sha256": "486610f98c173b85ecefe62a4cb8d137a9d1a3baad65ed9c739e9d23c1500ae5"
+      },
+      "selection_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_4/selection.json",
+      "selection_sha256": "335f43cdf08e29be44e002684c5804125811f077f1f3458368c5421a6bb547aa"
+    }
+  },
+  "status": "FROZEN_BEFORE_FEATURE_EXTRACTION_OR_PROBING",
+  "upstream_code_sha256": {
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_model_ready_ftv_sanity/src/c1b_sanity/__init__.py": "b30a354907732aa4fa3c240609eb8e92a7e984cd3c958ac0c8307f4f4f992c0f",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_model_ready_ftv_sanity/src/c1b_sanity/builder.py": "fc08f5aa3d08bdedcc503ba99f8df2591bfae16e1ef5671af66aef2a70aee41d",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_model_ready_ftv_sanity/src/c1b_sanity/cache.py": "6bc36a4d8dac356ed4d6f0fc5858607a7bbd4845a66fc83b214025d22f1f2af7",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_model_ready_ftv_sanity/src/c1b_sanity/dce7.py": "928d1ca6cb5f3afe13d9ca46fd955f276154940f61529d8cc116d0302e3f2252",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_model_ready_ftv_sanity/src/c1b_sanity/dicom_pixel_rebuild.py": "7c9987a7f9f72f82d9d8f703c54a786af4e7f4c5519ad5545ef9a2484e943286",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_model_ready_ftv_sanity/src/c1b_sanity/geometry.py": "4921d09eeee7b8e57ff01a2c2dc6a1a92b901cf3ccfb2b3048987c724a9c5c3c",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_model_ready_ftv_sanity/src/c1b_sanity/registration.py": "35a2751a291315f261abbc4ebff2d1b4d535aa369b200b6809d330fe08c4a50e",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/__init__.py": "2976c6d040c506b4f1b1db5374718d1c3edf341805d0e6a9d176f0c02fa37a47",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/analysis.py": "c0a69ca31bda8907b807c8804d6abcd66f90cfad3f8f715a808305565f2a8298",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/cli.py": "0655ced997e39cd7d85f683c0c95c214e176d1e235bce3f7ea467d8c6b71e212",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/contracts.py": "48d7738b6764780ba2e784f826be44ac718fdbb0beb526ec31c3c5525cba4bf9",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/data.py": "948a25aa00eeaf68a11f5a0bcf7c4d0c7592786a36ebb9bce472361745eebb59",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/features.py": "1f0fa3d1371c9b45d84cab00db7431e050f624fd8a68a62cfd6720284f80cd91",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/gate.py": "babb748a71eba0c36d802a8e15c861387d506de67cf754ec58ae96f1d3341555",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/inputs.py": "40965e509afa059ce2674c7a7fde18cd9097e1eb00d05021738d8cf9f6346177",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/matrix.py": "8e083a74f8712243489ecc865659966831a803a8638fdb7c5a58cc6ea41108f8",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/postprocess.py": "4b2d216ce4ecdb29d2b1346e50f8bca0a62e59138fc50805a35b4b44853c958b",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/probes.py": "5cb42e886204823cea2aa86cb2361592123b0d6921652fe18665ebc4eb52295e",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/targets.py": "06434db46cf76e6f39ff6eb1c476933885e90ed0a4c952dcc0a3477a25996c7b",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/training.py": "2edf546628e447bdd1b9715f60f105d1a5952763bd782aabddbae298fae62f52",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/upstream.py": "dfc03ab80590d1b57240a8ce210c75245bce4dd3bad9a4d655d8d63a1f96d54f",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/__init__.py": "55dbb7a79f6248075464cb983617296bc71cd391b0c08d956c077f3ce0c75584",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/analysis.py": "af090de835c561355357bd8c7a526be66d69645f14de00cec9659a01b56c42a7",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/budget.py": "b28d5ac7c9eec581121742705c32940860caaf44365a0c01babb6f8156b3d8a2",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/contracts.py": "b0dce36fd9f956596bd38548ea47a10686df582154318afd742d8d44944ae997",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/exporter.py": "773975739e04b315a255d2c039d681047b7453eec138b308f70dfe5a64d822cd",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/figures.py": "0da2407a1d6d87a6adc71d127d6914df6f89f3b93b51d699d31bcfeae2b30d23",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/final_validation.py": "dc933d99943c5ad5578158dd0ac08b76eae7b9c6bd836ac721cdcf871f87f134",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/parity.py": "6b9676afd866d29ec9f625132475d3ead0fb678708b7db87d08231cb95e497d1",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/pooling.py": "630a717a98a7e80d69d3a462dd3086c2de81449c91910312cbc0bfce0fd58d54",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/probe_parity.py": "9c5b70988db6060a97ad9f35e9ce7a5e0f8f51d0fb2e67a79f57b4fda7b6a99a",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/probe_runner.py": "ce4430d62493aadb958511b7a0239ae6288447ae7847bd5f1f21fa5342618eb3",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/probes.py": "1af18705169f5f8708deab76825f26fdacc47c1bc58d1171a74a5a9d576e681f",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/runtime.py": "210c516b13c0bff96fa5ef814b62d86af046155b2eebadfe6a98419cee614066",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/s3_exporter.py": "82c0bfbaaafed3178eea13a86a67019b5cdadbd966278cc650ac47e54bba698b",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/s3_probe_runner.py": "1ef75960d6bc41995e02a30439b28cff0f7f9abd517f5c248dc073fa2c02db18",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/s3_sidecars.py": "11242532f0db054158e3e9528cbcbbc60d3d89cba287b7654d1d8ca960b3e974",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/s3_trigger.py": "e9331d34882f304e6cc4b5de5ef886bd93fa9b11cf8c37234f1be30d3ddfbdc0",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/sidecars.py": "e725f4be1303e610150265c3920b9fc76c5b05019105930003d424bfde77abb9",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/g3_multiseed_generalization/src/dgrs/__init__.py": "c18fa03739e604a77018975ec1d2e7ed00339d8b6a529562446c845e9200b9b8",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/g3_multiseed_generalization/src/dgrs/analysis.py": "280dbd37ea37d3ef105e4c3367d785ae36fb36efc8fd263ac600a2c3aa193852",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/g3_multiseed_generalization/src/dgrs/config.py": "4460ce3413e2cb936a6fd3cbb7f16224af3af286b6784933688cd12d0ec47516",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/g3_multiseed_generalization/src/dgrs/data.py": "15b4b68ad45c935e313b893b0ce849877311c98d6c5c0c45495e8e9200240943",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/g3_multiseed_generalization/src/dgrs/features.py": "fe7b61258780e5aa12eb3c32a809b636ef760815d2f5d04d794693358037628b",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/g3_multiseed_generalization/src/dgrs/model.py": "ce39878a0fef5af1f92a86811faabbe73b39f57cdaf6d7580bbd65bd855d4ed9",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/g3_multiseed_generalization/src/dgrs/pcr.py": "57daa2e6d406f2e332418a3c04b428ebf0309b88679b1c508df4bdea04628420",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/g3_multiseed_generalization/src/dgrs/probes.py": "3c49a8bc4232471790a07ae9f6afa636933aa1fd4d4a0302b79395408e43f3cc",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/g3_multiseed_generalization/src/dgrs/targets.py": "28fbf66f93c8541dfa5ecc7ebcf65d4143a9a605b3ce98be48355d5ab679ffac",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/g3_multiseed_generalization/src/dgrs/training.py": "76f9108df0ca8c0ff69e514cff3bab1d5e316d946da60c5f530dd7b9706d3815",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/__init__.py": "0958d0c6530e249d2da6fa27ff1866ba717ccab31eea8c1402acac686d11504b",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/analysis.py": "0625a95909bfe2ffa8aa85c195ab8536a11052937ea1f3cea6428adef439fbdc",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/contracts.py": "12298a28a5958cf75ced3412a07a49607afa53d4aed060dd844d1326b21d52a2",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/features.py": "8b27b0c452514756a7b6af91b25a26534ab62c50070f92e1498e7a94dd314e87",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/figures.py": "f3eb7841e7cc68d05c13c065fc0e8d721cf8b5b80383657f99c040bf7eb7b7df",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/matrix.py": "a826fb5b5c14fe6fff4ca1fce25d12efd49d25ce49541e38abacc130d198a29a",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/model.py": "09cc2959480bec953fe1fa7e92a53dbdf8be6c4d174151e00fef73e70929df76",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/pooling.py": "52ef08c85ed256a46c686c7f1afd1b66219735508f4a29cc0922fdb6096bb25c",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/probes.py": "d7c1a6957a254d64bce27fef39654ac66fe782e80d4387fe1aba09e96437e3df",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/security.py": "88268975e13fb02c07a8da30017b08b7b3747974b90bf57bbfc27be343c9b460",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/training.py": "f344f17fa722c4e942a3f5e42092bfaac06dabdcf6d672280384e804e6f0bd9e",
+    "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/src/lg_response_pilot/upstream.py": "8e537d514eabdd7f7c1d7c2234d6fc221610ea0ab5791e9e628e58c6f0e7a4de",
+    "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/mri_clinical_complementarity_audit/scripts/data_contracts.py": "8ea6f0f3a5208f3cf95b1cc9be9a07c1945af3ab15cd9139e83baede0af9aea6",
+    "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/mri_clinical_complementarity_audit/scripts/modeling.py": "46f34142d24218ec84c17e7ee499885f0ce7a94a1a55b047f8b78e93121191b7"
+  }
+}
