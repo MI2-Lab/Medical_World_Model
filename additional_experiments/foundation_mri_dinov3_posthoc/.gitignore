@@ -1,0 +1,16 @@
+# Never publish patient-level or licensed binary artifacts.
+checkpoints/*
+!checkpoints/.gitkeep
+features/*
+!features/.gitkeep
+predictions/*
+!predictions/.gitkeep
+logs/*
+!logs/.gitkeep
+metrics/*.private.*
+reports/*.private.*
+**/*.private.*
+__pycache__/
+*.py[cod]
+.pytest_cache/
+

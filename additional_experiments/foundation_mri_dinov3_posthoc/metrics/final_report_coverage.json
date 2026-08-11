@@ -1,0 +1,15 @@
+{
+  "branch": "feature/foundation-mri-dinov3-posthoc",
+  "content_commit_sha": "042efc70cd9994d888cd4d2c85d7418f76a5f8f6",
+  "final_report_sha256": "2173d51d3f358c953f24d6a3584e96f1070477c543c73d16d0665744b8b1e2fb",
+  "git_handoff_sha256": "dfb7cc4edc58281f6fc9bad194bc494683e694ddf9fd3091506a4f31c5aa8df3",
+  "private_inputs_read": false,
+  "publication_commit_marker": "coverage_receipt",
+  "remote": "origin",
+  "remote_ref": "refs/heads/feature/foundation-mri-dinov3-posthoc",
+  "reporting_run_provenance_sha256": "e2f84967d1a050dca25273ab4154d9b085f4f03699625c611b973481c4c2f1b6",
+  "schema_version": "foundation_mri_dinov3_final_report_coverage_v1",
+  "source_report_sha256": "44666a0d85e66d3f436173291fe086ef4ad684d9ee30403819f80a910e317750",
+  "substantive_push_status": "SUBSTANTIVE_PUSH_OK",
+  "substantive_remote_ref_sha": "042efc70cd9994d888cd4d2c85d7418f76a5f8f6"
+}

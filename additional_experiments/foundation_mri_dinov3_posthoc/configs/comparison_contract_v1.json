@@ -1,0 +1,48 @@
+{
+  "schema_version": "foundation_mri_dinov3_comparison_contract_v1",
+  "candidate": "dinov3_vitb16_lvd1689m_posthoc",
+  "candidate_policy": "report every frozen DINOv3 axis, timing, design, and comparison; no best-cell filtering",
+  "reference_models": {
+    "foundation": "dino_vitb16_imagenet1k",
+    "current_global": "GAP0",
+    "current_local": "LOCAL0"
+  },
+  "timings": ["T0", "T0-T1", "T0-T2"],
+  "populations": ["full_808", "radiomics_complete_case_375"],
+  "bootstrap": {
+    "unit": "patient",
+    "pairing": "same outer-fold OOF patient and identical resample weights",
+    "seed": 2026,
+    "replicates": 5000,
+    "ci_level": 0.95,
+    "interval": "percentile",
+    "metrics": ["auroc", "auprc", "brier"],
+    "delta": "candidate_minus_reference"
+  },
+  "families": {
+    "dinov3_vs_dinov1": {
+      "count": 36,
+      "rule": "both populations; matched GLOBAL/LOCAL; full mri_only,mri_clinical; complete mri_only_paired,mri_clinical_paired,mri_ftv,mri_clinical_ftv; all timings"
+    },
+    "local_vs_global": {
+      "count": 18,
+      "rule": "DINOv3 LOCAL minus GLOBAL; both populations; all DINOv3 designs; all timings"
+    },
+    "dinov3_vs_current_cnn_full": {
+      "count": 12,
+      "rule": "full cohort only; GLOBAL minus GAP0 and LOCAL minus LOCAL0; mri_only,mri_clinical; all timings"
+    },
+    "clinical_gain": {
+      "count": 12,
+      "rule": "DINOv3 mri_clinical minus clinical-only; both populations; both axes; all timings"
+    },
+    "beyond_ftv": {
+      "count": 6,
+      "rule": "complete-case DINOv3 mri_clinical_ftv minus clinical_ftv; both axes; all timings"
+    }
+  },
+  "expected_comparison_specs": 84,
+  "expected_metric_rows": 252,
+  "inference_scope": "post-hoc descriptive paired OOF bootstrap; not confirmatory"
+}
+

@@ -1,0 +1,153 @@
+{
+  "schema_version": "foundation_mri_dinov3_model_input_lock_v1",
+  "status": "FROZEN_BEFORE_DINOV3_PATIENT_EXTRACTION",
+  "created_utc": "2026-08-11T14:33:45Z",
+  "post_hoc_disclosure": {
+    "user_requested_after_parent_publication": true,
+    "no_preregistration_claim": true,
+    "original_candidate_set_unchanged": true,
+    "patient_level_pretraining_contamination_status": "unknown",
+    "custom_license_acknowledged": true,
+    "checkpoint_redistribution": false
+  },
+  "formal_dinov3_outcomes_loaded": false,
+  "parent_publication": {
+    "path": "additional_experiments/foundation_mri_dinov3_posthoc/configs/parent_publication_v1.json",
+    "sha256": "afa32cb6fd593839d00ba35169b4273c4a0319f699e005f2d3567760d8c12fbc"
+  },
+  "protocol": {
+    "path": "additional_experiments/foundation_mri_dinov3_posthoc/configs/model_input_protocol_v1.json",
+    "sha256": "4f993f2c41dd25c947cc57a46d1147c385c9bcc21e9d4ecc87b71ee8ab84ab4b"
+  },
+  "locked_files": {
+    "experiment_gitignore": {
+      "path": "additional_experiments/foundation_mri_dinov3_posthoc/.gitignore",
+      "sha256": "458a49742e6e9d4e995d03d3b98654b9f6ec6f01799af640e8dae87128dee734"
+    },
+    "experiment_plan": {
+      "path": "additional_experiments/foundation_mri_dinov3_posthoc/EXPERIMENT_PLAN.md",
+      "sha256": "c09470275a97d82886d2176d39255b4d15201adfb85d2cebdba0f9cd3c591709"
+    },
+    "requirements": {
+      "path": "additional_experiments/foundation_mri_dinov3_posthoc/requirements.txt",
+      "sha256": "c164427e3ec34842a747faecf40675f658c8ada5305569fafec380db123c374f"
+    },
+    "model_selection_report": {
+      "path": "additional_experiments/foundation_mri_dinov3_posthoc/reports/model_selection_and_limitations.md",
+      "sha256": "2f7a29c8df854721b38abdb2ed62b092083a70d1f0ac61d99cd173815ddb1634"
+    },
+    "package_init": {
+      "path": "additional_experiments/foundation_mri_dinov3_posthoc/src/foundation_mri_dinov3/__init__.py",
+      "sha256": "39064beeb9806431fde6a20d4cea51207c4632688c8c82d8e7127e932cc6f682"
+    },
+    "paths_module": {
+      "path": "additional_experiments/foundation_mri_dinov3_posthoc/src/foundation_mri_dinov3/paths.py",
+      "sha256": "85d5ae2736c7bc2362313a627a8c97d978ef6db7c1aeb35cd5574bd6f383324f"
+    },
+    "locking_module": {
+      "path": "additional_experiments/foundation_mri_dinov3_posthoc/src/foundation_mri_dinov3/locking.py",
+      "sha256": "03067e9fae0552a5536818aec7f90d777f2aaa35e0edb343b3765d610bb582e6"
+    },
+    "model_module": {
+      "path": "additional_experiments/foundation_mri_dinov3_posthoc/src/foundation_mri_dinov3/model.py",
+      "sha256": "0a736b7b4caaf2eb105d5a7b512e73feccbea04d8253001745818aee60b4fbde"
+    },
+    "extraction_module": {
+      "path": "additional_experiments/foundation_mri_dinov3_posthoc/src/foundation_mri_dinov3/extraction.py",
+      "sha256": "4181c4ab7c0791952a4b8f3d411594834ae29ea51705d420f60c7e2b9dda1b39"
+    },
+    "extraction_cli": {
+      "path": "additional_experiments/foundation_mri_dinov3_posthoc/scripts/extract_features.py",
+      "sha256": "9e8e46af9cc687e4ffb6451e0d220dab299099a6ffeebbad7a6738742ac478f2"
+    },
+    "test_conftest": {
+      "path": "additional_experiments/foundation_mri_dinov3_posthoc/tests/conftest.py",
+      "sha256": "00c40b643a9cd7bcb69a9b7f36caf61d6d6810e7446e4205b3ad0877d7d24d33"
+    },
+    "model_extraction_tests": {
+      "path": "additional_experiments/foundation_mri_dinov3_posthoc/tests/test_model_extraction.py",
+      "sha256": "788682e41f750de15278e6e19b419fdc43bfcb82f4f38d4162c03b75c82eb218"
+    },
+    "locking_tests": {
+      "path": "additional_experiments/foundation_mri_dinov3_posthoc/tests/test_locking.py",
+      "sha256": "2134f2910b6aaa964f11eff9bef8c71346398dba5a28cd4b692e7ec3e12878f9"
+    },
+    "base_package_init": {
+      "path": "additional_experiments/foundation_mri_baselines/src/foundation_mri/__init__.py",
+      "sha256": "cd3a9f45fa3ae9908e1c0cef87d25cb06103b2dbf2bff06721a8adb89ea1b407"
+    },
+    "base_spatial_module": {
+      "path": "additional_experiments/foundation_mri_baselines/src/foundation_mri/spatial.py",
+      "sha256": "e94ff64625c234c40945b1e762af0ff5bf7070267944ec5a712ce8b899371a50"
+    },
+    "base_upstream_module": {
+      "path": "additional_experiments/foundation_mri_baselines/src/foundation_mri/upstream.py",
+      "sha256": "0cac94b802599465f6edd7b9219ab056ba04af28ec22a0a37a05028d0b3d2330"
+    },
+    "base_provenance_module": {
+      "path": "additional_experiments/foundation_mri_baselines/src/foundation_mri/provenance.py",
+      "sha256": "993fede4734bae119f3d2a95b296773f3128a047dea9a6bf6585864fd420ffd6"
+    },
+    "stage_b_data_module": {
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/data.py",
+      "sha256": "948a25aa00eeaf68a11f5a0bcf7c4d0c7592786a36ebb9bce472361745eebb59"
+    },
+    "stage_b_contracts_module": {
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/contracts.py",
+      "sha256": "48d7738b6764780ba2e784f826be44ac718fdbb0beb526ec31c3c5525cba4bf9"
+    },
+    "pooling_package_init": {
+      "path": "additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/__init__.py",
+      "sha256": "55dbb7a79f6248075464cb983617296bc71cd391b0c08d956c077f3ce0c75584"
+    },
+    "pooling_module": {
+      "path": "additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/pooling.py",
+      "sha256": "630a717a98a7e80d69d3a462dd3086c2de81449c91910312cbc0bfce0fd58d54"
+    }
+  },
+  "model_artifacts": {
+    "config.json": {
+      "sha256": "3c9cc418f4622fd6d5587fd142b6f3cba0ba6a69f67ced907d8b7f26118451ec",
+      "bytes": 744
+    },
+    "model.safetensors": {
+      "sha256": "9a21ac3df0c63839d62612dda6f454d816c25611cc7a52966ed5a5a94921dc8b",
+      "bytes": 342662192
+    },
+    "preprocessor_config.json": {
+      "sha256": "960c41d1f3a7778b936365769a2d90550b318a6c0a53a0296957adacfe5e0dd7",
+      "bytes": 585
+    }
+  },
+  "upstream_inputs": {
+    "fold_manifest": {
+      "path": "/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+      "sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+      "bytes": 96384
+    },
+    "c1b_cache_manifest": {
+      "path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/manifests/stage_b_c1b_cache.private.csv",
+      "sha256": "672ad7436b19f30a89640a2b36504f1e7fbaaff83fd07bc058c008b204d2a3c9",
+      "bytes": 280255
+    }
+  },
+  "required_environment": {
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1",
+    "HF_HUB_DISABLE_IMPLICIT_TOKEN": "1",
+    "HF_HUB_DISABLE_TELEMETRY": "1",
+    "HF_HUB_DISABLE_PROGRESS_BARS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "formal_command_argv": [],
+  "expected_output": {
+    "huggingface_revision": "5931719e67bbdb9737e363e781fb0c67687896bc",
+    "path": "additional_experiments/foundation_mri_dinov3_posthoc/features/formal/dinov3_vitb16_lvd1689m_posthoc/frozen_features.private.npz",
+    "schema": "foundation unified NPZ",
+    "representation_shape": [808, 4, 2, 1536],
+    "representation_dtype": "float32",
+    "mode": "0600"
+  }
+}
+

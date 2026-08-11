@@ -1,0 +1,158 @@
+{
+  "comparison_contract_sha256": "f59533ebefcfb8fc48298386d4a9aa9d21bbeea5781e441e49b2210ec72e3760",
+  "comparison_spec_count": 84,
+  "input_sha256": {
+    "new_baseline_private": "2c5fb8cff56d94c0372d3c31f9de539dacfb90c0ddf6940fb01e2e45685c28ed",
+    "new_baseline_public": "1faad23cea5071b102c158231d59adb33c31141087e8217924a9a178cf64aa78",
+    "new_ftv_private": "c447a04620e839c49bd1b26c0567ad2a43bb9bca90c5f354a52405e354888cb8",
+    "new_ftv_public": "d8a1b3c9b42f2e16401557a909af2fd2990ab0cf24cb17549d308cd154516c12",
+    "new_phenotype_private": "d7cc9df4b230624020d2d0a0dd6d6b7c531a33a1d27e02e92f2f5901dffc2a32",
+    "new_phenotype_public": "b5b1c3cf69c4cc40b89ba767aafb7b17d8581c3f12262795eb544524000cff59",
+    "new_subtype_private": "4a91ac7eac593170c4b7c54fda7e9d714dd8e3018250d335a5349e0cbf33b1c2",
+    "new_subtype_public": "1029949b6baabcd5b996ef584d554f153b95b79092188c2f9f21bed41abbbcec",
+    "old_baseline_private": "d45b55341fc8c6c0c169d547a3b47d81dc55d9423e0e06be0be72bea654b350e",
+    "old_baseline_public": "9ba743cfb6515784bd06d1384c1fe3bcad1d2d9873e00ba438bed1e31b71f52e",
+    "old_ftv_public": "0341cffefe45e5e393ff9dcad147c5839331bf32608cd8ade3b2ca49d4bb76a8",
+    "old_phenotype_public": "042258b147c6076083846aad80c9df71c0e1236b51573410b4025505cd5c93f0",
+    "old_subtype_public": "c05256803c629122625078d4f1c9f7eed0974554fcf86720e4d2e17f24162279"
+  },
+  "lineage_mode": "formal",
+  "model_name": "dinov3_vitb16_lvd1689m_posthoc",
+  "paired_metric_row_count": 252,
+  "posthoc": true,
+  "producers": {
+    "baseline": {
+      "argv_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "artifacts": {
+        "metrics": {
+          "bytes": 23031,
+          "sha256": "1faad23cea5071b102c158231d59adb33c31141087e8217924a9a178cf64aa78"
+        },
+        "predictions": {
+          "bytes": 4559979,
+          "sha256": "2c5fb8cff56d94c0372d3c31f9de539dacfb90c0ddf6940fb01e2e45685c28ed"
+        },
+        "progress": {
+          "bytes": 960469,
+          "sha256": "b6e29a95097c951750e10ea864778a97f19d929d8018091cf1b6d3462c7d500a"
+        },
+        "selection": {
+          "bytes": 1293246,
+          "sha256": "8bbef8e01f69bb5af6d4c61290384c8d935019696e0b0b3e66de2d63b2e2cb32"
+        }
+      },
+      "consumer": "baseline",
+      "counts": {
+        "pcr_identities": 36,
+        "pcr_prediction_rows": 18696,
+        "pcr_public_rows": 72,
+        "pcr_selection_rows": 180
+      },
+      "evaluation_lock_sha256": "7732828579d8159f927ce821348fcfe24d430b37d4218db9464c9bce881d1b38",
+      "receipt_sha256": "88e1ba5e227d8e90a064678499aed0e55d1c2584711a2fabf29bf49c7c2cd10c",
+      "schema_version": "foundation_mri_dinov3_producer_receipt_v1"
+    },
+    "parent_comparator": {
+      "artifacts": {
+        "parent_ftv_metrics": {
+          "bytes": 29722,
+          "sha256": "0341cffefe45e5e393ff9dcad147c5839331bf32608cd8ade3b2ca49d4bb76a8"
+        },
+        "parent_pcr_metrics": {
+          "bytes": 76788,
+          "sha256": "9ba743cfb6515784bd06d1384c1fe3bcad1d2d9873e00ba438bed1e31b71f52e"
+        },
+        "parent_pcr_oof_predictions": {
+          "bytes": 14739433,
+          "sha256": "d45b55341fc8c6c0c169d547a3b47d81dc55d9423e0e06be0be72bea654b350e"
+        },
+        "parent_phenotype_metrics": {
+          "bytes": 6859,
+          "sha256": "042258b147c6076083846aad80c9df71c0e1236b51573410b4025505cd5c93f0"
+        },
+        "parent_subtype_metrics": {
+          "bytes": 3530,
+          "sha256": "c05256803c629122625078d4f1c9f7eed0974554fcf86720e4d2e17f24162279"
+        }
+      },
+      "required_csv_count": 5
+    },
+    "probe": {
+      "argv_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "artifacts": {
+        "ftv_metrics": {
+          "bytes": 10393,
+          "sha256": "d8a1b3c9b42f2e16401557a909af2fd2990ab0cf24cb17549d308cd154516c12"
+        },
+        "ftv_predictions": {
+          "bytes": 1304681,
+          "sha256": "c447a04620e839c49bd1b26c0567ad2a43bb9bca90c5f354a52405e354888cb8"
+        },
+        "ftv_selection": {
+          "bytes": 329218,
+          "sha256": "9a85f408418e59f395e0b2dbc294c9b2aa30abdc4f1fbf65750d9def65cd490c"
+        },
+        "phenotype_metrics": {
+          "bytes": 2479,
+          "sha256": "b5b1c3cf69c4cc40b89ba767aafb7b17d8581c3f12262795eb544524000cff59"
+        },
+        "phenotype_predictions": {
+          "bytes": 704492,
+          "sha256": "d7cc9df4b230624020d2d0a0dd6d6b7c531a33a1d27e02e92f2f5901dffc2a32"
+        },
+        "phenotype_selection": {
+          "bytes": 144409,
+          "sha256": "a3095aca1090e55b79fd1cb811cc11159b8a46243ebefec8a97d542a314fe196"
+        },
+        "progress": {
+          "bytes": 608649,
+          "sha256": "32747048f8e64b81b575c52de15feccf747be1f9a4d2295519021fe700aec4ca"
+        },
+        "subtype_metrics": {
+          "bytes": 1359,
+          "sha256": "1029949b6baabcd5b996ef584d554f153b95b79092188c2f9f21bed41abbbcec"
+        },
+        "subtype_predictions": {
+          "bytes": 542728,
+          "sha256": "4a91ac7eac593170c4b7c54fda7e9d714dd8e3018250d335a5349e0cbf33b1c2"
+        },
+        "subtype_selection": {
+          "bytes": 127808,
+          "sha256": "e23fd64123d4d7f51505d1cfe64f4f0460a6defbe83558c0ff75009437d8dc0f"
+        }
+      },
+      "consumer": "probe",
+      "counts": {
+        "ftv_identities": 14,
+        "ftv_prediction_rows": 5250,
+        "ftv_public_rows": 28,
+        "ftv_selection_rows": 70,
+        "phenotype_identities": 4,
+        "phenotype_prediction_rows": 3232,
+        "phenotype_public_rows": 8,
+        "phenotype_selection_rows": 20,
+        "subtype_identities": 2,
+        "subtype_prediction_rows": 1616,
+        "subtype_public_rows": 4,
+        "subtype_selection_rows": 10
+      },
+      "evaluation_lock_sha256": "7732828579d8159f927ce821348fcfe24d430b37d4218db9464c9bce881d1b38",
+      "receipt_sha256": "ec36ac19e37e146fccbdaaafa95c6b5f62401cac4c645e0ec9f60611b3bfdd19",
+      "schema_version": "foundation_mri_dinov3_producer_receipt_v1"
+    }
+  },
+  "public_artifact_sha256": {
+    "comparison_figure": "429eb0ba756c86434724f3aa3be42fd1f7d20b870995b2b7f81ae233493d6e6d",
+    "final_report": "44666a0d85e66d3f436173291fe086ef4ad684d9ee30403819f80a910e317750",
+    "paired_comparisons": "69b064f847c792c992982646bad341fa4e7e85c0df5b1cd309ae14dc1b7bad68",
+    "results_summary": "5d9818550cd7135ade515711e6aa54172cf840b00f9589b16a4e943dcc71b9b8",
+    "timing_figure": "824c71053757d9eed508d87b59a338d820e7050209000a6d60f155b60c1faff8"
+  },
+  "published_last": true,
+  "report_lock": {
+    "argv_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "lock_sha256": "7732828579d8159f927ce821348fcfe24d430b37d4218db9464c9bce881d1b38"
+  },
+  "schema_version": "foundation_mri_dinov3_posthoc_reporting_provenance_v1",
+  "summary_schema_version": "foundation_mri_dinov3_posthoc_results_summary_v1"
+}
