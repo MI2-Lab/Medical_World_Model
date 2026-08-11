@@ -1,0 +1,113 @@
+{
+  "artifact": "frozen_LOCAL_MRI_reference",
+  "experiment": "classical_dce_phenotype_complementarity",
+  "inputs": {
+    "clinical_workbook_sha256": "c016962d2d1e23686746ad3e74a58caeb2d1362f6393fd6209c10723f87c3a53",
+    "config": {
+      "path": "/data/mi2-interns/bowen/Medical_World_Model_classical_dce/additional_experiments/classical_dce_phenotype_complementarity/configs/experiment.json",
+      "read_only": true,
+      "sha256": "530f06ea188653df11e4391c05ce28a9cf8f9db27017df02ed9fb42792af26f3",
+      "size_bytes": 4078
+    },
+    "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+    "pcr_oof_predictions": {
+      "path": "/data/mi2-interns/bowen/Medical_World_Model_mri_complementarity/additional_experiments/mri_clinical_complementarity_audit/predictions/pcr_oof.private.csv",
+      "read_only": true,
+      "sha256": "7c9a10808e8d56eb20d1b7302cc19f1b32df0202979e290013969b9127d8e5a1",
+      "size_bytes": 12123017
+    },
+    "profile_oof_predictions": {
+      "path": "/data/mi2-interns/bowen/Medical_World_Model_mri_complementarity/additional_experiments/mri_clinical_complementarity_audit/predictions/profile_oof.private.csv",
+      "read_only": true,
+      "sha256": "15c8aa1aefe3cee43eaec0afe6a216494a58d29e41ce8f15204684325bdf44ae",
+      "size_bytes": 7239636
+    },
+    "radiomics_workbook_sha256": "f714c7784b1e57daa74d7cfb20db71cd432b4e4596b9b4eacdd5a76b7f8a58dc"
+  },
+  "matched_population": {
+    "accepted_patient_id_patterns": [
+      "ISPY2-<exact six digits>",
+      "ACRIN-6698-<exact six digits>"
+    ],
+    "authoritative_labels_verified": true,
+    "exact_mri_overlap": 375,
+    "exact_trial_id_overlap_verified": true,
+    "excluded_without_locked_mri_overlap": 9,
+    "her2_positive": 88,
+    "hr_positive": 217,
+    "name": "ftv_complete_375",
+    "outer_test_fold_verified": true,
+    "pcr_positive": 110,
+    "source_radiomics_patients": 384,
+    "subtype_counts": {
+      "HR+/HER2+": 59,
+      "HR+/HER2-": 158,
+      "HR-/HER2+": 29,
+      "HR-/HER2-": 129
+    }
+  },
+  "metric_contract": {
+    "binary_profile": [
+      "AUROC",
+      "average precision",
+      "balanced accuracy"
+    ],
+    "binary_profile_decision": "stored fold-validation threshold",
+    "pcr": [
+      "AUROC",
+      "average precision",
+      "balanced accuracy",
+      "Brier"
+    ],
+    "pcr_balanced_accuracy_threshold": 0.5,
+    "subtype": [
+      "macro one-vs-rest AUROC",
+      "macro average precision",
+      "balanced accuracy"
+    ]
+  },
+  "outputs": {
+    "pcr_metrics": {
+      "path": "/data/mi2-interns/bowen/Medical_World_Model_classical_dce/additional_experiments/classical_dce_phenotype_complementarity/metrics/mri_reference_metrics.csv",
+      "patient_level": false,
+      "rows": 20,
+      "sha256": "f1c069c0c009601bef62b1ed98fa3d7280be817ebb8aa728c1c4f7ac4be84dea"
+    },
+    "profile_metrics": {
+      "path": "/data/mi2-interns/bowen/Medical_World_Model_classical_dce/additional_experiments/classical_dce_phenotype_complementarity/metrics/mri_reference_profile_metrics.csv",
+      "patient_level": false,
+      "rows": 21,
+      "sha256": "ca9715a4c17db7c7f884a8fc2614cb039c052e0e9b944e0a171a1c3c4b454fdf"
+    }
+  },
+  "privacy": {
+    "outputs_are_aggregate_only": true,
+    "patient_ids_written": false,
+    "patient_level_metrics_written": false,
+    "prediction_probabilities_written": false
+  },
+  "schema_version": 1,
+  "sensitivity_contract": {
+    "aggregation": "unweighted mean/min/max of four seed-x-arm metrics; patient rows not pooled",
+    "arms": [
+      "LOCAL0",
+      "LOCAL3"
+    ],
+    "duplicate_patients_pooled_across_cells": false,
+    "n_cells": 4,
+    "seeds": [
+      2026,
+      3026
+    ]
+  },
+  "status": "validated_aggregate_only",
+  "timing_labels": {
+    "T0": "T0",
+    "T1": "T1",
+    "T2": "T2",
+    "T3": "T3 (late/pre-surgery)",
+    "long_T0_T1": "Long T0-T1",
+    "long_T0_T2": "Long T0-T2",
+    "long_T0_T3": "Long T0-T3 (includes late/pre-surgery)"
+  }
+}

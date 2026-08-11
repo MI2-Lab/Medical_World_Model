@@ -1,0 +1,56 @@
+[1/7] primary C/F/N/FULL pCR grid
+[2/7] prespecified family ablation
+[3/7] locked MRI-matched 375 sensitivity
+[4/7] HR/HER2/subtype probes
+[5/7] FTV redundancy and residualization
+[6/7] paired 2,000-draw patient bootstrap
+[7/7] frozen MRI aggregate reference and run summary
+{
+  "experiment": "Classical DCE Phenotype Complementarity Baseline",
+  "status": "complete",
+  "seed": 20260811,
+  "bootstrap_draws": 2000,
+  "source": {
+    "radiomics_path": "/data/data/Breast_Cancer/I-SPY2/Multi-feature-MRI-NACT-Data.xlsx",
+    "radiomics_sha256": "f714c7784b1e57daa74d7cfb20db71cd432b4e4596b9b4eacdd5a76b7f8a58dc",
+    "clinical_path": "/data/data/Breast_Cancer/I-SPY2/ISPY2-Imaging-Cohort-1-Clinical-Data.xlsx",
+    "clinical_sha256": "c016962d2d1e23686746ad3e74a58caeb2d1362f6393fd6209c10723f87c3a53",
+    "n": 384,
+    "n_pcr_positive": 113,
+    "n_hr_positive": 222,
+    "n_her2_positive": 90
+  },
+  "primary_population": {
+    "name": "clinical_radiomics_complete_384",
+    "n": 384,
+    "pCR_positive": 113,
+    "selection_boundary": "selected workbook datawith4visits; not population-wide completeness"
+  },
+  "mri_matched_population": {
+    "name": "mri_matched_375",
+    "n": 375,
+    "pCR_positive": 110
+  },
+  "counts": {
+    "pcr_metric_rows": 276,
+    "profile_metric_rows": 144,
+    "incremental_effect_rows": 24
+  },
+  "software": {
+    "python": "3.11.14",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "scipy": "1.16.3",
+    "scikit_learn": "1.8.0"
+  },
+  "elapsed_seconds": 213.22086000442505,
+  "timing_contract": "information_timing_contract.csv",
+  "t3_label": "late/pre-surgery",
+  "artifacts": {
+    "pcr_oof_metrics_sha256": "b437b79c0648c7ba941e0801d276fea8a152f3b697f31f94d746dad36df448d4",
+    "profile_oof_metrics_sha256": "94637b00566de708f8f79ed4e18cfdb787651e3eb9ca20236c547b06d8785b4f",
+    "incremental_effects_sha256": "7f77d7e1d592aea4e56c1699d1ff3b09222e393924e7184813c9d5476efae126",
+    "matched_population_manifest_sha256": "8be4ebd88f4f6effacfbf30ed3b0c4a84f1b8ae02d00fedf3764a76694434c09"
+  },
+  "quick_mode": false
+}

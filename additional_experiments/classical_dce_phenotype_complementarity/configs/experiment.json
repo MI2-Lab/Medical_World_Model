@@ -1,0 +1,69 @@
+{
+  "experiment_name": "Classical DCE Phenotype Complementarity Baseline",
+  "seed": 20260811,
+  "bootstrap_draws": 2000,
+  "bootstrap_stratification": "outer_fold_x_pCR_outcome",
+  "primary_population": "clinical_radiomics_complete_384",
+  "source": {
+    "radiomics_workbook": "/data/data/Breast_Cancer/I-SPY2/Multi-feature-MRI-NACT-Data.xlsx",
+    "radiomics_sheet": "datawith4visits",
+    "radiomics_sha256": "f714c7784b1e57daa74d7cfb20db71cd432b4e4596b9b4eacdd5a76b7f8a58dc",
+    "clinical_workbook": "/data/data/Breast_Cancer/I-SPY2/ISPY2-Imaging-Cohort-1-Clinical-Data.xlsx",
+    "clinical_sheet": "ISPY2_n985_TCIA_clinical",
+    "clinical_sha256": "c016962d2d1e23686746ad3e74a58caeb2d1362f6393fd6209c10723f87c3a53",
+    "mri_fold_manifest": "/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+    "mri_fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+    "mri_audit_predictions": "/data/mi2-interns/bowen/Medical_World_Model_mri_complementarity/additional_experiments/mri_clinical_complementarity_audit/predictions/pcr_oof.private.csv",
+    "mri_profile_predictions": "/data/mi2-interns/bowen/Medical_World_Model_mri_complementarity/additional_experiments/mri_clinical_complementarity_audit/predictions/profile_oof.private.csv"
+  },
+  "outer_cv": {
+    "n_splits": 5,
+    "validation_fraction": 0.2,
+    "stratification": "joint_pCR_HR_HER2",
+    "fit_scope": "outer_train_only",
+    "selection_metric": "validation_AUROC"
+  },
+  "preprocessing": {
+    "winsor_quantiles": [0.01, 0.99],
+    "log1p_families": ["FTV", "LD", "BPE"],
+    "identity_families": ["SPH"],
+    "scaling": "StandardScaler fitted on outer train",
+    "primary_missingness": "strict matched complete case",
+    "secondary_missingness": "outer-train median plus missingness indicators"
+  },
+  "relative_change": {
+    "formula": "100 * (x_t - x_T0) / abs(x_T0)",
+    "eligibility": "baseline must be finite and non-zero",
+    "selection_rule": "fixed before outcome modeling; never selected on test performance"
+  },
+  "clinical_contract": {
+    "numeric": ["Age_at_Screening"],
+    "categorical": ["HR", "HER2", "MP", "race_simple", "menopausal_status_simple", "ethnicity", "Arm"],
+    "categorical_missing": "explicit __MISSING__ level learned without test vocabulary",
+    "numeric_missing": "outer-train median plus indicator"
+  },
+  "models": {
+    "logistic_C": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "svm_C": [0.1, 1.0, 10.0, 100.0],
+    "svm_gamma": [0.001, 0.01, 0.1, 1.0],
+    "ridge_alpha": [0.01, 0.1, 1.0, 10.0, 100.0],
+    "residualizer_alpha": 1.0
+  },
+  "feature_families": {
+    "FTV": ["VOLUME_TUM_BLU_V10", "VOLUME_TUM_BLU_V20", "VOLUME_TUM_BLU_V30", "VOLUME_TUM_BLU_V40"],
+    "SPH": ["SPHERICITY_T0", "SPHERICITY_T1", "SPHERICITY_T2", "SPHERICITY_T3"],
+    "LD": ["LD_T0", "LD_T1", "LD_T2", "LD_T3"],
+    "BPE": ["BPE_5slice_mean_T0", "BPE_5slice_mean_T1", "BPE_5slice_mean_T2", "BPE_5slice_mean_T3"]
+  },
+  "classification_rule": {
+    "supported_increment": "paired 95% CI for delta AUROC is above zero at two or more timings, including at least one of T0-T2",
+    "any_increment_signal": "paired 95% CI for C+FULL minus C+F delta AUROC is above zero at one or more timings",
+    "residual_signal": "paired 95% CI for residualized delta AUROC is above zero at one or more timings",
+    "standalone_signal": "OOF AUROC >= 0.60 at one or more timings",
+    "profile_signal": "NONFTV (N), not merely FULL, has OOF AUROC >= 0.60 for HR, HER2, or subtype at one or more timings",
+    "b_ftv_redundant": "standalone_signal AND NOT any_increment_signal AND NOT residual_signal",
+    "c_profile_only": "profile_signal AND NOT standalone_signal AND NOT any_increment_signal AND NOT residual_signal",
+    "d_weak": "NOT standalone_signal AND NOT profile_signal AND NOT any_increment_signal AND NOT residual_signal",
+    "mixed_rule": "if no A/B/C/D conjunction is satisfied, report MIXED/INCONCLUSIVE instead of forcing an unsupported mechanistic label"
+  }
+}

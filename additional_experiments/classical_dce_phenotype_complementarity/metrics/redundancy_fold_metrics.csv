@@ -1,0 +1,41 @@
+protocol,population,view,timing,timing_label,fold,n,alpha,r2,spearman
+primary_stratified_384,clinical_radiomics_complete_384,static,T0,T0,0,77,10.0,0.2934042888236408,0.6311583153688417
+primary_stratified_384,clinical_radiomics_complete_384,static,T0,T0,1,77,100.0,0.4670324580375034,0.6677795888322203
+primary_stratified_384,clinical_radiomics_complete_384,static,T0,T0,2,77,0.01,0.550267353728779,0.758988315188667
+primary_stratified_384,clinical_radiomics_complete_384,static,T0,T0,3,77,0.01,0.633336433772324,0.7981938994986759
+primary_stratified_384,clinical_radiomics_complete_384,static,T0,T0,4,76,0.01,0.49589515422253383,0.7185060630345084
+primary_stratified_384,clinical_radiomics_complete_384,static,T1,T1,0,77,10.0,0.4512278693465456,0.6412534833587464
+primary_stratified_384,clinical_radiomics_complete_384,static,T1,T1,1,77,100.0,0.36256602429110774,0.5984541774015457
+primary_stratified_384,clinical_radiomics_complete_384,static,T1,T1,2,77,1.0,0.5542542768194092,0.736920973763079
+primary_stratified_384,clinical_radiomics_complete_384,static,T1,T1,3,77,10.0,0.41019175420195775,0.640837063194497
+primary_stratified_384,clinical_radiomics_complete_384,static,T1,T1,4,76,0.01,0.397663003468266,0.6146989667086864
+primary_stratified_384,clinical_radiomics_complete_384,static,T2,T2,0,77,0.01,0.4753212987075969,0.7274830432725169
+primary_stratified_384,clinical_radiomics_complete_384,static,T2,T2,1,77,100.0,0.5256822264737024,0.7617301233807414
+primary_stratified_384,clinical_radiomics_complete_384,static,T2,T2,2,77,0.01,0.5011807193022386,0.7901835007098165
+primary_stratified_384,clinical_radiomics_complete_384,static,T2,T2,3,77,10.0,0.49358996471461924,0.7042957042957043
+primary_stratified_384,clinical_radiomics_complete_384,static,T2,T2,4,76,0.01,0.5385254287681818,0.7768610858765614
+primary_stratified_384,clinical_radiomics_complete_384,static,T3,T3 (late/pre-surgery),0,77,1.0,0.341590931855426,0.710946947789053
+primary_stratified_384,clinical_radiomics_complete_384,static,T3,T3 (late/pre-surgery),1,77,10.0,0.5511967145136998,0.8103738366896261
+primary_stratified_384,clinical_radiomics_complete_384,static,T3,T3 (late/pre-surgery),2,77,0.01,0.5375939379160788,0.8055891476944107
+primary_stratified_384,clinical_radiomics_complete_384,static,T3,T3 (late/pre-surgery),3,77,100.0,0.48280362030754487,0.7622377622377622
+primary_stratified_384,clinical_radiomics_complete_384,static,T3,T3 (late/pre-surgery),4,76,0.01,0.5133082804493408,0.8197079895884004
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T0,T0,0,77,10.0,0.2934042888236408,0.6311583153688417
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T0,T0,1,77,100.0,0.4670324580375034,0.6677795888322203
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T0,T0,2,77,0.01,0.550267353728779,0.758988315188667
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T0,T0,3,77,0.01,0.633336433772324,0.7981938994986759
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T0,T0,4,76,0.01,0.49589515422253383,0.7185060630345084
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T1,T1,0,77,10.0,0.45631181577007085,0.6717755928282243
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T1,T1,1,77,100.0,0.41457254237297836,0.6350754508649246
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T1,T1,2,77,100.0,0.5519911624103768,0.7631053157368947
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T1,T1,3,77,0.01,0.4046770273584006,0.6458452458552515
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T1,T1,4,76,10.0,0.44987324708190934,0.6615081754536946
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T2,T2,0,77,1.0,0.5773693989114506,0.7585046532414953
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T2,T2,1,77,100.0,0.5263633274720242,0.755368022572854
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T2,T2,2,77,0.1,0.514935465694915,0.7839003102160995
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T2,T2,3,77,10.0,0.6001209170604838,0.7589515747410484
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T2,T2,4,76,1.0,0.5965136689604634,0.7693148962236875
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T3,T3 (late/pre-surgery),0,77,0.01,0.3434852974900522,0.6995898838004101
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T3,T3 (late/pre-surgery),1,77,10.0,0.5626545528706282,0.7731216152268783
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T3,T3 (late/pre-surgery),2,77,100.0,0.5740999412572996,0.8281718281718281
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T3,T3 (late/pre-surgery),3,77,100.0,0.5395589829565325,0.7499342762500657
+primary_stratified_384,clinical_radiomics_complete_384,longitudinal,T3,T3 (late/pre-surgery),4,76,1.0,0.5500611998130509,0.7873352657834417

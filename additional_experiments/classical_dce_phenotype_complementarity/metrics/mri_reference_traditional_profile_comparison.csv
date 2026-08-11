@@ -1,0 +1,43 @@
+population,task,view,timing,timing_label,target,traditional_model,mri_model,n,traditional_auroc,mri_auroc,difference_mri_minus_traditional,mri_aggregation
+mri_matched_375,profile_probe,longitudinal,T1,T1,HER2,FULL,M,375,0.649746594868546,0.5789713335445043,-0.07077526132404177,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T1,T1,HR,FULL,M,375,0.5413288222598145,0.529283089307589,-0.01204573295222544,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T1,T1,subtype,FULL,M,375,0.5704161990927409,0.5441510598073274,-0.02626513928541352,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T1,T1,HER2,N,M,375,0.5491764333227748,0.5789713335445043,0.02979490022172948,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T1,T1,HR,N,M,375,0.44175465204456627,0.529283089307589,0.08752843726302278,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T1,T1,subtype,N,M,375,0.5024219466620612,0.5441510598073274,0.04172911314526617,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T2,T2,HER2,FULL,M,375,0.6352153943617359,0.5631038169147925,-0.07211157744694341,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T2,T2,HR,FULL,M,375,0.530537245522954,0.5397574811876568,0.009220235664702758,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T2,T2,subtype,FULL,M,375,0.5653473351393841,0.5366742110432066,-0.028673124096177505,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T2,T2,HER2,N,M,375,0.5828318023439975,0.5631038169147925,-0.019727985429204953,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T2,T2,HR,N,M,375,0.43589220089832587,0.5397574811876568,0.1038652802893309,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T2,T2,subtype,N,M,375,0.5211454789506901,0.5366742110432066,0.015528732092516484,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T3,T3 (late/pre-surgery),HER2,FULL,M,375,0.6116170414950902,0.5912852391510929,-0.02033180234399734,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T3,T3 (late/pre-surgery),HR,FULL,M,375,0.524762293647553,0.536374176048533,0.01161188240097999,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T3,T3 (late/pre-surgery),subtype,FULL,M,375,0.5626948004711039,0.5425319925997694,-0.02016280787133451,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T3,T3 (late/pre-surgery),HER2,N,M,375,0.5666376306620209,0.5912852391510929,0.024647608489071993,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T3,T3 (late/pre-surgery),HR,N,M,375,0.45948783760135337,0.536374176048533,0.07688633844717963,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,longitudinal,T3,T3 (late/pre-surgery),subtype,N,M,375,0.5264680864030106,0.5425319925997694,0.016063906196758793,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T0,T0,HER2,FULL,M,375,0.5215394361735824,0.5375554323725056,0.016015996198923133,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T0,T0,HR,FULL,M,375,0.5663827801434987,0.5688692177565187,0.0024864376130199206,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T0,T0,subtype,FULL,M,375,0.5005006540381005,0.523306248947643,0.02280559490954248,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T0,T0,HER2,N,M,375,0.4797671840354767,0.5375554323725056,0.05778824833702889,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T0,T0,HR,N,M,375,0.4705710785743452,0.5688692177565187,0.09829813918217345,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T0,T0,subtype,N,M,375,0.47896448281298215,0.523306248947643,0.04434176613466084,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T1,T1,HER2,FULL,M,375,0.6286822933164398,0.5708247545137789,-0.05785753880266087,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T1,T1,HR,FULL,M,375,0.5546287114274049,0.5016697777518521,-0.05295893367555282,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T1,T1,subtype,FULL,M,375,0.5890743827770198,0.5275819969516422,-0.06149238582537764,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T1,T1,HER2,N,M,375,0.5222917326575863,0.5708247545137789,0.04853302185619257,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T1,T1,HR,N,M,375,0.49670419413171557,0.5016697777518521,0.004965583620136493,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T1,T1,subtype,N,M,375,0.5083272479899319,0.5275819969516422,0.01925474896171031,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T2,T2,HER2,FULL,M,375,0.5537694013303769,0.5531952803294267,-0.0005741210009502229,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T2,T2,HR,FULL,M,375,0.5049874584378464,0.529946625444788,0.024959167006941563,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T2,T2,subtype,FULL,M,375,0.543930596785688,0.5056341912741236,-0.038296405511564435,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T2,T2,HER2,N,M,375,0.5562638580931265,0.5531952803294267,-0.0030685777636998424,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T2,T2,HR,N,M,375,0.4760251997900017,0.529946625444788,0.053921425654786304,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T2,T2,subtype,N,M,375,0.515516311525869,0.5056341912741236,-0.009882120251745397,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T3,T3 (late/pre-surgery),HER2,FULL,M,375,0.4874485270826734,0.5583524707000317,0.0709039436173583,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T3,T3 (late/pre-surgery),HR,FULL,M,375,0.5184040132998892,0.49054278714344046,-0.027861226156448704,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T3,T3 (late/pre-surgery),subtype,FULL,M,375,0.5181120385180082,0.5507581844411528,0.03264614592314452,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T3,T3 (late/pre-surgery),HER2,N,M,375,0.49148717136522013,0.5583524707000317,0.06686529933481156,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T3,T3 (late/pre-surgery),HR,N,M,375,0.4812751560403664,0.49054278714344046,0.009267631103074048,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,profile_probe,static,T3,T3 (late/pre-surgery),subtype,N,M,375,0.492024111197192,0.5507581844411528,0.05873407324396074,mean_of_four_seed_x_arm_cells_without_patient_pooling
