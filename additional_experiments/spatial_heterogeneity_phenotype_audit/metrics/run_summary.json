@@ -1,0 +1,152 @@
+{
+  "artifacts": {
+    "beyond_predictions": {
+      "path": "predictions/beyond_ftv_oof.private.csv",
+      "patient_level_private": true,
+      "sha256": "547813258a8a52867d96bc3c07554574fbb17ccbd9fb86a7515bd0c85e60afb0",
+      "size_bytes": 4331691
+    },
+    "gates": {
+      "path": "metrics/gates.json",
+      "patient_level_private": false,
+      "sha256": "725a49ca6b2b92448e28933a3af3ca567d749f20b6e1ce6a24681b616adabff3",
+      "size_bytes": 110665
+    },
+    "hyperparameters": {
+      "path": "metrics/hyperparameter_selections.csv",
+      "patient_level_private": false,
+      "sha256": "5918037ee4f1fe92e9a48ae3ccfc1b73022d1faa83e0e81b82ff7e9b458a1681",
+      "size_bytes": 1072715
+    },
+    "longitudinal_predictions": {
+      "path": "predictions/longitudinal_oof.private.csv",
+      "patient_level_private": true,
+      "sha256": "55e7e93c193ebf45bd11c3f3f493baf80c9a4022d29312807d089a53156e3317",
+      "size_bytes": 5592368
+    },
+    "mri_pcr_predictions": {
+      "path": "predictions/mri_only_pcr_oof.private.csv",
+      "patient_level_private": true,
+      "sha256": "341abd3f06819ce12f33ca7a224e2c6a6886cb2f8b545c81d0e06b06191c7ccf",
+      "size_bytes": 11059904
+    },
+    "oracle_predictions": {
+      "path": "predictions/oracle_oof.private.csv",
+      "patient_level_private": true,
+      "sha256": "c61bb4ad2c64eeaec134876adde487889428cba7821b2df5375f75e783ecec87",
+      "size_bytes": 47983617
+    },
+    "phenotype_predictions": {
+      "path": "predictions/phenotype_oof.private.csv",
+      "patient_level_private": true,
+      "sha256": "9080b62538e3c6e308a2dc500c692ded53c79ba590126c9f69458d3cd51057dd",
+      "size_bytes": 27642821
+    },
+    "residual_predictions": {
+      "path": "predictions/residualized_pcr_oof.private.csv",
+      "patient_level_private": true,
+      "sha256": "dba4e3ca12a8f08f1905c5e6f23b826c7fb6d02bb9987aa13c7e091cae3537e3",
+      "size_bytes": 3430507
+    },
+    "stage_b_authorization": {
+      "path": "metrics/stage_b_authorization.json",
+      "patient_level_private": false,
+      "sha256": "07d71ab957255d304d47c34d0280e5c6c65e8d4ef0eaacb010112c0f5abff330",
+      "size_bytes": 5286
+    },
+    "table1": {
+      "path": "metrics/table1_pooling_contract.csv",
+      "patient_level_private": false,
+      "sha256": "8f5da02c1581f0bfe880cd5fc33211600e82a88a438c82714b57d7146c79cf76",
+      "size_bytes": 1135
+    },
+    "table2": {
+      "path": "metrics/table2_phenotype_probes.csv",
+      "patient_level_private": false,
+      "sha256": "6f304fa7f48ea90b2b7e5812e8290c126f8acaea1b84f56e58fcfa46f869ab74",
+      "size_bytes": 25912
+    },
+    "table3": {
+      "path": "metrics/table3_mri_only_pcr.csv",
+      "patient_level_private": false,
+      "sha256": "faa43062499eb4551445fb8484937580dbfa9a04edaead49078ebca0f201afe0",
+      "size_bytes": 20594
+    },
+    "table4": {
+      "path": "metrics/table4_clinical_ftv_incremental.csv",
+      "patient_level_private": false,
+      "sha256": "f2ada6b9b8cf29d37bd9e0cb520adb67a836e509fb95ecb7c0e94b8112290194",
+      "size_bytes": 21357
+    },
+    "table5": {
+      "path": "metrics/table5_residualized_mri.csv",
+      "patient_level_private": false,
+      "sha256": "ea2f78313b58e15f0b049febfbd3580608b98116eaf17a2f619dbde4c44f2e8b",
+      "size_bytes": 8947
+    },
+    "table6": {
+      "path": "metrics/table6_longitudinal_heterogeneity.csv",
+      "patient_level_private": false,
+      "sha256": "803acb081c5b22056089da0485d8b43cdb4367932cb51a4829ac77f8c5ec2ed1",
+      "size_bytes": 10076
+    },
+    "table7": {
+      "path": "metrics/table7_oracle_regions.csv",
+      "patient_level_private": false,
+      "sha256": "4c1286d97dc452adc05c7b42d2d901297114b99f333f72eaf2eb7f3771108a83",
+      "size_bytes": 82699
+    }
+  },
+  "branch": "feature/spatial-heterogeneity-phenotype-audit",
+  "config_sha256": "9419a8b376aac48bbcb2b0d9888b08bba2139f6a25abb5904d42fb05c9526425",
+  "elapsed_seconds": 780.0919761657715,
+  "experiment": "spatial_heterogeneity_phenotype_audit",
+  "feature_asset_sha256": {
+    "seed_2026/LOCAL0/fold_0": "a5168a8d98f4bdf4c94cd7f1423ad8bcb6391eb1702f44e0fea83f575e632a64",
+    "seed_2026/LOCAL0/fold_1": "c0fd1f07abbe7560085add7c0db210089996703483e3920566ad0581ecc7a737",
+    "seed_2026/LOCAL0/fold_2": "c7e6cf56d0ae6ced7d881b0f3bf6260549ac39d73f422cf531b294a0ab63e696",
+    "seed_2026/LOCAL0/fold_3": "9075a0eba4e39b4bd1d576917989a11367baacf51ed3d18581a01e5f851187f7",
+    "seed_2026/LOCAL0/fold_4": "44bf52443f80f8533d05c7535195fe934ab15747059a587983b36a8d5c964d86",
+    "seed_2026/LOCAL3/fold_0": "b3a6dd578a4b47fa497c632d46fc33d8bbaed21e26e55c6f6ac64c18ce6b428b",
+    "seed_2026/LOCAL3/fold_1": "8b8591b0cc2f5afbfa53018bba83b26089d2e6ee7ca70b9dfe0f900f0490bd31",
+    "seed_2026/LOCAL3/fold_2": "e2e924c81e49855f2bfb515fd9a9da78d307954b7ec564d089055a0d74bc9614",
+    "seed_2026/LOCAL3/fold_3": "8f5377ff72e34cc5929d921038d4b00a42097e4023e98e70da6ec73970168412",
+    "seed_2026/LOCAL3/fold_4": "3a706b4989e5e934be5669bec3421bbc9e713514621191808c12709e1514802a",
+    "seed_3026/LOCAL0/fold_0": "1e108aaf0edfefdfdf94081f30573da43255de0f2b85b15805675694605c28db",
+    "seed_3026/LOCAL0/fold_1": "4e5b121bf4794af025ca7176cb2d871743b9e11b5101d97596ea680416c6332a",
+    "seed_3026/LOCAL0/fold_2": "9dc950bec9729d8559629fb634c3f58c0dd87b8d1d78ba56e5c408e9f66791f1",
+    "seed_3026/LOCAL0/fold_3": "2677453bac5fd363e7f1afc14d1d76bf69433d30f2435feb3233cbc46200ffef",
+    "seed_3026/LOCAL0/fold_4": "ca68b85e88aea994b26f16703716e3fce36413d879aa83bd79894a4e9da374e2",
+    "seed_3026/LOCAL3/fold_0": "b8c049494ec30ba93a8a086e5dbf0b06dd75186446d1f2b4853b82b4d05a163d",
+    "seed_3026/LOCAL3/fold_1": "a508034124669cc028f539fa12f3f50f8c711ffacdbffa93623331eb939b90dc",
+    "seed_3026/LOCAL3/fold_2": "32f9463ac8d9a822f1b0b7834571a9fe089b7cd5c6988c3b843d7fb9afb1080a",
+    "seed_3026/LOCAL3/fold_3": "cb12a8d30973340d4d861406bdbf6369bfcbe0ad9c02f098dc7feef05855be4e",
+    "seed_3026/LOCAL3/fold_4": "55730ed287301620b212548ede781db70bb0a5d80a3fd86f7a152849a3a5d157"
+  },
+  "n_feature_assets": 20,
+  "n_ftv_complete_patients": 375,
+  "n_full_patients": 808,
+  "preregistration_chain": {
+    "active_preregistration_commit": "7de344f0b7ac3393d07616e538fdcafd487944c3",
+    "active_preregistration_lock_sha256": "bf838056dcdf2286c6365468fec274137f482adb188ad82620cceadcae393a1a",
+    "original_preregistration_commit": "116b34f0eeec7485ead4d076517dcdfdf10960e8",
+    "original_preregistration_lock_sha256": "7ef5eb028d6dbc1e2c01d01cc86787d89a7156ffb9c6e7b5b61b9fe22591ca21",
+    "preregistration_amendment_sha256": "a8af41acc6d89bab956430fe35123a8520898d1443dfe1431b75905e13559690",
+    "preregistration_revision": 2
+  },
+  "preregistration_lock_sha256": "bf838056dcdf2286c6365468fec274137f482adb188ad82620cceadcae393a1a",
+  "public_outputs_contain_patient_level_data": false,
+  "reused_implementation_sha256": {
+    "data_contracts": "8ea6f0f3a5208f3cf95b1cc9be9a07c1945af3ab15cd9139e83baede0af9aea6",
+    "modeling": "46f34142d24218ec84c17e7ee499885f0ce7a94a1a55b047f8b78e93121191b7"
+  },
+  "runtime_implementation_sha256": {
+    "scripts/common.py": "8196ae2a08c8ea0dfe81587a6dd700b1be63d08d164a5afcc036c8df480f0a5c",
+    "scripts/run_audit.py": "da53a3ca0fd3d39ccbf763e1ee8cf0c462be51727597cc9292d9bd128517664d"
+  },
+  "schema_version": 2,
+  "scientific_classification": "PHENOTYPE SPATIALLY LOCALIZED",
+  "stage": "A",
+  "stage_b_authorized": true,
+  "status": "COMPLETE"
+}

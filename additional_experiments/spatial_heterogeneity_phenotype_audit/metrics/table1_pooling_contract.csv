@@ -1,0 +1,11 @@
+variant,components,dimension,role,c_grid,mask_free,deployable
+P1,mean,128,reference,"[0.0001,0.001,0.01,0.1,1.0,10.0,100.0]",True,True
+P2,std,128,variation_only,"[0.0001,0.001,0.01,0.1,1.0,10.0,100.0]",True,True
+P3,mean+std,256,primary_candidate,"[0.0001,0.001,0.01,0.1,1.0,10.0,100.0]",True,True
+P4,q25+q50+q75,384,secondary_candidate,"[0.0001,0.001,0.01,0.1,1.0,10.0,100.0]",True,True
+P5,mean+std+q25+q50+q75,640,diagnostic_upper_bound,"[1e-06,1e-05,0.0001,0.001,0.01,0.1]",True,False
+CORE,core_mean+core_std,256,oracle_diagnostic_not_deployable,"[0.0001,0.001,0.01,0.1,1.0,10.0,100.0]",False,False
+PERI10,peri10_mean+peri10_std,256,oracle_diagnostic_not_deployable,"[0.0001,0.001,0.01,0.1,1.0,10.0,100.0]",False,False
+PERI20,peri20_mean+peri20_std,256,oracle_diagnostic_not_deployable,"[0.0001,0.001,0.01,0.1,1.0,10.0,100.0]",False,False
+LOCAL_REST,local_rest_mean+local_rest_std,256,oracle_diagnostic_not_deployable,"[0.0001,0.001,0.01,0.1,1.0,10.0,100.0]",False,False
+CORE_PERI,core_mean+core_std+peri10_mean+peri10_std+peri20_mean+peri20_std,768,oracle_diagnostic_not_deployable,"[1e-06,1e-05,0.0001,0.001,0.01,0.1]",False,False
