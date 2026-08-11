@@ -1,0 +1,16 @@
+# Patient-level predictions and fitted transforms remain owner-private.
+features/**/*.npz
+features/**/*.json
+features/**/*.csv
+predictions/**/*.csv
+predictions/**/*.json
+logs/**/*.log
+logs/**/*.txt
+!features/.gitkeep
+!predictions/.gitkeep
+!logs/.gitkeep
+
+# Runtime debris.
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
