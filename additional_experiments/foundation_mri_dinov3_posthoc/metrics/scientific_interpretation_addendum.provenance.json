@@ -1,0 +1,72 @@
+{
+  "addendum": {
+    "bytes": 5990,
+    "path": "additional_experiments/foundation_mri_dinov3_posthoc/reports/scientific_interpretation_addendum.md",
+    "sha256": "1777d3822cf34bbe14c15a730a10b733224b45bdc24c2f6f1ae03baa93320a7d"
+  },
+  "best_cell_filtering": false,
+  "coverage": {
+    "comparison_specs": 84,
+    "ftv_cells": 14,
+    "paired_metric_rows": 252,
+    "pcr_pooled_cells": 36,
+    "phenotype_cells": 4,
+    "subtype_cells": 2
+  },
+  "created_utc": "2026-08-11T15:41:04Z",
+  "direction_counts": {
+    "beyond_ftv": {
+      "adverse": 18,
+      "favorable": 0,
+      "metric_rows": 18,
+      "specs": 6,
+      "uncertain": 0
+    },
+    "clinical_gain": {
+      "adverse": 22,
+      "favorable": 0,
+      "metric_rows": 36,
+      "specs": 12,
+      "uncertain": 14
+    },
+    "dinov3_vs_current_cnn_full": {
+      "adverse": 9,
+      "favorable": 0,
+      "metric_rows": 36,
+      "specs": 12,
+      "uncertain": 27
+    },
+    "dinov3_vs_dinov1": {
+      "adverse": 11,
+      "favorable": 1,
+      "metric_rows": 108,
+      "specs": 36,
+      "uncertain": 96
+    },
+    "local_vs_global": {
+      "adverse": 4,
+      "favorable": 15,
+      "metric_rows": 54,
+      "specs": 18,
+      "uncertain": 35
+    }
+  },
+  "direction_rule": {
+    "adverse": "AUROC/AUPRC ci_high < 0 or Brier ci_low > 0",
+    "delta": "candidate minus reference",
+    "favorable": "AUROC/AUPRC ci_low > 0 or Brier ci_high < 0",
+    "uncertain": "interval crosses or touches zero"
+  },
+  "input_sha256": {
+    "paired_bootstrap_comparisons": "69b064f847c792c992982646bad341fa4e7e85c0df5b1cd309ae14dc1b7bad68",
+    "reporting_run_provenance": "e2f84967d1a050dca25273ab4154d9b085f4f03699625c611b973481c4c2f1b6",
+    "results_summary": "5d9818550cd7135ade515711e6aa54172cf840b00f9589b16a4e943dcc71b9b8",
+    "scientific_final_report": "44666a0d85e66d3f436173291fe086ef4ad684d9ee30403819f80a910e317750"
+  },
+  "metric_sorting": false,
+  "no_model_or_metric_reselection": true,
+  "post_publication_interpretation": true,
+  "private_inputs_read": false,
+  "published_last": true,
+  "schema_version": "foundation_mri_dinov3_scientific_interpretation_addendum_provenance_v1"
+}

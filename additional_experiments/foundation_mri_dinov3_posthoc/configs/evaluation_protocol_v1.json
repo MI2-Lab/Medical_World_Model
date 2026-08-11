@@ -1,0 +1,61 @@
+{
+  "schema_version": "foundation_mri_dinov3_evaluation_protocol_v1",
+  "status": "TO_BE_LOCKED_AFTER_FEATURE_EXTRACTION_BEFORE_DINOV3_OUTCOME_LOAD",
+  "extension_role": "post_publication_descriptive_sensitivity",
+  "dinov3_outcome_metrics_seen_at_freeze": false,
+  "seed": 2026,
+  "populations": {
+    "full_808": {"n": 808, "positive": 275},
+    "radiomics_complete_case_375": {"n": 375, "positive": 110}
+  },
+  "outer_folds": 5,
+  "timings": ["T0", "T0-T1", "T0-T2"],
+  "timing_features": {
+    "T0": "z0",
+    "T0-T1": "concat(z0,z1,z1-z0)",
+    "T0-T2": "concat(z0,z1,z2,z1-z0,z2-z1,z2-z0)"
+  },
+  "binary_probe": {
+    "classifier": "class-balanced liblinear logistic regression",
+    "penalties": ["l1", "l2"],
+    "C_grid": [0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0, 3.0, 10.0],
+    "selection": "outer-validation AUROC then AUPRC then deterministic simplicity tie-break",
+    "max_iter": 20000,
+    "test_policy": "single-use outer-test after validation lock"
+  },
+  "subtype_probe": {
+    "target": "T0 four-class HR/HER2 subtype",
+    "classifier": "one-vs-rest class-balanced liblinear logistic regression",
+    "penalties": ["l1", "l2"],
+    "C_grid": [0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0, 3.0, 10.0],
+    "test_policy": "single-use outer-test after validation lock"
+  },
+  "continuous_probe": {
+    "targets": ["FTV_T0", "FTV_T1", "FTV_T2", "FTV_T3", "delta_T0_T1", "delta_T1_T2", "delta_T2_T3"],
+    "model": "outer-train-standardized Ridge in log1p domain for static FTV and raw domain for deltas",
+    "alpha_grid": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0],
+    "selection": "outer-validation MSE only",
+    "test_policy": "single-use outer-test after validation lock"
+  },
+  "expected_outputs": {
+    "pcr_identities": 36,
+    "pcr_prediction_rows": 18696,
+    "pcr_selection_rows": 180,
+    "pcr_public_rows": 72,
+    "phenotype_identities": 4,
+    "phenotype_prediction_rows": 3232,
+    "phenotype_selection_rows": 20,
+    "phenotype_public_rows": 8,
+    "subtype_identities": 2,
+    "subtype_prediction_rows": 1616,
+    "subtype_selection_rows": 10,
+    "subtype_public_rows": 4,
+    "ftv_identities": 14,
+    "ftv_prediction_rows": 5250,
+    "ftv_selection_rows": 70,
+    "ftv_public_rows": 28,
+    "paired_comparison_specs": 84,
+    "paired_metric_rows": 252
+  }
+}
+

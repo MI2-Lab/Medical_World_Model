@@ -1,0 +1,35 @@
+{
+  "schema_version": "foundation_mri_dinov3_parent_publication_v1",
+  "repository_commit": "98dfc5ab30804f288ff85f8d2b8c10905afbbe8b",
+  "branch": "feature/foundation-mri-baselines",
+  "publication_status": "published_before_dinov3_extension",
+  "original_candidate_set_is_immutable": true,
+  "original_results_were_visible_before_extension": true,
+  "artifacts": {
+    "final_report": {
+      "path": "additional_experiments/foundation_mri_baselines/reports/final_report.md",
+      "sha256": "166250a9e259c02d8651906a4421c16311fd86b8db9c3f1bae9ce58ccaf13db0"
+    },
+    "final_report_coverage": {
+      "path": "additional_experiments/foundation_mri_baselines/metrics/final_report_coverage.json",
+      "sha256": "495abe9283334d87d41483cf146a1d3f93f8abdfb22ce320f9946c1c60e90dc5"
+    },
+    "reporting_provenance": {
+      "path": "additional_experiments/foundation_mri_baselines/metrics/reporting_run_provenance.json",
+      "sha256": "ea917e3adfb8391fc396d463eb6aa1ed1bd73e0f7182fe0ebcb0a301c487e325"
+    },
+    "evaluation_lock_v3": {
+      "path": "additional_experiments/foundation_mri_baselines/configs/EVALUATION_LOCK.v3.json",
+      "sha256": "8e8c4a5488fc862e1c73ac643495216bcc6eb015b767d7be39150894c8265104"
+    },
+    "reporting_lock_v1": {
+      "path": "additional_experiments/foundation_mri_baselines/configs/REPORTING_LOCK.v1.json",
+      "sha256": "5be484747ac6aeb5b622ecb70f2590e214f687e714e6d111a73f4ee775b165ca"
+    },
+    "finalization_lock_v1": {
+      "path": "additional_experiments/foundation_mri_baselines/configs/FINALIZATION_LOCK.v1.json",
+      "sha256": "30c0c0e6ce7d92fb6164368addf467e2142e5159fb95240f4c030ddb986c4e7b"
+    }
+  }
+}
+

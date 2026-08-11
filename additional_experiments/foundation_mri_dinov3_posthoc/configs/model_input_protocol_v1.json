@@ -1,0 +1,77 @@
+{
+  "schema_version": "foundation_mri_dinov3_model_input_protocol_v1",
+  "status": "FROZEN_BEFORE_DINOV3_PATIENT_EXTRACTION",
+  "extension_role": "user_requested_post_publication_unknown_contamination_sensitivity",
+  "no_preregistration_claim": true,
+  "original_formal_candidate_set_is_unchanged": true,
+  "model": {
+    "model_name": "dinov3_vitb16_lvd1689m_posthoc",
+    "official_huggingface_id": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+    "huggingface_revision": "5931719e67bbdb9737e363e781fb0c67687896bc",
+    "official_github_revision": "6876159a11b4df116f30f667f8c9888617df0751",
+    "license": "DINOv3 custom license; local research use only; checkpoint is not redistributed",
+    "license_sha256": "25d122eb8f5b880fd23c736fb6ea8018ee45c12237e00b8a86d14c653904999e",
+    "model_card_sha256": "5df24b62906d899688882146c5ff4ca066391205c5350a9b85dbcb485b2d07c8",
+    "checkpoint": {
+      "filename": "model.safetensors",
+      "bytes": 342662192,
+      "sha256": "9a21ac3df0c63839d62612dda6f454d816c25611cc7a52966ed5a5a94921dc8b",
+      "tensor_entries": 211
+    },
+    "config": {
+      "filename": "config.json",
+      "sha256": "3c9cc418f4622fd6d5587fd142b6f3cba0ba6a69f67ced907d8b7f26118451ec"
+    },
+    "preprocessor": {
+      "filename": "preprocessor_config.json",
+      "sha256": "960c41d1f3a7778b936365769a2d90550b318a6c0a53a0296957adacfe5e0dd7"
+    },
+    "parameter_count": 85660416,
+    "hidden_dimension": 768,
+    "input_size": 224,
+    "patch_size": 16,
+    "token_contract": {
+      "total_tokens_at_224": 201,
+      "cls_index": 0,
+      "register_indices": [1, 2, 3, 4],
+      "patch_start_inclusive": 5,
+      "patch_stop_exclusive": 201,
+      "representation": "concat(final_normalized_cls,mean_final_normalized_patch_tokens_excluding_registers)",
+      "representation_dimension": 1536
+    }
+  },
+  "pretraining_contamination": {
+    "official_data_description": "LVD-1689M curated from a non-enumerable public web-image pool plus disclosed auxiliary datasets",
+    "direct_ispy_use_disclosed": false,
+    "patient_level_ispy_exclusion_provable": false,
+    "interpretation": "unknown_contamination_descriptive_sensitivity_only"
+  },
+  "adapter": {
+    "source_tensor": "C1B-H DCE7 float32 [4,7,112,176,160]",
+    "dce_channel_indices": [1, 2, 4],
+    "dce_channels": ["early", "late", "late_minus_pre"],
+    "visits": ["T0", "T1", "T2", "T3"],
+    "spatial_axes": ["GLOBAL", "LOCAL"],
+    "axial_slices": 32,
+    "global_geometry": "full fixed FOV; symmetric square pad; bicubic resize 224",
+    "local_geometry": "fixed central 64-mm cube; no lesion mask; bicubic resize 224",
+    "value_mapping": "clip interpolated values to [-5,5], affine to [0,1], ImageNet mean/std",
+    "slice_aggregation": "unweighted mean of all 32 slice representations",
+    "visit_feature_shape": [4, 2, 1536]
+  },
+  "offline_execution": {
+    "snapshot_environment_variable": "DINOV3_SNAPSHOT_DIR",
+    "required_environment": {
+      "HF_HUB_OFFLINE": "1",
+      "TRANSFORMERS_OFFLINE": "1",
+      "HF_HUB_DISABLE_IMPLICIT_TOKEN": "1",
+      "HF_HUB_DISABLE_TELEMETRY": "1",
+      "PYTHONDONTWRITEBYTECODE": "1"
+    },
+    "network_access_allowed": false,
+    "checkpoint_copy_or_upload_allowed": false,
+    "formal_precision": "bf16",
+    "deterministic_algorithms": true
+  }
+}
+
