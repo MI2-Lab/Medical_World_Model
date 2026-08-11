@@ -1,0 +1,171 @@
+{
+  "artifacts": {
+    "bootstrap_draws": {
+      "path": "predictions/bootstrap_draws.private.csv",
+      "sha256": "f140fb0749fae8654a5a30f062fccbf6b759f89c485b017f45bf2ed3d6d5b066",
+      "size_bytes": 153277696
+    },
+    "bootstrap_summary": {
+      "path": "metrics/bootstrap_ci.csv",
+      "sha256": "38fa1cbf497b316af10f3a00e8b8811401137aa52d44adc42d86d638bd4457e5",
+      "size_bytes": 367522
+    },
+    "dimension_frequency": {
+      "path": "metrics/dimension_selection_frequency.csv",
+      "sha256": "98030a79509fe5b5d44ecc2f8aa0cbc9a8e7aa0a93725e5c7f45e677969d3179",
+      "size_bytes": 5749
+    },
+    "dimension_selection": {
+      "path": "metrics/selected_dimensions_by_fold.csv",
+      "sha256": "ded4f034351d61fa7bc7004f612981827675477057b88b3a1f066b5010dc38be",
+      "size_bytes": 102941
+    },
+    "fit_diagnostics": {
+      "path": "metrics/fit_diagnostics.csv",
+      "sha256": "f27331b3772142fab02652f331ea8b45d70f9789f9696159bfeac42556d683a2",
+      "size_bytes": 1042663
+    },
+    "late_diagnostics": {
+      "path": "metrics/late_fusion_diagnostics.csv",
+      "sha256": "ed8ba418dc9f765e819d3fe467dec5e32745639472e625e6b2cb46e3abec98b2",
+      "size_bytes": 356777
+    },
+    "late_oof": {
+      "path": "predictions/late_fusion_inner_oof.private.csv",
+      "sha256": "411e7ddad6b2dab22afff8cd82a77bab7e7039be3166dba357a82b8f234eaec4",
+      "size_bytes": 135255046
+    },
+    "overfitting": {
+      "path": "metrics/overfitting_diagnostics.csv",
+      "sha256": "a63c7827c77765dd76e359a857e77aa2af5f12932d3a9ad3e749d752ea981ad7",
+      "size_bytes": 6166
+    },
+    "paired_effects": {
+      "path": "metrics/paired_effects.csv",
+      "sha256": "cf565ee44a6e625baaf8b2b8243f62ea79cc976a17e4f5e41787d960b524c3a8",
+      "size_bytes": 108807
+    },
+    "pca_artifacts": {
+      "path": "metrics/pca_artifact_manifest.csv",
+      "sha256": "7f8c36894bf3f7b9d7e18cdb28bdf7affbc72b661c0ee74dacd177b30da6d93b",
+      "size_bytes": 42241
+    },
+    "pca_components": {
+      "path": "metrics/pca_component_explained_variance.csv",
+      "sha256": "6fa7d3e8bb7cbf6f3dfd7d0c1635888d359eb572e69b3a771cdf62630b3c9a3d",
+      "size_bytes": 2006779
+    },
+    "pca_variance": {
+      "path": "metrics/pca_explained_variance.csv",
+      "sha256": "f05229f2c42165b14189bfce3e26ea27a87e0ccde691f4719da11c82bee03363",
+      "size_bytes": 130450
+    },
+    "pcr_metrics": {
+      "path": "metrics/pcr_oof_metrics.csv",
+      "sha256": "23525db8eb81976a56c8fcd0ef75f75f29f5bca777a2547fdc0f89afffc252a0",
+      "size_bytes": 233683
+    },
+    "pcr_predictions": {
+      "path": "predictions/pcr_oof.private.csv",
+      "sha256": "378a96b013f1c5c2c349b4aa93c6cc8b640242d4c939030eb8090c7fe9a61868",
+      "size_bytes": 92289662
+    },
+    "profile_hyperparameters": {
+      "path": "metrics/profile_hyperparameters.csv",
+      "sha256": "7f3ac593162bf8f522ecdab2d0c9d9c70e343bfd17c343d55886f31a661973b4",
+      "size_bytes": 47039
+    },
+    "profile_metrics": {
+      "path": "metrics/profile_oof_metrics.csv",
+      "sha256": "403f157423b3e6127d8a1168997d63cba96d65bb0853e2115f1bc59b56cd6dfd",
+      "size_bytes": 23928
+    },
+    "profile_predictions": {
+      "path": "predictions/profile_oof.private.csv",
+      "sha256": "6870085ba6e39d58cb712a087db54d0c91766ea2da77292ee4a97a568af40851",
+      "size_bytes": 13476592
+    },
+    "random_projection": {
+      "path": "metrics/random_projection_sensitivity.csv",
+      "sha256": "116ca9bd80558fde7886915fde933b9e37233f9fd5271cba7fc1d1bafe7a0f53",
+      "size_bytes": 33411
+    },
+    "random_projection_ledger": {
+      "path": "metrics/random_projection_ledger.csv",
+      "sha256": "9a6f3f8f88e458cad896bff84ac662b5503e6c6cfb320adf38ed7c4aa7286fca",
+      "size_bytes": 1981
+    },
+    "raw_regression": {
+      "path": "metrics/goal2_raw_regression_check.csv",
+      "sha256": "b6f7eea41f964938b27abd906083b693a821a311039d9377ae6e2b324575e420",
+      "size_bytes": 28363
+    },
+    "residual": {
+      "path": "metrics/residualized_compact_metrics.csv",
+      "sha256": "517f007414f924ce65926d63a48fce8b0d3f0358b61e30e3bee3ef3359df9511",
+      "size_bytes": 7595
+    },
+    "table1": {
+      "path": "metrics/table1_pca_dimension_explained_variance.csv",
+      "sha256": "6448822d5e4cfafc58ba9e338ff626edc094379e9c7a2a746f5cec71ebad11be",
+      "size_bytes": 2801
+    },
+    "table2": {
+      "path": "metrics/table2_mri_only_raw_vs_compact.csv",
+      "sha256": "c277099247ac09d06ccde91216edd0011c4bea6704022c70111e94e254fc976e",
+      "size_bytes": 12989
+    },
+    "table3": {
+      "path": "metrics/table3_c_vs_c_plus_m.csv",
+      "sha256": "898b6e4a21c2b47ed8f0fd09d52cb58c6ce33c078de43bb72fc3a9118e95cbdd",
+      "size_bytes": 10401
+    },
+    "table4": {
+      "path": "metrics/table4_cf_vs_cf_plus_m.csv",
+      "sha256": "62080f6ce3bbe3169774aa3cc4a7dcfe0683a84451aee7c3492033648e58b0f0",
+      "size_bytes": 5473
+    },
+    "table5": {
+      "path": "metrics/table5_raw_vs_compact_paired_effects.csv",
+      "sha256": "b82334fbab13d1c1647eee4d7145e19b83a7bb4093c42f8c0c3adeb73bdc1af8",
+      "size_bytes": 25983
+    },
+    "table6": {
+      "path": "metrics/table6_late_fusion.csv",
+      "sha256": "61b6e9da554957b5a1e599d90b3bbee58eb77e1324fabdad4d6a1d7b80d91b1f",
+      "size_bytes": 32762
+    },
+    "table7": {
+      "path": "metrics/table7_profile_decodability.csv",
+      "sha256": "403f157423b3e6127d8a1168997d63cba96d65bb0853e2115f1bc59b56cd6dfd",
+      "size_bytes": 23928
+    },
+    "table8": {
+      "path": "metrics/table8_bootstrap_ci.csv",
+      "sha256": "38fa1cbf497b316af10f3a00e8b8811401137aa52d44adc42d86d638bd4457e5",
+      "size_bytes": 367522
+    }
+  },
+  "bootstrap_replicates": 2000,
+  "branch": "feature/compact-mri-clinical-fusion-audit",
+  "elapsed_seconds": 955.1158630847931,
+  "evidence_status": "diagnostic_exploratory_two_seed_compact_fusion_audit",
+  "experiment": "compact_mri_clinical_fusion_audit",
+  "formal_bootstrap": true,
+  "n_bootstrap_comparison_cells": 336,
+  "n_late_inner_oof_rows": 320832,
+  "n_local_cells": 20,
+  "n_pcr_prediction_rows": 566416,
+  "n_profile_prediction_rows": 116352,
+  "parent_commit": "064e0596348f0972decc39774336580f58e8da61",
+  "pca_semantics": "k_total_dimensions_per_timing_prefix",
+  "raw_goal2_regression_pass": true,
+  "raw_prefix_dimensions": {
+    "T0": 192,
+    "T1": 384,
+    "T2": 576,
+    "T3": 768
+  },
+  "schema_version": 1,
+  "summarize_only": false
+}

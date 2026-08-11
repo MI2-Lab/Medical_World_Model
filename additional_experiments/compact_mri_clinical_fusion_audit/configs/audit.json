@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "experiment": "compact_mri_clinical_fusion_audit",
+  "branch": "feature/compact-mri-clinical-fusion-audit",
+  "parent_commit": "064e0596348f0972decc39774336580f58e8da61",
+  "evidence_status": "diagnostic_exploratory_two_seed_compact_fusion_audit",
+  "source_goal2": {
+    "config": "additional_experiments/mri_clinical_complementarity_audit/configs/audit.json",
+    "config_sha256": "e95c4971bf6d4c4c39cda9560a6350d5a8eace59235da73941d0334bdd7f5c98",
+    "timing_contract": "additional_experiments/mri_clinical_complementarity_audit/information_timing_contract.csv",
+    "timing_contract_sha256": "e8d36252dd0d19c0542e1fb061242e886b028ff68f039e908776f72929e293c4",
+    "final_report": "additional_experiments/mri_clinical_complementarity_audit/reports/final_report.md",
+    "final_report_sha256": "0236fd20d4d1170720b4bdc9e3af913a139be38bfcd711df316b9d21de142f3f",
+    "clinical_inventory": "additional_experiments/mri_clinical_complementarity_audit/reports/clinical_feature_inventory.md",
+    "clinical_inventory_sha256": "50cbc417b3c60d67067f3d8c673ee9ac0e0ee200cfba9aff40a787e0ca36f262"
+  },
+  "populations": ["full_808", "ftv_complete_375"],
+  "timings": ["T0", "T1", "T2", "T3"],
+  "pca": {
+    "dimensions": [8, 16, 32, 64],
+    "max_components": 64,
+    "svd_solver": "full",
+    "whiten": false,
+    "scope": "outer_train_timing_prefix",
+    "output_dimension_semantics": "k_total_dimensions_per_timing_prefix",
+    "selection_metric": "validation_auroc",
+    "tie_break": "smaller_dimension_then_smaller_C"
+  },
+  "random_projection": {
+    "dimensions": [16, 32],
+    "distribution": "gaussian_N_0_1_over_sqrt_k",
+    "seed": 260812,
+    "selection": "none_prespecified_sensitivity"
+  },
+  "late_fusion": {
+    "inner_folds": 5,
+    "inner_seed": 260813,
+    "probability_clip": 1e-6,
+    "meta_features": ["clinical_logit", "mri_logit"],
+    "train_predictions": "strict_inner_oof",
+    "mri_dimension_source": "joint_outer_validation_late_fusion"
+  },
+  "bootstrap": {
+    "replicates": 2000,
+    "confidence_level": 0.95,
+    "unit": "patient",
+    "stratify_by": "outer_fold",
+    "random_seed": 260814
+  },
+  "profile": {
+    "representations": ["raw", "pca16", "pca32"],
+    "targets": ["HR", "HER2", "subtype_4class"]
+  }
+}

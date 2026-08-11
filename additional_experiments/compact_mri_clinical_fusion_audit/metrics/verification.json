@@ -1,0 +1,202 @@
+{
+  "checks": [
+    {
+      "category": "core",
+      "details": {
+        "hash_pinned_goal2_inputs": 4,
+        "pinned_goal2_sources": 4
+      },
+      "name": "frozen_config_and_source_hashes",
+      "status": "PASS"
+    },
+    {
+      "category": "core",
+      "details": {
+        "branch": "feature/compact-mri-clinical-fusion-audit",
+        "head": "064e0596348f0972decc39774336580f58e8da61",
+        "parent_is_ancestor": true
+      },
+      "name": "git_branch_and_parent",
+      "status": "PASS"
+    },
+    {
+      "category": "core",
+      "details": {
+        "ftv_patients": 375,
+        "full_patients": 808,
+        "outer_folds": 5
+      },
+      "name": "locked_cohorts",
+      "status": "PASS"
+    },
+    {
+      "category": "core",
+      "details": {
+        "csv_artifacts": 29,
+        "expected_rows_total": 1697481
+      },
+      "name": "required_output_schemas_and_counts",
+      "status": "PASS"
+    },
+    {
+      "category": "core",
+      "details": {
+        "all_hashes_match": true,
+        "manifested_artifacts": 29
+      },
+      "name": "run_summary_and_artifact_hashes",
+      "status": "PASS"
+    },
+    {
+      "category": "core",
+      "details": {
+        "allowed_dimensions": [
+          8,
+          16,
+          32,
+          64
+        ],
+        "component_rows": 10240,
+        "outer_train_pca_fits": 160
+      },
+      "name": "pca_fit_scope_and_variance",
+      "status": "PASS"
+    },
+    {
+      "category": "core",
+      "details": {
+        "fold_selections": 800,
+        "test_used_for_selection": false
+      },
+      "name": "validation_only_dimension_selection",
+      "status": "PASS"
+    },
+    {
+      "category": "core",
+      "details": {
+        "projection_matrices": 8,
+        "seed": 260812,
+        "unique_matrix_hashes": 8
+      },
+      "name": "random_projection_ledger",
+      "status": "PASS"
+    },
+    {
+      "category": "core",
+      "details": {
+        "fold_coverage": "exact_once",
+        "model_cells": 1104,
+        "oof_rows": 566416
+      },
+      "name": "pcr_exact_oof_coverage_and_metrics",
+      "status": "PASS"
+    },
+    {
+      "category": "core",
+      "details": {
+        "oof_rows": 116352,
+        "probe_cells": 144,
+        "subtype_probability_columns": 4
+      },
+      "name": "profile_exact_oof_coverage_and_metrics",
+      "status": "PASS"
+    },
+    {
+      "category": "core",
+      "details": {
+        "candidate_cells": 960,
+        "inner_folds": 5,
+        "inner_oof_rows": 320832,
+        "outer_validation_or_test_rows": 0
+      },
+      "name": "strict_inner_oof_late_fusion",
+      "status": "PASS"
+    },
+    {
+      "category": "core",
+      "details": {
+        "bootstrap_unit": "patient_within_outer_fold",
+        "comparison_cells": 336,
+        "draw_rows": 672000,
+        "replicates_per_cell": 2000
+      },
+      "name": "paired_bootstrap_draws",
+      "status": "PASS"
+    },
+    {
+      "category": "core",
+      "details": {
+        "raw_metric_cells": 144,
+        "result": "PASS",
+        "tolerance": 1e-12
+      },
+      "name": "goal2_raw_regression",
+      "status": "PASS"
+    },
+    {
+      "category": "core",
+      "details": {
+        "locked_identifiers_found": 0,
+        "public_files_scanned": 35
+      },
+      "name": "public_identifier_privacy",
+      "status": "PASS"
+    },
+    {
+      "category": "core",
+      "details": {
+        "required_tables": 8,
+        "table_files": [
+          "metrics/table1_pca_dimension_explained_variance.csv",
+          "metrics/table2_mri_only_raw_vs_compact.csv",
+          "metrics/table3_c_vs_c_plus_m.csv",
+          "metrics/table4_cf_vs_cf_plus_m.csv",
+          "metrics/table5_raw_vs_compact_paired_effects.csv",
+          "metrics/table6_late_fusion.csv",
+          "metrics/table7_profile_decodability.csv",
+          "metrics/table8_bootstrap_ci.csv"
+        ]
+      },
+      "name": "eight_required_tables",
+      "status": "PASS"
+    },
+    {
+      "category": "final_deliverable",
+      "details": {
+        "figures": 7,
+        "private_predictions_read": false,
+        "semantic_names": [
+          "auroc_by_dimensionality",
+          "beyond_ftv_delta_auroc",
+          "delta_auroc_vs_dimension",
+          "late_vs_early_fusion",
+          "pca_explained_variance",
+          "profile_decodability",
+          "raw_vs_compact"
+        ]
+      },
+      "name": "seven_required_figures",
+      "status": "PASS"
+    },
+    {
+      "category": "final_deliverable",
+      "details": {
+        "linked_figures": 7,
+        "linked_tables": 8,
+        "report_bytes": 18018
+      },
+      "name": "final_report_links",
+      "status": "PASS"
+    }
+  ],
+  "experiment": "compact_mri_clinical_fusion_audit",
+  "generated_at_utc": "2026-08-11T12:40:31.588890+00:00",
+  "schema_version": 1,
+  "status": "PASS",
+  "summary": {
+    "checks_failed": 0,
+    "checks_passed": 17,
+    "checks_total": 17,
+    "pre_final_only": false
+  }
+}
