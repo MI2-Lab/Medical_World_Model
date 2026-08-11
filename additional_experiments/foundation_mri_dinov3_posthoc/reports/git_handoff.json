@@ -1,0 +1,23 @@
+{
+  "artifact_sha256": {
+    "additional_experiments/foundation_mri_dinov3_posthoc/configs/EVALUATION_LOCK.v1.json": "7732828579d8159f927ce821348fcfe24d430b37d4218db9464c9bce881d1b38",
+    "additional_experiments/foundation_mri_dinov3_posthoc/figures/paired_comparison_deltas.png": "429eb0ba756c86434724f3aa3be42fd1f7d20b870995b2b7f81ae233493d6e6d",
+    "additional_experiments/foundation_mri_dinov3_posthoc/figures/pcr_timing_performance.png": "824c71053757d9eed508d87b59a338d820e7050209000a6d60f155b60c1faff8",
+    "additional_experiments/foundation_mri_dinov3_posthoc/metrics/paired_bootstrap_comparisons.csv": "69b064f847c792c992982646bad341fa4e7e85c0df5b1cd309ae14dc1b7bad68",
+    "additional_experiments/foundation_mri_dinov3_posthoc/metrics/reporting_run_provenance.json": "e2f84967d1a050dca25273ab4154d9b085f4f03699625c611b973481c4c2f1b6",
+    "additional_experiments/foundation_mri_dinov3_posthoc/metrics/results_summary.json": "5d9818550cd7135ade515711e6aa54172cf840b00f9589b16a4e943dcc71b9b8",
+    "additional_experiments/foundation_mri_dinov3_posthoc/reports/final_report.md": "44666a0d85e66d3f436173291fe086ef4ad684d9ee30403819f80a910e317750",
+    "additional_experiments/foundation_mri_dinov3_posthoc/reports/final_report.template.md": "3e46db6238ea7736e06d73f78da9903c1081159bad8383c8c87f09788e84544e",
+    "additional_experiments/foundation_mri_dinov3_posthoc/scripts/finalize_handoff.py": "f21cf9c4e2a1f390f86652564be71062d65d2995b27865c45b610158712b0725",
+    "additional_experiments/foundation_mri_dinov3_posthoc/src/foundation_mri_dinov3/handoff.py": "fff3630bb2fa494ebc543eeaedd0a104877c63d326636145118ca22f7119e713",
+    "additional_experiments/foundation_mri_dinov3_posthoc/tests/test_handoff.py": "43b57a18da7fcc7de37fcc8e587106d1b29885a83234db48490e404e7e817da5"
+  },
+  "branch": "feature/foundation-mri-dinov3-posthoc",
+  "content_commit_sha": "042efc70cd9994d888cd4d2c85d7418f76a5f8f6",
+  "remote": "origin",
+  "remote_ref": "refs/heads/feature/foundation-mri-dinov3-posthoc",
+  "sanitized_push_error": null,
+  "schema_version": "foundation_mri_dinov3_git_handoff_v1",
+  "substantive_push_status": "SUBSTANTIVE_PUSH_OK",
+  "substantive_remote_ref_sha": "042efc70cd9994d888cd4d2c85d7418f76a5f8f6"
+}

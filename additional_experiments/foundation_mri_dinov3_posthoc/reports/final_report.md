@@ -212,4 +212,17 @@ Spearman/R² 的正差值表示 DINOv3 数值更高；RMSE/MAE 的负差值表�
 
 这些表和公开图完整展示所有冻结候选/axes/timings；任何看似有利或不利的单格都不得替代全矩阵判断。由于这是结果公开后的单模型敏感性扩展，且 LVD-1689M 的 patient-level contamination 不能排除，本报告不声称证明 DINOv3 的一般优势，也不改变原 foundation-MRI 正式报告的结论。
 
-<!-- FOUNDATION_MRI_DINOV3_GIT_HANDOFF_V1 -->
+## Git 交接（后置元数据）
+
+本段由 outcome-blind finalizer 在 scientific report 的 substantive content commit 后加入；它不读取 patient-level/private 输入，也不改变上方科学内容。
+
+| Item | Value |
+|---|---|
+| Content commit | 042efc70cd9994d888cd4d2c85d7418f76a5f8f6 |
+| Branch | feature/foundation-mri-dinov3-posthoc |
+| Attempted remote/ref | origin refs/heads/feature/foundation-mri-dinov3-posthoc |
+| substantive_push_status | SUBSTANTIVE_PUSH_OK |
+| substantive_remote_ref_sha | 042efc70cd9994d888cd4d2c85d7418f76a5f8f6 |
+| Sanitized push error | 无 |
+| Scientific source report SHA-256 | 44666a0d85e66d3f436173291fe086ef4ad684d9ee30403819f80a910e317750 |
+| Git handoff manifest SHA-256 | dfb7cc4edc58281f6fc9bad194bc494683e694ddf9fd3091506a4f31c5aa8df3 |
