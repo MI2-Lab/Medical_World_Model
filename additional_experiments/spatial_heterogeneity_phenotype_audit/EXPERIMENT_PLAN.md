@@ -200,6 +200,42 @@ asset, and 20 extraction logs. Every artifact bound to the superseded amended
 lock must be discarded and rebuilt after the implementation erratum is refrozen;
 none may be reused.
 
+**Pre-Stage-A-completion implementation compatibility erratum 2 (no scientific
+change).** The first implementation refreeze is anchored at commit
+`01ecd8a4101a3a122bc58d148960f1e36f57720d` and lock SHA-256
+`6063df14db751d9ad2f25af57e48b99a3d2282571f75c4683a24deb5a2762ce5`.
+Under that lock, cache and Oracle proofs, all 20 independently validated feature
+cells, the representative asset, and the feature-matrix completion marker were
+created. Stage A then parsed the locked fold/pCR labels, clinical phenotype
+labels, and FTV table. It wrote only the non-label-derived Table 1 pooling
+contract. In the first `seed_2026/LOCAL0/fold_0`, `T0`, `P1` phenotype cell, the
+HR and HER2 binary tasks completed in memory across the seven registered C
+values (14 fits total, 324 prediction rows and two selected-hyperparameter rows,
+none persisted). The first subtype fit at `C=0.0001` failed before fitting because
+scikit-learn 1.8 rejects the legacy bare multiclass `solver="liblinear"`
+configuration. No patient-level prediction, label-derived public metric, Table 2
+or later table, hyperparameter table, gate, Stage-B authorization, run summary,
+or Stage-B artifact was created.
+
+The compatibility correction reproduces the historical bare multiclass
+liblinear behavior exactly: it obtains each binary class row through sklearn's
+`_fit_liblinear`, applies the legacy sigmoid to the class scores, and performs
+the legacy per-row probability normalization. It is not a generic
+child-balanced OvR replacement and changes no configured solver, penalty,
+class-weight semantics, C grid, selection/tie rule, outer fold, population,
+representative, causal-Oracle, or scientific contract. The local runner also
+suppresses only scikit-learn 1.8's repetitive `penalty='l2'` deprecation
+`FutureWarning`; this does not change the estimator or scientific contract, and
+`ConvergenceWarning` remains fail-closed.
+
+The exact patient-free ledger in
+`PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json` binds all 67 outputs present at
+failure (307,938,585 bytes; canonical record-set SHA-256
+`97768d153498c4fb953184ed6677e61ff4dc083f2f98362fafa360c896f39484`),
+including the 65 re-created upstream artifacts, completion marker, and Table 1.
+Every listed output must be discarded before schema-5 refreeze and rebuilt from
+the new lock; none may be reused.
+
 ## 7. Longitudinal heterogeneity
 
 For each adjacent transition `T0->T1`, `T1->T2`, and `T2->T3`, probe pCR using:

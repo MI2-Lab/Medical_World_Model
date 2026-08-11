@@ -27,6 +27,7 @@ from common import (  # noqa: E402
     file_sha256,
     load_config,
     load_preregistration_implementation_erratum,
+    load_preregistration_implementation_erratum_2,
     preregistration_chain,
     preregistration_provenance_anchors,
     require_preregistration_lock,
@@ -141,6 +142,7 @@ DELIVERY_ALLOWED_PATHS = frozenset(
         "EXPERIMENT_PLAN.md",
         "PREREGISTRATION_AMENDMENT.json",
         "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json",
+        "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json",
         "PREREGISTRATION_LOCK.json",
         "configs/audit.json",
         "features/.gitkeep",
@@ -165,6 +167,7 @@ DELIVERY_ALLOWED_PATHS = frozenset(
         "tests/test_cache_integrity.py",
         "tests/test_delivery_contracts.py",
         "tests/test_gates.py",
+        "tests/test_multiclass_compat.py",
         "tests/test_oracle_regions.py",
         "tests/test_pooling.py",
         "tests/test_stage_b_pilot.py",
@@ -891,6 +894,9 @@ def _validate_report(
         "prior_amended_preregistration_commit",
         "prior_amended_preregistration_lock_sha256",
         "implementation_erratum_sha256",
+        "prior_implementation_refreeze_commit",
+        "prior_implementation_refreeze_lock_sha256",
+        "implementation_erratum_2_sha256",
         "preregistration_commit",
         "active_amended_preregistration_commit",
         "experiment_commit",
@@ -901,7 +907,7 @@ def _validate_report(
     }
     if (
         set(manifest) != expected_manifest_columns
-        or manifest.get("schema_version") != 1
+        or manifest.get("schema_version") != 2
         or manifest.get("status") != "COMPLETE"
         or manifest.get("language") != "zh-CN"
         or manifest.get("preregistration_revision") != 2
@@ -916,6 +922,7 @@ def _validate_report(
         ROOT / "PREREGISTRATION_LOCK.json",
         ROOT / "PREREGISTRATION_AMENDMENT.json",
         ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json",
+        ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json",
         ROOT / "metrics" / "gates.json",
         authorization_path,
         ROOT / "metrics" / "run_summary.json",
@@ -937,10 +944,17 @@ def _validate_report(
     prior_amended_preregistration_commit = str(
         manifest.get("prior_amended_preregistration_commit", "")
     )
-    implementation_erratum = load_preregistration_implementation_erratum()
-    original_anchor, prior_amended_anchor, active_anchor = (
-        preregistration_provenance_anchors()
+    prior_implementation_refreeze_commit = str(
+        manifest.get("prior_implementation_refreeze_commit", "")
     )
+    implementation_erratum = load_preregistration_implementation_erratum()
+    implementation_erratum_2 = load_preregistration_implementation_erratum_2()
+    (
+        original_anchor,
+        prior_amended_anchor,
+        prior_implementation_anchor,
+        active_anchor,
+    ) = preregistration_provenance_anchors()
     if (
         preregistration_commit != preregistration_commit_sha()
         or preregistration_commit != chain["active_preregistration_commit"]
@@ -950,6 +964,7 @@ def _validate_report(
         or original_preregistration_commit != chain["original_preregistration_commit"]
         or original_preregistration_commit != original_anchor
         or prior_amended_preregistration_commit != prior_amended_anchor
+        or prior_implementation_refreeze_commit != prior_implementation_anchor
         or manifest.get("original_preregistration_lock_sha256")
         != chain["original_preregistration_lock_sha256"]
         or manifest.get("preregistration_amendment_sha256")
@@ -958,6 +973,10 @@ def _validate_report(
         != implementation_erratum["prior_amended_preregistration_lock_sha256"]
         or manifest.get("implementation_erratum_sha256")
         != file_sha256(ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json")
+        or manifest.get("prior_implementation_refreeze_lock_sha256")
+        != implementation_erratum_2["prior_implementation_refreeze_lock_sha256"]
+        or manifest.get("implementation_erratum_2_sha256")
+        != file_sha256(ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json")
     ):
         raise ValueError(
             "report preregistration amendment chain differs from current anchors"
@@ -980,6 +999,7 @@ def _validate_report(
             preregistration_commit,
             original_preregistration_commit,
             prior_amended_preregistration_commit,
+            prior_implementation_refreeze_commit,
         )
     text = report_path.read_text(encoding="utf-8")
     if (
@@ -993,6 +1013,12 @@ def _validate_report(
         or f"Prior amended preregistration lock：`{implementation_erratum['prior_amended_preregistration_lock_sha256']}`"
         not in text
         or f"Preregistration implementation erratum：`{file_sha256(ROOT / 'PREREGISTRATION_IMPLEMENTATION_ERRATUM.json')}`"
+        not in text
+        or f"Prior implementation refreeze commit SHA：`{prior_implementation_refreeze_commit}`"
+        not in text
+        or f"Prior implementation refreeze lock：`{implementation_erratum_2['prior_implementation_refreeze_lock_sha256']}`"
+        not in text
+        or f"Preregistration implementation erratum 2：`{file_sha256(ROOT / 'PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json')}`"
         not in text
         or f"Active implementation-refrozen preregistration commit SHA：`{preregistration_commit}`"
         not in text
@@ -1010,9 +1036,13 @@ def validate(*, final: bool) -> dict[str, Any]:
     lock = require_preregistration_lock(config)
     chain = preregistration_chain(lock)
     implementation_erratum = load_preregistration_implementation_erratum()
-    _original_anchor, prior_amended_anchor, _active_anchor = (
-        preregistration_provenance_anchors()
-    )
+    implementation_erratum_2 = load_preregistration_implementation_erratum_2()
+    (
+        _original_anchor,
+        prior_amended_anchor,
+        prior_implementation_anchor,
+        _active_anchor,
+    ) = preregistration_provenance_anchors()
     if _git("branch", "--show-current") != config["branch"]:
         raise ValueError("current Git branch differs from the formal branch")
 
@@ -1210,7 +1240,7 @@ def validate(*, final: bool) -> dict[str, Any]:
             raise ValueError(f"final report omits explicit answer {index}")
     privacy = _privacy_scan(_tracked_candidate_paths())
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "status": "PASS",
         "branch": config["branch"],
         "preregistration_chain": chain,
@@ -1228,6 +1258,23 @@ def validate(*, final: bool) -> dict[str, Any]:
         "discarded_pre_erratum_artifact_total_bytes": implementation_erratum[
             "pre_erratum_execution"
         ]["discarded_artifact_total_bytes"],
+        "implementation_erratum_2_sha256": file_sha256(
+            ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json"
+        ),
+        "prior_implementation_refreeze_commit": prior_implementation_anchor,
+        "prior_implementation_refreeze_lock_sha256": implementation_erratum_2[
+            "prior_implementation_refreeze_lock_sha256"
+        ],
+        "pre_erratum_2_run_state_verified": True,
+        "discarded_pre_erratum_2_artifact_count": implementation_erratum_2[
+            "pre_erratum_execution"
+        ]["discarded_artifact_count"],
+        "discarded_pre_erratum_2_artifact_total_bytes": implementation_erratum_2[
+            "pre_erratum_execution"
+        ]["discarded_artifact_total_bytes"],
+        "discarded_pre_erratum_2_record_set_sha256": implementation_erratum_2[
+            "pre_erratum_execution"
+        ]["discarded_artifact_record_set_sha256"],
         "base_head": base,
         "old_repository_paths_unchanged": True,
         "changed_paths": changed,

@@ -259,6 +259,10 @@ def test_representative_npz_has_strict_schema_dtype_and_hash(tmp_path: Path) -> 
 def test_privacy_scan_is_a_closed_delivery_allowlist(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
+    assert "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json" in (
+        validator.DELIVERY_ALLOWED_PATHS
+    )
+    assert "tests/test_multiclass_compat.py" in validator.DELIVERY_ALLOWED_PATHS
     monkeypatch.setattr(validator, "ROOT", tmp_path)
     undeclared = tmp_path / "figures" / "raw_patient.png"
     undeclared.parent.mkdir()
@@ -310,6 +314,30 @@ def test_implementation_erratum_schema_is_exact_and_patient_free(
         common_module.load_preregistration_implementation_erratum(path)
 
 
+def test_implementation_erratum_2_schema_is_exact_and_patient_free(
+    tmp_path: Path,
+) -> None:
+    source = ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json"
+    erratum = json.loads(source.read_text(encoding="utf-8"))
+    path = tmp_path / source.name
+    path.write_bytes(source.read_bytes())
+    observed = common_module.load_preregistration_implementation_erratum_2(path)
+    execution = observed["pre_erratum_execution"]
+    assert len(observed["discarded_artifact_sha256"]) == 67
+    assert execution["discarded_artifact_total_bytes"] == 307938585
+    assert execution["completed_binary_probe_tasks_in_memory"] == 2
+    assert execution["first_multiclass_candidate_fit_succeeded"] is False
+    assert observed["contains_patient_identifiers"] is False
+    assert observed["contract_scope"]["convergence_warning_remains_fail_closed"] is True
+
+    erratum["pre_erratum_execution"][
+        "label_derived_public_metric_artifact_created"
+    ] = True
+    path.write_text(json.dumps(erratum), encoding="utf-8")
+    with pytest.raises(ValueError, match="execution ledger"):
+        common_module.load_preregistration_implementation_erratum_2(path)
+
+
 def test_implementation_refreeze_preserves_prior_scientific_contract() -> None:
     prior = common_module.historical_json(
         common_module.PRIOR_AMENDED_PREREGISTRATION_COMMIT,
@@ -322,12 +350,18 @@ def test_implementation_refreeze_preserves_prior_scientific_contract() -> None:
     common_module.require_preserved_prior_lock_contract(active, prior)
     common_module.require_implementation_erratum_plan_disclosure(prior)
 
+    prior_implementation = common_module.historical_json(
+        common_module.PRIOR_IMPLEMENTATION_REFREEZE_COMMIT,
+        "PREREGISTRATION_LOCK.json",
+    )
+    common_module.require_implementation_erratum_2_plan_disclosure(prior_implementation)
+
     active["config_sha256"] = "0" * 64
     with pytest.raises(ValueError, match="config_sha256"):
         common_module.require_preserved_prior_lock_contract(active, prior)
 
 
-def test_preregistration_chain_authenticates_all_three_committed_locks(
+def test_preregistration_chain_authenticates_all_four_committed_locks(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     repo = tmp_path / "repo"
@@ -361,6 +395,7 @@ def test_preregistration_chain_authenticates_all_three_committed_locks(
         "amendment_sha256": file_sha256(amendment_path),
         "superseded_preregistration_commit": original_commit,
         "superseded_preregistration_lock_sha256": original_lock_sha256,
+        "implementation_sha256": {},
     }
     original_lock_path.write_text(
         json.dumps(amended_lock, sort_keys=True), encoding="utf-8"
@@ -379,7 +414,7 @@ def test_preregistration_chain_authenticates_all_three_committed_locks(
     erratum["prior_amended_preregistration_lock_sha256"] = prior_amended_lock_sha256
     erratum_path = experiment / "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json"
     erratum_path.write_text(json.dumps(erratum, sort_keys=True), encoding="utf-8")
-    active_lock = {
+    implementation_lock = {
         **amended_lock,
         "schema_version": 4,
         "status": common_module.IMPLEMENTATION_ERRATUM_LOCK_STATUS,
@@ -388,20 +423,56 @@ def test_preregistration_chain_authenticates_all_three_committed_locks(
         "superseded_amended_preregistration_lock_sha256": (prior_amended_lock_sha256),
     }
     original_lock_path.write_text(
-        json.dumps(active_lock, sort_keys=True), encoding="utf-8"
+        json.dumps(implementation_lock, sort_keys=True), encoding="utf-8"
     )
     git("add", ".")
     git("commit", "-q", "-m", "implementation erratum refreeze")
+    prior_implementation_commit = git("rev-parse", "HEAD")
+    prior_implementation_lock_sha256 = file_sha256(original_lock_path)
+
+    erratum_2 = json.loads(
+        (ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    erratum_2["prior_implementation_refreeze_commit"] = prior_implementation_commit
+    erratum_2["prior_implementation_refreeze_lock_sha256"] = (
+        prior_implementation_lock_sha256
+    )
+    erratum_2["prior_implementation_erratum_sha256"] = file_sha256(erratum_path)
+    erratum_2_path = experiment / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json"
+    erratum_2_path.write_text(json.dumps(erratum_2, sort_keys=True), encoding="utf-8")
+    active_lock = {
+        **implementation_lock,
+        "schema_version": 5,
+        "status": common_module.IMPLEMENTATION_ERRATUM_2_LOCK_STATUS,
+        "implementation_erratum_2_sha256": file_sha256(erratum_2_path),
+        "superseded_implementation_refreeze_commit": (prior_implementation_commit),
+        "superseded_implementation_refreeze_lock_sha256": (
+            prior_implementation_lock_sha256
+        ),
+    }
+    original_lock_path.write_text(
+        json.dumps(active_lock, sort_keys=True), encoding="utf-8"
+    )
+    git("add", ".")
+    git("commit", "-q", "-m", "second implementation erratum refreeze")
     active_commit = git("rev-parse", "HEAD")
 
     monkeypatch.setattr(common_module, "REPO_ROOT", repo)
     monkeypatch.setattr(common_module, "EXPERIMENT_ROOT", experiment)
     monkeypatch.setattr(common_module, "AMENDMENT_PATH", amendment_path)
     monkeypatch.setattr(common_module, "IMPLEMENTATION_ERRATUM_PATH", erratum_path)
+    monkeypatch.setattr(common_module, "IMPLEMENTATION_ERRATUM_2_PATH", erratum_2_path)
     monkeypatch.setattr(
         common_module,
         "IMPLEMENTATION_ERRATUM_SHA256",
         file_sha256(erratum_path),
+    )
+    monkeypatch.setattr(
+        common_module,
+        "IMPLEMENTATION_ERRATUM_2_SHA256",
+        file_sha256(erratum_2_path),
     )
     monkeypatch.setattr(common_module, "LOCK_PATH", original_lock_path)
     monkeypatch.setattr(
@@ -413,6 +484,21 @@ def test_preregistration_chain_authenticates_all_three_committed_locks(
         common_module,
         "PRIOR_AMENDED_PREREGISTRATION_LOCK_SHA256",
         prior_amended_lock_sha256,
+    )
+    monkeypatch.setattr(
+        common_module,
+        "PRIOR_IMPLEMENTATION_REFREEZE_COMMIT",
+        prior_implementation_commit,
+    )
+    monkeypatch.setattr(
+        common_module,
+        "PRIOR_IMPLEMENTATION_REFREEZE_LOCK_SHA256",
+        prior_implementation_lock_sha256,
+    )
+    monkeypatch.setattr(
+        common_module,
+        "require_implementation_erratum_plan_disclosure",
+        lambda _prior: None,
     )
     chain = common_module.preregistration_chain(active_lock)
     assert chain == {

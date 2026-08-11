@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refreeze an implementation-only erratum without changing scientific revision 2."""
+"""Refreeze compatibility erratum 2 without changing scientific revision 2."""
 
 from __future__ import annotations
 
@@ -15,17 +15,18 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from common import (  # noqa: E402
-    IMPLEMENTATION_ERRATUM_LOCK_STATUS,
+    IMPLEMENTATION_ERRATUM_2_LOCK_STATUS,
     atomic_json,
-    authenticate_prior_amended_preregistration,
+    authenticate_prior_implementation_refreeze,
     canonical_sha256,
     file_sha256,
     historical_json,
     load_config,
     load_preregistration_amendment,
     load_preregistration_implementation_erratum,
+    load_preregistration_implementation_erratum_2,
     ordered_sha256,
-    require_implementation_erratum_plan_disclosure,
+    require_implementation_erratum_2_plan_disclosure,
     require_preserved_prior_lock_contract,
     runtime_environment,
 )
@@ -196,8 +197,10 @@ def main() -> None:
     amendment = load_preregistration_amendment(amendment_path)
     erratum_path = ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json"
     erratum = load_preregistration_implementation_erratum(erratum_path)
+    erratum_2_path = ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json"
+    erratum_2 = load_preregistration_implementation_erratum_2(erratum_2_path)
     prior_commit, prior_lock_sha256, prior_lock = (
-        authenticate_prior_amended_preregistration(erratum, amendment)
+        authenticate_prior_implementation_refreeze(erratum_2, erratum, amendment)
     )
     repo = ROOT.parents[1]
     head = subprocess.check_output(
@@ -205,7 +208,8 @@ def main() -> None:
     ).strip()
     if head != prior_commit:
         raise ValueError(
-            "implementation refreeze must be based directly on the amended anchor"
+            "second implementation refreeze must be based exactly on the first "
+            "implementation refreeze"
         )
 
     config = load_config(config_path, verify_inputs=True)
@@ -380,7 +384,7 @@ def main() -> None:
     runtime = runtime_environment()
     plan_sha256 = file_sha256(ROOT / "EXPERIMENT_PLAN.md")
     amendment_sha256 = file_sha256(amendment_path)
-    require_implementation_erratum_plan_disclosure(prior_lock)
+    require_implementation_erratum_2_plan_disclosure(prior_lock)
     _require_implementation_only_parity(
         prior_lock=prior_lock,
         prior_config=prior_config,
@@ -397,9 +401,9 @@ def main() -> None:
         raise ValueError("refreeze Git base differs from the superseded anchor")
 
     payload = {
-        "schema_version": 4,
+        "schema_version": 5,
         "preregistration_revision": 2,
-        "status": IMPLEMENTATION_ERRATUM_LOCK_STATUS,
+        "status": IMPLEMENTATION_ERRATUM_2_LOCK_STATUS,
         "branch": config["branch"],
         "formal_cell_count": len(cells),
         "plan_sha256": plan_sha256,
@@ -412,9 +416,16 @@ def main() -> None:
         "superseded_preregistration_lock_sha256": prior_lock[
             "superseded_preregistration_lock_sha256"
         ],
-        "implementation_erratum_sha256": file_sha256(erratum_path),
-        "superseded_amended_preregistration_commit": prior_commit,
-        "superseded_amended_preregistration_lock_sha256": prior_lock_sha256,
+        "implementation_erratum_sha256": prior_lock["implementation_erratum_sha256"],
+        "superseded_amended_preregistration_commit": prior_lock[
+            "superseded_amended_preregistration_commit"
+        ],
+        "superseded_amended_preregistration_lock_sha256": prior_lock[
+            "superseded_amended_preregistration_lock_sha256"
+        ],
+        "implementation_erratum_2_sha256": file_sha256(erratum_2_path),
+        "superseded_implementation_refreeze_commit": prior_commit,
+        "superseded_implementation_refreeze_lock_sha256": prior_lock_sha256,
         "config_canonical_sha256": canonical_sha256(config),
         "selected_cells": cells,
         "implementation_sha256": implementation_sha256,

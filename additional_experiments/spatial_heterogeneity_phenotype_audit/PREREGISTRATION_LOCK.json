@@ -8,7 +8,7 @@
   "formal_cell_count": 20,
   "git_provenance_before_freeze": {
     "all_dirty_paths_confined_to_new_experiment": true,
-    "base_head": "cdc7a57bf1ff373d97a97f51817ea83abe75d7e3",
+    "base_head": "01ecd8a4101a3a122bc58d148960f1e36f57720d",
     "branch": "feature/spatial-heterogeneity-phenotype-audit",
     "tracked_paths_before_freeze": [
       "additional_experiments/spatial_heterogeneity_phenotype_audit/EXPERIMENT_PLAN.md",
@@ -16,31 +16,33 @@
       "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/common.py",
       "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/freeze_preregistration.py",
       "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/generate_report.py",
-      "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/run_feature_matrix.py",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/run_audit.py",
       "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/validate_results.py",
       "additional_experiments/spatial_heterogeneity_phenotype_audit/tests/test_delivery_contracts.py",
-      "additional_experiments/spatial_heterogeneity_phenotype_audit/tests/test_oracle_regions.py"
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/tests/test_stage_b_pilot.py"
     ],
     "untracked_paths_before_freeze": [
-      "additional_experiments/spatial_heterogeneity_phenotype_audit/PREREGISTRATION_IMPLEMENTATION_ERRATUM.json"
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json",
+      "additional_experiments/spatial_heterogeneity_phenotype_audit/tests/test_multiclass_compat.py"
     ]
   },
+  "implementation_erratum_2_sha256": "db9eeda0895f65caadd508c1ed0ab499862463f0e0fe287022001ab0a25a5e35",
   "implementation_erratum_sha256": "ea49551e49a57bb7ddc52bc5ab841fab3cc9c3e1f1a9959d4f8a621d0dae9662",
   "implementation_sha256": {
     "scripts/build_oracle_sidecars.py": "4968dc430b1a540622c801ee91cbb1ff23249758315366ae8c4257ea9e0f37c2",
-    "scripts/common.py": "6cfa1ed423ebb1bb90f1c7a975bf80b9d809113d8c6ec56bffa2323fc760c240",
+    "scripts/common.py": "06c5693c32047c2c4e31c1c120824800497c40c43a9334134bc84cecc216065c",
     "scripts/export_features.py": "b5b5c9c60e2f74a2cd07eb8b5b53c2ecc583fd3299bff782ab257dacd20b8019",
-    "scripts/freeze_preregistration.py": "1a8adb9be0970de81a5c7877fa0524bb7608a8c707f999a97de44b2f1aaee927",
+    "scripts/freeze_preregistration.py": "b709650466f8d3450176ebca3e67e3a1dfe9025c5cfad48bbb72f6471ea36dba",
     "scripts/generate_figures.py": "eb958a1cea2b8999c0e1a55d5d913d7c3e53945ec396cddf66823fa40a8528ae",
-    "scripts/generate_report.py": "e0d83858c67ccbfab299639b71d3ea6a661a5ed3d73b0f30a036129fcee5bbce",
+    "scripts/generate_report.py": "e2257cb84a78554f40f2c104431bf4e7953210f79164b04568d193f24ea26c69",
     "scripts/pooling.py": "94412e990c71e5e4134f7f620c84a25e2d6972be268d1e37cdee40751dd997a7",
-    "scripts/run_audit.py": "f2200eed6924c05446117c8abb0862117c7c2b8f97846b4d9150e890eda96c36",
+    "scripts/run_audit.py": "da53a3ca0fd3d39ccbf763e1ee8cf0c462be51727597cc9292d9bd128517664d",
     "scripts/run_feature_matrix.py": "6e228abe3ae1f899216f56c2ef3848e83b8a3b45a258e8fcb07383404ec2bd48",
     "scripts/stage_b_pilot.py": "fe34832f42049a8f6e252c814a9cc4d773786d8489cfdf8562396d812db7d09d",
-    "scripts/validate_results.py": "ac668283cf646ac00277112087e16ec9851e9f95e6e4e778958acdc80f8b1631",
+    "scripts/validate_results.py": "53eec89d71532a68bf9e91acbdf20d5f0614c4d68ca81337b6ebc04052109318",
     "scripts/verify_cache_integrity.py": "71b92fc07782aa7435df2adb08732bbf64c573fffff78f1007dba9d7adae29b9"
   },
-  "plan_sha256": "477920f03b4eb57670d9d1b6b3bdf80716f07bb4410f0e257af04649a03b634e",
+  "plan_sha256": "3702460d145df46acf389c4e48f9b05510021c409d31414c95651089ad929530",
   "preregistration_revision": 2,
   "privacy_policy_sha256": "dbe260cc06c8b0799514c2c2fb10b427eddb6c33c1c094eee4b1288d74b22f3d",
   "runtime_environment": {
@@ -60,7 +62,7 @@
     "torch_cuda_build": "13.0",
     "torch_cudnn_version": "91300"
   },
-  "schema_version": 4,
+  "schema_version": 5,
   "selected_cells": {
     "seed_2026/LOCAL0/fold_0": {
       "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_0/selected.pt",
@@ -343,9 +345,11 @@
       "selection_sha256": "335f43cdf08e29be44e002684c5804125811f077f1f3458368c5421a6bb547aa"
     }
   },
-  "status": "IMPLEMENTATION_ERRATUM_FIXED_AND_REFROZEN_BEFORE_LABEL_DEPENDENT_PROBING",
+  "status": "IMPLEMENTATION_COMPATIBILITY_ERRATUM_FIXED_AND_REFROZEN_BEFORE_STAGE_A_COMPLETION",
   "superseded_amended_preregistration_commit": "cdc7a57bf1ff373d97a97f51817ea83abe75d7e3",
   "superseded_amended_preregistration_lock_sha256": "12e3c046f108d601c99fd354745fc5620e3ab234a72f307a2b1529063b7be0c4",
+  "superseded_implementation_refreeze_commit": "01ecd8a4101a3a122bc58d148960f1e36f57720d",
+  "superseded_implementation_refreeze_lock_sha256": "6063df14db751d9ad2f25af57e48b99a3d2282571f75c4683a24deb5a2762ce5",
   "superseded_preregistration_commit": "116b34f0eeec7485ead4d076517dcdfdf10960e8",
   "superseded_preregistration_lock_sha256": "7ef5eb028d6dbc1e2c01d01cc86787d89a7156ffb9c6e7b5b61b9fe22591ca21",
   "upstream_code_sha256": {

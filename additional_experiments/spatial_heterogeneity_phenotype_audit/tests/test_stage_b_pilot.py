@@ -229,6 +229,12 @@ def test_stage_b_probe_import_resolves_local_audit_on_cold_import(config):
         )
         assert Path(audit.__file__).resolve() == expected_audit
         assert Path(data_contracts.__file__).resolve() == expected_contracts
+        assert (
+            audit._append_multiclass_fit.__globals__[
+                "_fit_multiclass_logistic_exact_legacy"
+            ]
+            is audit._fit_multiclass_logistic_exact_legacy
+        )
         complementarity = str(expected_contracts.parent)
         assert sys.path.index(str(SCRIPTS)) < sys.path.index(complementarity)
     finally:

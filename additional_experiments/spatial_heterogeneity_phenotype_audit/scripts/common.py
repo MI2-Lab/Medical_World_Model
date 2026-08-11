@@ -24,6 +24,9 @@ AMENDMENT_PATH = EXPERIMENT_ROOT / "PREREGISTRATION_AMENDMENT.json"
 IMPLEMENTATION_ERRATUM_PATH = (
     EXPERIMENT_ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json"
 )
+IMPLEMENTATION_ERRATUM_2_PATH = (
+    EXPERIMENT_ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json"
+)
 LOCK_PATH = EXPERIMENT_ROOT / "PREREGISTRATION_LOCK.json"
 AMENDMENT_STATUS = "AMENDED_BEFORE_LABEL_DEPENDENT_ANALYSIS"
 AMENDED_LOCK_STATUS = (
@@ -33,12 +36,25 @@ IMPLEMENTATION_ERRATUM_STATUS = "IMPLEMENTATION_ERRATUM_BEFORE_LABEL_DEPENDENT_A
 IMPLEMENTATION_ERRATUM_LOCK_STATUS = (
     "IMPLEMENTATION_ERRATUM_FIXED_AND_REFROZEN_BEFORE_LABEL_DEPENDENT_PROBING"
 )
+IMPLEMENTATION_ERRATUM_2_STATUS = (
+    "IMPLEMENTATION_COMPATIBILITY_ERRATUM_BEFORE_STAGE_A_COMPLETION"
+)
+IMPLEMENTATION_ERRATUM_2_LOCK_STATUS = (
+    "IMPLEMENTATION_COMPATIBILITY_ERRATUM_FIXED_AND_REFROZEN_BEFORE_STAGE_A_COMPLETION"
+)
 IMPLEMENTATION_ERRATUM_SHA256 = (
     "ea49551e49a57bb7ddc52bc5ab841fab3cc9c3e1f1a9959d4f8a621d0dae9662"
+)
+IMPLEMENTATION_ERRATUM_2_SHA256 = (
+    "db9eeda0895f65caadd508c1ed0ab499862463f0e0fe287022001ab0a25a5e35"
 )
 PRIOR_AMENDED_PREREGISTRATION_COMMIT = "cdc7a57bf1ff373d97a97f51817ea83abe75d7e3"
 PRIOR_AMENDED_PREREGISTRATION_LOCK_SHA256 = (
     "12e3c046f108d601c99fd354745fc5620e3ab234a72f307a2b1529063b7be0c4"
+)
+PRIOR_IMPLEMENTATION_REFREEZE_COMMIT = "01ecd8a4101a3a122bc58d148960f1e36f57720d"
+PRIOR_IMPLEMENTATION_REFREEZE_LOCK_SHA256 = (
+    "6063df14db751d9ad2f25af57e48b99a3d2282571f75c4683a24deb5a2762ce5"
 )
 AMENDMENT_KEYS = frozenset(
     {
@@ -174,6 +190,98 @@ IMPLEMENTATION_ERRATUM_DISCARDED_PATHS = frozenset(
 if len(IMPLEMENTATION_ERRATUM_DISCARDED_PATHS) != 65:
     raise AssertionError(
         "implementation erratum discard inventory must contain 65 paths"
+    )
+IMPLEMENTATION_ERRATUM_2_KEYS = frozenset(
+    {
+        "schema_version",
+        "status",
+        "erratum_number",
+        "prior_implementation_refreeze_commit",
+        "prior_implementation_refreeze_lock_sha256",
+        "prior_implementation_erratum_sha256",
+        "reason_code",
+        "pre_erratum_execution",
+        "contract_scope",
+        "discarded_artifact_sha256",
+        "contains_patient_identifiers",
+    }
+)
+IMPLEMENTATION_ERRATUM_2_PRE_EXECUTION = {
+    "cache_integrity_completed": True,
+    "oracle_sidecar_completed": True,
+    "completed_feature_cell_count": 20,
+    "independently_validated_feature_cell_count": 20,
+    "maximum_p1_projection_parity_absolute_difference": 0.0,
+    "representative_asset_created": True,
+    "feature_matrix_completion_marker_created": True,
+    "stage_a_started": True,
+    "fold_manifest_with_pcr_labels_parsed": True,
+    "clinical_phenotype_label_table_parsed": True,
+    "ftv_table_parsed": True,
+    "table1_pooling_contract_created": True,
+    "table1_contains_label_derived_values": False,
+    "phenotype_probe_started": True,
+    "completed_binary_probe_tasks_in_memory": 2,
+    "completed_binary_candidate_fits_in_memory": 14,
+    "in_memory_prediction_rows_before_failure": 324,
+    "in_memory_hyperparameter_rows_before_failure": 2,
+    "first_multiclass_candidate_fit_succeeded": False,
+    "failure_cell": "seed_2026/LOCAL0/fold_0",
+    "failure_view": "T0",
+    "failure_variant": "P1",
+    "failure_target": "subtype_4class",
+    "failure_c": 0.0001,
+    "failure_exception_type": "ValueError",
+    "failure_reason": "sklearn_1_8_rejects_legacy_bare_multiclass_liblinear",
+    "patient_level_prediction_artifact_created": False,
+    "label_derived_public_metric_artifact_created": False,
+    "table2_or_later_created": False,
+    "hyperparameter_table_created": False,
+    "gates_created": False,
+    "stage_b_authorization_created": False,
+    "run_summary_created": False,
+    "stage_b_started": False,
+    "discarded_artifact_count": 67,
+    "discarded_artifact_total_bytes": 307938585,
+    "discarded_artifact_record_set_sha256": (
+        "97768d153498c4fb953184ed6677e61ff4dc083f2f98362fafa360c896f39484"
+    ),
+    "discard_before_refreeze_required": True,
+    "reuse_forbidden": True,
+}
+IMPLEMENTATION_ERRATUM_2_CONTRACT_SCOPE = {
+    "implementation_change": (
+        "use_sklearn_fit_liblinear_binary_ovr_coefficients_with_legacy_sigmoid_"
+        "row_normalization_for_multiclass_subtype"
+    ),
+    "compatibility_semantics": (
+        "exact_legacy_bare_multiclass_liblinear_not_generic_child_balanced_ovr"
+    ),
+    "affected_stage": "multiclass_subtype_probe_estimator_compatibility_only",
+    "warning_suppression": (
+        "suppress_only_repetitive_sklearn_1_8_penalty_l2_futurewarning_in_local_runner"
+    ),
+    "convergence_warning_remains_fail_closed": True,
+    "configured_solver_changed": False,
+    "penalty_changed": False,
+    "class_weight_semantics_changed": False,
+    "c_grid_changed": False,
+    "selection_metric_or_tie_break_changed": False,
+    "outer_fold_or_population_changed": False,
+    "scientific_contract_changed": False,
+    "representative_contract_changed": False,
+    "causal_oracle_contract_changed": False,
+}
+IMPLEMENTATION_ERRATUM_2_DISCARDED_PATHS = frozenset(
+    IMPLEMENTATION_ERRATUM_DISCARDED_PATHS
+    | {
+        "features/feature_matrix_complete.private.json",
+        "metrics/table1_pooling_contract.csv",
+    }
+)
+if len(IMPLEMENTATION_ERRATUM_2_DISCARDED_PATHS) != 67:
+    raise AssertionError(
+        "second implementation erratum discard inventory must contain 67 paths"
     )
 PRIOR_LOCK_PRESERVED_FIELDS = frozenset(
     {
@@ -413,6 +521,125 @@ def load_preregistration_implementation_erratum(
     return erratum
 
 
+def load_preregistration_implementation_erratum_2(
+    path: str | Path | None = None,
+) -> dict[str, Any]:
+    """Load the exact patient-free sklearn compatibility erratum ledger."""
+
+    source = Path(IMPLEMENTATION_ERRATUM_2_PATH if path is None else path).resolve(
+        strict=True
+    )
+    try:
+        erratum = json.loads(source.read_text(encoding="utf-8"))
+    except (UnicodeError, json.JSONDecodeError) as error:
+        raise ValueError(
+            "second preregistration implementation erratum is unreadable"
+        ) from error
+    if not isinstance(erratum, dict) or set(erratum) != set(
+        IMPLEMENTATION_ERRATUM_2_KEYS
+    ):
+        raise ValueError("second implementation erratum schema drifted")
+    expected_scalars = {
+        "schema_version": 1,
+        "status": IMPLEMENTATION_ERRATUM_2_STATUS,
+        "erratum_number": 2,
+        "prior_implementation_refreeze_commit": (PRIOR_IMPLEMENTATION_REFREEZE_COMMIT),
+        "prior_implementation_refreeze_lock_sha256": (
+            PRIOR_IMPLEMENTATION_REFREEZE_LOCK_SHA256
+        ),
+        "prior_implementation_erratum_sha256": IMPLEMENTATION_ERRATUM_SHA256,
+        "reason_code": "SKLEARN_1_8_BLOCKS_LEGACY_BARE_MULTICLASS_LIBLINEAR",
+        "contains_patient_identifiers": False,
+    }
+    if any(erratum.get(name) != value for name, value in expected_scalars.items()):
+        raise ValueError("second implementation erratum scalar contract drifted")
+    if (
+        type(erratum["schema_version"]) is not int
+        or type(erratum["erratum_number"]) is not int
+    ):
+        raise ValueError("second implementation erratum revisions must be integers")
+    execution = erratum.get("pre_erratum_execution")
+    if execution != IMPLEMENTATION_ERRATUM_2_PRE_EXECUTION:
+        raise ValueError("second implementation erratum execution ledger drifted")
+    integer_execution_fields = (
+        "completed_feature_cell_count",
+        "independently_validated_feature_cell_count",
+        "completed_binary_probe_tasks_in_memory",
+        "completed_binary_candidate_fits_in_memory",
+        "in_memory_prediction_rows_before_failure",
+        "in_memory_hyperparameter_rows_before_failure",
+        "discarded_artifact_count",
+        "discarded_artifact_total_bytes",
+    )
+    boolean_execution_fields = (
+        "cache_integrity_completed",
+        "oracle_sidecar_completed",
+        "representative_asset_created",
+        "feature_matrix_completion_marker_created",
+        "stage_a_started",
+        "fold_manifest_with_pcr_labels_parsed",
+        "clinical_phenotype_label_table_parsed",
+        "ftv_table_parsed",
+        "table1_pooling_contract_created",
+        "table1_contains_label_derived_values",
+        "phenotype_probe_started",
+        "first_multiclass_candidate_fit_succeeded",
+        "patient_level_prediction_artifact_created",
+        "label_derived_public_metric_artifact_created",
+        "table2_or_later_created",
+        "hyperparameter_table_created",
+        "gates_created",
+        "stage_b_authorization_created",
+        "run_summary_created",
+        "stage_b_started",
+        "discard_before_refreeze_required",
+        "reuse_forbidden",
+    )
+    if any(
+        type(execution[name]) is not int for name in integer_execution_fields
+    ) or any(type(execution[name]) is not bool for name in boolean_execution_fields):
+        raise ValueError("second implementation erratum execution types drifted")
+    for name in ("maximum_p1_projection_parity_absolute_difference", "failure_c"):
+        if type(execution[name]) is not float:
+            raise ValueError(f"second implementation erratum {name} must be a float")
+    contract_scope = erratum.get("contract_scope")
+    if contract_scope != IMPLEMENTATION_ERRATUM_2_CONTRACT_SCOPE:
+        raise ValueError("second implementation erratum contract scope drifted")
+    boolean_scope_fields = (
+        "convergence_warning_remains_fail_closed",
+        "configured_solver_changed",
+        "penalty_changed",
+        "class_weight_semantics_changed",
+        "c_grid_changed",
+        "selection_metric_or_tie_break_changed",
+        "outer_fold_or_population_changed",
+        "scientific_contract_changed",
+        "representative_contract_changed",
+        "causal_oracle_contract_changed",
+    )
+    if any(type(contract_scope[name]) is not bool for name in boolean_scope_fields):
+        raise ValueError("second implementation erratum contract types drifted")
+    discarded = erratum.get("discarded_artifact_sha256")
+    if not isinstance(discarded, dict) or set(discarded) != set(
+        IMPLEMENTATION_ERRATUM_2_DISCARDED_PATHS
+    ):
+        raise ValueError("second implementation erratum discard ledger drifted")
+    for relative, digest in discarded.items():
+        relative_path = Path(str(relative))
+        if (
+            relative_path.is_absolute()
+            or ".." in relative_path.parts
+            or not isinstance(digest, str)
+            or SHA256_PATTERN.fullmatch(digest) is None
+        ):
+            raise ValueError("second implementation erratum discard record is invalid")
+    if canonical_sha256(discarded) != execution["discarded_artifact_record_set_sha256"]:
+        raise ValueError("second implementation erratum record-set digest drifted")
+    if file_sha256(source) != IMPLEMENTATION_ERRATUM_2_SHA256:
+        raise ValueError("second preregistration implementation erratum bytes drifted")
+    return erratum
+
+
 def _experiment_relative_path(filename: str) -> str:
     return (EXPERIMENT_ROOT.relative_to(REPO_ROOT) / filename).as_posix()
 
@@ -517,6 +744,75 @@ def authenticate_prior_amended_preregistration(
     return prior_commit, prior_lock_sha256, prior_lock
 
 
+def authenticate_prior_implementation_refreeze(
+    erratum_2: Mapping[str, Any],
+    erratum: Mapping[str, Any] | None = None,
+    amendment: Mapping[str, Any] | None = None,
+) -> tuple[str, str, dict[str, Any]]:
+    """Authenticate the schema-4 implementation refreeze superseded by erratum 2."""
+
+    amendment_value = (
+        load_preregistration_amendment() if amendment is None else dict(amendment)
+    )
+    erratum_value = (
+        load_preregistration_implementation_erratum()
+        if erratum is None
+        else dict(erratum)
+    )
+    prior_commit = str(erratum_2["prior_implementation_refreeze_commit"])
+    prior_lock_sha256 = str(erratum_2["prior_implementation_refreeze_lock_sha256"])
+    if (
+        prior_commit != PRIOR_IMPLEMENTATION_REFREEZE_COMMIT
+        or prior_lock_sha256 != PRIOR_IMPLEMENTATION_REFREEZE_LOCK_SHA256
+        or erratum_2.get("prior_implementation_erratum_sha256")
+        != IMPLEMENTATION_ERRATUM_SHA256
+        or file_sha256(IMPLEMENTATION_ERRATUM_PATH) != IMPLEMENTATION_ERRATUM_SHA256
+        or historical_file_sha256(prior_commit, "PREREGISTRATION_LOCK.json")
+        != prior_lock_sha256
+    ):
+        raise ValueError(
+            "second erratum prior implementation refreeze is unauthenticated"
+        )
+    prior_lock = historical_json(prior_commit, "PREREGISTRATION_LOCK.json")
+    amended_commit, amended_lock_sha256, amended_lock = (
+        authenticate_prior_amended_preregistration(erratum_value, amendment_value)
+    )
+    if (
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", amended_commit, prior_commit],
+            cwd=REPO_ROOT,
+            check=False,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        ).returncode
+        != 0
+    ):
+        raise ValueError(
+            "amended preregistration is not before implementation refreeze"
+        )
+    if (
+        prior_lock.get("schema_version") != 4
+        or prior_lock.get("preregistration_revision") != 2
+        or prior_lock.get("status") != IMPLEMENTATION_ERRATUM_LOCK_STATUS
+        or prior_lock.get("amendment_sha256") != file_sha256(AMENDMENT_PATH)
+        or prior_lock.get("implementation_erratum_sha256")
+        != IMPLEMENTATION_ERRATUM_SHA256
+        or prior_lock.get("superseded_amended_preregistration_commit") != amended_commit
+        or prior_lock.get("superseded_amended_preregistration_lock_sha256")
+        != amended_lock_sha256
+        or historical_file_sha256(prior_commit, "PREREGISTRATION_AMENDMENT.json")
+        != file_sha256(AMENDMENT_PATH)
+        or historical_file_sha256(
+            prior_commit, "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json"
+        )
+        != IMPLEMENTATION_ERRATUM_SHA256
+    ):
+        raise ValueError("historical implementation refreeze contract drifted")
+    require_preserved_prior_lock_contract(prior_lock, amended_lock)
+    require_implementation_erratum_plan_disclosure(amended_lock)
+    return prior_commit, prior_lock_sha256, prior_lock
+
+
 def require_preserved_prior_lock_contract(
     current: Mapping[str, Any], prior: Mapping[str, Any]
 ) -> None:
@@ -542,7 +838,7 @@ def require_preserved_prior_lock_contract(
 def require_implementation_erratum_plan_disclosure(
     prior_lock: Mapping[str, Any],
 ) -> None:
-    """Prove the plan changed only by insertion of the public erratum disclosure."""
+    """Authenticate erratum 1 as the sole plan delta committed at its refreeze."""
 
     prior_payload = historical_file_bytes(
         PRIOR_AMENDED_PREREGISTRATION_COMMIT, "EXPERIMENT_PLAN.md"
@@ -551,9 +847,9 @@ def require_implementation_erratum_plan_disclosure(
         raise ValueError("historical amended lock does not authenticate its plan")
     try:
         prior_text = prior_payload.decode("utf-8")
-        current_text = (EXPERIMENT_ROOT / "EXPERIMENT_PLAN.md").read_text(
-            encoding="utf-8"
-        )
+        current_text = historical_file_bytes(
+            PRIOR_IMPLEMENTATION_REFREEZE_COMMIT, "EXPERIMENT_PLAN.md"
+        ).decode("utf-8")
     except UnicodeError as error:
         raise ValueError("preregistration plan is not valid UTF-8") from error
     start_marker = "**Pre-probe implementation erratum 1 (no scientific change).**"
@@ -582,11 +878,58 @@ def require_implementation_erratum_plan_disclosure(
         raise ValueError("plan changed outside the implementation erratum disclosure")
 
 
+def require_implementation_erratum_2_plan_disclosure(
+    prior_lock: Mapping[str, Any],
+) -> None:
+    """Prove the current plan adds only the exact erratum-2 disclosure block."""
+
+    prior_payload = historical_file_bytes(
+        PRIOR_IMPLEMENTATION_REFREEZE_COMMIT, "EXPERIMENT_PLAN.md"
+    )
+    if hashlib.sha256(prior_payload).hexdigest() != prior_lock.get("plan_sha256"):
+        raise ValueError("historical implementation refreeze does not bind its plan")
+    try:
+        prior_text = prior_payload.decode("utf-8")
+        current_text = (EXPERIMENT_ROOT / "EXPERIMENT_PLAN.md").read_text(
+            encoding="utf-8"
+        )
+    except UnicodeError as error:
+        raise ValueError("preregistration plan is not valid UTF-8") from error
+    start_marker = (
+        "**Pre-Stage-A-completion implementation compatibility erratum 2 "
+        "(no scientific"
+    )
+    end_marker = "## 7. Longitudinal heterogeneity"
+    if current_text.count(start_marker) != 1 or current_text.count(end_marker) != 1:
+        raise ValueError("second implementation erratum disclosure is missing/repeated")
+    start = current_text.index(start_marker)
+    end = current_text.index(end_marker, start)
+    normalized_disclosure = " ".join(current_text[start:end].split())
+    required_fragments = (
+        PRIOR_IMPLEMENTATION_REFREEZE_COMMIT,
+        PRIOR_IMPLEMENTATION_REFREEZE_LOCK_SHA256,
+        "parsed the locked fold/pCR labels, clinical phenotype labels, and FTV table",
+        "14 fits total, 324 prediction rows and two selected-hyperparameter rows",
+        "The first subtype fit at `C=0.0001` failed before fitting",
+        "`_fit_liblinear`",
+        "legacy per-row probability normalization",
+        "not a generic child-balanced OvR replacement",
+        "`ConvergenceWarning` remains fail-closed",
+        "all 67 outputs present at failure (307,938,585 bytes",
+        "none may be reused",
+    )
+    if any(fragment not in normalized_disclosure for fragment in required_fragments):
+        raise ValueError("second implementation erratum disclosure facts drifted")
+    if current_text[:start] + current_text[end:] != prior_text:
+        raise ValueError("plan changed outside the second erratum disclosure")
+
+
 def preregistration_provenance_anchors(
     amendment: Mapping[str, Any] | None = None,
     erratum: Mapping[str, Any] | None = None,
-) -> tuple[str, str, str]:
-    """Return authenticated ``(original, prior-amended, active)`` anchors."""
+    erratum_2: Mapping[str, Any] | None = None,
+) -> tuple[str, str, str, str]:
+    """Return ``(original, amended, first-implementation, active)`` anchors."""
 
     amendment_value = (
         load_preregistration_amendment() if amendment is None else dict(amendment)
@@ -596,11 +939,21 @@ def preregistration_provenance_anchors(
         if erratum is None
         else dict(erratum)
     )
+    erratum_2_value = (
+        load_preregistration_implementation_erratum_2()
+        if erratum_2 is None
+        else dict(erratum_2)
+    )
     original_commit, _original_lock = authenticate_original_preregistration(
         amendment_value
     )
     prior_commit, _prior_lock, _prior_payload = (
         authenticate_prior_amended_preregistration(erratum_value, amendment_value)
+    )
+    implementation_commit, _implementation_lock, _implementation_payload = (
+        authenticate_prior_implementation_refreeze(
+            erratum_2_value, erratum_value, amendment_value
+        )
     )
     lock_relative = _experiment_relative_path("PREREGISTRATION_LOCK.json")
     active_commit = subprocess.check_output(
@@ -611,7 +964,7 @@ def preregistration_provenance_anchors(
     ).strip()
     if COMMIT_PATTERN.fullmatch(active_commit) is None:
         raise ValueError("active preregistration lock has no committed Git anchor")
-    if active_commit in {original_commit, prior_commit}:
+    if active_commit in {original_commit, prior_commit, implementation_commit}:
         raise ValueError("active preregistration anchor is still superseded")
     for ancestor, descendant, message in (
         (
@@ -621,8 +974,13 @@ def preregistration_provenance_anchors(
         ),
         (
             prior_commit,
+            implementation_commit,
+            "amended preregistration is not an ancestor of implementation refreeze",
+        ),
+        (
+            implementation_commit,
             active_commit,
-            "amended preregistration is not an ancestor of the erratum refreeze",
+            "first implementation refreeze is not an ancestor of active refreeze",
         ),
         (
             active_commit,
@@ -655,7 +1013,13 @@ def preregistration_provenance_anchors(
         raise ValueError(
             "committed implementation erratum differs from the current erratum"
         )
-    return original_commit, prior_commit, active_commit
+    if historical_file_sha256(
+        active_commit, "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json"
+    ) != file_sha256(IMPLEMENTATION_ERRATUM_2_PATH):
+        raise ValueError(
+            "committed second implementation erratum differs from the current erratum"
+        )
+    return original_commit, prior_commit, implementation_commit, active_commit
 
 
 def preregistration_anchor_commits(
@@ -663,7 +1027,9 @@ def preregistration_anchor_commits(
 ) -> tuple[str, str]:
     """Return ``(original, active)`` while preserving the established API."""
 
-    original, _prior, active = preregistration_provenance_anchors(amendment)
+    original, _prior, _implementation, active = preregistration_provenance_anchors(
+        amendment
+    )
     return original, active
 
 
@@ -675,16 +1041,21 @@ def preregistration_chain(
 
     value = load_preregistration_amendment() if amendment is None else dict(amendment)
     erratum = load_preregistration_implementation_erratum()
-    original_commit, prior_commit, active_commit = preregistration_provenance_anchors(
-        value, erratum
-    )
+    erratum_2 = load_preregistration_implementation_erratum_2()
+    (
+        original_commit,
+        prior_commit,
+        implementation_commit,
+        active_commit,
+    ) = preregistration_provenance_anchors(value, erratum, erratum_2)
     original_lock = str(value["original_preregistration_lock_sha256"])
     amendment_sha256 = file_sha256(AMENDMENT_PATH)
     erratum_sha256 = file_sha256(IMPLEMENTATION_ERRATUM_PATH)
+    erratum_2_sha256 = file_sha256(IMPLEMENTATION_ERRATUM_2_PATH)
     if (
-        lock.get("schema_version") != 4
+        lock.get("schema_version") != 5
         or lock.get("preregistration_revision") != 2
-        or lock.get("status") != IMPLEMENTATION_ERRATUM_LOCK_STATUS
+        or lock.get("status") != IMPLEMENTATION_ERRATUM_2_LOCK_STATUS
         or lock.get("amendment_sha256") != amendment_sha256
         or lock.get("superseded_preregistration_commit") != original_commit
         or lock.get("superseded_preregistration_lock_sha256") != original_lock
@@ -692,8 +1063,13 @@ def preregistration_chain(
         or lock.get("superseded_amended_preregistration_commit") != prior_commit
         or lock.get("superseded_amended_preregistration_lock_sha256")
         != PRIOR_AMENDED_PREREGISTRATION_LOCK_SHA256
+        or lock.get("implementation_erratum_2_sha256") != erratum_2_sha256
+        or lock.get("superseded_implementation_refreeze_commit")
+        != implementation_commit
+        or lock.get("superseded_implementation_refreeze_lock_sha256")
+        != PRIOR_IMPLEMENTATION_REFREEZE_LOCK_SHA256
     ):
-        raise ValueError("runtime preregistration/implementation-erratum chain drifted")
+        raise ValueError("runtime preregistration/implementation-errata chain drifted")
     return {
         "preregistration_revision": 2,
         "active_preregistration_lock_sha256": file_sha256(LOCK_PATH),
@@ -754,11 +1130,11 @@ def require_preregistration_lock(config: Mapping[str, Any]) -> dict[str, Any]:
     if not lock_path.is_file():
         raise FileNotFoundError("formal execution requires PREREGISTRATION_LOCK.json")
     lock = json.loads(lock_path.read_text(encoding="utf-8"))
-    if lock.get("schema_version") != 4:
+    if lock.get("schema_version") != 5:
         raise ValueError("preregistration lock schema version is invalid")
     if lock.get("preregistration_revision") != 2:
         raise ValueError("preregistration lock revision is invalid")
-    if lock.get("status") != IMPLEMENTATION_ERRATUM_LOCK_STATUS:
+    if lock.get("status") != IMPLEMENTATION_ERRATUM_2_LOCK_STATUS:
         raise ValueError("preregistration lock status is invalid")
     if lock.get("branch") != config.get("branch"):
         raise ValueError("preregistration lock names another branch")
@@ -770,6 +1146,7 @@ def require_preregistration_lock(config: Mapping[str, Any]) -> dict[str, Any]:
         "privacy_policy_sha256": EXPERIMENT_ROOT / ".gitignore",
         "amendment_sha256": AMENDMENT_PATH,
         "implementation_erratum_sha256": IMPLEMENTATION_ERRATUM_PATH,
+        "implementation_erratum_2_sha256": IMPLEMENTATION_ERRATUM_2_PATH,
     }
     for field, path in checks.items():
         if lock.get(field) != file_sha256(path):
@@ -778,19 +1155,28 @@ def require_preregistration_lock(config: Mapping[str, Any]) -> dict[str, Any]:
         raise ValueError("loaded config differs from the frozen canonical config")
     amendment = load_preregistration_amendment()
     erratum = load_preregistration_implementation_erratum()
+    erratum_2 = load_preregistration_implementation_erratum_2()
     original_commit, original_lock = authenticate_original_preregistration(amendment)
-    prior_commit, prior_lock_sha256, prior_lock = (
+    amended_commit, amended_lock_sha256, _amended_lock = (
         authenticate_prior_amended_preregistration(erratum, amendment)
+    )
+    prior_commit, prior_lock_sha256, prior_lock = (
+        authenticate_prior_implementation_refreeze(erratum_2, erratum, amendment)
     )
     if (
         lock.get("superseded_preregistration_commit") != original_commit
         or lock.get("superseded_preregistration_lock_sha256") != original_lock
-        or lock.get("superseded_amended_preregistration_commit") != prior_commit
+        or lock.get("superseded_amended_preregistration_commit") != amended_commit
         or lock.get("superseded_amended_preregistration_lock_sha256")
+        != amended_lock_sha256
+        or lock.get("implementation_erratum_sha256")
+        != prior_lock.get("implementation_erratum_sha256")
+        or lock.get("superseded_implementation_refreeze_commit") != prior_commit
+        or lock.get("superseded_implementation_refreeze_lock_sha256")
         != prior_lock_sha256
     ):
         raise ValueError("active lock does not mirror its superseded Git anchors")
-    require_implementation_erratum_plan_disclosure(prior_lock)
+    require_implementation_erratum_2_plan_disclosure(prior_lock)
     require_preserved_prior_lock_contract(lock, prior_lock)
     provenance = lock.get("git_provenance_before_freeze")
     if (
@@ -799,7 +1185,7 @@ def require_preregistration_lock(config: Mapping[str, Any]) -> dict[str, Any]:
         or provenance.get("branch") != config.get("branch")
         or provenance.get("all_dirty_paths_confined_to_new_experiment") is not True
     ):
-        raise ValueError("implementation refreeze Git provenance drifted")
+        raise ValueError("second implementation refreeze Git provenance drifted")
     implementations = lock.get("implementation_sha256")
     if not isinstance(implementations, dict) or not implementations:
         raise ValueError("preregistration lock has no implementation inventory")
@@ -882,6 +1268,10 @@ __all__ = [
     "AMENDMENT_STATUS",
     "DEFAULT_CONFIG",
     "EXPERIMENT_ROOT",
+    "IMPLEMENTATION_ERRATUM_2_LOCK_STATUS",
+    "IMPLEMENTATION_ERRATUM_2_PATH",
+    "IMPLEMENTATION_ERRATUM_2_SHA256",
+    "IMPLEMENTATION_ERRATUM_2_STATUS",
     "IMPLEMENTATION_ERRATUM_LOCK_STATUS",
     "IMPLEMENTATION_ERRATUM_PATH",
     "IMPLEMENTATION_ERRATUM_SHA256",
@@ -889,11 +1279,14 @@ __all__ = [
     "LOCK_PATH",
     "PRIOR_AMENDED_PREREGISTRATION_COMMIT",
     "PRIOR_AMENDED_PREREGISTRATION_LOCK_SHA256",
+    "PRIOR_IMPLEMENTATION_REFREEZE_COMMIT",
+    "PRIOR_IMPLEMENTATION_REFREEZE_LOCK_SHA256",
     "REPO_ROOT",
     "atomic_csv",
     "atomic_json",
     "authenticate_original_preregistration",
     "authenticate_prior_amended_preregistration",
+    "authenticate_prior_implementation_refreeze",
     "canonical_sha256",
     "file_sha256",
     "historical_file_bytes",
@@ -902,12 +1295,14 @@ __all__ = [
     "load_config",
     "load_preregistration_amendment",
     "load_preregistration_implementation_erratum",
+    "load_preregistration_implementation_erratum_2",
     "ordered_sha256",
     "preregistration_anchor_commits",
     "preregistration_chain",
     "preregistration_provenance_anchors",
     "private_directory",
     "require_implementation_erratum_plan_disclosure",
+    "require_implementation_erratum_2_plan_disclosure",
     "require_preserved_prior_lock_contract",
     "require_preregistration_lock",
     "runtime_environment",
