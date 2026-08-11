@@ -1,0 +1,216 @@
+{
+  "execution": {
+    "bootstrap": {
+      "comparison_contract_printed_sha256": "f99fd76bd35b784500194347c4b363725616ca6adab2ba830a006cc7cc4a7e13",
+      "replicates": 5000,
+      "seed": 2026
+    },
+    "current_cnn_models": [
+      "GAP0@GLOBAL",
+      "LOCAL0@LOCAL"
+    ],
+    "decision_points": [
+      "T0",
+      "T0-T1",
+      "T0-T2"
+    ],
+    "formal_models": [
+      "medicalnet_resnet50_3dseg8",
+      "dino_vitb16_imagenet1k"
+    ],
+    "formal_run_policy": "run each evaluation CLI once without --overwrite; no test-driven model filtering",
+    "python": "/home/bowen/.conda/envs/bowen/bin/python",
+    "selection_parallel_workers": 1,
+    "thread_environment": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  },
+  "files": {
+    "EXPERIMENT_PLAN.md": "70270da091a222688e91d2c4f04a852520135a13a7236242884259e789fc7479",
+    "configs/MODEL_INPUT_LOCK.json": "639ec6e82f67c3927d8f543dfa3f9834ac8e09aec4820906c138b1839662c377",
+    "configs/evaluation_protocol.json": "6ad48550861b444a3348a99e3c6bf1dd5c1cb88e1dbf20038b1d3fc95f85d91e",
+    "configs/formal.json": "79774a33fdd73e07318fe7d4c6aa068b5a0f2052564b50546ff4a57aff6d555e",
+    "configs/information_timing_contract.csv": "9dd1fa6c414f1433076048d244f7eb1c898076a209a47e408788d0a009475580",
+    "reports/foundation_model_selection.md": "77fe49a82aadcc988a5a937e2190df8774f5992ec85bd68a9a7c1d113bd58d08",
+    "requirements.txt": "159dc7ff4f8c2bff3b0b638fd11d665e36fc2cd700a8998a00de8c5a6df0de53",
+    "scripts/run_baselines.py": "d3845a9953e076beecb08fb9bbecda41f80c33bae6157af61f70c134d4c4f3d0",
+    "scripts/run_probes.py": "ddaac15f4dd5298dfb6ae7f4e60ce9cc8ef0477062f4cf75d31606c9d4684627",
+    "scripts/summarize_results.py": "7ed8fa5ecaa4e0d9115530b071b9ebf0b4a8e6ac612d25cc9a5f23b2d5f1d876",
+    "src/foundation_mri/data.py": "61aa9635a6cd367cc1d84556a45785f4a413fea1dd7d374907b257cd7b30eaa9",
+    "src/foundation_mri/evaluation.py": "68d683f9a93534bb2942d45780b120f88fe8c4d3d492f14b7733888bcce95699",
+    "src/foundation_mri/locking.py": "16083e942039c3b69ec5b128fd56e67edc26702c2f9933c2107071771e3977ec",
+    "src/foundation_mri/reporting.py": "50dd11fe6374493342c4d1411737e31393707c504946a589f176c84d520a5dfe",
+    "tests/test_data.py": "1a0c68ab595c9a064afafe57405c9091824b2f8b93c524d44aed375405be8bb2",
+    "tests/test_evaluation.py": "e90487d3d2b122c9a9707e5d7447bf239ecf1e7998745fefbccd501d612719ee",
+    "tests/test_locking.py": "a5d93b3ffde2d07d7f02c9109528318b8373ec44dd18d764cf741700f836d995",
+    "tests/test_models.py": "d2399b08aefaf938766037c33c53d79aa9fe5ce5cd777c886c83ebac7c50c275",
+    "tests/test_reporting.py": "3f18a7a37a8afbcb1795b5fd64aa67d98bd31facc098d5306475b166bd65e804",
+    "tests/test_scripts.py": "0824a5577682125c4b4739e6c449ec5c04f59035d767c701628cd874d3db25b4",
+    "tests/test_spatial.py": "686de906c64edbe982c0ced8c6eba4546cdb3649d682e8b6b59a28275103edcc"
+  },
+  "formal_test_outcomes_seen": false,
+  "inputs": {
+    "clinical_labels": {
+      "path": "../../../../../data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv",
+      "sha256": "b3355f8ac80cf8f0fa95722b8d8a8b73d96790e9ded5c491ddb5b2e6a7793436"
+    },
+    "current_cnn_features": [
+      {
+        "feature": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/GAP0/fold_0/response_state.private.npz",
+          "sha256": "affcba495e1935d5805f10732e982f65a2f5f62c3a29b7874c8d28e9825faaf3"
+        },
+        "fold": 0,
+        "metadata": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/GAP0/fold_0/response_state.private.metadata.json",
+          "sha256": "d63778d26f46671ba88ff9eea6d79696e85990ab6afd0db9c6dcf2bcbd767a92"
+        },
+        "model": "GAP0",
+        "spatial": "GLOBAL"
+      },
+      {
+        "feature": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/GAP0/fold_1/response_state.private.npz",
+          "sha256": "a8b0457a72ffb032c803c16b3ebd1ee71b2193cc78bca6b22e709dcb912c6719"
+        },
+        "fold": 1,
+        "metadata": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/GAP0/fold_1/response_state.private.metadata.json",
+          "sha256": "d4544e37074ba73ab1f7c4903e71bf6aaa7062b863532b4b8d1bd7ad1d29653f"
+        },
+        "model": "GAP0",
+        "spatial": "GLOBAL"
+      },
+      {
+        "feature": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/GAP0/fold_2/response_state.private.npz",
+          "sha256": "fbda603a5ac9ff1d51149972d6528900a81a4acae6c812bc930507758816e789"
+        },
+        "fold": 2,
+        "metadata": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/GAP0/fold_2/response_state.private.metadata.json",
+          "sha256": "5b20d1a0f0dcc66ed515038f5a19a66758bbe1ba7119ab61f398f92c1c8db83d"
+        },
+        "model": "GAP0",
+        "spatial": "GLOBAL"
+      },
+      {
+        "feature": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/GAP0/fold_3/response_state.private.npz",
+          "sha256": "af2157e79e6549427ef8093fb7f31771801924de2a1dc400f80692111e130cbb"
+        },
+        "fold": 3,
+        "metadata": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/GAP0/fold_3/response_state.private.metadata.json",
+          "sha256": "6b626ca15f222c15537bef9befbe67813c0193b09041bee71109a571298c5e8d"
+        },
+        "model": "GAP0",
+        "spatial": "GLOBAL"
+      },
+      {
+        "feature": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/GAP0/fold_4/response_state.private.npz",
+          "sha256": "4599eed75a60ff277d715b7c97043b0dcc9eff605a68c3724f70e4141f4a6fe9"
+        },
+        "fold": 4,
+        "metadata": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/GAP0/fold_4/response_state.private.metadata.json",
+          "sha256": "d44325e706d6a8d01cb435762b5daba62d674069ad57b2369fd1712c92b91a8b"
+        },
+        "model": "GAP0",
+        "spatial": "GLOBAL"
+      },
+      {
+        "feature": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_0/response_state.private.npz",
+          "sha256": "360cd7b4e642b2a44110cb42d246c4c2b36c8364fdb007c3a30221de2de5b143"
+        },
+        "fold": 0,
+        "metadata": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_0/response_state.private.metadata.json",
+          "sha256": "d005629794835e9088c516d598b6afcf2486a2645cabd450112e53f7e321a9b4"
+        },
+        "model": "LOCAL0",
+        "spatial": "LOCAL"
+      },
+      {
+        "feature": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_1/response_state.private.npz",
+          "sha256": "525db16f5e7071713289a5cec4fc8c8266c2855159886c886904de1348f55a53"
+        },
+        "fold": 1,
+        "metadata": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_1/response_state.private.metadata.json",
+          "sha256": "df7dc668ec377202b6c28e65e0cd1ee73b7bbf4dd810c8f701a89fd3af3e048c"
+        },
+        "model": "LOCAL0",
+        "spatial": "LOCAL"
+      },
+      {
+        "feature": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_2/response_state.private.npz",
+          "sha256": "6c1d6c02da00c0e1600e15bf09eed1050146805139bbd87640b7ad9588b93aeb"
+        },
+        "fold": 2,
+        "metadata": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_2/response_state.private.metadata.json",
+          "sha256": "31d1f9d97e27557f3f04cb62769d7723f7ae5c87f8666b9e45f0212846e996f5"
+        },
+        "model": "LOCAL0",
+        "spatial": "LOCAL"
+      },
+      {
+        "feature": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_3/response_state.private.npz",
+          "sha256": "f6f0210e6dfafffd94fe88a180e2d4618a97b40ea499fb6670c6ddaf6d59f99c"
+        },
+        "fold": 3,
+        "metadata": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_3/response_state.private.metadata.json",
+          "sha256": "03d46fa11e4d57a5f6cc8f08343b95c90ec4f4173bd8b664b4ce219bf57798db"
+        },
+        "model": "LOCAL0",
+        "spatial": "LOCAL"
+      },
+      {
+        "feature": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_4/response_state.private.npz",
+          "sha256": "a8ad868a5972e287d0922a53c6c4dd99fb13a9e4b5aa7cfed9e1e695fff95cef"
+        },
+        "fold": 4,
+        "metadata": {
+          "path": "../local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_4/response_state.private.metadata.json",
+          "sha256": "a6f19835481caa28e54c259bc1b72e421b8bd284984a26ffe0b8f25ce9d10f67"
+        },
+        "model": "LOCAL0",
+        "spatial": "LOCAL"
+      }
+    ],
+    "fold_manifest": {
+      "path": "../../../../../data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+      "sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38"
+    },
+    "foundation_features": [
+      {
+        "model": "medicalnet_resnet50_3dseg8",
+        "path": "features/formal/medicalnet_resnet50_3dseg8/frozen_features.private.npz",
+        "sha256": "ca45a46bd62e18e42b6d3f2426ce4690a4f3dbf7c2f44804ab0d19bd333ee4a2"
+      },
+      {
+        "model": "dino_vitb16_imagenet1k",
+        "path": "features/formal/dino_vitb16_imagenet1k/frozen_features.private.npz",
+        "sha256": "c078cd4ddc0c745c32ebcca247d44ef8025d08495f6e3193a481563f0d53ffbc"
+      }
+    ],
+    "radiomics": {
+      "path": "../radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv",
+      "sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d"
+    }
+  },
+  "lock_kind": "formal_outcome_evaluation",
+  "locked_at": "2026-08-11T01:25:00-04:00",
+  "locked_before_formal_test_evaluation": true,
+  "schema_version": 1
+}

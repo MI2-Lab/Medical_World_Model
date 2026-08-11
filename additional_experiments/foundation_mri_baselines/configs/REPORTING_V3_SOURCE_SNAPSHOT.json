@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "snapshot_kind": "reconstructable_evaluation_v3_to_reporting_v1_source_transition",
+  "parent_lock": {
+    "path": "configs/EVALUATION_LOCK.v3.json",
+    "sha256": "8e8c4a5488fc862e1c73ac643495216bcc6eb015b767d7be39150894c8265104",
+    "locked_file_count": 30
+  },
+  "forward_patch": {
+    "path": "configs/REPORTING_V3_TO_R1.patch",
+    "sha256": "fdfaee789993e88d6d708bc3ce18a6c62cebd5161da56bbe35c9565cc51d7dfe",
+    "format": "unified_diff_a_to_b_strip_1",
+    "line_count": 1424,
+    "byte_count": 58421
+  },
+  "changed_parent_locked_files": {
+    "scripts/summarize_results.py": {
+      "v3_sha256": "bddc0a57dce473150cce22f6e0853ff97e17333e021552ba5672002c5a1f9ec4",
+      "reporting_v1_sha256": "db076cf1fa6d8d1ba9ee1b3d72ffd997d0544712ca1e0f601e36d3f40528dd17"
+    },
+    "src/foundation_mri/locking.py": {
+      "v3_sha256": "b5db01e016d8389e9e2362eb31f4e1c3ac8f710f477d30c2457e0e2aaf6f4503",
+      "reporting_v1_sha256": "57d45a65bf49d447508541ca85286bfa1ffa8d677abe3afb42f5464e0f9313e6"
+    },
+    "src/foundation_mri/reporting.py": {
+      "v3_sha256": "c08ad1b7cbeab1e4e1955d80ad7030c2cc94160a9092ae445a8545a43bb5cad1",
+      "reporting_v1_sha256": "e24e1cb284a5c03af32db91447cc833117e65c10343406836ba63059a602b38e"
+    },
+    "tests/test_locking.py": {
+      "v3_sha256": "aa1c6b6b9dff86ee72ed98b8cf091994d123e4b28375438b08ba6c003bfc85f2",
+      "reporting_v1_sha256": "ace75f600a4eb5e8507594539bfa5f8e67d161c5299c3032a1167e9d98e2cb9a"
+    },
+    "tests/test_reporting.py": {
+      "v3_sha256": "cadf42a5f3a976c8b21b0a68efeab4459cb5385f54dc3e760ce7e8588efe38a5",
+      "reporting_v1_sha256": "446f0946de175dbafaea4b5244d2810a7ce213b285b2fa90f2d1cab23b2bb1b4"
+    },
+    "tests/test_scripts.py": {
+      "v3_sha256": "f5f5c4831777e6cf6f7431e5716b8023016c0c5ab7fea2ff2834e8e0e1db0ff9",
+      "reporting_v1_sha256": "4d93eac80680b55fc3c2d7b4289afd42504150823222dc2551695b744f742ed0"
+    }
+  },
+  "reconstruction": {
+    "v3_from_reporting_command": "patch -R -p1 < configs/REPORTING_V3_TO_R1.patch",
+    "reporting_from_v3_command": "patch -p1 < configs/REPORTING_V3_TO_R1.patch",
+    "verify_v3_command": "python -c \"import hashlib,json,pathlib; p=json.load(open('configs/EVALUATION_LOCK.v3.json')); assert all(hashlib.sha256(pathlib.Path(k).read_bytes()).hexdigest()==v for k,v in p['files'].items())\"",
+    "forward_patch_verified": true,
+    "reverse_patch_verified": true
+  }
+}

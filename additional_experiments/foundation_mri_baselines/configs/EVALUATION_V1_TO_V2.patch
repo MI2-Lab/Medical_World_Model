@@ -1,0 +1,3576 @@
+--- a/scripts/run_baselines.py
++++ b/scripts/run_baselines.py
+@@ -40,12 +40,17 @@
+     DECISION_POINTS,
+     EvaluationResult,
+     aggregate_binary_predictions,
++    configure_metric_free_progress,
+     evaluate_binary_cv,
++    metric_free_progress,
+     timing_matrix,
+     write_private_csv,
+     write_public_csv,
+ )
+-from foundation_mri.locking import verify_formal_evaluation_lock  # noqa: E402
++from foundation_mri.locking import (  # noqa: E402
++    verify_formal_evaluation_lock,
++    write_metric_free_run_provenance,
++)
+ 
+ 
+ DEFAULT_CLINICAL = Path(
+@@ -61,7 +66,9 @@
+     / "additional_experiments/radiomics_next_change/data_audit/"
+     "radiomics_transition_targets_raw.csv"
+ )
+-DEFAULT_EVALUATION_LOCK = EXPERIMENT_ROOT / "configs/EVALUATION_LOCK.json"
++DEFAULT_EVALUATION_LOCK = EXPERIMENT_ROOT / "configs/EVALUATION_LOCK.v2.json"
++FORMAL_PROGRESS_PATH = EXPERIMENT_ROOT / "logs/baseline_v2.progress.private.jsonl"
++FORMAL_RECEIPT_PATH = EXPERIMENT_ROOT / "metrics/baseline_v2_run.private.provenance.json"
+ 
+ 
+ @dataclass(frozen=True)
+@@ -253,13 +260,22 @@
+     )
+ 
+ 
+-def run(args: argparse.Namespace) -> dict[str, int]:
++def run(
++    args: argparse.Namespace, *, command_argv: Sequence[str] | None = None
++) -> dict[str, int]:
+     cnn_groups = _merge_cnn_groups(
+         _parse_cnn_feature_specs(args.cnn_feature),
+         _parse_cnn_templates(args.cnn_template),
+     )
++    lock_receipt = None
+     if not args.allow_unlocked_inputs:
+-        verify_formal_evaluation_lock(
++        if args.overwrite:
++            raise ValueError("formal v2 baseline forbids --overwrite")
++        if Path(args.output_dir).resolve() != EXPERIMENT_ROOT:
++            raise ValueError("formal v2 baseline output-dir must be the experiment root")
++        if command_argv is None:
++            raise ValueError("formal v2 baseline requires the exact command argv")
++        lock_receipt = verify_formal_evaluation_lock(
+             experiment_root=EXPERIMENT_ROOT,
+             lock_path=args.evaluation_lock,
+             foundation_features=args.foundation_feature,
+@@ -267,6 +283,14 @@
+             fold_manifest=args.fold_manifest,
+             clinical_labels=args.clinical_labels,
+             radiomics=args.radiomics,
++            expected_consumer="baseline",
++            command_argv=command_argv,
++        )
++        configure_metric_free_progress(FORMAL_PROGRESS_PATH)
++        metric_free_progress(
++            "formal_run_started",
++            consumer="baseline",
++            lock_sha256=str(lock_receipt["lock_sha256"]),
+         )
+     fold_hash = None if args.allow_unlocked_inputs else None  # overwritten below for clarity
+     clinical_hash = None if args.allow_unlocked_inputs else None
+@@ -436,12 +460,31 @@
+     write_private_csv(predictions, prediction_path, overwrite=args.overwrite)
+     write_private_csv(selections, selection_path, overwrite=args.overwrite)
+     write_public_csv(metrics, metric_path, overwrite=args.overwrite)
+-    return {
++    summary = {
+         "patient_prediction_rows": int(len(predictions)),
+         "private_selection_rows": int(len(selections)),
+         "public_metric_rows": int(len(metrics)),
+         "imaging_sources": int(len(sources)),
+     }
++    if lock_receipt is not None:
++        metric_free_progress(
++            "formal_artifacts_written", consumer="baseline", artifact_count=3
++        )
++        configure_metric_free_progress(None)
++        write_metric_free_run_provenance(
++            experiment_root=EXPERIMENT_ROOT,
++            lock_path=args.evaluation_lock,
++            expected_consumer="baseline",
++            command_argv=command_argv,
++            artifacts={
++                "baseline_predictions_private": prediction_path,
++                "baseline_selection_private": selection_path,
++                "baseline_metrics_public": metric_path,
++                "baseline_progress_private": FORMAL_PROGRESS_PATH,
++            },
++            receipt_path=FORMAL_RECEIPT_PATH,
++        )
++    return summary
+ 
+ 
+ def build_parser() -> argparse.ArgumentParser:
+@@ -493,8 +536,9 @@
+ 
+ 
+ def main(argv: Sequence[str] | None = None) -> int:
+-    args = build_parser().parse_args(argv)
+-    summary = run(args)
++    raw_argv = tuple(sys.argv[1:] if argv is None else argv)
++    args = build_parser().parse_args(raw_argv)
++    summary = run(args, command_argv=raw_argv)
+     print(
+         "baseline evaluation complete: "
+         + ", ".join(f"{key}={value}" for key, value in summary.items())
+--- a/scripts/run_probes.py
++++ b/scripts/run_probes.py
+@@ -5,12 +5,19 @@
+ 
+ import argparse
+ from dataclasses import dataclass
++import hashlib
++import json
++import os
+ from pathlib import Path
++import platform
+ import sys
++import tempfile
++import time
+ from typing import Iterable, Mapping, Sequence
+ 
+ import numpy as np
+ import pandas as pd
++import sklearn
+ 
+ 
+ EXPERIMENT_ROOT = Path(__file__).resolve().parents[1]
+@@ -32,18 +39,30 @@
+     load_radiomics_table,
+ )
+ from foundation_mri.evaluation import (  # noqa: E402
++    C_GRID,
+     EvaluationResult,
++    LOGISTIC_MAX_ITER,
++    MULTICLASS_LOGISTIC_TOL,
++    PENALTIES,
++    SEED,
+     aggregate_binary_predictions,
+     aggregate_continuous_predictions,
+     aggregate_multiclass_predictions,
++    configure_metric_free_progress,
+     evaluate_binary_cv,
+     evaluate_multiclass_cv,
+     evaluate_ridge_cv,
++    metric_free_progress,
++    select_multiclass_logistic,
+     timing_matrix,
+     write_private_csv,
+     write_public_csv,
+ )
+-from foundation_mri.locking import verify_formal_evaluation_lock  # noqa: E402
++from foundation_mri.locking import (  # noqa: E402
++    file_sha256,
++    verify_formal_evaluation_lock,
++    write_metric_free_run_provenance,
++)
+ 
+ 
+ DEFAULT_CLINICAL = Path(
+@@ -59,7 +78,15 @@
+     / "additional_experiments/radiomics_next_change/data_audit/"
+     "radiomics_transition_targets_raw.csv"
+ )
+-DEFAULT_EVALUATION_LOCK = EXPERIMENT_ROOT / "configs/EVALUATION_LOCK.json"
++DEFAULT_EVALUATION_LOCK = EXPERIMENT_ROOT / "configs/EVALUATION_LOCK.v2.json"
++
++FORMAL_MEDICALNET_SHA256 = (
++    "ca45a46bd62e18e42b6d3f2426ce4690a4f3dbf7c2f44804ab0d19bd333ee4a2"
++)
++SMOKE_RECEIPT_KIND = "foundation_mri_probe_v2_medicalnet_synthetic_smoke"
++SMOKE_CLASSES = ("synthetic_0", "synthetic_1", "synthetic_2", "synthetic_3")
++FORMAL_PROGRESS_PATH = EXPERIMENT_ROOT / "logs/probe_v2.progress.private.jsonl"
++FORMAL_RECEIPT_PATH = EXPERIMENT_ROOT / "metrics/probe_v2_run.private.provenance.json"
+ 
+ 
+ @dataclass(frozen=True)
+@@ -95,6 +122,293 @@
+     return {fold: values for fold in FOLDS}
+ 
+ 
++def _array_sha256(values: np.ndarray) -> str:
++    array = np.ascontiguousarray(values)
++    digest = hashlib.sha256()
++    digest.update(str(array.dtype).encode("ascii"))
++    digest.update(b"\0")
++    digest.update(json.dumps(list(array.shape), separators=(",", ":")).encode("ascii"))
++    digest.update(b"\0")
++    digest.update(array.tobytes(order="C"))
++    return digest.hexdigest()
++
++
++def _write_json_exclusive(payload: Mapping[str, object], path: Path) -> None:
++    """Atomically publish a receipt without ever replacing an existing one."""
++
++    destination = Path(path)
++    destination.parent.mkdir(parents=True, exist_ok=True)
++    if destination.exists():
++        raise FileExistsError(f"smoke receipt already exists: {destination.name}")
++    body = (
++        json.dumps(
++            payload,
++            ensure_ascii=False,
++            indent=2,
++            sort_keys=True,
++            allow_nan=False,
++        )
++        + "\n"
++    ).encode("utf-8")
++    descriptor, temporary_name = tempfile.mkstemp(
++        prefix=f".{destination.name}.", suffix=".tmp", dir=destination.parent
++    )
++    temporary = Path(temporary_name)
++    try:
++        os.fchmod(descriptor, 0o600)
++        with os.fdopen(descriptor, "wb") as handle:
++            handle.write(body)
++            handle.flush()
++            os.fsync(handle.fileno())
++        os.link(temporary, destination)
++    finally:
++        temporary.unlink(missing_ok=True)
++
++
++def _synthetic_smoke_labels(expected_n: int) -> np.ndarray:
++    if expected_n <= 0 or expected_n % len(SMOKE_CLASSES):
++        raise ValueError("synthetic smoke cohort must divide evenly into four classes")
++    balanced = np.repeat(
++        np.asarray(SMOKE_CLASSES, dtype=str), expected_n // len(SMOKE_CLASSES)
++    )
++    return np.random.default_rng(SEED).permutation(balanced)
++
++
++def _synthetic_smoke_roles(expected_n: int) -> np.ndarray:
++    index = np.arange(expected_n, dtype=np.int64)
++    return np.where(index % 5 == 0, "reserved_test", np.where(index % 5 == 1, "val", "train"))
++
++
++def _run_medicalnet_synthetic_smoke(
++    feature_path: Path,
++    receipt_path: Path,
++    *,
++    expected_sha256: str = FORMAL_MEDICALNET_SHA256,
++    expected_n: int = COHORT_SIZE,
++    expected_dim: int = 14_336,
++    spatial_axes: Sequence[str] = SPATIAL_AXES,
++    penalties: Sequence[str] = PENALTIES,
++    c_grid: Sequence[float] = C_GRID,
++    require_thread_contract: bool = True,
++) -> dict[str, object]:
++    """Run a metric-free convergence/runtime smoke on formal-shaped MRI features.
++
++    Labels and roles are generated locally.  This path deliberately has no
++    fold-manifest, clinical-label, radiomics, or outcome-loader dependency.
++    """
++
++    source = Path(feature_path).resolve(strict=True)
++    observed_sha256 = file_sha256(source)
++    if observed_sha256 != expected_sha256:
++        raise ValueError(
++            "MedicalNet smoke feature SHA-256 drifted: "
++            f"expected={expected_sha256}, observed={observed_sha256}"
++        )
++    if require_thread_contract:
++        expected_environment = {
++            "PYTHONHASHSEED": str(SEED),
++            "FOUNDATION_MRI_SELECTION_WORKERS": "1",
++            "OPENBLAS_NUM_THREADS": "1",
++            "OMP_NUM_THREADS": "1",
++            "MKL_NUM_THREADS": "1",
++        }
++        observed_environment = {
++            key: os.environ.get(key) for key in expected_environment
++        }
++        if observed_environment != expected_environment:
++            raise RuntimeError(
++                "synthetic smoke requires the locked seed/one-worker/one-thread environment"
++            )
++    else:
++        observed_environment = {
++            key: os.environ.get(key)
++            for key in (
++                "PYTHONHASHSEED",
++                "FOUNDATION_MRI_SELECTION_WORKERS",
++                "OPENBLAS_NUM_THREADS",
++                "OMP_NUM_THREADS",
++                "MKL_NUM_THREADS",
++            )
++        }
++
++    with np.load(source, allow_pickle=False) as archive:
++        if "patient_id" not in archive.files:
++            raise ValueError("MedicalNet smoke feature is missing patient_id")
++        patient_ids = np.asarray(archive["patient_id"])
++    asset = load_foundation_features(
++        source,
++        expected_patient_ids=patient_ids,
++        expected_n=expected_n,
++    )
++    if asset.model_name != "medicalnet_resnet50_3dseg8":
++        raise ValueError("synthetic smoke requires the locked MedicalNet model")
++    if asset.representation.shape != (expected_n, 4, 2, expected_dim):
++        raise ValueError("synthetic smoke MedicalNet representation shape drifted")
++
++    labels = _synthetic_smoke_labels(expected_n)
++    roles = _synthetic_smoke_roles(expected_n)
++    train_indices = np.flatnonzero(roles == "train")
++    validation_indices = np.flatnonzero(roles == "val")
++    reserved_indices = np.flatnonzero(roles == "reserved_test")
++    for role_name, indices in (
++        ("train", train_indices),
++        ("val", validation_indices),
++        ("reserved_test", reserved_indices),
++    ):
++        if set(labels[indices].tolist()) != set(SMOKE_CLASSES):
++            raise RuntimeError(f"synthetic {role_name} split lacks a smoke class")
++
++    candidate_rows: list[dict[str, object]] = []
++    elapsed_by_axis: dict[str, float] = {}
++    sentinel_rows: list[dict[str, object]] = []
++    started = time.perf_counter()
++    for spatial in tuple(spatial_axes):
++        matrix = np.ascontiguousarray(asset.spatial(str(spatial))[:, 0, :])
++        axis_started = time.perf_counter()
++        selected = select_multiclass_logistic(
++            matrix[train_indices],
++            labels[train_indices],
++            matrix[validation_indices],
++            labels[validation_indices],
++            classes=SMOKE_CLASSES,
++            penalties=penalties,
++            c_grid=c_grid,
++            random_state=SEED,
++        )
++        elapsed_by_axis[str(spatial)] = time.perf_counter() - axis_started
++        candidate_rows.extend(
++            {
++                "spatial": str(spatial),
++                "penalty": str(row["penalty"]),
++                "C": float(row["C"]),
++                "n_iter": int(row["n_iter"]),
++                "estimator_count": int(row["estimator_count"]),
++                "n_iter_by_class": json.loads(str(row["n_iter_by_class_json"])),
++            }
++            for row in selected.grid
++        )
++
++        # A cheap repeated one-candidate sentinel verifies deterministic
++        # explicit OVR/liblinear state without doubling the full grid smoke.
++        repeats = [
++            select_multiclass_logistic(
++                matrix[train_indices],
++                labels[train_indices],
++                matrix[validation_indices],
++                labels[validation_indices],
++                classes=SMOKE_CLASSES,
++                penalties=("l2",),
++                c_grid=(0.1,),
++                random_state=SEED,
++            )
++            for _ in range(2)
++        ]
++        fingerprints = [
++            {
++                "n_iter": int(repeat.grid[0]["n_iter"]),
++                "n_iter_by_class": json.loads(
++                    str(repeat.grid[0]["n_iter_by_class_json"])
++                ),
++                "coef_sha256": _array_sha256(repeat.model.coef_),
++                "intercept_sha256": _array_sha256(repeat.model.intercept_),
++            }
++            for repeat in repeats
++        ]
++        if fingerprints[0] != fingerprints[1]:
++            raise RuntimeError(
++                f"{spatial} deterministic OVR/liblinear sentinel drifted"
++            )
++        sentinel_rows.append({"spatial": str(spatial), **fingerprints[0]})
++
++    expected_candidates = len(tuple(spatial_axes)) * len(set(penalties)) * len(set(c_grid))
++    if len(candidate_rows) != expected_candidates:
++        raise AssertionError("synthetic smoke candidate count drifted")
++    n_iter_values = np.asarray(
++        [
++            value
++            for row in candidate_rows
++            for values in row["n_iter_by_class"].values()
++            for value in values
++        ],
++        dtype=np.int64,
++    )
++    if len(n_iter_values) != expected_candidates * len(SMOKE_CLASSES):
++        raise AssertionError("synthetic smoke underlying-estimator count drifted")
++    if np.any(n_iter_values < 0) or np.any(n_iter_values >= LOGISTIC_MAX_ITER):
++        raise RuntimeError("synthetic smoke accepted an invalid/nonconverged candidate")
++    label_digest = _array_sha256(labels.astype("U32"))
++    receipt: dict[str, object] = {
++        "schema_version": 1,
++        "receipt_kind": SMOKE_RECEIPT_KIND,
++        "status": "PASS",
++        "feature_sha256": observed_sha256,
++        "model_name": asset.model_name,
++        "feature_shape": list(asset.representation.shape),
++        "feature_dtype": str(asset.representation.dtype),
++        "spatial_axes": list(spatial_axes),
++        "decision_point": "T0",
++        "synthetic_label_algorithm": "seed2026_balanced_four_class_numpy_permutation",
++        "synthetic_label_sha256": label_digest,
++        "synthetic_class_counts": {
++            value: int(np.sum(labels == value)) for value in SMOKE_CLASSES
++        },
++        "synthetic_split_algorithm": "row_index_mod5_fold0_reserved0_val1_train234",
++        "smoke_fold": 0,
++        "n_train": int(len(train_indices)),
++        "n_val": int(len(validation_indices)),
++        "n_reserved_test": int(len(reserved_indices)),
++        "formal_manifest_read": False,
++        "clinical_outcomes_read": False,
++        "radiomics_read": False,
++        "penalties": list(penalties),
++        "C_grid": [float(value) for value in c_grid],
++        "tol": MULTICLASS_LOGISTIC_TOL,
++        "max_iter": LOGISTIC_MAX_ITER,
++        "solver": "explicit_one_vs_rest_liblinear",
++        "underlying_solver": "liblinear",
++        "multiclass_strategy": "four_balanced_binary_ovr_sigmoid_then_row_normalize",
++        "class_weight": "balanced",
++        "random_state": SEED,
++        "candidate_count": len(candidate_rows),
++        "underlying_estimator_fit_count": int(len(n_iter_values)),
++        "candidates": candidate_rows,
++        "min_observed_n_iter": int(n_iter_values.min()),
++        "max_observed_n_iter": int(n_iter_values.max()),
++        "all_candidate_n_iter_nonnegative": True,
++        "all_candidate_n_iter_strictly_less_than_max_iter": True,
++        "determinism_sentinels": sentinel_rows,
++        "elapsed_seconds": time.perf_counter() - started,
++        "elapsed_seconds_by_axis": elapsed_by_axis,
++        "runtime": {
++            "python": platform.python_version(),
++            "numpy": np.__version__,
++            "sklearn": sklearn.__version__,
++            "thread_environment": observed_environment,
++        },
++        "code_sha256": {
++            "scripts/run_probes.py": file_sha256(Path(__file__)),
++            "src/foundation_mri/evaluation.py": file_sha256(
++                SRC_ROOT / "foundation_mri/evaluation.py"
++            ),
++        },
++    }
++    forbidden_fragments = (
++        "patient_id",
++        "y_true",
++        "y_pred",
++        "probability",
++        "auroc",
++        "auprc",
++        "brier",
++        "calibration",
++    )
++    serialized = json.dumps(receipt, sort_keys=True, allow_nan=False)
++    if any(fragment in serialized.lower() for fragment in forbidden_fragments):
++        raise AssertionError("synthetic smoke receipt contains a forbidden outcome/ID field")
++    _write_json_exclusive(receipt, Path(receipt_path))
++    return receipt
++
++
+ def _parse_cnn_feature_specs(
+     specs: Iterable[str],
+ ) -> dict[tuple[str, str], dict[int, Path]]:
+@@ -276,7 +590,9 @@
+     )
+ 
+ 
+-def run(args: argparse.Namespace) -> dict[str, int]:
++def run(
++    args: argparse.Namespace, *, command_argv: Sequence[str] | None = None
++) -> dict[str, int]:
+     cnn_groups = _merge_cnn_groups(
+         _parse_cnn_feature_specs(args.cnn_feature),
+         _parse_cnn_templates(args.cnn_template),
+@@ -286,8 +602,15 @@
+             "at least one --foundation-feature, --cnn-feature, or --cnn-template "
+             "source is required for probes"
+         )
++    lock_receipt = None
+     if not args.allow_unlocked_inputs:
+-        verify_formal_evaluation_lock(
++        if args.overwrite:
++            raise ValueError("formal v2 probes forbid --overwrite")
++        if Path(args.output_dir).resolve() != EXPERIMENT_ROOT:
++            raise ValueError("formal v2 probe output-dir must be the experiment root")
++        if command_argv is None:
++            raise ValueError("formal v2 probes require the exact command argv")
++        lock_receipt = verify_formal_evaluation_lock(
+             experiment_root=EXPERIMENT_ROOT,
+             lock_path=args.evaluation_lock,
+             foundation_features=args.foundation_feature,
+@@ -295,6 +618,14 @@
+             fold_manifest=args.fold_manifest,
+             clinical_labels=args.clinical_labels,
+             radiomics=args.radiomics,
++            expected_consumer="probe",
++            command_argv=command_argv,
++        )
++        configure_metric_free_progress(FORMAL_PROGRESS_PATH)
++        metric_free_progress(
++            "formal_run_started",
++            consumer="probe",
++            lock_sha256=str(lock_receipt["lock_sha256"]),
+         )
+     fold_hash = clinical_hash = radiomics_hash = None
+     if not args.allow_unlocked_inputs:
+@@ -440,7 +771,7 @@
+     write_private_csv(ridge_predictions, paths[6], overwrite=args.overwrite)
+     write_private_csv(ridge_selections, paths[7], overwrite=args.overwrite)
+     write_public_csv(ridge_metrics, paths[8], overwrite=args.overwrite)
+-    return {
++    summary = {
+         "probe_spatial_sources": len(source_keys),
+         "phenotype_prediction_rows": int(len(binary_predictions)),
+         "subtype_prediction_rows": int(len(subtype_predictions)),
+@@ -449,10 +780,48 @@
+             len(binary_metrics) + len(subtype_metrics) + len(ridge_metrics)
+         ),
+     }
++    if lock_receipt is not None:
++        metric_free_progress(
++            "formal_artifacts_written", consumer="probe", artifact_count=9
++        )
++        configure_metric_free_progress(None)
++        write_metric_free_run_provenance(
++            experiment_root=EXPERIMENT_ROOT,
++            lock_path=args.evaluation_lock,
++            expected_consumer="probe",
++            command_argv=command_argv,
++            artifacts={
++                "phenotype_predictions_private": paths[0],
++                "phenotype_selection_private": paths[1],
++                "phenotype_metrics_public": paths[2],
++                "subtype_predictions_private": paths[3],
++                "subtype_selection_private": paths[4],
++                "subtype_metrics_public": paths[5],
++                "ftv_predictions_private": paths[6],
++                "ftv_selection_private": paths[7],
++                "ftv_metrics_public": paths[8],
++                "probe_progress_private": FORMAL_PROGRESS_PATH,
++            },
++            receipt_path=FORMAL_RECEIPT_PATH,
++        )
++    return summary
+ 
+ 
+ def build_parser() -> argparse.ArgumentParser:
+     parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument(
++        "--medicalnet-synthetic-smoke",
++        type=Path,
++        help=(
++            "Outcome-blind v2 convergence/runtime smoke on the locked formal "
++            "MedicalNet NPZ; bypasses every outcome loader."
++        ),
++    )
++    parser.add_argument(
++        "--smoke-receipt",
++        type=Path,
++        help="Exclusive metric-free JSON receipt for --medicalnet-synthetic-smoke.",
++    )
+     parser.add_argument("--clinical-labels", type=Path, default=DEFAULT_CLINICAL)
+     parser.add_argument("--fold-manifest", type=Path, default=DEFAULT_FOLDS)
+     parser.add_argument(
+@@ -491,7 +860,32 @@
+ 
+ 
+ def main(argv: Sequence[str] | None = None) -> int:
+-    summary = run(build_parser().parse_args(argv))
++    raw_argv = tuple(sys.argv[1:] if argv is None else argv)
++    args = build_parser().parse_args(raw_argv)
++    if args.medicalnet_synthetic_smoke is not None:
++        if args.smoke_receipt is None:
++            raise ValueError("--smoke-receipt is required for synthetic smoke")
++        if (
++            args.foundation_feature
++            or args.cnn_feature
++            or args.cnn_template
++            or args.allow_unlocked_inputs
++            or args.overwrite
++        ):
++            raise ValueError("synthetic smoke cannot be combined with evaluation inputs/overrides")
++        receipt = _run_medicalnet_synthetic_smoke(
++            args.medicalnet_synthetic_smoke, args.smoke_receipt
++        )
++        print(
++            "MedicalNet synthetic smoke PASS: "
++            f"candidates={receipt['candidate_count']}, "
++            f"max_n_iter={receipt['max_observed_n_iter']}, "
++            f"elapsed_seconds={float(receipt['elapsed_seconds']):.3f}"
++        )
++        return 0
++    if args.smoke_receipt is not None:
++        raise ValueError("--smoke-receipt requires --medicalnet-synthetic-smoke")
++    summary = run(args, command_argv=raw_argv)
+     print(
+         "probe evaluation complete: "
+         + ", ".join(f"{key}={value}" for key, value in summary.items())
+--- a/scripts/summarize_results.py
++++ b/scripts/summarize_results.py
+@@ -21,10 +21,15 @@
+     static_comparison_contract,
+     summarize_results,
+ )
+-from foundation_mri.locking import verify_evaluation_code_lock  # noqa: E402
++from foundation_mri.locking import (  # noqa: E402
++    verify_evaluation_code_lock,
++    verify_metric_free_run_provenance,
++)
+ 
+ 
+-DEFAULT_EVALUATION_LOCK = EXPERIMENT_ROOT / "configs/EVALUATION_LOCK.json"
++DEFAULT_EVALUATION_LOCK = EXPERIMENT_ROOT / "configs/EVALUATION_LOCK.v2.json"
++BASELINE_RECEIPT = EXPERIMENT_ROOT / "metrics/baseline_v2_run.private.provenance.json"
++PROBE_RECEIPT = EXPERIMENT_ROOT / "metrics/probe_v2_run.private.provenance.json"
+ 
+ 
+ def _default_inputs(root: Path) -> ReportingInputs:
+@@ -86,7 +91,8 @@
+ 
+ 
+ def main(argv: Sequence[str] | None = None) -> int:
+-    args = build_parser().parse_args(argv)
++    raw_argv = tuple(sys.argv[1:] if argv is None else argv)
++    args = build_parser().parse_args(raw_argv)
+     if args.print_comparison_contract:
+         print(
+             json.dumps(
+@@ -99,8 +105,61 @@
+         )
+         return 0
+     if not args.allow_unlocked_inputs:
++        if args.overwrite:
++            raise ValueError("formal v2 summarization forbids --overwrite")
++        if Path(args.input_dir).resolve() != EXPERIMENT_ROOT:
++            raise ValueError("formal v2 summary input-dir must be the experiment root")
++        if Path(args.output_dir).resolve() != EXPERIMENT_ROOT:
++            raise ValueError("formal v2 summary output-dir must be the experiment root")
+         verify_evaluation_code_lock(
+-            experiment_root=EXPERIMENT_ROOT, lock_path=args.evaluation_lock
++            experiment_root=EXPERIMENT_ROOT,
++            lock_path=args.evaluation_lock,
++            expected_consumer="summarizer",
++            command_argv=raw_argv,
++        )
++        verify_metric_free_run_provenance(
++            experiment_root=EXPERIMENT_ROOT,
++            lock_path=args.evaluation_lock,
++            expected_consumer="baseline",
++            receipt_path=BASELINE_RECEIPT,
++            expected_artifacts={
++                "baseline_predictions_private": EXPERIMENT_ROOT
++                / "predictions/baseline_predictions.private.csv",
++                "baseline_selection_private": EXPERIMENT_ROOT
++                / "metrics/baseline_selection.private.csv",
++                "baseline_metrics_public": EXPERIMENT_ROOT
++                / "metrics/baseline_metrics.csv",
++                "baseline_progress_private": EXPERIMENT_ROOT
++                / "logs/baseline_v2.progress.private.jsonl",
++            },
++        )
++        verify_metric_free_run_provenance(
++            experiment_root=EXPERIMENT_ROOT,
++            lock_path=args.evaluation_lock,
++            expected_consumer="probe",
++            receipt_path=PROBE_RECEIPT,
++            expected_artifacts={
++                "phenotype_predictions_private": EXPERIMENT_ROOT
++                / "predictions/phenotype_predictions.private.csv",
++                "phenotype_selection_private": EXPERIMENT_ROOT
++                / "metrics/phenotype_selection.private.csv",
++                "phenotype_metrics_public": EXPERIMENT_ROOT
++                / "metrics/phenotype_metrics.csv",
++                "subtype_predictions_private": EXPERIMENT_ROOT
++                / "predictions/subtype_predictions.private.csv",
++                "subtype_selection_private": EXPERIMENT_ROOT
++                / "metrics/subtype_selection.private.csv",
++                "subtype_metrics_public": EXPERIMENT_ROOT
++                / "metrics/subtype_metrics.csv",
++                "ftv_predictions_private": EXPERIMENT_ROOT
++                / "predictions/ftv_probe_predictions.private.csv",
++                "ftv_selection_private": EXPERIMENT_ROOT
++                / "metrics/ftv_probe_selection.private.csv",
++                "ftv_metrics_public": EXPERIMENT_ROOT
++                / "metrics/ftv_probe_metrics.csv",
++                "probe_progress_private": EXPERIMENT_ROOT
++                / "logs/probe_v2.progress.private.jsonl",
++            },
+         )
+     summary = summarize_results(
+         _default_inputs(args.input_dir),
+--- a/src/foundation_mri/evaluation.py
++++ b/src/foundation_mri/evaluation.py
+@@ -17,12 +17,17 @@
+ import os
+ from pathlib import Path
+ import re
++import sys
+ import tempfile
++import threading
++import time
+ from typing import Any, Callable, Iterable, Mapping, Sequence
++import warnings
+ 
+ import numpy as np
+ import pandas as pd
+ from sklearn.linear_model import LogisticRegression, Ridge
++from sklearn.exceptions import ConvergenceWarning
+ from sklearn.metrics import (
+     average_precision_score,
+     brier_score_loss,
+@@ -48,7 +53,8 @@
+ PENALTIES = ("l1", "l2")
+ RIDGE_ALPHAS = (1e-4, 1e-3, 1e-2, 1e-1, 1.0, 10.0, 100.0, 1000.0)
+ LOGISTIC_MAX_ITER = 20_000
+-LOGISTIC_TOL = 1e-7
++BINARY_LOGISTIC_TOL = 1e-7
++MULTICLASS_LOGISTIC_TOL = 1e-4
+ RIDGE_MAX_ITER = 10_000
+ RIDGE_TOL = 1e-8
+ ECE_BINS = 10
+@@ -56,6 +62,19 @@
+ 
+ _SAFE_LABEL_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.+\-]*$")
+ _ABSOLUTE_WINDOWS_RE = re.compile(r"^[A-Za-z]:[\\/]")
++_FORBIDDEN_PROGRESS_KEY_FRAGMENTS = (
++    "metric",
++    "auc",
++    "score",
++    "probability",
++    "patient",
++    "target",
++    "y_true",
++    "y_pred",
++)
++_METRIC_FREE_PROGRESS_LOCK = threading.Lock()
++_METRIC_FREE_PROGRESS_FD: int | None = None
++_METRIC_FREE_PROGRESS_PATH: Path | None = None
+ 
+ 
+ def _selection_worker_count(task_count: int) -> int:
+@@ -84,6 +103,185 @@
+     return text
+ 
+ 
++def configure_metric_free_progress(path: str | Path | None) -> Path | None:
++    """Configure an exclusive, private JSONL progress sink, or disable it.
++
++    The descriptor remains open so a later path replacement cannot redirect
++    progress records.  Reusing an existing path fails closed via ``O_EXCL``.
++    """
++
++    global _METRIC_FREE_PROGRESS_FD, _METRIC_FREE_PROGRESS_PATH
++    if path is None:
++        with _METRIC_FREE_PROGRESS_LOCK:
++            if _METRIC_FREE_PROGRESS_FD is not None:
++                os.close(_METRIC_FREE_PROGRESS_FD)
++            _METRIC_FREE_PROGRESS_FD = None
++            _METRIC_FREE_PROGRESS_PATH = None
++        return None
++
++    destination = Path(path)
++    destination.parent.mkdir(parents=True, exist_ok=True)
++    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_APPEND
++    flags |= getattr(os, "O_CLOEXEC", 0)
++    flags |= getattr(os, "O_NOFOLLOW", 0)
++    descriptor = os.open(destination, flags, 0o600)
++    try:
++        os.fchmod(descriptor, 0o600)
++        with _METRIC_FREE_PROGRESS_LOCK:
++            if _METRIC_FREE_PROGRESS_FD is not None:
++                os.close(_METRIC_FREE_PROGRESS_FD)
++            _METRIC_FREE_PROGRESS_FD = descriptor
++            _METRIC_FREE_PROGRESS_PATH = destination
++            descriptor = -1
++    finally:
++        if descriptor >= 0:
++            os.close(descriptor)
++    return destination
++
++
++def _metric_free_progress_scalar(key: str, value: Any) -> str | int | float | bool | None:
++    name = str(key)
++    lowered = name.lower()
++    if not _SAFE_LABEL_RE.fullmatch(name):
++        raise ValueError(f"progress field key is unsafe: {name!r}")
++    if any(fragment in lowered for fragment in _FORBIDDEN_PROGRESS_KEY_FRAGMENTS):
++        raise ValueError(f"progress field key is forbidden: {name!r}")
++    if isinstance(value, np.generic):
++        value = value.item()
++    if value is None or isinstance(value, (str, bool, int)):
++        return value
++    if isinstance(value, float):
++        if not math.isfinite(value):
++            raise ValueError(f"progress field {name!r} must be finite")
++        return value
++    raise TypeError(f"progress field {name!r} must be a JSON scalar")
++
++
++def metric_free_progress(event: str, **safe_fields: Any) -> None:
++    """Append one outcome-blind progress record and mirror it to stderr."""
++
++    event_name = _safe_label(event, "progress event")
++    payload: dict[str, Any] = {"event": event_name}
++    payload.update(
++        {
++            str(key): _metric_free_progress_scalar(str(key), value)
++            for key, value in safe_fields.items()
++        }
++    )
++    line = json.dumps(payload, sort_keys=True, separators=(",", ":"))
++    encoded = (line + "\n").encode("utf-8")
++    with _METRIC_FREE_PROGRESS_LOCK:
++        if _METRIC_FREE_PROGRESS_FD is None:
++            return
++        view = memoryview(encoded)
++        while view:
++            written = os.write(_METRIC_FREE_PROGRESS_FD, view)
++            if written <= 0:
++                raise OSError("progress JSONL write made no progress")
++            view = view[written:]
++        sys.stderr.write(line + "\n")
++        sys.stderr.flush()
++
++
++def _logistic_candidate_context(
++    *, solver: str, penalty: str, c_value: float, estimator_class: str | None
++) -> str:
++    context = f"{solver} logistic candidate penalty={penalty} C={float(c_value):g}"
++    if estimator_class is not None:
++        context += f" estimator_class={estimator_class}"
++    return context
++
++
++def _validated_logistic_iterations(
++    model: LogisticRegression,
++    *,
++    solver: str,
++    penalty: str,
++    c_value: float,
++    estimator_class: str | None = None,
++) -> tuple[int, ...]:
++    """Require integer counts in liblinear's valid ``0 <= n_iter < max_iter`` range."""
++
++    context = _logistic_candidate_context(
++        solver=solver,
++        penalty=penalty,
++        c_value=c_value,
++        estimator_class=estimator_class,
++    )
++    raw_max_iter = getattr(model, "max_iter", None)
++    if (
++        isinstance(raw_max_iter, (bool, np.bool_))
++        or not isinstance(raw_max_iter, (int, np.integer))
++        or int(raw_max_iter) <= 0
++    ):
++        raise RuntimeError(f"{context} has invalid max_iter={raw_max_iter!r}")
++    raw_iterations = getattr(model, "n_iter_", None)
++    try:
++        iteration_array = np.asarray(raw_iterations)
++    except Exception as error:
++        raise RuntimeError(f"{context} has invalid n_iter_") from error
++    if (
++        iteration_array.size == 0
++        or np.issubdtype(iteration_array.dtype, np.bool_)
++        or not np.issubdtype(iteration_array.dtype, np.integer)
++    ):
++        raise RuntimeError(f"{context} has empty or invalid n_iter_={raw_iterations!r}")
++    iterations = np.asarray(iteration_array, dtype=np.int64).reshape(-1)
++    if np.any(iterations < 0):
++        raise RuntimeError(f"{context} has negative n_iter_={iterations.tolist()}")
++    max_iter = int(raw_max_iter)
++    if np.any(iterations >= max_iter):
++        raise RuntimeError(
++            f"{context} did not converge strictly before max_iter={max_iter}: "
++            f"n_iter_={iterations.tolist()}"
++        )
++    return tuple(int(value) for value in iterations)
++
++
++def _fit_validated_logistic(
++    model: LogisticRegression,
++    matrix: np.ndarray,
++    labels: np.ndarray,
++    *,
++    solver: str,
++    penalty: str,
++    c_value: float,
++    estimator_class: str | None = None,
++) -> tuple[LogisticRegression, tuple[int, ...]]:
++    """Fit once, promote convergence warnings, and validate solver state."""
++
++    context = _logistic_candidate_context(
++        solver=solver,
++        penalty=penalty,
++        c_value=c_value,
++        estimator_class=estimator_class,
++    )
++    try:
++        with warnings.catch_warnings():
++            warnings.simplefilter("error", ConvergenceWarning)
++            fitted = model.fit(matrix, labels)
++    except ConvergenceWarning as error:
++        raise RuntimeError(f"{context} emitted ConvergenceWarning") from error
++    iterations = _validated_logistic_iterations(
++        fitted,
++        solver=solver,
++        penalty=penalty,
++        c_value=c_value,
++        estimator_class=estimator_class,
++    )
++    for parameter_name in ("coef_", "intercept_"):
++        raw_parameter = getattr(fitted, parameter_name, None)
++        try:
++            parameter = np.asarray(raw_parameter, dtype=np.float64)
++        except Exception as error:
++            raise RuntimeError(
++                f"{context} has invalid fitted {parameter_name}"
++            ) from error
++        if parameter.size == 0 or not np.isfinite(parameter).all():
++            raise RuntimeError(f"{context} has empty or non-finite fitted {parameter_name}")
++    return fitted, iterations
++
++
+ def _logistic_penalty_kwargs(penalty: str) -> dict[str, Any]:
+     """Bridge sklearn's 1.8 penalty-to-l1_ratio API transition."""
+ 
+@@ -289,15 +487,42 @@
+ 
+     def fit_candidate(specification: tuple[str, float]):
+         penalty, c_value = specification
++        metric_free_progress(
++            "candidate_started",
++            family="binary",
++            solver="liblinear",
++            penalty=penalty,
++            C=float(c_value),
++            max_iter=LOGISTIC_MAX_ITER,
++            tol=BINARY_LOGISTIC_TOL,
++        )
++        fit_started = time.perf_counter()
+         model = LogisticRegression(
+             C=c_value,
+             solver="liblinear",
+             class_weight="balanced",
+             max_iter=LOGISTIC_MAX_ITER,
+-            tol=LOGISTIC_TOL,
++            tol=BINARY_LOGISTIC_TOL,
+             random_state=int(random_state),
+             **_logistic_penalty_kwargs(penalty),
+-        ).fit(train_scaled, train_y)
++        )
++        model, iterations = _fit_validated_logistic(
++            model,
++            train_scaled,
++            train_y,
++            solver="liblinear",
++            penalty=penalty,
++            c_value=c_value,
++        )
++        metric_free_progress(
++            "candidate_completed",
++            family="binary",
++            solver="liblinear",
++            penalty=penalty,
++            C=float(c_value),
++            n_iter=max(iterations),
++            elapsed_seconds=float(time.perf_counter() - fit_started),
++        )
+         probability = np.asarray(
+             model.predict_proba(validation_scaled)[:, 1], dtype=np.float64
+         )
+@@ -310,7 +535,14 @@
+             "C": float(c_value),
+             "val_auroc": auroc,
+             "val_auprc": auprc,
+-            "n_iter": int(np.max(model.n_iter_)),
++            "solver": "liblinear",
++            "tol": BINARY_LOGISTIC_TOL,
++            "max_iter": LOGISTIC_MAX_ITER,
++            "n_iter": max(iterations),
++            "n_iter_json": json.dumps(iterations, separators=(",", ":")),
++            "n_iter_contract": "integer_0_le_n_iter_lt_max_iter",
++            "convergence_warning_observed": False,
++            "converged_before_max_iter": True,
+         }
+         candidate = (
+             auroc,
+@@ -365,7 +597,9 @@
+ class _SingleUseMulticlassProbabilityGuard:
+     calls: int = 0
+ 
+-    def predict(self, model: LogisticRegression, matrix: np.ndarray) -> np.ndarray:
++    def predict(
++        self, model: ExplicitOneVsRestLogistic, matrix: np.ndarray
++    ) -> np.ndarray:
+         if self.calls != 0:
+             raise RuntimeError("outer-test multiclass predict_proba is single-use")
+         self.calls += 1
+@@ -469,6 +703,15 @@
+         train_indices = np.flatnonzero(roles == "train")
+         validation_indices = np.flatnonzero(roles == "val")
+         test_indices = np.flatnonzero(roles == "test")
++        fold_progress = {
++            "task_family": "binary",
++            "model": model,
++            "spatial": spatial_label,
++            "timing_or_endpoint": timing,
++            "fold": int(fold),
++            "feature_dim": int(fold_matrix.shape[1]),
++        }
++        metric_free_progress("fold_started", **fold_progress)
+         selected = select_logistic(
+             fold_matrix[train_indices],
+             target[train_indices],
+@@ -478,6 +721,7 @@
+             c_grid=c_grid,
+             random_state=SEED + fold,
+         )
++        metric_free_progress("fold_completed", **fold_progress)
+         # Test slicing, transformation and prediction occur only after selection.
+         test_scaled = selected.scaler.transform(fold_matrix[test_indices])
+         guard = _SingleUseProbabilityGuard()
+@@ -543,7 +787,17 @@
+                 "class_weight": "balanced",
+                 "random_state": SEED + fold,
+                 "max_iter": LOGISTIC_MAX_ITER,
+-                "tol": LOGISTIC_TOL,
++                "tol": BINARY_LOGISTIC_TOL,
++                "grid_max_n_iter": max(row["n_iter"] for row in selected.grid),
++                "all_grid_candidates_converged_before_max_iter": all(
++                    row["converged_before_max_iter"] for row in selected.grid
++                ),
++                "n_iter_contract": "integer_0_le_n_iter_lt_max_iter",
++                "convergence_warning_observed": False,
++                "convergence_gate": (
++                    "integer_0_le_n_iter_lt_max_iter_and_no_convergence_warning_"
++                    "before_validation"
++                ),
+                 "scaler_train_rows": int(selected.scaler.n_samples_seen_),
+                 **_array_audit("scaler_mean", selected.scaler.mean_),
+                 **_array_audit("scaler_scale", selected.scaler.scale_),
+@@ -717,9 +971,92 @@
+ 
+ 
+ @dataclass(frozen=True)
++class ExplicitOneVsRestLogistic:
++    """Four explicit balanced binary estimators with normalized OVR probabilities."""
++
++    classes_: np.ndarray
++    estimators_: tuple[LogisticRegression, ...]
++
++    def __post_init__(self) -> None:
++        classes = np.asarray(self.classes_, dtype=str).reshape(-1).copy()
++        estimators = tuple(self.estimators_)
++        if len(classes) != 4 or len(set(classes.tolist())) != 4:
++            raise ValueError("explicit one-vs-rest model requires exactly four classes")
++        if len(estimators) != len(classes):
++            raise ValueError("explicit one-vs-rest estimator/class count differs")
++        feature_dims: set[int] = set()
++        for estimator in estimators:
++            if tuple(np.asarray(estimator.classes_, dtype=np.int64).tolist()) != (0, 1):
++                raise ValueError("one-vs-rest binary estimator classes must be (0,1)")
++            coefficient = np.asarray(estimator.coef_, dtype=np.float64)
++            intercept = np.asarray(estimator.intercept_, dtype=np.float64).reshape(-1)
++            if coefficient.ndim != 2 or coefficient.shape[0] != 1 or intercept.shape != (1,):
++                raise ValueError("one-vs-rest binary estimator parameter shape drifted")
++            if not np.isfinite(coefficient).all() or not np.isfinite(intercept).all():
++                raise FloatingPointError("one-vs-rest estimator parameters contain NaN/Inf")
++            feature_dims.add(int(coefficient.shape[1]))
++        if len(feature_dims) != 1:
++            raise ValueError("one-vs-rest estimators disagree on feature dimension")
++        classes.flags.writeable = False
++        object.__setattr__(self, "classes_", classes)
++        object.__setattr__(self, "estimators_", estimators)
++
++    @property
++    def coef_(self) -> np.ndarray:
++        return np.ascontiguousarray(
++            np.vstack([estimator.coef_[0] for estimator in self.estimators_]),
++            dtype=np.float64,
++        )
++
++    @property
++    def intercept_(self) -> np.ndarray:
++        return np.ascontiguousarray(
++            np.asarray(
++                [estimator.intercept_[0] for estimator in self.estimators_],
++                dtype=np.float64,
++            )
++        )
++
++    def predict_proba(self, matrix: np.ndarray) -> np.ndarray:
++        values = np.asarray(matrix, dtype=np.float64)
++        if values.ndim != 2 or values.shape[0] == 0 or values.shape[1] != self.coef_.shape[1]:
++            raise ValueError("one-vs-rest prediction matrix shape is invalid")
++        if not np.isfinite(values).all():
++            raise FloatingPointError("one-vs-rest prediction matrix contains NaN/Inf")
++        raw_columns: list[np.ndarray] = []
++        for estimator in self.estimators_:
++            binary_probability = np.asarray(
++                estimator.predict_proba(values), dtype=np.float64
++            )
++            if binary_probability.shape != (len(values), 2):
++                raise ValueError("one-vs-rest binary probability shape drifted")
++            raw_columns.append(binary_probability[:, 1])
++        raw_probability = np.column_stack(raw_columns)
++        if (
++            not np.isfinite(raw_probability).all()
++            or np.any(raw_probability < 0.0)
++            or np.any(raw_probability > 1.0)
++        ):
++            raise FloatingPointError(
++                "one-vs-rest positive-class sigmoid probabilities must be finite and in [0,1]"
++            )
++        normalizer = raw_probability.sum(axis=1, keepdims=True)
++        if not np.isfinite(normalizer).all() or np.any(normalizer <= 0.0):
++            raise FloatingPointError("one-vs-rest probability normalizer is invalid")
++        probability = raw_probability / normalizer
++        if (
++            not np.isfinite(probability).all()
++            or np.any(probability < 0.0)
++            or not np.allclose(probability.sum(axis=1), 1.0, atol=1e-12, rtol=1e-12)
++        ):
++            raise FloatingPointError("normalized one-vs-rest probabilities are invalid")
++        return np.ascontiguousarray(probability, dtype=np.float64)
++
++
++@dataclass(frozen=True)
+ class SelectedMulticlassLogistic:
+     scaler: StandardScaler
+-    model: LogisticRegression
++    model: ExplicitOneVsRestLogistic
+     penalty: str
+     c_value: float
+     validation_macro_ovr_auroc: float
+@@ -782,7 +1119,7 @@
+     c_grid: Sequence[float] = C_GRID,
+     random_state: int = SEED,
+ ) -> SelectedMulticlassLogistic:
+-    """Validation-only multinomial L1/L2 selection; test is absent."""
++    """Validation-only explicit four-class OVR L1/L2 selection; test is absent."""
+ 
+     train_x = np.asarray(train_matrix, dtype=np.float64)
+     validation_x = np.asarray(validation_matrix, dtype=np.float64)
+@@ -795,8 +1132,8 @@
+         raise ValueError("multiclass train/validation feature dimensions differ")
+     if len(train_x) != len(train_y) or len(validation_x) != len(validation_y):
+         raise ValueError("multiclass X/y row counts differ")
+-    if len(class_order) < 3 or len(set(class_order)) != len(class_order):
+-        raise ValueError("multiclass classes must contain at least three unique labels")
++    if len(class_order) != 4 or len(set(class_order)) != len(class_order):
++        raise ValueError("multiclass classes must contain exactly four unique labels")
+     if set(train_y.tolist()) != set(class_order) or set(validation_y.tolist()) != set(class_order):
+         raise ValueError("multiclass train and validation must contain every locked class")
+     if not np.isfinite(train_x).all() or not np.isfinite(validation_x).all():
+@@ -811,28 +1148,92 @@
+     train_scaled = scaler.transform(train_x)
+     validation_scaled = scaler.transform(validation_x)
+     candidates: list[
+-        tuple[float, float, float, int, str, LogisticRegression]
++        tuple[float, float, float, int, str, ExplicitOneVsRestLogistic]
+     ] = []
+     rows: list[dict[str, Any]] = []
+     penalty_order = {value: index for index, value in enumerate(PENALTIES)}
++    model_class_order = tuple(sorted(class_order))
+     specifications = tuple(
+         (penalty, c_value) for penalty in penalty_values for c_value in c_values
+     )
+ 
+     def fit_candidate(specification: tuple[str, float]):
+         penalty, c_value = specification
+-        kwargs: dict[str, Any] = {
+-            "C": c_value,
+-            "solver": "saga",
+-            "class_weight": "balanced",
+-            "max_iter": LOGISTIC_MAX_ITER,
+-            "tol": LOGISTIC_TOL,
+-            "random_state": int(random_state),
+-            **_logistic_penalty_kwargs(penalty),
+-        }
+-        model = LogisticRegression(**kwargs).fit(train_scaled, train_y)
+-        if tuple(model.classes_.astype(str)) != tuple(sorted(class_order)):
+-            raise ValueError("multinomial model class order drifted")
++        metric_free_progress(
++            "candidate_started",
++            family="multiclass",
++            solver="explicit_one_vs_rest_liblinear",
++            penalty=penalty,
++            C=float(c_value),
++            max_iter=LOGISTIC_MAX_ITER,
++            tol=MULTICLASS_LOGISTIC_TOL,
++        )
++        candidate_fit_started = time.perf_counter()
++        estimators: list[LogisticRegression] = []
++        n_iter_by_class: dict[str, tuple[int, ...]] = {}
++        for estimator_index, estimator_class in enumerate(model_class_order):
++            metric_free_progress(
++                "estimator_started",
++                family="multiclass",
++                solver="liblinear",
++                penalty=penalty,
++                C=float(c_value),
++                estimator_class=estimator_class,
++                estimator_index=estimator_index,
++                max_iter=LOGISTIC_MAX_ITER,
++                tol=MULTICLASS_LOGISTIC_TOL,
++            )
++            estimator_fit_started = time.perf_counter()
++            binary_target = (train_y == estimator_class).astype(np.int64)
++            estimator = LogisticRegression(
++                C=c_value,
++                solver="liblinear",
++                class_weight="balanced",
++                max_iter=LOGISTIC_MAX_ITER,
++                tol=MULTICLASS_LOGISTIC_TOL,
++                random_state=int(random_state),
++                **_logistic_penalty_kwargs(penalty),
++            )
++            estimator, iterations = _fit_validated_logistic(
++                estimator,
++                train_scaled,
++                binary_target,
++                solver="liblinear",
++                penalty=penalty,
++                c_value=c_value,
++                estimator_class=estimator_class,
++            )
++            metric_free_progress(
++                "estimator_completed",
++                family="multiclass",
++                solver="liblinear",
++                penalty=penalty,
++                C=float(c_value),
++                estimator_class=estimator_class,
++                estimator_index=estimator_index,
++                n_iter=max(iterations),
++                elapsed_seconds=float(time.perf_counter() - estimator_fit_started),
++            )
++            estimators.append(estimator)
++            n_iter_by_class[estimator_class] = iterations
++        model = ExplicitOneVsRestLogistic(
++            np.asarray(model_class_order, dtype=str), tuple(estimators)
++        )
++        flat_iterations = tuple(
++            iteration
++            for estimator_class in model_class_order
++            for iteration in n_iter_by_class[estimator_class]
++        )
++        metric_free_progress(
++            "candidate_completed",
++            family="multiclass",
++            solver="explicit_one_vs_rest_liblinear",
++            penalty=penalty,
++            C=float(c_value),
++            estimator_count=len(estimators),
++            n_iter=max(flat_iterations),
++            elapsed_seconds=float(time.perf_counter() - candidate_fit_started),
++        )
+         probability = model.predict_proba(validation_scaled)
+         metrics = multiclass_metrics(validation_y, probability, model.classes_)
+         auroc = metrics["macro_ovr_auroc"]
+@@ -842,7 +1243,20 @@
+             "C": float(c_value),
+             "val_macro_ovr_auroc": auroc,
+             "val_macro_ovr_auprc": auprc,
+-            "n_iter": int(np.max(model.n_iter_)),
++            "solver": "explicit_one_vs_rest_liblinear",
++            "underlying_solver": "liblinear",
++            "multiclass_strategy": "four_balanced_binary_ovr_sigmoid_then_row_normalize",
++            "tol": MULTICLASS_LOGISTIC_TOL,
++            "max_iter": LOGISTIC_MAX_ITER,
++            "estimator_count": len(estimators),
++            "n_iter": max(flat_iterations),
++            "n_iter_json": json.dumps(flat_iterations, separators=(",", ":")),
++            "n_iter_by_class_json": json.dumps(
++                n_iter_by_class, sort_keys=True, separators=(",", ":")
++            ),
++            "n_iter_contract": "integer_0_le_n_iter_lt_max_iter",
++            "convergence_warning_observed": False,
++            "converged_before_max_iter": True,
+         }
+         candidate = (auroc, auprc, c_value, penalty_order[penalty], penalty, model)
+         return row, candidate
+@@ -908,6 +1322,15 @@
+         train_indices = np.flatnonzero(roles == "train")
+         validation_indices = np.flatnonzero(roles == "val")
+         test_indices = np.flatnonzero(roles == "test")
++        fold_progress = {
++            "task_family": "multiclass",
++            "model": labels["model"],
++            "spatial": labels["spatial"],
++            "timing_or_endpoint": timing,
++            "fold": int(fold),
++            "feature_dim": int(fold_matrix.shape[1]),
++        }
++        metric_free_progress("fold_started", **fold_progress)
+         selected = select_multiclass_logistic(
+             fold_matrix[train_indices],
+             target[train_indices],
+@@ -918,6 +1341,7 @@
+             c_grid=c_grid,
+             random_state=SEED + fold,
+         )
++        metric_free_progress("fold_completed", **fold_progress)
+         test_scaled = selected.scaler.transform(fold_matrix[test_indices])
+         guard = _SingleUseMulticlassProbabilityGuard()
+         probability = guard.predict(selected.model, test_scaled)
+@@ -961,12 +1385,27 @@
+                 "selection_rule": (
+                     "max_validation_macro_OVR_AUROC_then_AUPRC_then_smaller_C_then_l1_l2"
+                 ),
+-                "solver": "saga_multinomial",
++                "solver": "explicit_one_vs_rest_liblinear",
++                "underlying_solver": "liblinear",
++                "multiclass_strategy": "four_balanced_binary_ovr_sigmoid_then_row_normalize",
++                "estimator_count_per_candidate": len(class_order),
+                 "selection_parallel_workers": _selection_worker_count(
+                     len(set(penalties)) * len(set(c_grid))
+                 ),
+                 "class_weight": "balanced",
+                 "random_state": SEED + fold,
++                "max_iter": LOGISTIC_MAX_ITER,
++                "tol": MULTICLASS_LOGISTIC_TOL,
++                "grid_max_n_iter": max(row["n_iter"] for row in selected.grid),
++                "all_grid_candidates_converged_before_max_iter": all(
++                    row["converged_before_max_iter"] for row in selected.grid
++                ),
++                "n_iter_contract": "integer_0_le_n_iter_lt_max_iter",
++                "convergence_warning_observed": False,
++                "convergence_gate": (
++                    "every_ovr_estimator_integer_0_le_n_iter_lt_max_iter_and_no_"
++                    "convergence_warning_before_any_validation_probability"
++                ),
+                 "scaler_train_rows": int(selected.scaler.n_samples_seen_),
+                 **_array_audit("scaler_mean", selected.scaler.mean_),
+                 **_array_audit("scaler_scale", selected.scaler.scale_),
+@@ -1198,6 +1637,15 @@
+         train_indices = np.flatnonzero(roles == "train")
+         validation_indices = np.flatnonzero(roles == "val")
+         test_indices = np.flatnonzero(roles == "test")
++        fold_progress = {
++            "task_family": "ridge",
++            "model": labels["model"],
++            "spatial": labels["spatial"],
++            "timing_or_endpoint": labels["endpoint"],
++            "fold": int(fold),
++            "feature_dim": int(fold_matrix.shape[1]),
++        }
++        metric_free_progress("fold_started", **fold_progress)
+         selected = select_ridge(
+             fold_matrix[train_indices],
+             target[train_indices],
+@@ -1206,6 +1654,7 @@
+             alphas=alphas,
+             target_transform=target_transform,
+         )
++        metric_free_progress("fold_completed", **fold_progress)
+         test_scaled = selected.x_scaler.transform(fold_matrix[test_indices])
+         guard = _SingleUseRegressionGuard()
+         predicted_standardized = guard.predict(selected.model, test_scaled)
+@@ -1454,12 +1903,15 @@
+ 
+ 
+ __all__ = [
++    "BINARY_LOGISTIC_TOL",
+     "C_GRID",
+     "ClinicalEncoder",
+     "DECISION_POINTS",
+     "ECE_BINS",
+     "EvaluationResult",
++    "ExplicitOneVsRestLogistic",
+     "LOGISTIC_MAX_ITER",
++    "MULTICLASS_LOGISTIC_TOL",
+     "PENALTIES",
+     "RIDGE_ALPHAS",
+     "SelectedLogistic",
+@@ -1471,6 +1923,7 @@
+     "aggregate_continuous_predictions",
+     "aggregate_multiclass_predictions",
+     "binary_metrics",
++    "configure_metric_free_progress",
+     "continuous_metrics",
+     "ensure_public_safe",
+     "evaluate_binary_cv",
+@@ -1482,6 +1935,7 @@
+     "timing_matrix",
+     "fixed_bin_ece",
+     "multiclass_metrics",
++    "metric_free_progress",
+     "write_private_csv",
+     "write_public_csv",
+ ]
+--- a/src/foundation_mri/locking.py
++++ b/src/foundation_mri/locking.py
+@@ -10,12 +10,47 @@
+ 
+ import hashlib
+ import json
++import os
+ from pathlib import Path
+ import re
++import tempfile
+ from typing import Iterable, Mapping, Sequence
+ 
+ 
+ _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
++_ARTIFACT_KEY_RE = re.compile(r"^[a-z][a-z0-9_]*$")
++_V2_CONSUMERS = ("baseline", "probe", "summarizer")
++_V2_RUN_CONSUMERS = ("baseline", "probe")
++
++
++def canonical_json_sha256(value: object) -> str:
++    """Hash a JSON value with one unambiguous, whitespace-free encoding."""
++
++    encoded = json.dumps(
++        value,
++        ensure_ascii=False,
++        sort_keys=True,
++        separators=(",", ":"),
++        allow_nan=False,
++    ).encode("utf-8")
++    return hashlib.sha256(encoded).hexdigest()
++
++
++def argument_vector_sha256(arguments: Sequence[str | Path]) -> str:
++    """Length-prefix an argv vector so shell quoting/joining cannot alter identity.
++
++    The vector excludes the Python executable and script name.  Each caller must
++    pass the exact sequence handed to its argument parser.
++    """
++
++    values = tuple(str(value) for value in arguments)
++    digest = hashlib.sha256()
++    digest.update(len(values).to_bytes(8, byteorder="big", signed=False))
++    for value in values:
++        encoded = value.encode("utf-8")
++        digest.update(len(encoded).to_bytes(8, byteorder="big", signed=False))
++        digest.update(encoded)
++    return digest.hexdigest()
+ 
+ 
+ def file_sha256(path: str | Path) -> str:
+@@ -33,6 +68,62 @@
+     return text
+ 
+ 
++def _checked_lower_digest(value: object, label: str) -> str:
++    text = str(value).strip()
++    if not _SHA256_RE.fullmatch(text):
++        raise ValueError(f"{label} is not a lowercase SHA-256 digest")
++    return text
++
++
++def _root_relative_file(root: Path, raw_path: object, label: str) -> Path:
++    text = str(raw_path).strip()
++    if not text:
++        raise ValueError(f"{label} path is empty")
++    relative = Path(text)
++    if relative.is_absolute() or ".." in relative.parts:
++        raise ValueError(f"{label} path must be root-relative without traversal")
++    path = (root / relative).resolve(strict=True)
++    try:
++        path.relative_to(root)
++    except ValueError as error:
++        raise ValueError(f"{label} path escaped experiment root") from error
++    if not path.is_file():
++        raise ValueError(f"{label} is not a regular file")
++    return path
++
++
++def _verify_root_record(root: Path, record: Mapping[str, object], label: str) -> Path:
++    if not isinstance(record, dict) or set(record) != {"path", "sha256"}:
++        raise ValueError(f"{label} must contain exactly path and sha256")
++    path = _root_relative_file(root, record["path"], label)
++    expected = _checked_lower_digest(record["sha256"], f"{label} SHA-256")
++    observed = file_sha256(path)
++    if observed != expected:
++        raise ValueError(
++            f"{label} SHA-256 drifted: expected={expected}, observed={observed}"
++        )
++    return path
++
++
++def _path_within_root(
++    root: Path, raw_path: str | Path, label: str, *, must_exist: bool
++) -> Path:
++    candidate = Path(raw_path)
++    if not candidate.is_absolute():
++        candidate = root / candidate
++    try:
++        resolved = candidate.resolve(strict=must_exist)
++    except FileNotFoundError as error:
++        raise ValueError(f"{label} does not exist") from error
++    try:
++        resolved.relative_to(root)
++    except ValueError as error:
++        raise ValueError(f"{label} must stay within experiment root") from error
++    if must_exist and not resolved.is_file():
++        raise ValueError(f"{label} is not a regular file")
++    return resolved
++
++
+ def _resolve(root: Path, raw_path: object, label: str) -> Path:
+     text = str(raw_path).strip()
+     if not text:
+@@ -60,7 +151,9 @@
+ 
+ 
+ def _normalise_paths(values: Iterable[str | Path]) -> tuple[Path, ...]:
+-    return tuple(sorted((Path(value).resolve(strict=True) for value in values), key=str))
++    return tuple(
++        sorted((Path(value).resolve(strict=True) for value in values), key=str)
++    )
+ 
+ 
+ def _load_and_verify_code_lock(
+@@ -91,7 +184,9 @@
+     if payload["locked_before_formal_test_evaluation"] is not True:
+         raise ValueError("evaluation lock was not declared pre-test")
+     if payload["formal_test_outcomes_seen"] is not False:
+-        raise ValueError("evaluation lock claims formal test outcomes were already seen")
++        raise ValueError(
++            "evaluation lock claims formal test outcomes were already seen"
++        )
+ 
+     files = payload["files"]
+     if not isinstance(files, dict) or not files:
+@@ -99,7 +194,9 @@
+     for relative, digest in sorted(files.items()):
+         relative_path = Path(str(relative))
+         if relative_path.is_absolute() or ".." in relative_path.parts:
+-            raise ValueError("evaluation code lock paths must stay within experiment root")
++            raise ValueError(
++                "evaluation code lock paths must stay within experiment root"
++            )
+         path = (root / relative_path).resolve(strict=True)
+         try:
+             path.relative_to(root)
+@@ -114,48 +211,323 @@
+     return root, source, payload
+ 
+ 
+-def verify_evaluation_code_lock(
+-    *, experiment_root: str | Path, lock_path: str | Path
+-) -> dict[str, object]:
+-    """Verify the pre-test code/config manifest before public reporting."""
++def _read_lock_payload(
++    experiment_root: str | Path, lock_path: str | Path
++) -> tuple[Path, Path, dict[str, object]]:
++    root = Path(experiment_root).resolve(strict=True)
++    source = Path(lock_path)
++    if not source.is_absolute():
++        source = root / source
++    source = source.resolve(strict=True)
++    if not source.is_file():
++        raise ValueError("evaluation lock is not a regular file")
++    payload = json.loads(source.read_text(encoding="utf-8"))
++    if not isinstance(payload, dict):
++        raise ValueError("evaluation lock must contain a JSON object")
++    return root, source, payload
++
++
++def _validate_v1_record_shape(record: object, label: str) -> None:
++    if not isinstance(record, dict) or set(record) != {"path", "sha256"}:
++        raise ValueError(f"{label} must contain exactly path and sha256")
++    if not str(record["path"]).strip():
++        raise ValueError(f"{label} path is empty")
++    _checked_digest(record["sha256"], f"{label} SHA-256")
++
++
++def _validate_v1_input_schema(inputs: object) -> Mapping[str, object]:
++    if not isinstance(inputs, dict) or set(inputs) != {
++        "fold_manifest",
++        "clinical_labels",
++        "radiomics",
++        "foundation_features",
++        "current_cnn_features",
++    }:
++        raise ValueError("evaluation input lock schema drifted")
++    for key in ("fold_manifest", "clinical_labels", "radiomics"):
++        _validate_v1_record_shape(inputs[key], key.replace("_", " "))
++
++    foundation = inputs["foundation_features"]
++    if not isinstance(foundation, list) or not foundation:
++        raise ValueError("evaluation lock has no foundation features")
++    models: set[str] = set()
++    for record in foundation:
++        if not isinstance(record, dict) or set(record) != {"model", "path", "sha256"}:
++            raise ValueError("foundation feature lock record schema drifted")
++        model = str(record["model"]).strip()
++        if not model or model in models:
++            raise ValueError("foundation feature model identity is empty/duplicated")
++        models.add(model)
++        _validate_v1_record_shape(
++            {"path": record["path"], "sha256": record["sha256"]},
++            f"foundation feature {model}",
++        )
++
++    cnn = inputs["current_cnn_features"]
++    if not isinstance(cnn, list) or not cnn:
++        raise ValueError("evaluation lock has no current-CNN features")
++    folds: dict[tuple[str, str], set[int]] = {}
++    for record in cnn:
++        if not isinstance(record, dict) or set(record) != {
++            "model",
++            "spatial",
++            "fold",
++            "feature",
++            "metadata",
++        }:
++            raise ValueError("current-CNN feature lock record schema drifted")
++        model = str(record["model"]).strip()
++        spatial = str(record["spatial"]).strip().upper()
++        try:
++            fold = int(record["fold"])
++        except (TypeError, ValueError) as error:
++            raise ValueError("current-CNN lock fold is invalid/duplicated") from error
++        key = (model, spatial)
++        if key not in {("GAP0", "GLOBAL"), ("LOCAL0", "LOCAL")}:
++            raise ValueError("evaluation lock contains an unapproved current-CNN arm")
++        if fold not in range(5) or fold in folds.setdefault(key, set()):
++            raise ValueError("current-CNN lock fold is invalid/duplicated")
++        folds[key].add(fold)
++        _validate_v1_record_shape(record["feature"], "current-CNN feature")
++        _validate_v1_record_shape(record["metadata"], "current-CNN metadata")
++    if set(folds) != {("GAP0", "GLOBAL"), ("LOCAL0", "LOCAL")} or any(
++        values != set(range(5)) for values in folds.values()
++    ):
++        raise ValueError("evaluation lock must contain exactly five GAP0/LOCAL0 folds")
++    return inputs
+ 
+-    _, source, payload = _load_and_verify_code_lock(experiment_root, lock_path)
++
++def _validate_v1_manifest_only(payload: Mapping[str, object]) -> None:
++    required = {
++        "schema_version",
++        "lock_kind",
++        "locked_at",
++        "locked_before_formal_test_evaluation",
++        "formal_test_outcomes_seen",
++        "files",
++        "inputs",
++        "execution",
++    }
++    if set(payload) != required:
++        raise ValueError("parent evaluation lock top-level schema drifted")
++    if payload["schema_version"] != 1:
++        raise ValueError("chained parent must use evaluation lock schema 1")
++    if payload["lock_kind"] != "formal_outcome_evaluation":
++        raise ValueError("wrong parent evaluation lock kind")
++    if payload["locked_before_formal_test_evaluation"] is not True:
++        raise ValueError("parent evaluation lock was not declared pre-test")
++    if payload["formal_test_outcomes_seen"] is not False:
++        raise ValueError("parent lock claims formal test outcomes were already seen")
++    if not str(payload["locked_at"]).strip():
++        raise ValueError("parent evaluation lock timestamp is empty")
++    files = payload["files"]
++    if not isinstance(files, dict) or not files:
++        raise ValueError("parent evaluation lock has no file hashes")
++    for relative, digest in files.items():
++        path = Path(str(relative))
++        if path.is_absolute() or ".." in path.parts:
++            raise ValueError("parent code lock paths must stay within experiment root")
++        _checked_digest(digest, f"parent locked file {relative}")
++    _validate_v1_input_schema(payload["inputs"])
++    if not isinstance(payload["execution"], dict):
++        raise ValueError("parent execution lock must be an object")
++
++
++def _load_and_verify_v2_chain(
++    experiment_root: str | Path, lock_path: str | Path
++) -> tuple[Path, Path, dict[str, object], Path, dict[str, object]]:
++    root, source, payload = _read_lock_payload(experiment_root, lock_path)
++    try:
++        source.relative_to(root)
++    except ValueError as error:
++        raise ValueError(
++            "schema-v2 evaluation lock must stay within experiment root"
++        ) from error
++
++    required = {
++        "schema_version",
++        "lock_kind",
++        "lock_generation",
++        "locked_at",
++        "locked_before_formal_test_evaluation",
++        "formal_test_outcomes_seen",
++        "parent_lock",
++        "aborted_v1_attempts",
++        "prelock_state",
++        "inherited_inputs",
++        "development_provenance",
++        "files",
++        "execution",
++    }
++    if set(payload) != required:
++        raise ValueError("schema-v2 evaluation lock top-level schema drifted")
++    if payload["schema_version"] != 2:
++        raise ValueError("unsupported chained evaluation lock schema")
++    if payload["lock_kind"] != "formal_outcome_evaluation_chain":
++        raise ValueError("wrong chained evaluation lock kind")
++    if payload["lock_generation"] != "whole_evaluation_v2":
++        raise ValueError("wrong chained evaluation lock generation")
++    if not str(payload["locked_at"]).strip():
++        raise ValueError("schema-v2 evaluation lock timestamp is empty")
++    if payload["locked_before_formal_test_evaluation"] is not True:
++        raise ValueError("schema-v2 evaluation lock was not declared pre-test")
++    if payload["formal_test_outcomes_seen"] is not False:
++        raise ValueError("schema-v2 lock claims formal test outcomes were already seen")
++
++    attempts = payload["aborted_v1_attempts"]
++    if not isinstance(attempts, list) or len(attempts) != 2:
++        raise ValueError("schema-v2 lock must record exactly two aborted v1 attempts")
++    expected_attempts = ("baseline", "probe")
++    for record, consumer in zip(attempts, expected_attempts, strict=True):
++        if not isinstance(record, dict) or set(record) != {
++            "consumer",
++            "exit_code",
++            "outputs_written",
++            "metric_values_viewed",
++        }:
++            raise ValueError("aborted v1 attempt schema drifted")
++        if (
++            record["consumer"] != consumer
++            or record["exit_code"] != 143
++            or record["outputs_written"] is not False
++            or record["metric_values_viewed"] is not False
++        ):
++            raise ValueError("aborted v1 attempt provenance is inconsistent")
++
++    state = payload["prelock_state"]
++    if not isinstance(state, dict) or set(state) != {
++        "baseline_outputs_exist",
++        "probe_outputs_exist",
++        "metric_values_viewed",
++    }:
++        raise ValueError("schema-v2 prelock state schema drifted")
++    if any(value is not False for value in state.values()):
++        raise ValueError("schema-v2 prelock state must be metric-free with no outputs")
++
++    parent_source = _verify_root_record(root, payload["parent_lock"], "parent lock")
++    parent_payload = json.loads(parent_source.read_text(encoding="utf-8"))
++    if not isinstance(parent_payload, dict):
++        raise ValueError("parent evaluation lock must contain a JSON object")
++    _validate_v1_manifest_only(parent_payload)
++
++    inherited = payload["inherited_inputs"]
++    if not isinstance(inherited, dict) or set(inherited) != {"source", "sha256"}:
++        raise ValueError("schema-v2 inherited-input contract drifted")
++    if inherited["source"] != "parent_lock.inputs":
++        raise ValueError("schema-v2 inputs must be inherited from parent_lock.inputs")
++    expected_inputs = _checked_lower_digest(
++        inherited["sha256"], "inherited inputs SHA-256"
++    )
++    observed_inputs = canonical_json_sha256(parent_payload["inputs"])
++    if expected_inputs != observed_inputs:
++        raise ValueError("parent input contract SHA-256 drifted")
++
++    development = payload["development_provenance"]
++    if not isinstance(development, dict) or set(development) != {
++        "source_snapshot",
++        "patch_manifest",
++        "smoke_receipt",
++    }:
++        raise ValueError("schema-v2 development provenance schema drifted")
++    for name in ("source_snapshot", "patch_manifest", "smoke_receipt"):
++        _verify_root_record(root, development[name], name.replace("_", " "))
++
++    files = payload["files"]
++    if not isinstance(files, dict) or not files:
++        raise ValueError("schema-v2 evaluation lock has no final file hashes")
++    for relative, digest in sorted(files.items()):
++        path = _root_relative_file(root, relative, f"final locked file {relative}")
++        expected = _checked_lower_digest(
++            digest, f"final locked file {relative} SHA-256"
++        )
++        observed = file_sha256(path)
++        if observed != expected:
++            raise ValueError(
++                f"evaluation file drifted: {relative}; expected={expected}, observed={observed}"
++            )
++
++    execution = payload["execution"]
++    if not isinstance(execution, dict) or set(execution) != {
++        "parent_execution_sha256",
++        "consumer_argv",
++    }:
++        raise ValueError("schema-v2 execution contract drifted")
++    expected_execution = _checked_lower_digest(
++        execution["parent_execution_sha256"], "parent execution SHA-256"
++    )
++    if expected_execution != canonical_json_sha256(parent_payload["execution"]):
++        raise ValueError("parent execution contract SHA-256 drifted")
++    consumers = execution["consumer_argv"]
++    if not isinstance(consumers, dict) or set(consumers) != set(_V2_CONSUMERS):
++        raise ValueError("schema-v2 lock must define baseline/probe/summarizer argv")
++    for consumer, record in consumers.items():
++        if not isinstance(record, dict) or set(record) != {"argc", "sha256"}:
++            raise ValueError(f"{consumer} argv contract schema drifted")
++        if isinstance(record["argc"], bool) or not isinstance(record["argc"], int):
++            raise ValueError(f"{consumer} argv count must be a nonnegative integer")
++        if record["argc"] < 0:
++            raise ValueError(f"{consumer} argv count must be a nonnegative integer")
++        _checked_lower_digest(record["sha256"], f"{consumer} argv SHA-256")
++    return root, source, payload, parent_source, parent_payload
++
++
++def _verify_v2_consumer(
++    payload: Mapping[str, object],
++    expected_consumer: str,
++    command_argv: Sequence[str | Path] | None,
++) -> tuple[int, str]:
++    if expected_consumer not in _V2_CONSUMERS:
++        raise ValueError("expected_consumer must be baseline, probe, or summarizer")
++    if command_argv is None:
++        raise ValueError("schema-v2 verification requires the exact command argv")
++    values = tuple(str(value) for value in command_argv)
++    contract = payload["execution"]["consumer_argv"][expected_consumer]  # type: ignore[index]
++    observed = argument_vector_sha256(values)
++    if contract["argc"] != len(values) or contract["sha256"] != observed:
++        raise ValueError(f"{expected_consumer} command argv does not match the lock")
++    return len(values), observed
++
++
++def _v2_code_receipt(
++    root: Path,
++    source: Path,
++    payload: Mapping[str, object],
++    parent_source: Path,
++    *,
++    expected_consumer: str,
++    argument_count: int,
++    argument_sha256: str,
++) -> dict[str, object]:
++    development = payload["development_provenance"]
+     return {
+-        "lock_path": str(source),
++        "schema_version": 2,
++        "lock_generation": "whole_evaluation_v2",
++        "lock_path": source.relative_to(root).as_posix(),
+         "lock_sha256": file_sha256(source),
++        "parent_lock_sha256": file_sha256(parent_source),
++        "inherited_inputs_sha256": payload["inherited_inputs"]["sha256"],  # type: ignore[index]
+         "verified_file_count": len(payload["files"]),
++        "expected_consumer": expected_consumer,
++        "argument_count": argument_count,
++        "argument_vector_sha256": argument_sha256,
++        "source_snapshot_sha256": development["source_snapshot"]["sha256"],  # type: ignore[index]
++        "patch_manifest_sha256": development["patch_manifest"]["sha256"],  # type: ignore[index]
++        "smoke_receipt_sha256": development["smoke_receipt"]["sha256"],  # type: ignore[index]
+         "execution": payload["execution"],
+     }
+ 
+ 
+-def verify_formal_evaluation_lock(
++def _verify_locked_formal_inputs(
+     *,
+-    experiment_root: str | Path,
+-    lock_path: str | Path,
++    root: Path,
++    inputs: object,
+     foundation_features: Sequence[str | Path],
+     current_cnn_features: Mapping[tuple[str, str], Mapping[int, str | Path]],
+     fold_manifest: str | Path,
+     clinical_labels: str | Path,
+     radiomics: str | Path,
+-) -> dict[str, object]:
+-    """Verify code/config hashes and the exact formal data/feature path set.
+-
+-    This function deliberately accepts the already-expanded five-fold CNN path
+-    mapping.  A command cannot satisfy the lock with a different seed, fold,
+-    arm, spatial axis, feature file, clinical table, or radiomics table.
+-    """
+-
+-    root, source, payload = _load_and_verify_code_lock(experiment_root, lock_path)
+-
+-    inputs = payload["inputs"]
+-    if not isinstance(inputs, dict) or set(inputs) != {
+-        "fold_manifest",
+-        "clinical_labels",
+-        "radiomics",
+-        "foundation_features",
+-        "current_cnn_features",
+-    }:
+-        raise ValueError("evaluation input lock schema drifted")
++) -> tuple[tuple[str, ...], int]:
++    inputs = _validate_v1_input_schema(inputs)
+     locked_fold = _verify_record(root, inputs["fold_manifest"], "fold manifest")
+     locked_clinical = _verify_record(root, inputs["clinical_labels"], "clinical labels")
+     locked_radiomics = _verify_record(root, inputs["radiomics"], "radiomics")
+@@ -165,7 +537,9 @@
+         Path(radiomics).resolve(strict=True),
+     )
+     if requested_tabular != (locked_fold, locked_clinical, locked_radiomics):
+-        raise ValueError("formal tabular path arguments do not match the evaluation lock")
++        raise ValueError(
++            "formal tabular path arguments do not match the evaluation lock"
++        )
+ 
+     foundation_records = inputs["foundation_features"]
+     if not isinstance(foundation_records, list) or not foundation_records:
+@@ -186,7 +560,9 @@
+                 f"foundation feature {index}/{model}",
+             )
+         )
+-    if _normalise_paths(foundation_features) != tuple(sorted(locked_foundation, key=str)):
++    if _normalise_paths(foundation_features) != tuple(
++        sorted(locked_foundation, key=str)
++    ):
+         raise ValueError("formal foundation feature arguments do not match the lock")
+ 
+     cnn_records = inputs["current_cnn_features"]
+@@ -209,8 +585,12 @@
+             raise ValueError("evaluation lock contains an unapproved current-CNN arm")
+         if fold not in range(5) or fold in locked_cnn.setdefault((model, spatial), {}):
+             raise ValueError("current-CNN lock fold is invalid/duplicated")
+-        feature = _verify_record(root, record["feature"], f"current-CNN feature {index}")
+-        metadata = _verify_record(root, record["metadata"], f"current-CNN metadata {index}")
++        feature = _verify_record(
++            root, record["feature"], f"current-CNN feature {index}"
++        )
++        metadata = _verify_record(
++            root, record["metadata"], f"current-CNN metadata {index}"
++        )
+         if metadata.parent != feature.parent:
+             raise ValueError("current-CNN feature and metadata are not adjacent")
+         locked_cnn[(model, spatial)][fold] = feature
+@@ -227,14 +607,343 @@
+     if requested_cnn != locked_cnn:
+         raise ValueError("formal current-CNN feature arguments do not match the lock")
+ 
+-    execution = payload["execution"]
+-    if not isinstance(execution, dict):
+-        raise ValueError("evaluation execution lock must be an object")
++    return tuple(foundation_models), sum(len(value) for value in locked_cnn.values())
++
++
++def verify_evaluation_code_lock(
++    *,
++    experiment_root: str | Path,
++    lock_path: str | Path,
++    expected_consumer: str = "summarizer",
++    command_argv: Sequence[str | Path] | None = None,
++) -> dict[str, object]:
++    """Verify v1 code, or the complete v2 parent/final-code chain.
++
++    Schema-v2 callers must pass the exact argument-parser vector (excluding the
++    interpreter and script path).  This API is the reporting/summarizer gate.
++    """
++
++    _, _, peek = _read_lock_payload(experiment_root, lock_path)
++    if peek.get("schema_version") == 1:
++        _, source, payload = _load_and_verify_code_lock(experiment_root, lock_path)
++        return {
++            "lock_path": str(source),
++            "lock_sha256": file_sha256(source),
++            "verified_file_count": len(payload["files"]),
++            "execution": payload["execution"],
++        }
++    if peek.get("schema_version") != 2:
++        raise ValueError("unsupported evaluation lock schema")
++    root, source, payload, parent_source, _ = _load_and_verify_v2_chain(
++        experiment_root, lock_path
++    )
++    count, digest = _verify_v2_consumer(payload, expected_consumer, command_argv)
++    return _v2_code_receipt(
++        root,
++        source,
++        payload,
++        parent_source,
++        expected_consumer=expected_consumer,
++        argument_count=count,
++        argument_sha256=digest,
++    )
++
++
++def verify_formal_evaluation_lock(
++    *,
++    experiment_root: str | Path,
++    lock_path: str | Path,
++    foundation_features: Sequence[str | Path],
++    current_cnn_features: Mapping[tuple[str, str], Mapping[int, str | Path]],
++    fold_manifest: str | Path,
++    clinical_labels: str | Path,
++    radiomics: str | Path,
++    expected_consumer: str | None = None,
++    command_argv: Sequence[str | Path] | None = None,
++) -> dict[str, object]:
++    """Verify final code and the exact locked formal input/CLI argument set.
++
++    Existing schema-v1 calls remain valid.  Schema v2 inherits the byte-locked
++    parent v1 input records while binding the caller to final v2 code and argv.
++    """
++
++    _, _, peek = _read_lock_payload(experiment_root, lock_path)
++    if peek.get("schema_version") == 1:
++        root, source, payload = _load_and_verify_code_lock(experiment_root, lock_path)
++        models, cnn_assets = _verify_locked_formal_inputs(
++            root=root,
++            inputs=payload["inputs"],
++            foundation_features=foundation_features,
++            current_cnn_features=current_cnn_features,
++            fold_manifest=fold_manifest,
++            clinical_labels=clinical_labels,
++            radiomics=radiomics,
++        )
++        execution = payload["execution"]
++        if not isinstance(execution, dict):
++            raise ValueError("evaluation execution lock must be an object")
++        return {
++            "lock_path": str(source),
++            "lock_sha256": file_sha256(source),
++            "verified_file_count": len(payload["files"]),
++            "foundation_models": models,
++            "current_cnn_assets": cnn_assets,
++            "execution": execution,
++        }
++    if peek.get("schema_version") != 2:
++        raise ValueError("unsupported evaluation lock schema")
++    if expected_consumer not in _V2_RUN_CONSUMERS:
++        raise ValueError(
++            "schema-v2 formal evaluation consumer must be baseline or probe"
++        )
++    root, source, payload, parent_source, parent_payload = _load_and_verify_v2_chain(
++        experiment_root, lock_path
++    )
++    count, digest = _verify_v2_consumer(payload, expected_consumer, command_argv)
++    models, cnn_assets = _verify_locked_formal_inputs(
++        root=root,
++        inputs=parent_payload["inputs"],
++        foundation_features=foundation_features,
++        current_cnn_features=current_cnn_features,
++        fold_manifest=fold_manifest,
++        clinical_labels=clinical_labels,
++        radiomics=radiomics,
++    )
++    receipt = _v2_code_receipt(
++        root,
++        source,
++        payload,
++        parent_source,
++        expected_consumer=expected_consumer,
++        argument_count=count,
++        argument_sha256=digest,
++    )
++    receipt.update(
++        {
++            "foundation_models": models,
++            "current_cnn_assets": cnn_assets,
++        }
++    )
++    return receipt
++
++
++def _artifact_records(
++    root: Path, artifacts: Mapping[str, str | Path]
++) -> dict[str, dict[str, str]]:
++    if not isinstance(artifacts, Mapping) or not artifacts:
++        raise ValueError("run provenance requires at least one artifact")
++    records: dict[str, dict[str, str]] = {}
++    resolved_paths: set[Path] = set()
++    for raw_key, raw_path in sorted(artifacts.items(), key=lambda item: str(item[0])):
++        key = str(raw_key)
++        if not _ARTIFACT_KEY_RE.fullmatch(key):
++            raise ValueError("artifact keys must be lowercase snake_case identifiers")
++        if key in records:
++            raise ValueError("run provenance artifact keys are duplicated")
++        path = _path_within_root(root, raw_path, f"artifact {key}", must_exist=True)
++        if path in resolved_paths:
++            raise ValueError("run provenance artifact paths are duplicated")
++        resolved_paths.add(path)
++        records[key] = {
++            "path": path.relative_to(root).as_posix(),
++            "sha256": file_sha256(path),
++        }
++    return records
++
++
++def _atomic_write_private_json(
++    destination: Path, payload: Mapping[str, object]
++) -> None:
++    destination.parent.mkdir(parents=True, exist_ok=True)
++    if destination.exists():
++        raise FileExistsError(
++            f"run provenance receipt already exists: {destination.name}"
++        )
++    rendered = (
++        json.dumps(
++            payload,
++            ensure_ascii=False,
++            indent=2,
++            sort_keys=True,
++            allow_nan=False,
++        )
++        + "\n"
++    )
++    temporary: Path | None = None
++    try:
++        with tempfile.NamedTemporaryFile(
++            mode="w",
++            encoding="utf-8",
++            prefix=f".{destination.name}.",
++            suffix=".tmp",
++            dir=destination.parent,
++            delete=False,
++        ) as handle:
++            temporary = Path(handle.name)
++            os.chmod(temporary, 0o600)
++            handle.write(rendered)
++            handle.flush()
++            os.fsync(handle.fileno())
++        # A hard-link publish is atomic and refuses an existing destination.
++        os.link(temporary, destination)
++        os.chmod(destination, 0o600)
++    finally:
++        if temporary is not None:
++            temporary.unlink(missing_ok=True)
++
++
++def write_metric_free_run_provenance(
++    *,
++    experiment_root: str | Path,
++    lock_path: str | Path,
++    expected_consumer: str,
++    command_argv: Sequence[str | Path],
++    artifacts: Mapping[str, str | Path],
++    receipt_path: str | Path,
++) -> dict[str, object]:
++    """Hash formal artifacts without parsing them and atomically publish a receipt.
++
++    Only the locked baseline and probe producers may write these receipts.  CSV
++    values are never parsed or selected; ``file_sha256`` streams raw bytes.
++    """
++
++    if expected_consumer not in _V2_RUN_CONSUMERS:
++        raise ValueError("metric-free provenance consumer must be baseline or probe")
++    root = Path(experiment_root).resolve(strict=True)
++    destination = _path_within_root(
++        root, receipt_path, "run provenance receipt", must_exist=False
++    )
++    code_receipt = verify_evaluation_code_lock(
++        experiment_root=root,
++        lock_path=lock_path,
++        expected_consumer=expected_consumer,
++        command_argv=command_argv,
++    )
++    if code_receipt.get("schema_version") != 2:
++        raise ValueError("metric-free run provenance requires a schema-v2 lock")
++    artifact_records = _artifact_records(root, artifacts)
++    payload: dict[str, object] = {
++        "schema_version": 1,
++        "receipt_kind": "formal_metric_free_run_provenance",
++        "consumer": expected_consumer,
++        "lock_sha256": code_receipt["lock_sha256"],
++        "parent_lock_sha256": code_receipt["parent_lock_sha256"],
++        "argument_count": code_receipt["argument_count"],
++        "argument_vector_sha256": code_receipt["argument_vector_sha256"],
++        "artifact_hash_method": "sha256_binary_stream_no_parse",
++        "metric_values_viewed": False,
++        "artifacts": artifact_records,
++    }
++    _atomic_write_private_json(destination, payload)
+     return {
+-        "lock_path": str(source),
+-        "lock_sha256": file_sha256(source),
+-        "verified_file_count": len(payload["files"]),
+-        "foundation_models": tuple(foundation_models),
+-        "current_cnn_assets": sum(len(value) for value in locked_cnn.values()),
+-        "execution": execution,
++        **payload,
++        "receipt_path": destination.relative_to(root).as_posix(),
++        "receipt_sha256": file_sha256(destination),
+     }
++
++
++def verify_metric_free_run_provenance(
++    *,
++    experiment_root: str | Path,
++    lock_path: str | Path,
++    receipt_path: str | Path,
++    expected_consumer: str,
++    expected_artifacts: Mapping[str, str | Path],
++) -> dict[str, object]:
++    """Verify producer/code/argv lineage and artifact bytes before CSV parsing."""
++
++    if expected_consumer not in _V2_RUN_CONSUMERS:
++        raise ValueError("metric-free provenance consumer must be baseline or probe")
++    root = Path(experiment_root).resolve(strict=True)
++    source = _path_within_root(
++        root, receipt_path, "run provenance receipt", must_exist=True
++    )
++    payload = json.loads(source.read_text(encoding="utf-8"))
++    required = {
++        "schema_version",
++        "receipt_kind",
++        "consumer",
++        "lock_sha256",
++        "parent_lock_sha256",
++        "argument_count",
++        "argument_vector_sha256",
++        "artifact_hash_method",
++        "metric_values_viewed",
++        "artifacts",
++    }
++    if not isinstance(payload, dict) or set(payload) != required:
++        raise ValueError("metric-free run provenance schema drifted")
++    if payload["schema_version"] != 1:
++        raise ValueError("unsupported metric-free run provenance schema")
++    if payload["receipt_kind"] != "formal_metric_free_run_provenance":
++        raise ValueError("wrong metric-free run provenance kind")
++    if payload["consumer"] != expected_consumer:
++        raise ValueError("run provenance producer does not match expected consumer")
++    if payload["artifact_hash_method"] != "sha256_binary_stream_no_parse":
++        raise ValueError("run provenance did not use the metric-free hash method")
++    if payload["metric_values_viewed"] is not False:
++        raise ValueError("run provenance claims metric values were viewed")
++    lock_digest = _checked_lower_digest(payload["lock_sha256"], "receipt lock SHA-256")
++    parent_digest = _checked_lower_digest(
++        payload["parent_lock_sha256"], "receipt parent lock SHA-256"
++    )
++    argument_digest = _checked_lower_digest(
++        payload["argument_vector_sha256"], "receipt argv SHA-256"
++    )
++    argument_count = payload["argument_count"]
++    if isinstance(argument_count, bool) or not isinstance(argument_count, int):
++        raise ValueError("receipt argv count must be a nonnegative integer")
++    if argument_count < 0:
++        raise ValueError("receipt argv count must be a nonnegative integer")
++
++    _, lock_source, lock_payload, parent_source, _ = _load_and_verify_v2_chain(
++        root, lock_path
++    )
++    consumer_contract = lock_payload["execution"]["consumer_argv"][  # type: ignore[index]
++        expected_consumer
++    ]
++    if (
++        lock_digest != file_sha256(lock_source)
++        or parent_digest != file_sha256(parent_source)
++        or argument_count != consumer_contract["argc"]
++        or argument_digest != consumer_contract["sha256"]
++    ):
++        raise ValueError("run provenance lock/parent/argv chain does not match")
++
++    expected_records = _artifact_records(root, expected_artifacts)
++    records = payload["artifacts"]
++    if not isinstance(records, dict) or set(records) != set(expected_records):
++        raise ValueError("run provenance artifact set does not match")
++    verified: dict[str, str] = {}
++    for key, expected in expected_records.items():
++        record = records[key]
++        path = _verify_root_record(root, record, f"receipt artifact {key}")
++        if path != _root_relative_file(
++            root, expected["path"], f"expected artifact {key}"
++        ):
++            raise ValueError(f"run provenance artifact path does not match: {key}")
++        if record["sha256"] != expected["sha256"]:
++            raise ValueError(f"run provenance artifact SHA-256 does not match: {key}")
++        verified[key] = str(record["sha256"])
++    return {
++        "schema_version": 1,
++        "consumer": expected_consumer,
++        "lock_sha256": lock_digest,
++        "parent_lock_sha256": parent_digest,
++        "argument_vector_sha256": argument_digest,
++        "artifact_count": len(verified),
++        "artifact_sha256": verified,
++        "receipt_path": source.relative_to(root).as_posix(),
++        "receipt_sha256": file_sha256(source),
++    }
++
++
++__all__ = [
++    "argument_vector_sha256",
++    "canonical_json_sha256",
++    "file_sha256",
++    "verify_evaluation_code_lock",
++    "verify_formal_evaluation_lock",
++    "verify_metric_free_run_provenance",
++    "write_metric_free_run_provenance",
++]
+--- a/tests/test_evaluation.py
++++ b/tests/test_evaluation.py
+@@ -2,9 +2,11 @@
+ 
+ from dataclasses import replace
+ import inspect
++import json
+ import os
+ from pathlib import Path
+ import sys
++import warnings
+ 
+ import numpy as np
+ import pandas as pd
+@@ -20,16 +22,22 @@
+     HR_HER2_SUBTYPES,
+     load_fold_manifest,
+ )
++import foundation_mri.evaluation as evaluation_module  # noqa: E402
+ from foundation_mri.evaluation import (  # noqa: E402
++    BINARY_LOGISTIC_TOL,
+     ClinicalEncoder,
++    LOGISTIC_MAX_ITER,
++    MULTICLASS_LOGISTIC_TOL,
+     aggregate_binary_predictions,
+     aggregate_continuous_predictions,
+     aggregate_multiclass_predictions,
+     binary_metrics,
++    configure_metric_free_progress,
+     ensure_public_safe,
+     evaluate_binary_cv,
+     evaluate_multiclass_cv,
+     evaluate_ridge_cv,
++    metric_free_progress,
+     select_logistic,
+     select_multiclass_logistic,
+     select_ridge,
+@@ -88,6 +96,33 @@
+     return patient_ids, labels, folds, clinical
+ 
+ 
++def _assert_fold_progress(path: Path, task_family: str) -> None:
++    records = [json.loads(line) for line in path.read_text().splitlines()]
++    fold_records = [record for record in records if record["event"].startswith("fold_")]
++    assert [record["event"] for record in fold_records] == [
++        event
++        for _ in FOLDS
++        for event in ("fold_started", "fold_completed")
++    ]
++    assert [record["fold"] for record in fold_records] == [
++        fold for fold in FOLDS for _ in range(2)
++    ]
++    assert all(record["task_family"] == task_family for record in fold_records)
++    assert all(
++        set(record)
++        == {
++            "event",
++            "task_family",
++            "model",
++            "spatial",
++            "timing_or_endpoint",
++            "fold",
++            "feature_dim",
++        }
++        for record in fold_records
++    )
++
++
+ def test_timing_matrix_is_exact_preregistered_1_3_6_contract() -> None:
+     state = np.asarray(
+         [
+@@ -154,6 +189,455 @@
+     assert {row["C"] for row in selected.grid} == {0.1, 1.0}
+     assert selected.model.solver == "liblinear"
+     assert selected.model.class_weight == "balanced"
++    assert selected.model.tol == BINARY_LOGISTIC_TOL == 1e-7
++    assert all(row["solver"] == "liblinear" for row in selected.grid)
++    assert all(row["tol"] == BINARY_LOGISTIC_TOL for row in selected.grid)
++    assert all(row["max_iter"] == LOGISTIC_MAX_ITER for row in selected.grid)
++    assert all(
++        row["n_iter_contract"] == "integer_0_le_n_iter_lt_max_iter"
++        for row in selected.grid
++    )
++    assert all(row["convergence_warning_observed"] is False for row in selected.grid)
++    assert all(row["converged_before_max_iter"] is True for row in selected.grid)
++    assert all(0 <= row["n_iter"] < row["max_iter"] for row in selected.grid)
++
++
++@pytest.mark.parametrize(
++    "invalid_iterations",
++    (
++        None,
++        np.asarray([], dtype=np.int64),
++        np.asarray([-1], dtype=np.int64),
++        np.asarray([1.0], dtype=np.float64),
++        np.asarray([np.nan], dtype=np.float64),
++        np.asarray(["1"], dtype=str),
++        np.asarray([LOGISTIC_MAX_ITER], dtype=np.int64),
++        np.asarray([3, LOGISTIC_MAX_ITER], dtype=np.int64),
++    ),
++    ids=(
++        "missing",
++        "empty",
++        "negative",
++        "noninteger-dtype",
++        "nan",
++        "string",
++        "equals-max-iter",
++        "one-class-equals-max-iter",
++    ),
++)
++def test_logistic_iteration_gate_rejects_empty_invalid_negative_or_maxed_counts(
++    invalid_iterations: object,
++) -> None:
++    class Candidate:
++        max_iter = LOGISTIC_MAX_ITER
++        n_iter_ = invalid_iterations
++
++    with pytest.raises(RuntimeError, match="n_iter_"):
++        evaluation_module._validated_logistic_iterations(
++            Candidate(), solver="synthetic", penalty="l2", c_value=0.1
++        )
++
++    passing = Candidate()
++    passing.n_iter_ = np.asarray([0, LOGISTIC_MAX_ITER - 1], dtype=np.int64)
++    assert evaluation_module._validated_logistic_iterations(
++        passing, solver="synthetic", penalty="l2", c_value=0.1
++    ) == (0, LOGISTIC_MAX_ITER - 1)
++
++
++def test_binary_candidate_iteration_gate_precedes_validation_prediction(
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    rng = np.random.default_rng(2026)
++    train_x = rng.normal(size=(40, 4))
++    train_y = np.tile([0, 1], 20)
++    validation_x = rng.normal(size=(20, 4))
++    validation_y = np.tile([0, 1], 10)
++    original_fit = evaluation_module.LogisticRegression.fit
++    original_predict_proba = evaluation_module.LogisticRegression.predict_proba
++    validation_prediction_calls = 0
++
++    def maxed_fit(model: object, matrix: np.ndarray, labels: np.ndarray) -> object:
++        fitted = original_fit(model, matrix, labels)
++        fitted.n_iter_ = np.asarray([fitted.max_iter], dtype=np.int64)
++        return fitted
++
++    def tracked_predict_proba(model: object, matrix: np.ndarray) -> np.ndarray:
++        nonlocal validation_prediction_calls
++        validation_prediction_calls += 1
++        return original_predict_proba(model, matrix)
++
++    monkeypatch.setattr(evaluation_module.LogisticRegression, "fit", maxed_fit)
++    monkeypatch.setattr(
++        evaluation_module.LogisticRegression, "predict_proba", tracked_predict_proba
++    )
++    with pytest.raises(RuntimeError, match="strictly before max_iter"):
++        select_logistic(
++            train_x,
++            train_y,
++            validation_x,
++            validation_y,
++            penalties=("l2",),
++            c_grid=(0.1,),
++        )
++    assert validation_prediction_calls == 0
++
++
++def test_multiclass_gate_rejects_a_would_be_nonselected_grid_candidate(
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    rng = np.random.default_rng(2026)
++    classes = ("class0", "class1", "class2", "class3")
++    train_y = np.tile(classes, 12)
++    validation_y = np.tile(classes, 4)
++    train_index = np.tile(np.arange(len(classes)), 12)
++    validation_index = np.tile(np.arange(len(classes)), 4)
++    train_x = np.eye(len(classes))[train_index] + rng.normal(scale=0.05, size=(48, 4))
++    validation_x = np.eye(len(classes))[validation_index] + rng.normal(
++        scale=0.05, size=(16, 4)
++    )
++    original_fit = evaluation_module.LogisticRegression.fit
++    original_predict_proba = evaluation_module.LogisticRegression.predict_proba
++    smaller_c_probabilities: list[np.ndarray] = []
++    maxed_candidate_fit_count = 0
++    maxed_candidate_prediction_calls = 0
++
++    def selectively_maxed_fit(
++        model: object, matrix: np.ndarray, labels: np.ndarray
++    ) -> object:
++        nonlocal maxed_candidate_fit_count
++        fitted = original_fit(model, matrix, labels)
++        if float(fitted.C) == pytest.approx(1.0):
++            maxed_candidate_fit_count += 1
++            if maxed_candidate_fit_count == 2:
++                fitted.n_iter_ = np.asarray([fitted.max_iter], dtype=np.int64)
++        return fitted
++
++    def tied_predict_proba(model: object, matrix: np.ndarray) -> np.ndarray:
++        nonlocal maxed_candidate_prediction_calls
++        if float(model.C) == pytest.approx(0.1):
++            probability = original_predict_proba(model, matrix)
++            smaller_c_probabilities.append(probability.copy())
++            return probability
++        maxed_candidate_prediction_calls += 1
++        assert len(smaller_c_probabilities) == len(classes)
++        # Identical validation probabilities make C=1.0 lose the smaller-C tie-break.
++        return smaller_c_probabilities[maxed_candidate_prediction_calls - 1].copy()
++
++    monkeypatch.setattr(
++        evaluation_module.LogisticRegression, "fit", selectively_maxed_fit
++    )
++    monkeypatch.setattr(
++        evaluation_module.LogisticRegression, "predict_proba", tied_predict_proba
++    )
++    with pytest.raises(
++        RuntimeError,
++        match=r"C=1 estimator_class=class1.*strictly before max_iter",
++    ):
++        select_multiclass_logistic(
++            train_x,
++            train_y,
++            validation_x,
++            validation_y,
++            classes=classes,
++            penalties=("l2",),
++            c_grid=(0.1, 1.0),
++        )
++    assert len(smaller_c_probabilities) == len(classes)
++    assert maxed_candidate_fit_count == 2
++    assert maxed_candidate_prediction_calls == 0
++
++
++def test_explicit_ovr_selector_has_balanced_liblinear_estimators_and_simplex_probabilities(
++) -> None:
++    rng = np.random.default_rng(2026)
++    classes = ("class0", "class1", "class2", "class3")
++    train_y = np.tile(classes, 12)
++    validation_y = np.tile(classes, 4)
++    train_index = np.tile(np.arange(len(classes)), 12)
++    validation_index = np.tile(np.arange(len(classes)), 4)
++    train_x = np.eye(len(classes))[train_index] + rng.normal(scale=0.05, size=(48, 4))
++    validation_x = np.eye(len(classes))[validation_index] + rng.normal(
++        scale=0.05, size=(16, 4)
++    )
++
++    selected = select_multiclass_logistic(
++        train_x,
++        train_y,
++        validation_x,
++        validation_y,
++        classes=classes,
++        penalties=("l2",),
++        c_grid=(0.1,),
++    )
++    assert np.allclose(selected.scaler.mean_, train_x.mean(axis=0))
++    assert tuple(selected.model.classes_) == tuple(sorted(classes))
++    assert len(selected.model.estimators_) == len(classes)
++    assert selected.model.coef_.shape == (len(classes), train_x.shape[1])
++    assert selected.model.intercept_.shape == (len(classes),)
++    assert all(estimator.solver == "liblinear" for estimator in selected.model.estimators_)
++    assert all(
++        estimator.class_weight == "balanced" for estimator in selected.model.estimators_
++    )
++    assert all(
++        estimator.tol == MULTICLASS_LOGISTIC_TOL
++        for estimator in selected.model.estimators_
++    )
++    assert all(
++        estimator.max_iter == LOGISTIC_MAX_ITER
++        for estimator in selected.model.estimators_
++    )
++    probability = selected.model.predict_proba(
++        selected.scaler.transform(validation_x)
++    )
++    assert probability.shape == (len(validation_x), len(classes))
++    assert np.isfinite(probability).all()
++    assert np.all(probability >= 0.0)
++    assert np.all(probability <= 1.0)
++    assert np.allclose(probability.sum(axis=1), 1.0, atol=1e-12, rtol=1e-12)
++    grid_row = selected.grid[0]
++    assert grid_row["solver"] == "explicit_one_vs_rest_liblinear"
++    assert grid_row["underlying_solver"] == "liblinear"
++    assert grid_row["estimator_count"] == len(classes)
++    iterations = json.loads(grid_row["n_iter_by_class_json"])
++    assert set(iterations) == set(classes)
++    assert all(
++        0 <= value < LOGISTIC_MAX_ITER
++        for values in iterations.values()
++        for value in values
++    )
++
++    repeated = select_multiclass_logistic(
++        train_x,
++        train_y,
++        validation_x,
++        validation_y,
++        classes=classes,
++        penalties=("l2",),
++        c_grid=(0.1,),
++    )
++    repeated_probability = repeated.model.predict_proba(
++        repeated.scaler.transform(validation_x)
++    )
++    assert np.array_equal(selected.model.coef_, repeated.model.coef_)
++    assert np.array_equal(selected.model.intercept_, repeated.model.intercept_)
++    assert np.array_equal(probability, repeated_probability)
++
++
++def test_explicit_ovr_accepts_zero_iteration_all_zero_l1_candidate() -> None:
++    rng = np.random.default_rng(2026)
++    classes = ("class0", "class1", "class2", "class3")
++    train_y = np.tile(classes, 12)
++    validation_y = np.tile(classes, 4)
++    train_index = np.tile(np.arange(len(classes)), 12)
++    validation_index = np.tile(np.arange(len(classes)), 4)
++    train_x = np.eye(len(classes))[train_index] + rng.normal(scale=0.05, size=(48, 4))
++    validation_x = np.eye(len(classes))[validation_index] + rng.normal(
++        scale=0.05, size=(16, 4)
++    )
++    selected = select_multiclass_logistic(
++        train_x,
++        train_y,
++        validation_x,
++        validation_y,
++        classes=classes,
++        penalties=("l1",),
++        c_grid=(0.001,),
++    )
++    assert selected.grid[0]["n_iter"] == 0
++    assert all(
++        value == 0
++        for values in json.loads(selected.grid[0]["n_iter_by_class_json"]).values()
++        for value in values
++    )
++    assert np.count_nonzero(selected.model.coef_) == 0
++    assert np.count_nonzero(selected.model.intercept_) == 0
++    probability = selected.model.predict_proba(
++        selected.scaler.transform(validation_x)
++    )
++    assert np.array_equal(
++        probability,
++        np.full((len(validation_x), len(classes)), 0.25, dtype=np.float64),
++    )
++
++
++def test_binary_convergence_warning_fails_before_validation_prediction(
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    rng = np.random.default_rng(2026)
++    train_x = rng.normal(size=(40, 4))
++    train_y = np.tile([0, 1], 20)
++    validation_x = rng.normal(size=(20, 4))
++    validation_y = np.tile([0, 1], 10)
++    original_fit = evaluation_module.LogisticRegression.fit
++    original_predict_proba = evaluation_module.LogisticRegression.predict_proba
++    validation_prediction_calls = 0
++
++    def warning_fit(model: object, matrix: np.ndarray, labels: np.ndarray) -> object:
++        fitted = original_fit(model, matrix, labels)
++        warnings.warn("forced convergence warning", evaluation_module.ConvergenceWarning)
++        return fitted
++
++    def tracked_predict_proba(model: object, matrix: np.ndarray) -> np.ndarray:
++        nonlocal validation_prediction_calls
++        validation_prediction_calls += 1
++        return original_predict_proba(model, matrix)
++
++    monkeypatch.setattr(evaluation_module.LogisticRegression, "fit", warning_fit)
++    monkeypatch.setattr(
++        evaluation_module.LogisticRegression, "predict_proba", tracked_predict_proba
++    )
++    with pytest.raises(RuntimeError, match="emitted ConvergenceWarning"):
++        select_logistic(
++            train_x,
++            train_y,
++            validation_x,
++            validation_y,
++            penalties=("l2",),
++            c_grid=(0.1,),
++        )
++    assert validation_prediction_calls == 0
++
++
++def test_explicit_ovr_underlying_warning_fails_before_candidate_probability(
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    rng = np.random.default_rng(2026)
++    classes = ("class0", "class1", "class2", "class3")
++    train_y = np.tile(classes, 12)
++    validation_y = np.tile(classes, 4)
++    train_index = np.tile(np.arange(len(classes)), 12)
++    validation_index = np.tile(np.arange(len(classes)), 4)
++    train_x = np.eye(len(classes))[train_index] + rng.normal(scale=0.05, size=(48, 4))
++    validation_x = np.eye(len(classes))[validation_index] + rng.normal(
++        scale=0.05, size=(16, 4)
++    )
++    original_fit = evaluation_module.LogisticRegression.fit
++    original_predict_proba = evaluation_module.LogisticRegression.predict_proba
++    fit_calls = 0
++    validation_prediction_calls = 0
++
++    def second_estimator_warns(
++        model: object, matrix: np.ndarray, labels: np.ndarray
++    ) -> object:
++        nonlocal fit_calls
++        fit_calls += 1
++        fitted = original_fit(model, matrix, labels)
++        if fit_calls == 2:
++            warnings.warn("forced convergence warning", evaluation_module.ConvergenceWarning)
++        return fitted
++
++    def tracked_predict_proba(model: object, matrix: np.ndarray) -> np.ndarray:
++        nonlocal validation_prediction_calls
++        validation_prediction_calls += 1
++        return original_predict_proba(model, matrix)
++
++    monkeypatch.setattr(
++        evaluation_module.LogisticRegression, "fit", second_estimator_warns
++    )
++    monkeypatch.setattr(
++        evaluation_module.LogisticRegression, "predict_proba", tracked_predict_proba
++    )
++    with pytest.raises(
++        RuntimeError,
++        match=r"estimator_class=class1 emitted ConvergenceWarning",
++    ):
++        select_multiclass_logistic(
++            train_x,
++            train_y,
++            validation_x,
++            validation_y,
++            classes=classes,
++            penalties=("l2",),
++            c_grid=(0.1,),
++        )
++    assert fit_calls == 2
++    assert validation_prediction_calls == 0
++
++
++def test_metric_free_progress_is_private_exclusive_and_rejects_unsafe_fields(
++    tmp_path: Path, capsys: pytest.CaptureFixture[str]
++) -> None:
++    progress_path = tmp_path / "selection-progress.jsonl"
++    assert configure_metric_free_progress(progress_path) == progress_path
++    try:
++        metric_free_progress(
++            "candidate_started",
++            family="binary",
++            solver="liblinear",
++            penalty="l2",
++            C=0.1,
++            max_iter=LOGISTIC_MAX_ITER,
++            tol=BINARY_LOGISTIC_TOL,
++        )
++        for forbidden in (
++            "metric_value",
++            "auc",
++            "score",
++            "probability",
++            "patient_count",
++            "target",
++            "y_true",
++            "y_pred",
++        ):
++            with pytest.raises(ValueError, match="forbidden"):
++                metric_free_progress("blocked", **{forbidden: 1})
++        with pytest.raises(TypeError, match="JSON scalar"):
++            metric_free_progress("blocked", nested={"safe": 1})
++    finally:
++        configure_metric_free_progress(None)
++
++    assert os.stat(progress_path).st_mode & 0o777 == 0o600
++    records = [json.loads(line) for line in progress_path.read_text().splitlines()]
++    assert records == [
++        {
++            "C": 0.1,
++            "event": "candidate_started",
++            "family": "binary",
++            "max_iter": LOGISTIC_MAX_ITER,
++            "penalty": "l2",
++            "solver": "liblinear",
++            "tol": BINARY_LOGISTIC_TOL,
++        }
++    ]
++    assert json.loads(capsys.readouterr().err.strip()) == records[0]
++    with pytest.raises(FileExistsError):
++        configure_metric_free_progress(progress_path)
++
++
++def test_selector_emits_metric_free_candidate_start_and_completion(tmp_path: Path) -> None:
++    rng = np.random.default_rng(2026)
++    train_x = rng.normal(size=(40, 4))
++    train_y = np.tile([0, 1], 20)
++    validation_x = rng.normal(size=(20, 4))
++    validation_y = np.tile([0, 1], 10)
++    progress_path = tmp_path / "candidate-progress.jsonl"
++    configure_metric_free_progress(progress_path)
++    try:
++        select_logistic(
++            train_x,
++            train_y,
++            validation_x,
++            validation_y,
++            penalties=("l2",),
++            c_grid=(0.1,),
++        )
++    finally:
++        configure_metric_free_progress(None)
++    records = [json.loads(line) for line in progress_path.read_text().splitlines()]
++    assert [record["event"] for record in records] == [
++        "candidate_started",
++        "candidate_completed",
++    ]
++    assert records[0]["tol"] == BINARY_LOGISTIC_TOL
++    assert records[0]["max_iter"] == LOGISTIC_MAX_ITER
++    assert 0 <= records[1]["n_iter"] < LOGISTIC_MAX_ITER
++    assert records[1]["elapsed_seconds"] >= 0.0
++    forbidden = evaluation_module._FORBIDDEN_PROGRESS_KEY_FRAGMENTS
++    assert all(
++        not any(fragment in key.lower() for fragment in forbidden)
++        for record in records
++        for key in record
++    )
+ 
+ 
+ def test_binary_cv_is_one_oof_score_per_patient_and_public_metrics_have_no_ids(
+@@ -168,20 +652,26 @@
+             rng.normal(size=len(labels)),
+         )
+     )
+-    result = evaluate_binary_cv(
+-        patient_ids=patient_ids,
+-        targets=labels,
+-        fold_manifest=folds,
+-        matrices=matrix,
+-        target_name="pCR",
+-        model_name="synthetic_mri",
+-        spatial="LOCAL",
+-        timing="T0",
+-        analysis_population="full_30",
+-        penalties=("l2",),
+-        c_grid=(0.1,),
+-        require_manifest_pcr_match=True,
+-    )
++    progress_path = tmp_path / "binary-fold-progress.jsonl"
++    configure_metric_free_progress(progress_path)
++    try:
++        result = evaluate_binary_cv(
++            patient_ids=patient_ids,
++            targets=labels,
++            fold_manifest=folds,
++            matrices=matrix,
++            target_name="pCR",
++            model_name="synthetic_mri",
++            spatial="LOCAL",
++            timing="T0",
++            analysis_population="full_30",
++            penalties=("l2",),
++            c_grid=(0.1,),
++            require_manifest_pcr_match=True,
++        )
++    finally:
++        configure_metric_free_progress(None)
++    _assert_fold_progress(progress_path, "binary")
+     assert len(result.predictions) == len(patient_ids)
+     assert result.predictions["patient_id"].nunique() == len(patient_ids)
+     assert set(result.predictions["split"]) == {"test"}
+@@ -197,6 +687,16 @@
+     assert result.selections["scaler_mean_sha256"].str.fullmatch(r"[0-9a-f]{64}").all()
+     assert result.selections["coef_sha256"].str.fullmatch(r"[0-9a-f]{64}").all()
+     assert result.selections["coef_shape_json"].eq("[1,3]").all()
++    assert result.selections["tol"].eq(BINARY_LOGISTIC_TOL).all()
++    assert result.selections["max_iter"].eq(LOGISTIC_MAX_ITER).all()
++    assert result.selections["n_iter_contract"].eq(
++        "integer_0_le_n_iter_lt_max_iter"
++    ).all()
++    assert result.selections["convergence_warning_observed"].eq(False).all()
++    assert result.selections[
++        "all_grid_candidates_converged_before_max_iter"
++    ].eq(True).all()
++    assert (result.selections["grid_max_n_iter"] < LOGISTIC_MAX_ITER).all()
+     for fold, row in result.selections.set_index("fold").iterrows():
+         assert row["scaler_train_rows"] == int(np.sum(folds.roles(int(fold)) == "train"))
+ 
+@@ -213,7 +713,7 @@
+     assert direct["ece_10bin"] == pytest.approx(0.15)
+ 
+ 
+-def test_reliable_subtype_probe_is_multinomial_validation_only_and_test_single_use(
++def test_reliable_subtype_probe_is_explicit_ovr_validation_only_and_test_single_use(
+     tmp_path: Path,
+ ) -> None:
+     patient_ids, _, folds, clinical = _fixture(tmp_path, n=40)
+@@ -228,23 +728,68 @@
+         "test" in name.lower()
+         for name in inspect.signature(select_multiclass_logistic).parameters
+     )
+-    result = evaluate_multiclass_cv(
+-        patient_ids=patient_ids,
+-        targets=clinical.subtype,
+-        classes=HR_HER2_SUBTYPES,
+-        fold_manifest=folds,
+-        matrices=matrix,
+-        target_name="HR_HER2_subtype",
+-        model_name="synthetic_encoder",
+-        spatial="LOCAL",
+-        timing="T0",
+-        analysis_population="full_40",
+-        penalties=("l2",),
+-        c_grid=(0.1,),
+-    )
++    progress_path = tmp_path / "multiclass-fold-progress.jsonl"
++    configure_metric_free_progress(progress_path)
++    try:
++        result = evaluate_multiclass_cv(
++            patient_ids=patient_ids,
++            targets=clinical.subtype,
++            classes=HR_HER2_SUBTYPES,
++            fold_manifest=folds,
++            matrices=matrix,
++            target_name="HR_HER2_subtype",
++            model_name="synthetic_encoder",
++            spatial="LOCAL",
++            timing="T0",
++            analysis_population="full_40",
++            penalties=("l2",),
++            c_grid=(0.1,),
++        )
++    finally:
++        configure_metric_free_progress(None)
++    _assert_fold_progress(progress_path, "multiclass")
++    progress_records = [
++        json.loads(line) for line in progress_path.read_text().splitlines()
++    ]
++    estimator_started = [
++        row for row in progress_records if row["event"] == "estimator_started"
++    ]
++    estimator_completed = [
++        row for row in progress_records if row["event"] == "estimator_completed"
++    ]
++    assert len(estimator_started) == len(FOLDS) * len(HR_HER2_SUBTYPES)
++    assert len(estimator_completed) == len(estimator_started)
++    assert all(row["solver"] == "liblinear" for row in estimator_started)
++    assert all(0 <= row["n_iter"] < LOGISTIC_MAX_ITER for row in estimator_completed)
+     assert len(result.predictions) == len(patient_ids)
+     assert result.predictions["test_predict_proba_call_count"].eq(1).all()
+-    assert result.selections["solver"].eq("saga_multinomial").all()
++    assert result.selections["solver"].eq("explicit_one_vs_rest_liblinear").all()
++    assert result.selections["underlying_solver"].eq("liblinear").all()
++    assert result.selections["estimator_count_per_candidate"].eq(4).all()
++    assert result.selections["tol"].eq(MULTICLASS_LOGISTIC_TOL).all()
++    assert result.selections["max_iter"].eq(LOGISTIC_MAX_ITER).all()
++    assert result.selections["n_iter_contract"].eq(
++        "integer_0_le_n_iter_lt_max_iter"
++    ).all()
++    assert result.selections["convergence_warning_observed"].eq(False).all()
++    assert result.selections[
++        "all_grid_candidates_converged_before_max_iter"
++    ].eq(True).all()
++    assert (result.selections["grid_max_n_iter"] < LOGISTIC_MAX_ITER).all()
++    for payload in result.selections["grid_validation_metrics_json"]:
++        grid = json.loads(payload)
++        assert all(row["solver"] == "explicit_one_vs_rest_liblinear" for row in grid)
++        assert all(row["underlying_solver"] == "liblinear" for row in grid)
++        assert all(row["estimator_count"] == 4 for row in grid)
++        assert all(row["tol"] == MULTICLASS_LOGISTIC_TOL for row in grid)
++        assert all(row["max_iter"] == LOGISTIC_MAX_ITER for row in grid)
++        assert all(
++            row["n_iter_contract"] == "integer_0_le_n_iter_lt_max_iter"
++            for row in grid
++        )
++        assert all(row["convergence_warning_observed"] is False for row in grid)
++        assert all(row["converged_before_max_iter"] is True for row in grid)
++        assert all(0 <= row["n_iter"] < row["max_iter"] for row in grid)
+     assert result.selections["test_used_for_hyperparameter_selection"].eq(False).all()
+     assert not {"scaler_mean_json", "scaler_scale_json", "coef_json"}.intersection(
+         result.selections.columns
+@@ -265,20 +810,26 @@
+     target = np.linspace(1.0, 20.0, len(patient_ids))
+     matrix = np.column_stack((target, target**0.5, np.sin(target)))
+     assert not any("test" in name.lower() for name in inspect.signature(select_ridge).parameters)
+-    result = evaluate_ridge_cv(
+-        patient_ids=patient_ids,
+-        targets=target,
+-        fold_manifest=folds,
+-        matrices=matrix,
+-        target_name="FTV",
+-        model_name="synthetic_encoder",
+-        spatial="GLOBAL",
+-        task="static",
+-        endpoint="T0",
+-        analysis_population="radiomics_complete_case_30",
+-        alphas=(0.01, 1.0),
+-        target_transform="log1p",
+-    )
++    progress_path = tmp_path / "ridge-fold-progress.jsonl"
++    configure_metric_free_progress(progress_path)
++    try:
++        result = evaluate_ridge_cv(
++            patient_ids=patient_ids,
++            targets=target,
++            fold_manifest=folds,
++            matrices=matrix,
++            target_name="FTV",
++            model_name="synthetic_encoder",
++            spatial="GLOBAL",
++            task="static",
++            endpoint="T0",
++            analysis_population="radiomics_complete_case_30",
++            alphas=(0.01, 1.0),
++            target_transform="log1p",
++        )
++    finally:
++        configure_metric_free_progress(None)
++    _assert_fold_progress(progress_path, "ridge")
+     assert len(result.predictions) == len(patient_ids)
+     assert result.predictions["test_predict_call_count"].eq(1).all()
+     assert result.selections["test_used_for_scaler"].eq(False).all()
+--- a/tests/test_locking.py
++++ b/tests/test_locking.py
+@@ -11,9 +11,13 @@
+ sys.path.insert(0, str(ROOT / "src"))
+ 
+ from foundation_mri.locking import (  # noqa: E402
++    argument_vector_sha256,
++    canonical_json_sha256,
+     file_sha256,
+     verify_evaluation_code_lock,
+     verify_formal_evaluation_lock,
++    verify_metric_free_run_provenance,
++    write_metric_free_run_provenance,
+ )
+ 
+ 
+@@ -27,7 +31,9 @@
+     return {"path": str(path.relative_to(root)), "sha256": file_sha256(path)}
+ 
+ 
+-def _synthetic_lock(root: Path) -> tuple[Path, list[Path], dict, tuple[Path, Path, Path]]:
++def _synthetic_lock(
++    root: Path,
++) -> tuple[Path, list[Path], dict, tuple[Path, Path, Path]]:
+     code = _write(root / "src/evaluation.py", b"locked-code\n")
+     fold = _write(root / "inputs/folds.csv", b"folds\n")
+     clinical = _write(root / "inputs/clinical.csv", b"clinical\n")
+@@ -86,11 +92,103 @@
+     return lock, foundation, cnn, (fold, clinical, radiomics)
+ 
+ 
++def _synthetic_v2_chain(
++    root: Path,
++) -> tuple[
++    Path,
++    list[Path],
++    dict[tuple[str, str], dict[int, Path]],
++    tuple[Path, Path, Path],
++    dict[str, tuple[str, ...]],
++    dict[str, Path],
++]:
++    parent, foundation, cnn, tabular = _synthetic_lock(root)
++    parent_payload = json.loads(parent.read_text(encoding="utf-8"))
++
++    # The final v2 tree may differ from the historical v1 code.  The chain binds
++    # the parent lock bytes; it must not pretend those bytes describe v2 code.
++    final_code = _write(root / "src/evaluation.py", b"final-v2-code\n")
++    source_snapshot = _write(root / "provenance/v1-source.snapshot", b"source snapshot")
++    patch_manifest = _write(root / "provenance/v1-to-v2.patch", b"synthetic patch")
++    smoke_receipt = _write(root / "provenance/v2-smoke.json", b'{"passed":true}\n')
++    argv = {
++        "baseline": (
++            "--evaluation-lock",
++            "configs/EVALUATION_LOCK.v2.json",
++            "--baseline",
++        ),
++        "probe": ("--evaluation-lock", "configs/EVALUATION_LOCK.v2.json", "--probe"),
++        "summarizer": (
++            "--evaluation-lock",
++            "configs/EVALUATION_LOCK.v2.json",
++            "--summarize",
++        ),
++    }
++    payload = {
++        "schema_version": 2,
++        "lock_kind": "formal_outcome_evaluation_chain",
++        "lock_generation": "whole_evaluation_v2",
++        "locked_at": "2026-08-11T12:00:00-04:00",
++        "locked_before_formal_test_evaluation": True,
++        "formal_test_outcomes_seen": False,
++        "parent_lock": _record(root, parent),
++        "aborted_v1_attempts": [
++            {
++                "consumer": "baseline",
++                "exit_code": 143,
++                "outputs_written": False,
++                "metric_values_viewed": False,
++            },
++            {
++                "consumer": "probe",
++                "exit_code": 143,
++                "outputs_written": False,
++                "metric_values_viewed": False,
++            },
++        ],
++        "prelock_state": {
++            "baseline_outputs_exist": False,
++            "probe_outputs_exist": False,
++            "metric_values_viewed": False,
++        },
++        "inherited_inputs": {
++            "source": "parent_lock.inputs",
++            "sha256": canonical_json_sha256(parent_payload["inputs"]),
++        },
++        "development_provenance": {
++            "source_snapshot": _record(root, source_snapshot),
++            "patch_manifest": _record(root, patch_manifest),
++            "smoke_receipt": _record(root, smoke_receipt),
++        },
++        "files": {"src/evaluation.py": file_sha256(final_code)},
++        "execution": {
++            "parent_execution_sha256": canonical_json_sha256(
++                parent_payload["execution"]
++            ),
++            "consumer_argv": {
++                consumer: {
++                    "argc": len(arguments),
++                    "sha256": argument_vector_sha256(arguments),
++                }
++                for consumer, arguments in argv.items()
++            },
++        },
++    }
++    lock = root / "configs/EVALUATION_LOCK.v2.json"
++    lock.write_text(json.dumps(payload, sort_keys=True), encoding="utf-8")
++    provenance = {
++        "source_snapshot": source_snapshot,
++        "patch_manifest": patch_manifest,
++        "smoke_receipt": smoke_receipt,
++        "final_code": final_code,
++        "parent_lock": parent,
++    }
++    return lock, foundation, cnn, tabular, argv, provenance
++
++
+ def test_formal_evaluation_lock_binds_code_and_all_input_paths(tmp_path: Path) -> None:
+     lock, foundation, cnn, tabular = _synthetic_lock(tmp_path)
+-    code_receipt = verify_evaluation_code_lock(
+-        experiment_root=tmp_path, lock_path=lock
+-    )
++    code_receipt = verify_evaluation_code_lock(experiment_root=tmp_path, lock_path=lock)
+     assert code_receipt["verified_file_count"] == 1
+     receipt = verify_formal_evaluation_lock(
+         experiment_root=tmp_path,
+@@ -119,3 +217,208 @@
+             radiomics=tabular[2],
+         )
+ 
++
++def test_schema_v2_chain_verifies_final_code_parent_inputs_and_each_consumer(
++    tmp_path: Path,
++) -> None:
++    lock, foundation, cnn, tabular, argv, _ = _synthetic_v2_chain(tmp_path)
++    baseline = verify_formal_evaluation_lock(
++        experiment_root=tmp_path,
++        lock_path=lock,
++        foundation_features=foundation,
++        current_cnn_features=cnn,
++        fold_manifest=tabular[0],
++        clinical_labels=tabular[1],
++        radiomics=tabular[2],
++        expected_consumer="baseline",
++        command_argv=argv["baseline"],
++    )
++    assert baseline["schema_version"] == 2
++    assert baseline["lock_generation"] == "whole_evaluation_v2"
++    assert baseline["expected_consumer"] == "baseline"
++    assert baseline["foundation_models"] == ("medical", "dino")
++    assert baseline["current_cnn_assets"] == 10
++    assert baseline["argument_vector_sha256"] == argument_vector_sha256(
++        argv["baseline"]
++    )
++
++    reporting = verify_evaluation_code_lock(
++        experiment_root=tmp_path,
++        lock_path=lock,
++        expected_consumer="summarizer",
++        command_argv=argv["summarizer"],
++    )
++    assert reporting["expected_consumer"] == "summarizer"
++    assert reporting["parent_lock_sha256"] == file_sha256(
++        tmp_path / "configs/EVALUATION_LOCK.json"
++    )
++    wrong_clinical = _write(tmp_path / "inputs/wrong-clinical.csv", b"wrong\n")
++    with pytest.raises(ValueError, match="tabular path arguments"):
++        verify_formal_evaluation_lock(
++            experiment_root=tmp_path,
++            lock_path=lock,
++            foundation_features=foundation,
++            current_cnn_features=cnn,
++            fold_manifest=tabular[0],
++            clinical_labels=wrong_clinical,
++            radiomics=tabular[2],
++            expected_consumer="baseline",
++            command_argv=argv["baseline"],
++        )
++
++
++def test_schema_v2_chain_fails_closed_on_argv_parent_or_final_code_drift(
++    tmp_path: Path,
++) -> None:
++    lock, _, _, _, argv, provenance = _synthetic_v2_chain(tmp_path)
++    with pytest.raises(ValueError, match="command argv"):
++        verify_evaluation_code_lock(
++            experiment_root=tmp_path,
++            lock_path=lock,
++            expected_consumer="summarizer",
++            command_argv=(*argv["summarizer"], "--drift"),
++        )
++
++    provenance["final_code"].write_bytes(b"final-code-drift")
++    with pytest.raises(ValueError, match="evaluation file drifted"):
++        verify_evaluation_code_lock(
++            experiment_root=tmp_path,
++            lock_path=lock,
++            expected_consumer="summarizer",
++            command_argv=argv["summarizer"],
++        )
++
++    # Restore final code, then prove the byte-identical parent record is active.
++    provenance["final_code"].write_bytes(b"final-v2-code\n")
++    provenance["parent_lock"].write_text(
++        provenance["parent_lock"].read_text(encoding="utf-8") + "\n",
++        encoding="utf-8",
++    )
++    with pytest.raises(ValueError, match="parent lock SHA-256 drifted"):
++        verify_evaluation_code_lock(
++            experiment_root=tmp_path,
++            lock_path=lock,
++            expected_consumer="summarizer",
++            command_argv=argv["summarizer"],
++        )
++
++
++def test_schema_v2_rejects_false_abort_claims_and_provenance_path_traversal(
++    tmp_path: Path,
++) -> None:
++    lock, _, _, _, argv, _ = _synthetic_v2_chain(tmp_path)
++    payload = json.loads(lock.read_text(encoding="utf-8"))
++    payload["aborted_v1_attempts"][0]["outputs_written"] = True
++    lock.write_text(json.dumps(payload), encoding="utf-8")
++    with pytest.raises(ValueError, match="aborted v1 attempt provenance"):
++        verify_evaluation_code_lock(
++            experiment_root=tmp_path,
++            lock_path=lock,
++            expected_consumer="summarizer",
++            command_argv=argv["summarizer"],
++        )
++
++    lock, _, _, _, argv, _ = _synthetic_v2_chain(tmp_path / "traversal")
++    payload = json.loads(lock.read_text(encoding="utf-8"))
++    payload["development_provenance"]["source_snapshot"]["path"] = "../escape"
++    lock.write_text(json.dumps(payload), encoding="utf-8")
++    with pytest.raises(ValueError, match="root-relative without traversal"):
++        verify_evaluation_code_lock(
++            experiment_root=tmp_path / "traversal",
++            lock_path=lock,
++            expected_consumer="summarizer",
++            command_argv=argv["summarizer"],
++        )
++
++
++@pytest.mark.parametrize("name", ["source_snapshot", "patch_manifest", "smoke_receipt"])
++def test_schema_v2_rejects_development_provenance_byte_drift(
++    tmp_path: Path, name: str
++) -> None:
++    lock, _, _, _, argv, provenance = _synthetic_v2_chain(tmp_path)
++    provenance[name].write_bytes(b"development provenance drift")
++    with pytest.raises(ValueError, match="SHA-256 drifted"):
++        verify_evaluation_code_lock(
++            experiment_root=tmp_path,
++            lock_path=lock,
++            expected_consumer="summarizer",
++            command_argv=argv["summarizer"],
++        )
++
++
++def test_metric_free_run_provenance_round_trip_and_artifact_drift(
++    tmp_path: Path,
++) -> None:
++    lock, _, _, _, argv, _ = _synthetic_v2_chain(tmp_path)
++    artifacts = {
++        "predictions_private": _write(
++            tmp_path / "predictions/baseline.private.csv",
++            b"synthetic prediction bytes\n",
++        ),
++        "metrics_public": _write(
++            tmp_path / "metrics/baseline.csv", b"synthetic metric bytes\n"
++        ),
++    }
++    receipt_path = tmp_path / "metrics/baseline_run.private.provenance.json"
++    written = write_metric_free_run_provenance(
++        experiment_root=tmp_path,
++        lock_path=lock,
++        expected_consumer="baseline",
++        command_argv=argv["baseline"],
++        artifacts=artifacts,
++        receipt_path=receipt_path,
++    )
++    assert written["metric_values_viewed"] is False
++    assert written["artifact_hash_method"] == "sha256_binary_stream_no_parse"
++    assert receipt_path.stat().st_mode & 0o777 == 0o600
++    assert "synthetic metric bytes" not in receipt_path.read_text(encoding="utf-8")
++
++    verified = verify_metric_free_run_provenance(
++        experiment_root=tmp_path,
++        lock_path=lock,
++        receipt_path=receipt_path,
++        expected_consumer="baseline",
++        expected_artifacts=artifacts,
++    )
++    assert verified["artifact_count"] == 2
++    assert verified["receipt_sha256"] == file_sha256(receipt_path)
++
++    artifacts["metrics_public"].write_bytes(b"artifact drift")
++    with pytest.raises(ValueError, match="SHA-256 drifted"):
++        verify_metric_free_run_provenance(
++            experiment_root=tmp_path,
++            lock_path=lock,
++            receipt_path=receipt_path,
++            expected_consumer="baseline",
++            expected_artifacts=artifacts,
++        )
++
++
++def test_metric_free_run_provenance_rejects_rewrite_and_outside_root(
++    tmp_path: Path,
++) -> None:
++    lock, _, _, _, argv, _ = _synthetic_v2_chain(tmp_path)
++    artifact = _write(tmp_path / "metrics/probe.csv", b"probe bytes")
++    receipt = tmp_path / "metrics/probe.private.provenance.json"
++    kwargs = {
++        "experiment_root": tmp_path,
++        "lock_path": lock,
++        "expected_consumer": "probe",
++        "command_argv": argv["probe"],
++        "artifacts": {"probe_metrics": artifact},
++        "receipt_path": receipt,
++    }
++    write_metric_free_run_provenance(**kwargs)
++    with pytest.raises(FileExistsError, match="already exists"):
++        write_metric_free_run_provenance(**kwargs)
++
++    outside = _write(tmp_path.parent / f"{tmp_path.name}-outside.csv", b"outside")
++    with pytest.raises(ValueError, match="within experiment root"):
++        write_metric_free_run_provenance(
++            experiment_root=tmp_path,
++            lock_path=lock,
++            expected_consumer="probe",
++            command_argv=argv["probe"],
++            artifacts={"outside": outside},
++            receipt_path=tmp_path / "metrics/outside.private.provenance.json",
++        )
+--- a/tests/test_scripts.py
++++ b/tests/test_scripts.py
+@@ -1,6 +1,7 @@
+ from __future__ import annotations
+ 
+ import importlib.util
++import json
+ from pathlib import Path
+ from types import SimpleNamespace
+ import sys
+@@ -15,6 +16,7 @@
+ 
+ from foundation_mri.data import FOLDS, HR_HER2_SUBTYPES  # noqa: E402
+ from foundation_mri.evaluation import EvaluationResult  # noqa: E402
++from foundation_mri.locking import file_sha256  # noqa: E402
+ 
+ 
+ def _load_probe_script():
+@@ -27,6 +29,16 @@
+     return module
+ 
+ 
++def _load_script(name: str):
++    path = ROOT / f"scripts/{name}.py"
++    spec = importlib.util.spec_from_file_location(f"foundation_mri_test_{name}", path)
++    assert spec is not None and spec.loader is not None
++    module = importlib.util.module_from_spec(spec)
++    sys.modules[spec.name] = module
++    spec.loader.exec_module(module)
++    return module
++
++
+ def test_probe_cli_expands_current_cnn_template_to_exactly_five_folds() -> None:
+     module = _load_probe_script()
+     groups = module._parse_cnn_templates(
+@@ -117,3 +129,178 @@
+     ]
+     assert all(call["model_name"] == "LOCAL0" for _, call in calls)
+     assert all(call["spatial"] == "LOCAL" for _, call in calls)
++
++
++def test_medicalnet_synthetic_smoke_is_deterministic_and_outcome_blind(
++    tmp_path: Path, monkeypatch
++) -> None:
++    module = _load_probe_script()
++    n = 60
++    feature_path = tmp_path / "synthetic_medicalnet.npz"
++    np.savez(feature_path, patient_id=np.asarray([f"P{i:03d}" for i in range(n)]))
++    representation = np.arange(n * 4 * 2 * 3, dtype=np.float32).reshape(n, 4, 2, 3)
++
++    class FakeAsset:
++        model_name = "medicalnet_resnet50_3dseg8"
++
++        def __init__(self) -> None:
++            self.representation = representation
++
++        def spatial(self, spatial: str) -> np.ndarray:
++            return representation[:, :, 0 if spatial == "GLOBAL" else 1, :]
++
++    monkeypatch.setattr(module, "load_foundation_features", lambda *args, **kwargs: FakeAsset())
++
++    def forbidden(*args, **kwargs):
++        raise AssertionError("outcome loader was called by synthetic smoke")
++
++    monkeypatch.setattr(module, "load_fold_manifest", forbidden)
++    monkeypatch.setattr(module, "load_clinical_labels", forbidden)
++    monkeypatch.setattr(module, "load_radiomics_table", forbidden)
++
++    def fake_select(*args, penalties, c_grid, **kwargs):
++        grid = tuple(
++            {
++                "penalty": penalty,
++                "C": float(c_value),
++                "n_iter": 7,
++                "estimator_count": 4,
++                "n_iter_by_class_json": json.dumps(
++                    {value: [7] for value in module.SMOKE_CLASSES}, sort_keys=True
++                ),
++            }
++            for penalty in penalties
++            for c_value in c_grid
++        )
++        return SimpleNamespace(
++            grid=grid,
++            model=SimpleNamespace(
++                coef_=np.asarray([[1.0, 2.0, 3.0]], dtype=np.float64),
++                intercept_=np.asarray([0.25], dtype=np.float64),
++            ),
++        )
++
++    monkeypatch.setattr(module, "select_multiclass_logistic", fake_select)
++    common = {
++        "expected_sha256": file_sha256(feature_path),
++        "expected_n": n,
++        "expected_dim": 3,
++        "spatial_axes": ("GLOBAL", "LOCAL"),
++        "penalties": ("l1", "l2"),
++        "c_grid": (0.1, 1.0),
++        "require_thread_contract": False,
++    }
++    first_path = tmp_path / "first.json"
++    second_path = tmp_path / "second.json"
++    first = module._run_medicalnet_synthetic_smoke(feature_path, first_path, **common)
++    second = module._run_medicalnet_synthetic_smoke(feature_path, second_path, **common)
++    assert first["candidate_count"] == 8
++    assert first["underlying_estimator_fit_count"] == 32
++    assert first["max_observed_n_iter"] == 7
++    assert first["min_observed_n_iter"] == 7
++    assert first["all_candidate_n_iter_nonnegative"] is True
++    assert first["all_candidate_n_iter_strictly_less_than_max_iter"] is True
++    for payload in (first, second):
++        payload.pop("elapsed_seconds")
++        payload.pop("elapsed_seconds_by_axis")
++    assert first == second
++    serialized = first_path.read_text(encoding="utf-8").lower()
++    assert not any(
++        forbidden_key in serialized
++        for forbidden_key in (
++            "patient_id",
++            "y_true",
++            "y_pred",
++            "probability",
++            "auroc",
++            "auprc",
++            "brier",
++            str(tmp_path).lower(),
++        )
++    )
++    assert json.loads(first_path.read_text(encoding="utf-8"))["status"] == "PASS"
++
++
++def test_smoke_cli_early_exit_never_calls_normal_probe_run(monkeypatch, tmp_path: Path) -> None:
++    module = _load_probe_script()
++    monkeypatch.setattr(
++        module,
++        "_run_medicalnet_synthetic_smoke",
++        lambda feature, receipt: {
++            "candidate_count": 36,
++            "max_observed_n_iter": 99,
++            "elapsed_seconds": 1.25,
++        },
++    )
++    monkeypatch.setattr(module, "run", lambda args: (_ for _ in ()).throw(AssertionError()))
++    assert (
++        module.main(
++            [
++                "--medicalnet-synthetic-smoke",
++                str(tmp_path / "feature.npz"),
++                "--smoke-receipt",
++                str(tmp_path / "receipt.json"),
++            ]
++        )
++        == 0
++    )
++
++
++@pytest.mark.parametrize(
++    ("script_name", "consumer", "extra_argv"),
++    (
++        ("run_baselines", "baseline", ()),
++        ("run_probes", "probe", ("--foundation-feature", "/does/not/open.npz")),
++    ),
++)
++def test_formal_evaluation_clis_gate_on_v2_before_any_outcome_loader(
++    monkeypatch, script_name: str, consumer: str, extra_argv: tuple[str, ...]
++) -> None:
++    module = _load_script(script_name)
++    assert module.DEFAULT_EVALUATION_LOCK.name == "EVALUATION_LOCK.v2.json"
++    observed: dict[str, object] = {}
++
++    def verify(**kwargs):
++        observed.update(kwargs)
++        return {"lock_sha256": "a" * 64}
++
++    def stop_before_outcomes(*args, **kwargs):
++        raise RuntimeError("OUTCOME_LOADER_SENTINEL")
++
++    monkeypatch.setattr(module, "verify_formal_evaluation_lock", verify)
++    monkeypatch.setattr(module, "configure_metric_free_progress", lambda path: path)
++    monkeypatch.setattr(module, "metric_free_progress", lambda *args, **kwargs: None)
++    monkeypatch.setattr(module, "load_fold_manifest", stop_before_outcomes)
++    raw = ("--evaluation-lock", str(module.DEFAULT_EVALUATION_LOCK), *extra_argv)
++    args = module.build_parser().parse_args(raw)
++    with pytest.raises(RuntimeError, match="OUTCOME_LOADER_SENTINEL"):
++        module.run(args, command_argv=raw)
++    assert observed["expected_consumer"] == consumer
++    assert tuple(observed["command_argv"]) == raw
++
++
++def test_formal_summarizer_verifies_both_v2_receipts_before_reporting(monkeypatch) -> None:
++    module = _load_script("summarize_results")
++    assert module.DEFAULT_EVALUATION_LOCK.name == "EVALUATION_LOCK.v2.json"
++    calls: list[str] = []
++    monkeypatch.setattr(
++        module,
++        "verify_evaluation_code_lock",
++        lambda **kwargs: calls.append(str(kwargs["expected_consumer"])),
++    )
++
++    def provenance(**kwargs):
++        calls.append(str(kwargs["expected_consumer"]))
++        if kwargs["expected_consumer"] == "probe":
++            raise RuntimeError("PROVENANCE_SENTINEL")
++
++    monkeypatch.setattr(module, "verify_metric_free_run_provenance", provenance)
++    monkeypatch.setattr(
++        module,
++        "summarize_results",
++        lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("CSV read reached")),
++    )
++    raw = ("--evaluation-lock", str(module.DEFAULT_EVALUATION_LOCK))
++    with pytest.raises(RuntimeError, match="PROVENANCE_SENTINEL"):
++        module.main(raw)
++    assert calls == ["summarizer", "baseline", "probe"]

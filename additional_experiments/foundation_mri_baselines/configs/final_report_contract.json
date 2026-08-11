@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "contract_id": "foundation_mri_final_report_v1",
+  "candidate_policy": "all preregistered candidates; no best-model filtering",
+  "expected_foundation_models": [
+    "medicalnet_resnet50_3dseg8",
+    "dino_vitb16_imagenet1k"
+  ],
+  "current_cnn_models": [
+    "GAP0",
+    "LOCAL0"
+  ],
+  "source_axes": [
+    {
+      "model": "medicalnet_resnet50_3dseg8",
+      "spatial": "GLOBAL",
+      "pretraining": "MedicalNet 3DSeg-8"
+    },
+    {
+      "model": "medicalnet_resnet50_3dseg8",
+      "spatial": "LOCAL",
+      "pretraining": "MedicalNet 3DSeg-8"
+    },
+    {
+      "model": "dino_vitb16_imagenet1k",
+      "spatial": "GLOBAL",
+      "pretraining": "DINO v1 ImageNet-1K SSL"
+    },
+    {
+      "model": "dino_vitb16_imagenet1k",
+      "spatial": "LOCAL",
+      "pretraining": "DINO v1 ImageNet-1K SSL"
+    },
+    {
+      "model": "GAP0",
+      "spatial": "GLOBAL",
+      "pretraining": "current response-state (grounded=false)"
+    },
+    {
+      "model": "LOCAL0",
+      "spatial": "LOCAL",
+      "pretraining": "current response-state (grounded=false)"
+    }
+  ],
+  "decision_points": [
+    "T0",
+    "T0-T1",
+    "T0-T2"
+  ],
+  "populations": {
+    "full": {
+      "analysis_population": "full_808",
+      "n": 808,
+      "positive": 275
+    },
+    "complete_case": {
+      "analysis_population": "radiomics_complete_case_375",
+      "n": 375,
+      "positive": 110
+    }
+  },
+  "split_seed": 2026,
+  "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+  "n_folds": 5,
+  "bootstrap": {
+    "seed": 2026,
+    "replicates": 5000,
+    "ci_level": 0.95,
+    "minimum_valid_replicates": 4750
+  },
+  "expected_counts": {
+    "pcr_pooled_full": 39,
+    "pcr_pooled_complete_case": 87,
+    "pcr_pooled_total": 126,
+    "baseline_public_rows": 252,
+    "paired_comparisons": 132,
+    "paired_metric_rows": 396,
+    "phenotype_pooled": 12,
+    "phenotype_public_rows": 24,
+    "subtype_pooled": 6,
+    "subtype_public_rows": 12,
+    "ftv_pooled": 42,
+    "ftv_public_rows": 84
+  },
+  "comparison_family_counts": {
+    "clinical_gain": 36,
+    "local_vs_global": 36,
+    "foundation_vs_current_cnn": 48,
+    "beyond_ftv": 12
+  },
+  "comparison_contract_canonical_sha256": "f99fd76bd35b784500194347c4b363725616ca6adab2ba830a006cc7cc4a7e13",
+  "model_provenance": [
+    {
+      "model": "medicalnet_resnet50_3dseg8",
+      "display_name": "MedicalNet 3DSeg-8 ResNet-50",
+      "pretraining_domain": "8 enumerated 3-D medical segmentation datasets (MRI+CT)",
+      "source_revision": "Tencent MedicalNet official archive, pretrain/resnet_50.pth",
+      "license": "MIT",
+      "checkpoint_sha256": "5b6189cafbee2f5604a7279b62bc163365aa6a86a377e1dc260a14275cacbd84",
+      "feature_sha256": "ca45a46bd62e18e42b6d3f2426ce4690a4f3dbf7c2f44804ab0d19bd333ee4a2",
+      "parameters": 46155072,
+      "feature_dimension_per_visit": 14336,
+      "selection_reason": "可审计的 3-D medical reference，保留完整 DCE7 channel"
+    },
+    {
+      "model": "dino_vitb16_imagenet1k",
+      "display_name": "DINO v1 ViT-B/16",
+      "pretraining_domain": "ImageNet-1K self-supervised learning",
+      "source_revision": "Meta DINO native ViT-B/16 ImageNet-1K checkpoint",
+      "license": "Apache-2.0",
+      "checkpoint_sha256": "bf34ad0f424b9029b593e8dc3ed553bf26e88bcba0d32bf3e62a6209cb64c85e",
+      "feature_sha256": "c078cd4ddc0c745c32ebcca247d44ef8025d08495f6e3193a481563f0d53ffbc",
+      "parameters": 85798656,
+      "feature_dimension_per_visit": 1536,
+      "selection_reason": "公开 non-gated、训练语料固定的强通用 SSL reference"
+    }
+  ],
+  "fixed_public_paths": {
+    "summary_json": "additional_experiments/foundation_mri_baselines/metrics/results_summary.json",
+    "baseline_public": "additional_experiments/foundation_mri_baselines/metrics/baseline_metrics.csv",
+    "phenotype_public": "additional_experiments/foundation_mri_baselines/metrics/phenotype_metrics.csv",
+    "subtype_public": "additional_experiments/foundation_mri_baselines/metrics/subtype_metrics.csv",
+    "ftv_public": "additional_experiments/foundation_mri_baselines/metrics/ftv_probe_metrics.csv",
+    "paired_public": "additional_experiments/foundation_mri_baselines/metrics/paired_bootstrap_comparisons.csv",
+    "reporting_run_provenance": "additional_experiments/foundation_mri_baselines/metrics/reporting_run_provenance.json",
+    "results_summary_markdown": "additional_experiments/foundation_mri_baselines/reports/results_summary.md",
+    "timing_figure": "additional_experiments/foundation_mri_baselines/figures/pcr_timing_performance.png",
+    "calibration_figure": "additional_experiments/foundation_mri_baselines/figures/calibration_clinical_complementarity.png",
+    "model_execution_ledger": "additional_experiments/foundation_mri_baselines/reports/model_execution_ledger.md",
+    "foundation_model_selection": "additional_experiments/foundation_mri_baselines/reports/foundation_model_selection.md",
+    "current_cnn_provenance_audit": "additional_experiments/foundation_mri_baselines/reports/current_cnn_provenance_audit.md",
+    "contract_json": "additional_experiments/foundation_mri_baselines/configs/final_report_contract.json",
+    "template_markdown": "additional_experiments/foundation_mri_baselines/reports/final_report.template.md",
+    "finalization_module": "additional_experiments/foundation_mri_baselines/src/foundation_mri/finalization.py",
+    "finalizer_cli": "additional_experiments/foundation_mri_baselines/scripts/finalize_report.py",
+    "finalization_test": "additional_experiments/foundation_mri_baselines/tests/test_finalization.py",
+    "finalization_lock": "additional_experiments/foundation_mri_baselines/configs/FINALIZATION_LOCK.v1.json",
+    "git_handoff_json": "additional_experiments/foundation_mri_baselines/reports/git_handoff.json"
+  },
+  "reporting_run_provenance": {
+    "schema_version": "foundation_mri_reporting_run_provenance_v1",
+    "summary_schema_version": "foundation_mri_results_summary_v1",
+    "baseline_artifact_keys": [
+      "predictions",
+      "selection",
+      "metrics",
+      "progress"
+    ],
+    "probe_artifact_keys": [
+      "phenotype_predictions",
+      "phenotype_selection",
+      "phenotype_metrics",
+      "subtype_predictions",
+      "subtype_selection",
+      "subtype_metrics",
+      "ftv_predictions",
+      "ftv_selection",
+      "ftv_metrics",
+      "progress"
+    ],
+    "summarizer_keys": [
+      "protocol_version",
+      "argv_sha256",
+      "code_lock_sha256",
+      "finalization_lock_sha256"
+    ],
+    "public_artifact_roles": [
+      "paired_public",
+      "summary_json",
+      "results_summary_markdown",
+      "timing_figure",
+      "calibration_figure"
+    ]
+  },
+  "metric_domain_policy": {
+    "binary_required_finite_unit_interval": [
+      "auroc",
+      "auprc",
+      "brier",
+      "ece_10bin"
+    ],
+    "binary_nullable_finite": [
+      "calibration_slope",
+      "calibration_intercept"
+    ],
+    "subtype_required_finite_unit_interval": [
+      "macro_ovr_auroc",
+      "macro_ovr_auprc",
+      "toplabel_ece_10bin",
+      "accuracy"
+    ],
+    "subtype_required_finite_zero_to_two": [
+      "multiclass_brier"
+    ],
+    "ftv_required_finite": [
+      "r2",
+      "rmse",
+      "mae",
+      "b0_rmse",
+      "calibration_mean_bias"
+    ],
+    "ftv_required_nonnegative": [
+      "rmse",
+      "mae",
+      "b0_rmse"
+    ],
+    "ftv_nullable_finite_bounded_correlation": [
+      "spearman",
+      "pearson"
+    ],
+    "ftv_nullable_finite": [
+      "rmse_gain_over_b0",
+      "calibration_slope",
+      "calibration_intercept"
+    ],
+    "infinity_allowed": false,
+    "json_null_csv_nan_equivalent": true
+  },
+  "git_handoff": {
+    "schema_version": "foundation_mri_git_handoff_v1",
+    "branch": "feature/foundation-mri-baselines",
+    "remote": "origin",
+    "remote_ref": "refs/heads/feature/foundation-mri-baselines",
+    "status_values": [
+      "SUBSTANTIVE_PUSH_OK",
+      "GITHUB_PUSH_FAILED"
+    ],
+    "maximum_sanitized_error_characters": 1000,
+    "tracked_artifact_roles": [
+      "summary_json",
+      "baseline_public",
+      "phenotype_public",
+      "subtype_public",
+      "ftv_public",
+      "paired_public",
+      "reporting_run_provenance",
+      "results_summary_markdown",
+      "timing_figure",
+      "calibration_figure",
+      "model_execution_ledger",
+      "foundation_model_selection",
+      "current_cnn_provenance_audit",
+      "contract_json",
+      "template_markdown",
+      "finalization_module",
+      "finalizer_cli",
+      "finalization_test",
+      "finalization_lock"
+    ]
+  },
+  "question_subsets": {
+    "Q4": {
+      "description": "full-cohort foundation MRI-only LOCAL minus GLOBAL",
+      "expected_comparisons": 6
+    },
+    "Q5": {
+      "description": "full-cohort foundation LOCAL minus LOCAL0 MRI-only",
+      "expected_comparisons": 6
+    },
+    "Q8": {
+      "description": "full-cohort clinical plus foundation minus clinical-only",
+      "expected_comparisons": 12
+    },
+    "Q9": {
+      "description": "complete-case clinical plus FTV plus foundation minus clinical plus FTV",
+      "expected_comparisons": 12
+    },
+    "Q11": {
+      "description": "full-cohort foundation minus matched current CNN MRI-only",
+      "expected_comparisons": 12
+    }
+  },
+  "direction_rule": {
+    "favorable": "delta_auroc_gt_0_and_delta_auprc_gt_0_and_delta_brier_le_0",
+    "adverse": "delta_auroc_lt_0_and_delta_auprc_lt_0_and_delta_brier_ge_0",
+    "otherwise": "mixed",
+    "set_support": "every_preregistered_cell_favorable",
+    "set_adverse": "every_preregistered_cell_adverse",
+    "set_otherwise": "mixed",
+    "q10_support": "complete_foundation_FTV_and_delta_tables_and_Q9_consistent_support",
+    "q12_prioritize": "Q8_Q9_Q11_all_consistent_support",
+    "q12_controlled_study": "Q11_consistent_support_and_Q8_Q9_neither_consistent_adverse",
+    "q12_otherwise": "do_not_prioritize_replacement_from_this_experiment"
+  },
+  "publication_atomicity": {
+    "coverage_receipt_is_commit_marker": true,
+    "cross_directory_sigkill_transactional": false,
+    "orphan_policy": "fail_closed_and_require_operator_audit"
+  },
+  "inference_scope": "descriptive paired outer-fold OOF patient bootstrap; not confirmatory and not used for model or checkpoint selection"
+}

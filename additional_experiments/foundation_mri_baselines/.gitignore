@@ -1,0 +1,19 @@
+# Official checkpoints and model-hub caches are local-only.
+checkpoints/*
+!checkpoints/.gitkeep
+
+# Patient-level representations and predictions are sensitive, local-only artifacts.
+features/*
+!features/.gitkeep
+predictions/*
+!predictions/.gitkeep
+logs/*
+!logs/.gitkeep
+
+# Public aggregate metrics remain trackable; private rows never do.
+**/*.private.*
+
+# Python/tool caches.
+**/__pycache__/
+.pytest_cache/
+

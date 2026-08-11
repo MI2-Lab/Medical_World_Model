@@ -1,0 +1,6 @@
+decision_point,allowed_image_visits,image_feature_schema,allowed_radiomics_visits,allowed_ftv_visits,clinical_scope,future_image_forbidden,primary
+T0,T0,z0,T0,T0,static baseline covariates,T1|T2|T3,true
+T0-T1,T0|T1,"concat(z0,z1,z1-z0)",T0|T1,T0|T1,static baseline covariates,T2|T3,true
+T0-T2,T0|T1|T2,"concat(z0,z1,z2,z1-z0,z2-z1,z2-z0)",T0|T1|T2,T0|T1|T2,static baseline covariates,T3,true
+T0-T3,T0|T1|T2|T3,not_run_optional,T0|T1|T2|T3,T0|T1|T2|T3,static baseline covariates,none,false
+

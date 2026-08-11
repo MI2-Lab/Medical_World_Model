@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "snapshot_kind": "reconstructable_evaluation_v1_to_v2_source_transition",
+  "v1_lock": {
+    "path": "configs/EVALUATION_LOCK.v1.json",
+    "sha256": "45969bee8a0cd40466b6538f80b2b6fc35dd4bbf6abba7f021144e9c8489f272",
+    "locked_file_count": 21
+  },
+  "forward_patch": {
+    "path": "configs/EVALUATION_V1_TO_V2.patch",
+    "sha256": "24796aa2a2d2ed6689599622cddc394c135212fda1c416c1411e07d2ba23b340",
+    "format": "unified_diff_a_to_b_strip_1",
+    "line_count": 3576,
+    "byte_count": 141963
+  },
+  "changed_v1_locked_files": {
+    "scripts/run_baselines.py": {
+      "v1_sha256": "d3845a9953e076beecb08fb9bbecda41f80c33bae6157af61f70c134d4c4f3d0",
+      "v2_sha256": "e04e3447529bf28fe2d6aef9e1ccbf128b2b7b7950834f846373fdb98f6d0ebe"
+    },
+    "scripts/run_probes.py": {
+      "v1_sha256": "ddaac15f4dd5298dfb6ae7f4e60ce9cc8ef0477062f4cf75d31606c9d4684627",
+      "v2_sha256": "2ee27174647041ce68ea66388c891f32606b3b8061179d9a3e0968f9fce1b1ab"
+    },
+    "scripts/summarize_results.py": {
+      "v1_sha256": "7ed8fa5ecaa4e0d9115530b071b9ebf0b4a8e6ac612d25cc9a5f23b2d5f1d876",
+      "v2_sha256": "aeae868477982dcb1ee7fa29871c112cc8d2efe7e58a8144f02bd1037ff4b5dc"
+    },
+    "src/foundation_mri/evaluation.py": {
+      "v1_sha256": "68d683f9a93534bb2942d45780b120f88fe8c4d3d492f14b7733888bcce95699",
+      "v2_sha256": "de04f8c2c4b098858cf6d01f3537919b3add04985d50ba8980bd6f928bfa58e7"
+    },
+    "src/foundation_mri/locking.py": {
+      "v1_sha256": "16083e942039c3b69ec5b128fd56e67edc26702c2f9933c2107071771e3977ec",
+      "v2_sha256": "6d73ddb47980a610ee434c118fa18b78df63deb124634143e5011ee0daed0cc4"
+    },
+    "tests/test_evaluation.py": {
+      "v1_sha256": "e90487d3d2b122c9a9707e5d7447bf239ecf1e7998745fefbccd501d612719ee",
+      "v2_sha256": "b2a61abe920f363ebaf424d704b001adf4e7ba6f7e394ee4d653edcd58789f80"
+    },
+    "tests/test_locking.py": {
+      "v1_sha256": "a5d93b3ffde2d07d7f02c9109528318b8373ec44dd18d764cf741700f836d995",
+      "v2_sha256": "dba8f48c644df6634d7f330e5b0aea209cb00d387cf9c248c361d474feece093"
+    },
+    "tests/test_scripts.py": {
+      "v1_sha256": "0824a5577682125c4b4739e6c449ec5c04f59035d767c701628cd874d3db25b4",
+      "v2_sha256": "40250073c0a46fd7f32cd74e00664a99de668be82569a63e6fcf8e88c5cace39"
+    }
+  },
+  "reconstruction": {
+    "v1_from_v2_command": "patch -R -p1 < configs/EVALUATION_V1_TO_V2.patch",
+    "v2_from_v1_command": "patch -p1 < configs/EVALUATION_V1_TO_V2.patch",
+    "verify_v1_command": "sha256sum -c <manifest derived from configs/EVALUATION_LOCK.v1.json>",
+    "forward_patch_verified": true,
+    "reverse_patch_verified": true
+  }
+}

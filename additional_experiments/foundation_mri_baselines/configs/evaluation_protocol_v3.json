@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "protocol_id": "foundation_mri_probe_retry_v3",
+  "amendment_scope": "outcome_blind_ridge_numerical_reliability_and_mixed_lineage_only",
+  "parent_evaluation_lock": {
+    "path": "configs/EVALUATION_LOCK.v2.json",
+    "sha256": "b15f7023b7021f5c1169b51cf6bc8fe0cc1d9085102a61fbdb1d68589fe2edc5"
+  },
+  "finalization_lock": {
+    "path": "configs/FINALIZATION_LOCK.v1.json",
+    "sha256": "30c0c0e6ce7d92fb6164368addf467e2142e5159fb95240f4c030ddb986c4e7b",
+    "locked_files_are_immutable": true
+  },
+  "lock_timing": {
+    "baseline_v2_completed_before_v3_lock": true,
+    "baseline_v2_metric_or_prediction_values_viewed": false,
+    "probe_v3_not_run_before_v3_lock": true,
+    "probe_v3_outcomes_seen_before_v3_lock": false,
+    "claim_locked_before_all_formal_test_evaluation": false
+  },
+  "historical_baseline_v2": {
+    "status": "exit0_receipt_and_artifact_bytes_verified_without_parsing_values",
+    "producer_lock_sha256": "b15f7023b7021f5c1169b51cf6bc8fe0cc1d9085102a61fbdb1d68589fe2edc5",
+    "producer_lock_parent_sha256": "45969bee8a0cd40466b6538f80b2b6fc35dd4bbf6abba7f021144e9c8489f272",
+    "receipt": {
+      "path": "metrics/baseline_v2_run.private.provenance.json",
+      "sha256": "8fb79e1e4316e2fab94e386c3e2a0bbebde074d78771341188818e2d9702f42c",
+      "argument_count": 16,
+      "argument_vector_sha256": "755957f2143829fb27dc2317e35d1490dd2d2d630ff98ce06a4ad8691a8a1864",
+      "artifact_hash_method": "sha256_binary_stream_no_parse",
+      "metric_values_viewed": false
+    },
+    "artifacts": {
+      "predictions": {
+        "path": "predictions/baseline_predictions.private.csv",
+        "sha256": "d45b55341fc8c6c0c169d547a3b47d81dc55d9423e0e06be0be72bea654b350e",
+        "audited_row_count": 64137
+      },
+      "selection": {
+        "path": "metrics/baseline_selection.private.csv",
+        "sha256": "313a7b38e413381adeceee3fbe40f0baf0cd086377346e83de8620b1e010b937",
+        "audited_row_count": 630
+      },
+      "metrics": {
+        "path": "metrics/baseline_metrics.csv",
+        "sha256": "9ba743cfb6515784bd06d1384c1fe3bcad1d2d9873e00ba438bed1e31b71f52e",
+        "audited_row_count": 252
+      },
+      "progress": {
+        "path": "logs/baseline_v2.progress.private.jsonl",
+        "sha256": "4e52fe3f379f7e1f25b5892a4ea2d66cd3f00657e058c2ec282c100e7fb1180a",
+        "fold_completed": 630,
+        "candidate_completed": 11340,
+        "max_observed_n_iter": 1485,
+        "capped_candidate_count": 0
+      }
+    }
+  },
+  "failed_probe_v2": {
+    "exit_code": 1,
+    "outputs_written": false,
+    "receipt_written": false,
+    "metric_or_prediction_values_viewed": false,
+    "original_traceback_recovered": false,
+    "formal_exception_claimed": false,
+    "failure_window": "ridge_fold3_after_selection_before_fold4_start",
+    "synthetic_diagnostic_scope": "matching_failure_path_not_recovered_formal_exception",
+    "progress": {
+      "path": "logs/probe_v2.progress.private.jsonl",
+      "sha256": "f8d1617b6f218ad8d1f3cddaf7c48f9d1cbcd05da96f89e2bf1b36b55c1118ef",
+      "mode_octal": "0600",
+      "byte_count": 447729,
+      "line_count": 2659,
+      "event_counts": {
+        "formal_run_started": 1,
+        "fold_started": 69,
+        "fold_completed": 69,
+        "candidate_started": 540,
+        "candidate_completed": 540,
+        "estimator_started": 720,
+        "estimator_completed": 720
+      },
+      "last_event": "fold_completed"
+    }
+  },
+  "unchanged_scientific_contract": {
+    "seed": 2026,
+    "folds": 5,
+    "decision_points": [
+      "T0",
+      "T0-T1",
+      "T0-T2"
+    ],
+    "formal_foundation_models_exact_order": [
+      "medicalnet_resnet50_3dseg8",
+      "dino_vitb16_imagenet1k"
+    ],
+    "binary_penalties": [
+      "l1",
+      "l2"
+    ],
+    "multiclass_penalties": [
+      "l1",
+      "l2"
+    ],
+    "C_grid": [
+      0.001,
+      0.003,
+      0.01,
+      0.03,
+      0.1,
+      0.3,
+      1.0,
+      3.0,
+      10.0
+    ],
+    "binary_solver": "liblinear",
+    "multiclass_solver": "explicit_four_class_one_vs_rest_liblinear",
+    "class_weight": "balanced",
+    "standard_scaler_fit": "outer_train_only",
+    "selection": "validation_only",
+    "outer_test_predictions": "single_use",
+    "implicit_PCA": false
+  },
+  "v3_solver_contract": {
+    "logistic_max_iter": 20000,
+    "binary_tol": 1e-07,
+    "multiclass_subtype_tol": 0.0001,
+    "liblinear_convergence_gate": "every_estimator_requires_integer_0_le_n_iter_lt_max_iter_finite_parameters_and_no_ConvergenceWarning_before_validation_prediction",
+    "liblinear_zero_iteration_semantics": "n_iter_zero_is_valid_when_parameters_are_finite_and_no_ConvergenceWarning_was_emitted",
+    "ridge_solver": "lsqr",
+    "ridge_alphas": [
+      0.0001,
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0,
+      1000.0
+    ],
+    "ridge_candidate_gate": "every_alpha_requires_integer_0_le_n_iter_lt_max_iter_finite_coef_intercept_and_no_ConvergenceWarning_before_validation_prediction",
+    "static_ftv_transform": "log1p",
+    "static_ftv_bound_fit": "outer_train_transformed_min_max_only",
+    "static_ftv_bound_application": "same_outer_train_bounds_applied_to_validation_and_outer_test_before_expm1",
+    "static_ftv_preclip_gate": "raw_transformed_predictions_and_train_bounds_must_be_finite",
+    "static_ftv_clipping_role": "clipped_validation_MSE_participates_in_validation_only_alpha_selection_bounds_defined_from_outer_train_targets_alone_outer_test_never_influences_selection",
+    "delta_ftv_transform": "identity",
+    "delta_ftv_bound_application": "unbounded_fail_on_nonfinite",
+    "test_labels_used_for_prediction_bounds": false,
+    "selection_workers": 1,
+    "blas_openmp_threads": 1
+  },
+  "metric_free_monitoring_v3": {
+    "probe_progress_log": "logs/probe_v3.progress.private.jsonl",
+    "probe_completion_receipt": "metrics/probe_v3_run.private.provenance.json",
+    "progress_jsonl_write_failure": "hard_fail",
+    "stderr_mirror_failure": "best_effort",
+    "fold_events": "fold_started_then_fold_selection_completed_then_fold_completed_only_after_finite_outer_test_prediction_and_private_audit_append",
+    "expected_formal_probe_counts": {
+      "source_count": 6,
+      "fold_started": 300,
+      "fold_selection_completed": 300,
+      "fold_completed": 300,
+      "candidate_started": 3300,
+      "candidate_completed": 3300,
+      "ovr_estimator_started": 2160,
+      "ovr_estimator_completed": 2160,
+      "binary_candidate_count": 1080,
+      "multiclass_candidate_count": 540,
+      "ridge_candidate_count": 1680
+    },
+    "forbidden_progress_fields": [
+      "patient_id",
+      "target",
+      "y_true",
+      "y_pred",
+      "probability",
+      "score",
+      "metric",
+      "auroc",
+      "auprc",
+      "brier",
+      "calibration"
+    ]
+  },
+  "medicalnet_synthetic_smoke_v3": {
+    "feature_sha256": "ca45a46bd62e18e42b6d3f2426ce4690a4f3dbf7c2f44804ab0d19bd333ee4a2",
+    "model": "medicalnet_resnet50_3dseg8",
+    "shape": [
+      808,
+      4,
+      2,
+      14336
+    ],
+    "clinical_fold_or_radiomics_loader_used": false,
+    "formal_outcome_labels_used": false,
+    "multiclass_full_grid_candidate_count": 36,
+    "multiclass_underlying_estimator_fit_count": 144,
+    "ridge_full_grid_candidate_count": 16,
+    "reserved_extreme_static_ftv_clipping_required_per_spatial_axis": true,
+    "reserved_extreme_static_ftv_minimum_clipped_rows_per_spatial_axis": 1,
+    "receipt": "reports/probe_v3_medicalnet_synthetic_smoke.json",
+    "receipt_sha256": "7a39c90cc034d75363c3c66272ceb8351968b9828cc79ccc98db0fb5abeebb4c",
+    "status": "PASS",
+    "observed_multiclass_n_iter_range": [
+      0,
+      19
+    ],
+    "observed_ridge_n_iter_range": [
+      62,
+      630
+    ],
+    "observed_reserved_rows_clipped_by_axis": {
+      "GLOBAL": 13,
+      "LOCAL": 15
+    },
+    "elapsed_seconds": 137.43343727197498
+  },
+  "input_and_environment_gates": {
+    "requirements": {
+      "scipy": "1.16.3",
+      "matplotlib": "3.10.8"
+    },
+    "upstream_contracts_py_sha256": "48d7738b6764780ba2e784f826be44ac718fdbb0beb526ec31c3c5525cba4bf9",
+    "radiomics_wide_role": "upstream_only_not_a_formal_evaluation_input",
+    "radiomics_transition_role": "sole_formal_radiomics_ftv_input"
+  },
+  "reporting_contract": {
+    "formal_summarizer_argument_count": 0,
+    "mixed_lineage_order": [
+      "baseline:v2",
+      "probe:v3",
+      "summarizer:v3"
+    ],
+    "verification_before_csv_parse": true,
+    "public_calibration_bin_minimum_n": 10,
+    "public_output_count_before_marker": 5,
+    "reporting_run_provenance_marker_published_last": true,
+    "no_overwrite": true,
+    "partial_publish_rollback": true,
+    "allow_unlocked_produces_marker": false
+  },
+  "execution_contract": {
+    "probe_v3": {
+      "argument_count": 16,
+      "argument_vector_sha256": "0d1af3956391f7c58a48eaffae914c0af51b1eceffb5ba792624d2e04a4923ec",
+      "argv": [
+        "--evaluation-lock",
+        "configs/EVALUATION_LOCK.v3.json",
+        "--clinical-labels",
+        "/data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv",
+        "--fold-manifest",
+        "/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+        "--radiomics",
+        "../radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv",
+        "--foundation-feature",
+        "features/formal/medicalnet_resnet50_3dseg8/frozen_features.private.npz",
+        "--foundation-feature",
+        "features/formal/dino_vitb16_imagenet1k/frozen_features.private.npz",
+        "--cnn-template",
+        "GAP0,GLOBAL,../local_global_response_state_pilot/features/formal_4x8/seed_2026/GAP0/fold_{fold}/response_state.private.npz",
+        "--cnn-template",
+        "LOCAL0,LOCAL,../local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_{fold}/response_state.private.npz"
+      ]
+    },
+    "summarizer_v3": {
+      "argument_count": 0,
+      "argument_vector_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+      "argv": []
+    }
+  }
+}

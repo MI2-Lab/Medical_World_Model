@@ -1,0 +1,90 @@
+{
+  "schema_version": 2,
+  "lock_kind": "formal_outcome_evaluation_chain",
+  "lock_generation": "whole_evaluation_v2",
+  "locked_at": "2026-08-11T04:50:19-04:00",
+  "locked_before_formal_test_evaluation": true,
+  "formal_test_outcomes_seen": false,
+  "parent_lock": {
+    "path": "configs/EVALUATION_LOCK.v1.json",
+    "sha256": "45969bee8a0cd40466b6538f80b2b6fc35dd4bbf6abba7f021144e9c8489f272"
+  },
+  "aborted_v1_attempts": [
+    {
+      "consumer": "baseline",
+      "exit_code": 143,
+      "outputs_written": false,
+      "metric_values_viewed": false
+    },
+    {
+      "consumer": "probe",
+      "exit_code": 143,
+      "outputs_written": false,
+      "metric_values_viewed": false
+    }
+  ],
+  "prelock_state": {
+    "baseline_outputs_exist": false,
+    "probe_outputs_exist": false,
+    "metric_values_viewed": false
+  },
+  "inherited_inputs": {
+    "source": "parent_lock.inputs",
+    "sha256": "db3cd74d7b4bb68dd191f6c64f78dac8cabb5375f97562010ae2b6da7cd08147"
+  },
+  "development_provenance": {
+    "source_snapshot": {
+      "path": "configs/EVALUATION_V1_SOURCE_SNAPSHOT.json",
+      "sha256": "487c4e879220c06c2ee756688da1f51dfb8fd23aa1280f5fd90f00cd51c1f64b"
+    },
+    "patch_manifest": {
+      "path": "configs/EVALUATION_V1_TO_V2.patch",
+      "sha256": "24796aa2a2d2ed6689599622cddc394c135212fda1c416c1411e07d2ba23b340"
+    },
+    "smoke_receipt": {
+      "path": "reports/probe_v2_medicalnet_synthetic_smoke.json",
+      "sha256": "b1a92d4b004a2660cf8c83746b936265e79f422abf06dc2b1bfd2c8adb5fe01f"
+    }
+  },
+  "files": {
+    "EXPERIMENT_PLAN.md": "70270da091a222688e91d2c4f04a852520135a13a7236242884259e789fc7479",
+    "configs/MODEL_INPUT_LOCK.json": "639ec6e82f67c3927d8f543dfa3f9834ac8e09aec4820906c138b1839662c377",
+    "configs/evaluation_protocol.json": "6ad48550861b444a3348a99e3c6bf1dd5c1cb88e1dbf20038b1d3fc95f85d91e",
+    "configs/evaluation_protocol_v2.json": "69f5b00f63986532609da6b0f63c83cec7d90945b300313d5ba4a4aa85a17aa6",
+    "configs/formal.json": "79774a33fdd73e07318fe7d4c6aa068b5a0f2052564b50546ff4a57aff6d555e",
+    "configs/information_timing_contract.csv": "9dd1fa6c414f1433076048d244f7eb1c898076a209a47e408788d0a009475580",
+    "reports/foundation_model_selection.md": "77fe49a82aadcc988a5a937e2190df8774f5992ec85bd68a9a7c1d113bd58d08",
+    "requirements.txt": "159dc7ff4f8c2bff3b0b638fd11d665e36fc2cd700a8998a00de8c5a6df0de53",
+    "scripts/run_baselines.py": "e04e3447529bf28fe2d6aef9e1ccbf128b2b7b7950834f846373fdb98f6d0ebe",
+    "scripts/run_probes.py": "2ee27174647041ce68ea66388c891f32606b3b8061179d9a3e0968f9fce1b1ab",
+    "scripts/summarize_results.py": "aeae868477982dcb1ee7fa29871c112cc8d2efe7e58a8144f02bd1037ff4b5dc",
+    "src/foundation_mri/data.py": "61aa9635a6cd367cc1d84556a45785f4a413fea1dd7d374907b257cd7b30eaa9",
+    "src/foundation_mri/evaluation.py": "de04f8c2c4b098858cf6d01f3537919b3add04985d50ba8980bd6f928bfa58e7",
+    "src/foundation_mri/locking.py": "6d73ddb47980a610ee434c118fa18b78df63deb124634143e5011ee0daed0cc4",
+    "src/foundation_mri/reporting.py": "50dd11fe6374493342c4d1411737e31393707c504946a589f176c84d520a5dfe",
+    "tests/test_data.py": "1a0c68ab595c9a064afafe57405c9091824b2f8b93c524d44aed375405be8bb2",
+    "tests/test_evaluation.py": "b2a61abe920f363ebaf424d704b001adf4e7ba6f7e394ee4d653edcd58789f80",
+    "tests/test_locking.py": "dba8f48c644df6634d7f330e5b0aea209cb00d387cf9c248c361d474feece093",
+    "tests/test_models.py": "d2399b08aefaf938766037c33c53d79aa9fe5ce5cd777c886c83ebac7c50c275",
+    "tests/test_reporting.py": "3f18a7a37a8afbcb1795b5fd64aa67d98bd31facc098d5306475b166bd65e804",
+    "tests/test_scripts.py": "40250073c0a46fd7f32cd74e00664a99de668be82569a63e6fcf8e88c5cace39",
+    "tests/test_spatial.py": "686de906c64edbe982c0ced8c6eba4546cdb3649d682e8b6b59a28275103edcc"
+  },
+  "execution": {
+    "parent_execution_sha256": "08b20f0e9fbab30938a621a77f179205341430fee4b953fa8929b91070efbfa3",
+    "consumer_argv": {
+      "baseline": {
+        "argc": 16,
+        "sha256": "755957f2143829fb27dc2317e35d1490dd2d2d630ff98ce06a4ad8691a8a1864"
+      },
+      "probe": {
+        "argc": 16,
+        "sha256": "755957f2143829fb27dc2317e35d1490dd2d2d630ff98ce06a4ad8691a8a1864"
+      },
+      "summarizer": {
+        "argc": 2,
+        "sha256": "5b10c546fdb6ad2fff2cf0e5263b151707f8de49144c79f65d3f77ccb9659039"
+      }
+    }
+  }
+}
