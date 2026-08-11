@@ -331,8 +331,8 @@
           "sha256": "50cbc417b3c60d67067f3d8c673ee9ac0e0ee200cfba9aff40a787e0ca36f262"
         },
         "reports/final_report.md": {
-          "bytes": 19149,
-          "sha256": "6a6bb7a87f75dcf32972568024a6a004748bcb558eccc0160350ff564eb91140"
+          "bytes": 19286,
+          "sha256": "0236fd20d4d1170720b4bdc9e3af913a139be38bfcd711df316b9d21de142f3f"
         }
       },
       "name": "reports:inventory_and_final",
@@ -1180,7 +1180,7 @@
         ],
         "findings": 0,
         "identifier_pattern": "canonical ISPY2/ACRIN patient keys",
-        "scanned_public_files": 37
+        "scanned_public_files": 38
       },
       "name": "privacy:no_public_patient_identifiers",
       "passed": true

@@ -177,10 +177,10 @@ The [clinical inventory](clinical_feature_inventory.md#critical-representation-b
 | Evidence status | diagnostic_exploratory_two_seed_local_pilot |
 | Clinical inventory SHA-256 | 50cbc417b3c60d67067f3d8c673ee9ac0e0ee200cfba9aff40a787e0ca36f262 |
 | Delivery branch | feature/mri-clinical-complementarity-audit |
-| Delivery commit SHA | PENDING |
-| Push status | PENDING |
-| Remote | PENDING |
-| Delivery provenance file | PENDING |
+| Delivery commit SHA | f5386ccfb5ca9d03cc4eec4c7a60f26b588c25af |
+| Push status | PUSH_SUCCEEDED |
+| Remote | origin (https://github.com/MI2-Lab/Medical_World_Model.git) |
+| Delivery provenance file | [delivery_provenance.json](delivery_provenance.json) |
 
 Aggregate inputs and exact links:
 
