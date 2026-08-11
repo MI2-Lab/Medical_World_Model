@@ -392,7 +392,15 @@ def validate_complete(
                     raise ValueError(
                         f"feature archive {name} dtype/value drifted: {path}"
                     )
-        audit.load_spatial_feature_asset(path, folds, config, lock)
+        audit.load_spatial_feature_asset(
+            path,
+            folds,
+            config,
+            lock,
+            seed=seed,
+            arm=arm,
+            fold=fold,
+        )
         complete.append(
             {
                 "seed": seed,

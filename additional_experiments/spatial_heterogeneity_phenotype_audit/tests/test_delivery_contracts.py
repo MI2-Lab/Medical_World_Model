@@ -290,67 +290,44 @@ def test_amendment_schema_is_exact_and_patient_free(tmp_path: Path) -> None:
         common_module.load_preregistration_amendment(path)
 
 
-def test_refreeze_historical_parity_allows_only_representative_amendment() -> None:
-    historical_config = {
-        "branch": "feature/spatial-heterogeneity-phenotype-audit",
-        "oracle": {"comparison_population": "prefix_specific"},
-        "analysis": {"gates": ["A", "B", "C", "D"]},
+def test_implementation_erratum_schema_is_exact_and_patient_free(
+    tmp_path: Path,
+) -> None:
+    source = ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json"
+    erratum = json.loads(source.read_text(encoding="utf-8"))
+    path = tmp_path / source.name
+    path.write_bytes(source.read_bytes())
+    observed = common_module.load_preregistration_implementation_erratum(path)
+    assert len(observed["discarded_artifact_sha256"]) == 65
+    assert (
+        observed["pre_erratum_execution"]["discarded_artifact_total_bytes"] == 307933315
+    )
+    assert observed["contains_patient_identifiers"] is False
+
+    erratum["contract_scope"]["scientific_contract_changed"] = True
+    path.write_text(json.dumps(erratum), encoding="utf-8")
+    with pytest.raises(ValueError, match="contract scope"):
+        common_module.load_preregistration_implementation_erratum(path)
+
+
+def test_implementation_refreeze_preserves_prior_scientific_contract() -> None:
+    prior = common_module.historical_json(
+        common_module.PRIOR_AMENDED_PREREGISTRATION_COMMIT,
+        "PREREGISTRATION_LOCK.json",
+    )
+    active = copy.deepcopy(prior)
+    active["implementation_sha256"] = {
+        name: "f" * 64 for name in prior["implementation_sha256"]
     }
-    current_config = copy.deepcopy(historical_config)
-    current_config["oracle"]["representative"] = {"candidate_count": 373}
-    selected_cells = {"seed_2026/LOCAL3/fold_0": {"checkpoint_sha256": "a" * 64}}
-    upstream = {"/sealed/module.py": "b" * 64}
-    runtime = {"python": "3.11.14"}
-    privacy = "c" * 64
-    historical_lock = {
-        "schema_version": 2,
-        "status": freeze.ORIGINAL_LOCK_STATUS,
-        "analysis_outputs_present_before_freeze": False,
-        "analysis_outputs_before_freeze": [],
-        "branch": current_config["branch"],
-        "formal_cell_count": 1,
-        "privacy_policy_sha256": privacy,
-        "runtime_environment": runtime,
-        "selected_cells": copy.deepcopy(selected_cells),
-        "upstream_code_sha256": dict(upstream),
-    }
-    arguments = {
-        "historical_lock": historical_lock,
-        "historical_config": historical_config,
-        "current_config": current_config,
-        "selected_cells": selected_cells,
-        "upstream_code_sha256": upstream,
-        "runtime": runtime,
-        "privacy_policy_sha256": privacy,
-    }
-    freeze._require_historical_parity(**arguments)
+    common_module.require_preserved_prior_lock_contract(active, prior)
+    common_module.require_implementation_erratum_plan_disclosure(prior)
 
-    drifted_cells = copy.deepcopy(selected_cells)
-    drifted_cells["seed_2026/LOCAL3/fold_0"]["checkpoint_sha256"] = "d" * 64
-    with pytest.raises(ValueError, match="selected-cell assets"):
-        freeze._require_historical_parity(
-            **{**arguments, "selected_cells": drifted_cells}
-        )
-
-    with pytest.raises(ValueError, match="upstream code"):
-        freeze._require_historical_parity(
-            **{**arguments, "upstream_code_sha256": {"/sealed/module.py": "e" * 64}}
-        )
-
-    drifted_config = copy.deepcopy(current_config)
-    drifted_config["analysis"]["gates"].append("UNDECLARED")
-    with pytest.raises(ValueError, match="outside the representative-only amendment"):
-        freeze._require_historical_parity(
-            **{**arguments, "current_config": drifted_config}
-        )
-
-    with pytest.raises(ValueError, match="runtime_environment"):
-        freeze._require_historical_parity(
-            **{**arguments, "runtime": {"python": "3.12.0"}}
-        )
+    active["config_sha256"] = "0" * 64
+    with pytest.raises(ValueError, match="config_sha256"):
+        common_module.require_preserved_prior_lock_contract(active, prior)
 
 
-def test_preregistration_chain_authenticates_both_committed_locks(
+def test_preregistration_chain_authenticates_all_three_committed_locks(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     repo = tmp_path / "repo"
@@ -390,13 +367,54 @@ def test_preregistration_chain_authenticates_both_committed_locks(
     )
     git("add", ".")
     git("commit", "-q", "-m", "amended preregistration")
+    prior_amended_commit = git("rev-parse", "HEAD")
+    prior_amended_lock_sha256 = file_sha256(original_lock_path)
+
+    erratum = json.loads(
+        (ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    erratum["prior_amended_preregistration_commit"] = prior_amended_commit
+    erratum["prior_amended_preregistration_lock_sha256"] = prior_amended_lock_sha256
+    erratum_path = experiment / "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json"
+    erratum_path.write_text(json.dumps(erratum, sort_keys=True), encoding="utf-8")
+    active_lock = {
+        **amended_lock,
+        "schema_version": 4,
+        "status": common_module.IMPLEMENTATION_ERRATUM_LOCK_STATUS,
+        "implementation_erratum_sha256": file_sha256(erratum_path),
+        "superseded_amended_preregistration_commit": prior_amended_commit,
+        "superseded_amended_preregistration_lock_sha256": (prior_amended_lock_sha256),
+    }
+    original_lock_path.write_text(
+        json.dumps(active_lock, sort_keys=True), encoding="utf-8"
+    )
+    git("add", ".")
+    git("commit", "-q", "-m", "implementation erratum refreeze")
     active_commit = git("rev-parse", "HEAD")
 
     monkeypatch.setattr(common_module, "REPO_ROOT", repo)
     monkeypatch.setattr(common_module, "EXPERIMENT_ROOT", experiment)
     monkeypatch.setattr(common_module, "AMENDMENT_PATH", amendment_path)
+    monkeypatch.setattr(common_module, "IMPLEMENTATION_ERRATUM_PATH", erratum_path)
+    monkeypatch.setattr(
+        common_module,
+        "IMPLEMENTATION_ERRATUM_SHA256",
+        file_sha256(erratum_path),
+    )
     monkeypatch.setattr(common_module, "LOCK_PATH", original_lock_path)
-    chain = common_module.preregistration_chain(amended_lock)
+    monkeypatch.setattr(
+        common_module,
+        "PRIOR_AMENDED_PREREGISTRATION_COMMIT",
+        prior_amended_commit,
+    )
+    monkeypatch.setattr(
+        common_module,
+        "PRIOR_AMENDED_PREREGISTRATION_LOCK_SHA256",
+        prior_amended_lock_sha256,
+    )
+    chain = common_module.preregistration_chain(active_lock)
     assert chain == {
         "preregistration_revision": 2,
         "active_preregistration_lock_sha256": file_sha256(original_lock_path),
@@ -407,8 +425,8 @@ def test_preregistration_chain_authenticates_both_committed_locks(
     }
 
     original_lock_path.write_text('{"tampered":true}\n', encoding="utf-8")
-    with pytest.raises(ValueError, match="committed amended lock"):
-        common_module.preregistration_chain(amended_lock)
+    with pytest.raises(ValueError, match="committed active lock"):
+        common_module.preregistration_chain(active_lock)
 
 
 def test_run_summary_is_exact_and_authenticates_features_and_provenance(

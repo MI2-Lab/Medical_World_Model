@@ -177,6 +177,29 @@ changes only this representative-selection diagnostic: the causal, pair-specific
 Oracle probe populations, the 1,500-visit upstream parity requirement, Table 7,
 all gates, mask-free analyses, and Stage B remain unchanged.
 
+**Pre-probe implementation erratum 1 (no scientific change).** The preceding
+amended preregistration is anchored at commit
+`cdc7a57bf1ff373d97a97f51817ea83abe75d7e3` and lock SHA-256
+`12e3c046f108d601c99fd354745fc5620e3ab234a72f307a2b1529063b7be0c4`.
+Under that lock, the cache-integrity proof, Oracle sidecar, all 20 feature cells,
+and the de-identified representative asset completed. A read-only check then
+loaded all 20 cells independently with their intended keyword identities and
+confirmed a maximum P1 parity absolute difference of `0.0`. Matrix completion
+validation failed only because `run_feature_matrix.py` omitted the required
+keyword-only `seed`, `arm`, and `fold` arguments to `load_spatial_feature_asset`.
+No feature-matrix completion marker was created. No clinical-label table was
+parsed, no Stage-A probe was fit, no Stage-A result was produced, and Stage B did
+not start.
+
+The correction passes those three cell-identity arguments by keyword and changes
+no scientific, representative-selection, or causal-Oracle contract. The exact
+patient-free discard ledger in `PREREGISTRATION_IMPLEMENTATION_ERRATUM.json`
+binds all 65 experiment outputs present at failure (307,933,315 bytes): cache and
+Oracle public/private artifacts, 20 feature NPZ/metadata pairs, the representative
+asset, and 20 extraction logs. Every artifact bound to the superseded amended
+lock must be discarded and rebuilt after the implementation erratum is refrozen;
+none may be reused.
+
 ## 7. Longitudinal heterogeneity
 
 For each adjacent transition `T0->T1`, `T1->T2`, and `T2->T3`, probe pCR using:

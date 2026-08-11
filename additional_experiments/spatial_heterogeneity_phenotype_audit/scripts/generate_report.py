@@ -25,8 +25,10 @@ from common import (  # noqa: E402
     file_sha256,
     load_config,
     load_preregistration_amendment,
+    load_preregistration_implementation_erratum,
     preregistration_anchor_commits,
     preregistration_chain,
+    preregistration_provenance_anchors,
     require_preregistration_lock,
 )
 from generate_figures import pair_matched_oracle_deltas  # noqa: E402
@@ -110,6 +112,7 @@ def validate_final_git_provenance(
     branch: str,
     preregistration_commit: str | None = None,
     original_preregistration_commit: str | None = None,
+    prior_amended_preregistration_commit: str | None = None,
 ) -> None:
     """Authenticate the non-self-referential experiment commit and push claim."""
 
@@ -131,9 +134,11 @@ def validate_final_git_provenance(
         != 0
     ):
         raise ValueError("experiment commit is not an ancestor of current branch HEAD")
-    observed_original_commit, observed_preregistration_commit = (
-        preregistration_anchor_commits()
-    )
+    (
+        observed_original_commit,
+        observed_prior_amended_commit,
+        observed_preregistration_commit,
+    ) = preregistration_provenance_anchors()
     if (
         preregistration_commit is not None
         and str(preregistration_commit) != observed_preregistration_commit
@@ -145,6 +150,13 @@ def validate_final_git_provenance(
     ):
         raise ValueError(
             "reported original preregistration differs from the amendment chain"
+        )
+    if (
+        prior_amended_preregistration_commit is not None
+        and str(prior_amended_preregistration_commit) != observed_prior_amended_commit
+    ):
+        raise ValueError(
+            "reported prior amended preregistration differs from the erratum chain"
         )
     if (
         observed_preregistration_commit == commit
@@ -168,6 +180,7 @@ def validate_final_git_provenance(
     for required in (
         relative_root / "PREREGISTRATION_LOCK.json",
         relative_root / "PREREGISTRATION_AMENDMENT.json",
+        relative_root / "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json",
         relative_root / "metrics" / "gates.json",
         relative_root / "reports" / "final_report.md",
     ):
@@ -225,7 +238,8 @@ def validate_final_git_provenance(
             )
         for anchor, label in (
             (observed_original_commit, "original preregistration"),
-            (observed_preregistration_commit, "active amended preregistration"),
+            (observed_prior_amended_commit, "prior amended preregistration"),
+            (observed_preregistration_commit, "active implementation refreeze"),
         ):
             if (
                 subprocess.run(
@@ -466,9 +480,23 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
     lock = require_preregistration_lock(config)
     amendment_path = ROOT / "PREREGISTRATION_AMENDMENT.json"
     amendment = load_preregistration_amendment(amendment_path)
+    implementation_erratum_path = ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json"
+    implementation_erratum = load_preregistration_implementation_erratum(
+        implementation_erratum_path
+    )
     chain = preregistration_chain(lock, amendment)
     original_preregistration_commit = chain["original_preregistration_commit"]
     preregistration_commit = chain["active_preregistration_commit"]
+    (
+        observed_original_commit,
+        prior_amended_preregistration_commit,
+        observed_active_commit,
+    ) = preregistration_provenance_anchors(amendment, implementation_erratum)
+    if (
+        observed_original_commit != original_preregistration_commit
+        or observed_active_commit != preregistration_commit
+    ):
+        raise ValueError("report preregistration anchors disagree with runtime chain")
     gates_path = ROOT / "metrics" / "gates.json"
     authorization_path = ROOT / "metrics" / "stage_b_authorization.json"
     run_summary_path = ROOT / "metrics" / "run_summary.json"
@@ -595,6 +623,7 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
     )
     geometry_qc = amendment["geometry_qc"]
     execution_ledger = amendment["pre_amendment_execution"]
+    erratum_execution = implementation_erratum["pre_erratum_execution"]
 
     answers = [
         f"1. **Mean pooling 是否丢失 heterogeneity information？** {'有预注册阈值证据' if direct_or_complementary_support else '未获得预注册阈值证据'}（支持来源：{evidence_sources}）。Gate A 检验 P3−P1 的 phenotype/matched-pCR 信号；Gate B 独立检验 P3 在 C+F 之外且优于 C+F+P1 的互补性。P3−P1 phenotype AUROC：{_delta_text(phenotype_p3)}。",
@@ -629,6 +658,10 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
 
 原始预注册在任何临床标签表解析、Stage-A probe 拟合或 Stage-B 启动之前的 geometry QC 中发现：四次 source-authorized 患者仍为 {geometry_qc['all_four_source_authorized_patient_count']}，但经过固定 LOCAL 支持约束后，四次 CORE 均有效的 Figure-8 去标识化代表候选为 {geometry_qc['all_four_post_local_core_valid_patient_count']}，而不是原先硬编码的 {geometry_qc['representative_candidate_count_before']}。修订仅校正 Figure 8 代表选择；FTV/pCR 的 375 人群、probe、Gate 与科学分类合同均未改变。修订前生成的 {len(amendment['discarded_artifact_sha256'])} 个 cache/oracle/feature/log 工件均按公开哈希台账丢弃且禁止复用；当时 completed feature cells={len(execution_ledger['completed_feature_cells'])}，clinical label table parsed={str(execution_ledger['clinical_label_table_parsed']).lower()}，Stage-A probe fit={str(execution_ledger['stage_a_probe_fit']).lower()}，Stage-B started={str(execution_ledger['stage_b_started']).lower()}。完整修订记录由 `PREREGISTRATION_AMENDMENT.json` 固定。
 
+## 实现勘误披露
+
+在上述 amended preregistration 下，cache、Oracle、20 个 feature cells 与去标识化代表资产已完成；独立只读复核验证了 {erratum_execution['independently_validated_feature_cell_count']} 个 cells，最大 P1 projection parity absolute difference={erratum_execution['maximum_p1_projection_parity_absolute_difference']:.1f}。Feature-matrix completion validation 随后仅因调用 spatial feature loader 时遗漏 keyword-only `seed`/`arm`/`fold` 参数而停止，且 completion marker created={str(erratum_execution['feature_matrix_completion_marker_created']).lower()}。此修复只把三个身份参数作为 keyword arguments 传入；scientific、representative 与 causal-Oracle contracts 均未改变。失败时的 {erratum_execution['discarded_artifact_count']} 个工件（{erratum_execution['discarded_artifact_total_bytes']:,} bytes）由 `PREREGISTRATION_IMPLEMENTATION_ERRATUM.json` 的公开哈希台账绑定，均在实现勘误 refreeze 前丢弃并禁止复用。当时 clinical label table parsed={str(erratum_execution['clinical_label_table_parsed']).lower()}，Stage-A probe fit={str(erratum_execution['stage_a_probe_fit']).lower()}，Stage-A result created={str(erratum_execution['stage_a_result_artifacts_created']).lower()}，Stage-B started={str(erratum_execution['stage_b_started']).lower()}。
+
 ## 十二个问题的明确回答
 
 {chr(10).join(answers)}
@@ -656,9 +689,12 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
 - Original preregistration commit SHA：`{original_preregistration_commit}`
 - Original preregistration lock：`{amendment['original_preregistration_lock_sha256']}`
 - Preregistration amendment：`{file_sha256(amendment_path)}`
+- Prior amended preregistration commit SHA：`{prior_amended_preregistration_commit}`
+- Prior amended preregistration lock：`{implementation_erratum['prior_amended_preregistration_lock_sha256']}`
+- Preregistration implementation erratum：`{file_sha256(implementation_erratum_path)}`
 - Preregistration lock：`{file_sha256(ROOT / 'PREREGISTRATION_LOCK.json')}`
 - Preregistration commit SHA：`{preregistration_commit}`
-- Active amended preregistration commit SHA：`{preregistration_commit}`
+- Active implementation-refrozen preregistration commit SHA：`{preregistration_commit}`
 - Preregistration base HEAD：`{lock['git_provenance_before_freeze']['base_head']}`
 - Experiment commit SHA：`{experiment_commit}`
 - GitHub push status：`{push_status}`
@@ -667,6 +703,7 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
     input_paths = [
         ROOT / "PREREGISTRATION_LOCK.json",
         amendment_path,
+        implementation_erratum_path,
         gates_path,
         authorization_path,
         run_summary_path,
@@ -684,6 +721,11 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
             "original_preregistration_lock_sha256"
         ],
         "preregistration_amendment_sha256": file_sha256(amendment_path),
+        "prior_amended_preregistration_commit": (prior_amended_preregistration_commit),
+        "prior_amended_preregistration_lock_sha256": implementation_erratum[
+            "prior_amended_preregistration_lock_sha256"
+        ],
+        "implementation_erratum_sha256": file_sha256(implementation_erratum_path),
         "preregistration_commit": preregistration_commit,
         "active_amended_preregistration_commit": preregistration_commit,
         "experiment_commit": experiment_commit,
@@ -718,7 +760,9 @@ def main() -> None:
     repo = ROOT.parents[1]
     config = load_config(ROOT / "configs" / "audit.json", verify_inputs=True)
     require_preregistration_lock(config)
-    original_anchor, active_anchor = preregistration_anchor_commits()
+    original_anchor, prior_amended_anchor, active_anchor = (
+        preregistration_provenance_anchors()
+    )
     branch = subprocess.check_output(
         ["git", "branch", "--show-current"], cwd=repo, text=True
     ).strip()
@@ -731,6 +775,7 @@ def main() -> None:
             str(config["branch"]),
             active_anchor,
             original_anchor,
+            prior_amended_anchor,
         )
     report_path = ROOT / "reports" / "final_report.md"
     manifest_path = ROOT / "reports" / "report_manifest.json"
@@ -754,6 +799,9 @@ def main() -> None:
             "original_preregistration_lock_sha256",
             "active_amended_preregistration_commit",
             "preregistration_amendment_sha256",
+            "prior_amended_preregistration_commit",
+            "prior_amended_preregistration_lock_sha256",
+            "implementation_erratum_sha256",
         ):
             if previous.get(name) != manifest.get(name):
                 raise ValueError(f"report amendment provenance changed at {name}")
