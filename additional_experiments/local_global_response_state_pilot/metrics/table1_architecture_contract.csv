@@ -1,0 +1,7 @@
+arm,pooling,response_dimension,trainable_projection,projection_input_dimension,parameter_count,parameter_count_scope,response_projection_parameter_count,response_projection_parameter_count_scope,ftv_head_parameter_count,frozen_parameter_count,all_model_parameter_count,grounded
+GAP0,GAP,192,"Linear(128,192)+LayerNorm(192)",128,2254528,trainable_total,25152,online_response_projection_including_layernorm,0,1066624,3321152,False
+GAP3,GAP,192,"Linear(128,192)+LayerNorm(192)",128,2254721,trainable_total,25152,online_response_projection_including_layernorm,193,1066624,3321345,True
+LOCAL0,fixed_64mm_LOCAL,192,"Linear(128,192)+LayerNorm(192)",128,2254528,trainable_total,25152,online_response_projection_including_layernorm,0,1066624,3321152,False
+LOCAL3,fixed_64mm_LOCAL,192,"Linear(128,192)+LayerNorm(192)",128,2254721,trainable_total,25152,online_response_projection_including_layernorm,193,1066624,3321345,True
+LG0,"concat(fixed_64mm_LOCAL,GAP)",192,"Linear(256,192)+LayerNorm(192)",256,2279104,trainable_total,49728,online_response_projection_including_layernorm,0,1091200,3370304,False
+LG3,"concat(fixed_64mm_LOCAL,GAP)",192,"Linear(256,192)+LayerNorm(192)",256,2279297,trainable_total,49728,online_response_projection_including_layernorm,193,1091200,3370497,True

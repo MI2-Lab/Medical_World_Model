@@ -1,0 +1,144 @@
+{
+  "artifact_sha256": {
+    "01_local_global_architecture_schematic.png": "fdc0a7cff1a2f5eba25ff4d99ac4bbd5f922cf9076f6c0d2c06b46d513d77c32",
+    "02_static_ftv_spearman_comparison.png": "984f65a311f54feca10c9cbe72967302e79433ddeff9ea84f09f6bda9c71a7c0",
+    "03_static_ftv_natural_r2_comparison.png": "5337c18926006393ceefcf796680a4ec197f7431fcc87601b3573ff56270e2db",
+    "04_delta_ftv_spearman_comparison.png": "0713e8afaedf037f548084b23d15eb02264499414c2a013b674e6e663d929639",
+    "05_delta_ftv_natural_r2_comparison.png": "7183d560f50aa9c91c4c28393162a71035369b1319ae8268eaecb36d22bb9f89",
+    "06_prediction_target_variance_ratio.png": "ca818588d85d645a4896a1982aeaf8bb7930573cd46fc5fad9a803389364c4a2",
+    "07_descriptive_calibration_slope.png": "268b9bb387be665b8f8f11efa06b2a2650518f59000bf9db280f3e610cd8614e",
+    "08_paired_fold_effects.png": "953c172bc8ca52e211a1023413deeb72cd39041656321acda4459fa40b281a70",
+    "09_optimization_safety_heatmap.png": "cabcd1aec353c46eb24430ac006a8daa718efaddb2e33256842ca3c6153ef638",
+    "10_representative_training_curves.png": "d75db420bc6f67378129a9cf1aaebf13fdef31b1bb92f5849cc9f6ab9248a0de",
+    "decision_summary.json": "12465d3bea47db4bec29b5c07338d68403d2e7af3c7f8b95188aef0b74e8a7db",
+    "natural_pooled_metrics.csv": "877be3e247ac70c6114ceb67b4cd01b12d3af95597f655dd6ccfa51d7648fcba",
+    "paired_fold_effects.csv": "487690c6c46a0bf19e23dfc75ec3dabb3a77688e8c10fc2dac34aef90cf57bf3",
+    "report_context.json": "62ace5d88169113d9cda547a2b760306451a07e4dfbb60292866f999358799ed",
+    "table1_architecture_contract.csv": "2b6b24e70b8e2baafb27cfd6960383439172a7d8f92a8aba992538534eabac13",
+    "table2_static_ftv.csv": "71ac120932ae23d56566e395b78082309918cac96571f420323bcab340e1a1db",
+    "table3_observed_delta_ftv.csv": "bab0bdb54b66a56f5eca4af182e8c56dfeba95a5871cbae5dcc1e9545b48435c",
+    "table4_paired_architecture_effects.csv": "08e55fe4ee63ce3bfd016b597b0ded05949c9e80e28d4dce65a513d11bbfc905",
+    "table5_grounding_effects.csv": "dae679fda3ca8bbebf7255613623d8da218a8b07b48e1c154f5443ca92bd9d5e",
+    "table6_optimization_safety.csv": "7c5fc7a058c2ec3ef12ca4c85b1204373209a33d9e90eb31abc13c37469e68b2",
+    "table7_prediction_variance_calibration.csv": "67d0569519a13515aad61d006d81c95da5c98843b276d037feb1e6db4c68d85f",
+    "training_trajectories.csv": "6b23eec18ff0e6292e445c4542fd52b62405f35e71f885904bb7ccdcb72efc5f",
+    "transformed_fold_summaries.csv": "c8cbf094b73b1b56ed1b568b44bbcac6160f8cee29985d70a7cd842f42b39e73"
+  },
+  "config_sha256": "399dfa7327aca3a4c0cc3e711c117e6e0a828b85045f7ee5953b3ab4b06f548e",
+  "data_contract_sha256": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27",
+  "data_provenance_sha256": "c14e90aeae2e5e1dc1c4e81ede72b1f782ded416cd8ae9c7ab5268cfbaf17f9c",
+  "decision": {
+    "candidate_base_arm": "LOCAL0",
+    "candidate_grounded_arm": "LOCAL3",
+    "classification": "A. LOCAL STATE VALIDATED IN PILOT",
+    "folds_are_paired_sensitivity_not_independent_replicates": true,
+    "gates": {
+      "A_LOCAL_STATE_WORKS": {
+        "checks": {
+          "delta_each_seed": true,
+          "natural_r2_not_systematically_worse": true,
+          "static_each_seed": true
+        },
+        "delta_macro_spearman_effect_by_seed": {
+          "2026": 0.2320520347403952,
+          "3026": 0.19222573671634996
+        },
+        "pass": true,
+        "static_macro_spearman_effect_by_seed": {
+          "2026": 0.2747898547368466,
+          "3026": 0.25163374825952045
+        },
+        "static_natural_r2_effect_by_seed": {
+          "2026": 0.09363948948250356,
+          "3026": 0.108581496923571
+        },
+        "thresholds": {
+          "delta_macro_spearman_gain_each_seed_strictly_gt": 0.0,
+          "static_macro_spearman_gain_each_seed_min": 0.1,
+          "static_natural_r2_systematic_worsening_forbidden": true
+        }
+      },
+      "B_LOCAL_GLOBAL_ADDS_VALUE": {
+        "checks": {
+          "natural_r2_not_systematically_worse": false,
+          "static_at_least_one_seed_meaningful": false,
+          "static_each_seed_nonnegative": false
+        },
+        "pass": false,
+        "static_macro_spearman_effect_by_seed": {
+          "2026": 0.006298298290360882,
+          "3026": -0.015475993088510775
+        },
+        "static_natural_r2_effect_by_seed": {
+          "2026": -0.022408890966111233,
+          "3026": -0.02128647269174691
+        },
+        "thresholds": {
+          "static_macro_spearman_gain_at_least_one_seed_min": 0.02,
+          "static_macro_spearman_gain_each_seed_min": 0.0,
+          "static_natural_r2_systematic_worsening_forbidden": true
+        }
+      },
+      "C_GROUNDING_COMPATIBILITY": {
+        "candidate_comparison": "LOCAL3-LOCAL0",
+        "checks": {
+          "delta_at_least_one_seed_meaningful": true,
+          "natural_r2_not_systematically_worse": true,
+          "static_each_seed_positive": true
+        },
+        "delta_macro_spearman_effect_by_seed": {
+          "2026": 0.03364683126635559,
+          "3026": 0.03837182842189102
+        },
+        "pass": true,
+        "static_macro_spearman_effect_by_seed": {
+          "2026": 0.025564342069004153,
+          "3026": 0.04128140375447953
+        },
+        "static_natural_r2_effect_by_seed": {
+          "2026": 0.014063025599451162,
+          "3026": 0.016606804020445787
+        },
+        "thresholds": {
+          "candidate_delta_macro_spearman_gain_at_least_one_seed_min": 0.02,
+          "candidate_static_macro_spearman_gain_each_seed_strictly_gt": 0.0,
+          "static_natural_r2_systematic_worsening_forbidden": true
+        }
+      },
+      "D_OPTIMIZATION_SAFETY": {
+        "candidate_comparison": "LOCAL3-LOCAL0",
+        "checks": {
+          "minimum_safe_folds": true,
+          "paired_fold_count_exact": true
+        },
+        "pass": true,
+        "required_safe_folds": 9,
+        "safe_folds": 10,
+        "thresholds": {
+          "candidate_paired_folds_required": 9,
+          "candidate_paired_folds_total": 10,
+          "maximum_state_loss_degradation_fraction": 0.05
+        },
+        "total_folds": 10
+      }
+    },
+    "next_stage": {
+      "direct_ftv_plus_ld_authorized_by_this_pilot": false,
+      "pilot_supports_ftv_plus_ld_after_confirmation": true,
+      "selected_architecture_requires_multiseed_confirmation_first": true
+    },
+    "pilot_only_not_statistical_significance": true,
+    "schema_version": 1,
+    "winner": "LOCAL"
+  },
+  "formal_cells": 60,
+  "natural_aggregation": "pool_5fold_oof_then_unweighted_endpoint_macro",
+  "patient_level_outputs_private": true,
+  "preregistration_lock": "PREREGISTRATION_LOCK.json",
+  "preregistration_lock_sha256": "d2fcbd6e92300debe462da1968d74f4809a03bfdccaea2cd82edfead846c4daa",
+  "public_outputs_deidentified": true,
+  "schema_version": 1,
+  "stage_a_sentinel_sha256": "0b2c9e0af63ce8806525fb15ac9a27f6ab525b0259ccf16001981ca5091afbdb",
+  "status": "COMPLETE",
+  "transformed_aggregation": "fold_metric_summaries_only"
+}

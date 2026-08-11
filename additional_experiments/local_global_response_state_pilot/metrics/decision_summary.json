@@ -1,0 +1,104 @@
+{
+  "candidate_base_arm": "LOCAL0",
+  "candidate_grounded_arm": "LOCAL3",
+  "classification": "A. LOCAL STATE VALIDATED IN PILOT",
+  "folds_are_paired_sensitivity_not_independent_replicates": true,
+  "gates": {
+    "A_LOCAL_STATE_WORKS": {
+      "checks": {
+        "delta_each_seed": true,
+        "natural_r2_not_systematically_worse": true,
+        "static_each_seed": true
+      },
+      "delta_macro_spearman_effect_by_seed": {
+        "2026": 0.2320520347403952,
+        "3026": 0.19222573671634996
+      },
+      "pass": true,
+      "static_macro_spearman_effect_by_seed": {
+        "2026": 0.2747898547368466,
+        "3026": 0.25163374825952045
+      },
+      "static_natural_r2_effect_by_seed": {
+        "2026": 0.09363948948250356,
+        "3026": 0.108581496923571
+      },
+      "thresholds": {
+        "delta_macro_spearman_gain_each_seed_strictly_gt": 0.0,
+        "static_macro_spearman_gain_each_seed_min": 0.1,
+        "static_natural_r2_systematic_worsening_forbidden": true
+      }
+    },
+    "B_LOCAL_GLOBAL_ADDS_VALUE": {
+      "checks": {
+        "natural_r2_not_systematically_worse": false,
+        "static_at_least_one_seed_meaningful": false,
+        "static_each_seed_nonnegative": false
+      },
+      "pass": false,
+      "static_macro_spearman_effect_by_seed": {
+        "2026": 0.006298298290360882,
+        "3026": -0.015475993088510775
+      },
+      "static_natural_r2_effect_by_seed": {
+        "2026": -0.022408890966111233,
+        "3026": -0.02128647269174691
+      },
+      "thresholds": {
+        "static_macro_spearman_gain_at_least_one_seed_min": 0.02,
+        "static_macro_spearman_gain_each_seed_min": 0.0,
+        "static_natural_r2_systematic_worsening_forbidden": true
+      }
+    },
+    "C_GROUNDING_COMPATIBILITY": {
+      "candidate_comparison": "LOCAL3-LOCAL0",
+      "checks": {
+        "delta_at_least_one_seed_meaningful": true,
+        "natural_r2_not_systematically_worse": true,
+        "static_each_seed_positive": true
+      },
+      "delta_macro_spearman_effect_by_seed": {
+        "2026": 0.03364683126635559,
+        "3026": 0.03837182842189102
+      },
+      "pass": true,
+      "static_macro_spearman_effect_by_seed": {
+        "2026": 0.025564342069004153,
+        "3026": 0.04128140375447953
+      },
+      "static_natural_r2_effect_by_seed": {
+        "2026": 0.014063025599451162,
+        "3026": 0.016606804020445787
+      },
+      "thresholds": {
+        "candidate_delta_macro_spearman_gain_at_least_one_seed_min": 0.02,
+        "candidate_static_macro_spearman_gain_each_seed_strictly_gt": 0.0,
+        "static_natural_r2_systematic_worsening_forbidden": true
+      }
+    },
+    "D_OPTIMIZATION_SAFETY": {
+      "candidate_comparison": "LOCAL3-LOCAL0",
+      "checks": {
+        "minimum_safe_folds": true,
+        "paired_fold_count_exact": true
+      },
+      "pass": true,
+      "required_safe_folds": 9,
+      "safe_folds": 10,
+      "thresholds": {
+        "candidate_paired_folds_required": 9,
+        "candidate_paired_folds_total": 10,
+        "maximum_state_loss_degradation_fraction": 0.05
+      },
+      "total_folds": 10
+    }
+  },
+  "next_stage": {
+    "direct_ftv_plus_ld_authorized_by_this_pilot": false,
+    "pilot_supports_ftv_plus_ld_after_confirmation": true,
+    "selected_architecture_requires_multiseed_confirmation_first": true
+  },
+  "pilot_only_not_statistical_significance": true,
+  "schema_version": 1,
+  "winner": "LOCAL"
+}
