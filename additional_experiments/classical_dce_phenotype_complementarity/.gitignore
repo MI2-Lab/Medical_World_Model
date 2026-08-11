@@ -1,0 +1,6 @@
+features/*.private.*
+predictions/*.private.*
+logs/*.private.*
+configs/*.private.*
+__pycache__/
+.pytest_cache/

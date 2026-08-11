@@ -1,0 +1,253 @@
+{
+  "allow_pending_delivery": false,
+  "checks": [
+    {
+      "details": {
+        "path": "/data/mi2-interns/bowen/Medical_World_Model_classical_dce/additional_experiments/classical_dce_phenotype_complementarity/configs/experiment.json",
+        "sha256": "530f06ea188653df11e4391c05ce28a9cf8f9db27017df02ed9fb42792af26f3"
+      },
+      "name": "config",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "figures": 7,
+        "final_report": "reports/final_report.md",
+        "tables": 19
+      },
+      "name": "required_outputs",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "clinical_sha256": "c016962d2d1e23686746ad3e74a58caeb2d1362f6393fd6209c10723f87c3a53",
+        "config_sha256": "530f06ea188653df11e4391c05ce28a9cf8f9db27017df02ed9fb42792af26f3",
+        "mode": "authoritative_experiment_loaders",
+        "mri_outer_folds": 5,
+        "mri_overlap_n": 375,
+        "primary_n": 384,
+        "primary_pcr_positive": 113,
+        "radiomics_sha256": "f714c7784b1e57daa74d7cfb20db71cd432b4e4596b9b4eacdd5a76b7f8a58dc"
+      },
+      "name": "source_hashes_and_schemas",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "artifact_hashes_verified": 4,
+        "bootstrap_draws": 2000,
+        "mri_n": 375,
+        "primary_n": 384,
+        "quick_mode": false
+      },
+      "name": "run_summary",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "future_visits": 0,
+        "realized_feature_rows_checked": 3740,
+        "t3_label": "late/pre-surgery",
+        "timings": [
+          "T0",
+          "T1",
+          "T2",
+          "T3"
+        ]
+      },
+      "name": "timing_contract",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "primary_n": 384,
+        "primary_pcr_positive": 113,
+        "required_cells_checked": 224,
+        "scenarios": [
+          "complete_case",
+          "train_median_indicator"
+        ]
+      },
+      "name": "primary_metrics",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "longitudinal": 140,
+        "static": 112
+      },
+      "name": "static_longitudinal_consistency",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "key_comparisons": 3,
+        "minimum_draws": 2000,
+        "required_cells": 24,
+        "timings": 4,
+        "views": 2
+      },
+      "name": "paired_bootstrap",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "identity_proof": "matching patient_set_sha256",
+        "imputation_identity_cells": 8,
+        "paired_cells_checked": 24,
+        "population_n": 384
+      },
+      "name": "population_identity",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "correlation_columns": 16,
+        "tables": {
+          "family_ablation_metrics.csv": [
+            "auroc",
+            "auprc",
+            "balanced_accuracy",
+            "brier"
+          ],
+          "lr_vs_svm.csv": [
+            "logistic_auroc",
+            "svm_auroc",
+            "logistic_auprc",
+            "svm_auprc",
+            "logistic_balanced_accuracy",
+            "svm_balanced_accuracy",
+            "logistic_brier",
+            "svm_brier",
+            "delta_svm_minus_lr_auprc",
+            "delta_svm_minus_lr_balanced_accuracy",
+            "delta_svm_minus_lr_brier"
+          ],
+          "mri_reference_metrics.csv": [
+            "auroc_mean",
+            "auroc_min",
+            "auroc_max",
+            "auprc_mean",
+            "auprc_min",
+            "auprc_max",
+            "balanced_accuracy_mean",
+            "balanced_accuracy_min",
+            "balanced_accuracy_max",
+            "brier_mean",
+            "brier_min",
+            "brier_max"
+          ],
+          "mri_reference_profile_metrics.csv": [
+            "auroc_mean",
+            "auroc_min",
+            "auroc_max",
+            "auprc_mean",
+            "auprc_min",
+            "auprc_max",
+            "balanced_accuracy_mean",
+            "balanced_accuracy_min",
+            "balanced_accuracy_max"
+          ],
+          "mri_reference_traditional_pcr_comparison.csv": [
+            "traditional_auroc",
+            "mri_auroc"
+          ],
+          "mri_reference_traditional_profile_comparison.csv": [
+            "traditional_auroc",
+            "mri_auroc"
+          ],
+          "profile_oof_metrics.csv": [
+            "auroc",
+            "auprc",
+            "balanced_accuracy",
+            "brier"
+          ],
+          "redundancy_metrics.csv": [
+            "r2",
+            "spearman",
+            "fold_mean_r2",
+            "fold_min_r2",
+            "fold_max_r2",
+            "fold_mean_spearman",
+            "fold_min_spearman",
+            "fold_max_spearman"
+          ],
+          "residualization_metrics.csv": [
+            "auroc",
+            "auprc",
+            "balanced_accuracy",
+            "brier"
+          ]
+        }
+      },
+      "name": "finite_aggregate_metrics",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "family_ablation_cells": 32,
+        "lr_vs_svm_cells": 56,
+        "profile_probe_cells": 96,
+        "redundancy_cells": 8,
+        "residualization_cells": 16
+      },
+      "name": "scientific_table_coverage",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "matched_n": 375,
+        "pooled": false,
+        "sensitivity_cells": [
+          4
+        ],
+        "traditional_comparisons": {
+          "pcr_cells": 12,
+          "profile_cells": 42
+        }
+      },
+      "name": "mri_reference",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "chinese_characters": 1409,
+        "numbered_answers": 12,
+        "required_terms": 14
+      },
+      "name": "final_chinese_report",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "aggregate_text_files_scanned": 33,
+        "private_files_checked": 7,
+        "six_digit_ids_found": 0
+      },
+      "name": "privacy_and_gitignore",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "raw_mri_files": 0,
+        "raw_workbooks": 0
+      },
+      "name": "no_raw_data",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "branch": "feature/classical-dce-phenotype-complementarity",
+        "commit_sha": "01f2b3dad409347e31adf2dbae9082293fe86950",
+        "push_error_recorded": false,
+        "status": "PUSHED"
+      },
+      "name": "delivery",
+      "status": "passed"
+    }
+  ],
+  "experiment": "classical_dce_phenotype_complementarity",
+  "failed_checks": [],
+  "schema_version": 1,
+  "status": "passed"
+}

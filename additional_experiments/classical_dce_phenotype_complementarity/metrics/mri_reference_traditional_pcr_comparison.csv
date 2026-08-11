@@ -1,0 +1,13 @@
+population,task,view,timing,timing_label,target,traditional_model,mri_model,n,traditional_auroc,mri_auroc,difference_mri_minus_traditional,mri_aggregation
+mri_matched_375,pCR,longitudinal,T0,T0,pCR,N,M,375,0.5684734133790738,0.511655231560892,-0.05681818181818177,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,pCR,longitudinal,T0,T0,pCR,C+N,C+M,375,0.6733447684391081,0.6100686106346483,-0.06327615780445972,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,pCR,longitudinal,T0,T0,pCR,C+FULL,C+F+M,375,0.6734133790737564,0.6000557461406518,-0.0733576329331046,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,pCR,longitudinal,T1,T1,pCR,N,M,375,0.6023327615780446,0.5214150943396227,-0.08091766723842186,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,pCR,longitudinal,T1,T1,pCR,C+N,C+M,375,0.7478216123499143,0.627598627787307,-0.12022298456260727,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,pCR,longitudinal,T1,T1,pCR,C+FULL,C+F+M,375,0.7823670668953688,0.650385934819897,-0.1319811320754718,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,pCR,longitudinal,T2,T2,pCR,N,M,375,0.700754716981132,0.5298370497427101,-0.17091766723842194,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,pCR,longitudinal,T2,T2,pCR,C+N,C+M,375,0.7515951972555746,0.6169210977701544,-0.1346740994854202,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,pCR,longitudinal,T2,T2,pCR,C+FULL,C+F+M,375,0.8060377358490567,0.6453344768439109,-0.16070325900514582,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,pCR,longitudinal,T3,T3 (late/pre-surgery),pCR,N,M,375,0.7189365351629503,0.5492452830188679,-0.16969125214408243,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,pCR,longitudinal,T3,T3 (late/pre-surgery),pCR,C+N,C+M,375,0.7835334476843911,0.599253859348199,-0.18427958833619218,mean_of_four_seed_x_arm_cells_without_patient_pooling
+mri_matched_375,pCR,longitudinal,T3,T3 (late/pre-surgery),pCR,C+FULL,C+F+M,375,0.7898456260720411,0.6454202401372213,-0.1444253859348198,mean_of_four_seed_x_arm_cells_without_patient_pooling
