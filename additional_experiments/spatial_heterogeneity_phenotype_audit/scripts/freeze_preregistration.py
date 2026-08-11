@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Freeze the no-results plan, config, code, and exact 20 selected checkpoints."""
+"""Refreeze the amended no-results contract and 20 selected checkpoints."""
 
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 from pathlib import Path
 import subprocess
@@ -15,13 +16,18 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from common import (  # noqa: E402
+    AMENDED_LOCK_STATUS,
     atomic_json,
+    authenticate_original_preregistration,
     canonical_sha256,
     file_sha256,
+    historical_file_sha256,
     load_config,
+    load_preregistration_amendment,
     ordered_sha256,
     runtime_environment,
 )
+from run_feature_matrix import require_representative_contract  # noqa: E402
 
 
 RESULT_ROOT_NAMES = (
@@ -35,6 +41,7 @@ RESULT_ROOT_NAMES = (
     "checkpoints",
     "data",
 )
+ORIGINAL_LOCK_STATUS = "FROZEN_BEFORE_FEATURE_EXTRACTION_OR_PROBING"
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -135,6 +142,78 @@ def _git_provenance(config: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _load_historical_json(commit: str, filename: str) -> dict[str, Any]:
+    """Load an experiment JSON document from an immutable Git commit."""
+
+    repo = ROOT.parents[1]
+    relative = (ROOT.relative_to(repo) / filename).as_posix()
+    try:
+        payload = subprocess.check_output(
+            ["git", "show", f"{commit}:{relative}"],
+            cwd=repo,
+            stderr=subprocess.STDOUT,
+        )
+        value = json.loads(payload.decode("utf-8"))
+    except (subprocess.CalledProcessError, UnicodeError, json.JSONDecodeError) as error:
+        raise ValueError(
+            f"historical preregistration JSON is unavailable: {filename}"
+        ) from error
+    if not isinstance(value, dict):
+        raise ValueError(
+            f"historical preregistration JSON is not an object: {filename}"
+        )
+    return value
+
+
+def _require_historical_parity(
+    *,
+    historical_lock: dict[str, Any],
+    historical_config: dict[str, Any],
+    current_config: dict[str, Any],
+    selected_cells: dict[str, Any],
+    upstream_code_sha256: dict[str, str],
+    runtime: dict[str, str],
+    privacy_policy_sha256: str,
+) -> None:
+    """Allow only the declared representative amendment to immutable identity."""
+
+    if (
+        historical_lock.get("schema_version") != 2
+        or historical_lock.get("status") != ORIGINAL_LOCK_STATUS
+        or historical_lock.get("analysis_outputs_present_before_freeze") is not False
+        or historical_lock.get("analysis_outputs_before_freeze") != []
+    ):
+        raise ValueError("superseded preregistration lock contract drifted")
+    immutable_scalars = {
+        "branch": current_config.get("branch"),
+        "formal_cell_count": len(selected_cells),
+        "privacy_policy_sha256": privacy_policy_sha256,
+        "runtime_environment": runtime,
+    }
+    for field, expected in immutable_scalars.items():
+        if historical_lock.get(field) != expected:
+            raise ValueError(f"non-amended preregistration identity drifted: {field}")
+    if historical_lock.get("selected_cells") != selected_cells:
+        raise ValueError(
+            "selected-cell assets differ from the superseded preregistration"
+        )
+    if historical_lock.get("upstream_code_sha256") != upstream_code_sha256:
+        raise ValueError("upstream code differs from the superseded preregistration")
+
+    amended_config = copy.deepcopy(current_config)
+    oracle = amended_config.get("oracle")
+    historical_oracle = historical_config.get("oracle")
+    if (
+        not isinstance(oracle, dict)
+        or not isinstance(historical_oracle, dict)
+        or "representative" in historical_oracle
+        or not isinstance(oracle.pop("representative", None), dict)
+    ):
+        raise ValueError("representative-only config amendment contract drifted")
+    if amended_config != historical_config:
+        raise ValueError("config changed outside the representative-only amendment")
+
+
 def main() -> None:
     parse_args()
     config_path = ROOT / "configs" / "audit.json"
@@ -152,7 +231,31 @@ def main() -> None:
         display = [str(path.relative_to(ROOT)) for path in preexisting_results]
         raise RuntimeError(f"analysis outputs exist before preregistration: {display}")
 
+    amendment_path = ROOT / "PREREGISTRATION_AMENDMENT.json"
+    amendment = load_preregistration_amendment(amendment_path)
+    original_commit, original_lock_sha256 = authenticate_original_preregistration(
+        amendment
+    )
+    repo = ROOT.parents[1]
+    head = subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=repo, text=True
+    ).strip()
+    if head != original_commit:
+        raise ValueError(
+            "amendment refreeze must be based directly on the original pushed anchor"
+        )
+
     config = load_config(config_path, verify_inputs=True)
+    require_representative_contract(config)
+    current_config = json.loads(config_path.read_text(encoding="utf-8"))
+    historical_lock = _load_historical_json(
+        original_commit, "PREREGISTRATION_LOCK.json"
+    )
+    historical_config = _load_historical_json(original_commit, "configs/audit.json")
+    if historical_file_sha256(
+        original_commit, "configs/audit.json"
+    ) != historical_lock.get("config_sha256"):
+        raise ValueError("superseded lock does not authenticate its historical config")
     paths = config["paths"]
     import pandas as pd
 
@@ -317,21 +420,39 @@ def main() -> None:
     for path in upstream_paths:
         upstream_code_sha256[str(path)] = file_sha256(path)
 
+    privacy_policy_sha256 = file_sha256(ROOT / ".gitignore")
+    runtime = runtime_environment()
+    _require_historical_parity(
+        historical_lock=historical_lock,
+        historical_config=historical_config,
+        current_config=current_config,
+        selected_cells=cells,
+        upstream_code_sha256=upstream_code_sha256,
+        runtime=runtime,
+        privacy_policy_sha256=privacy_policy_sha256,
+    )
+
     git_provenance = _git_provenance(config)
+    if git_provenance["base_head"] != original_commit:
+        raise ValueError("refreeze Git base differs from the superseded anchor")
 
     payload = {
-        "schema_version": 2,
-        "status": "FROZEN_BEFORE_FEATURE_EXTRACTION_OR_PROBING",
+        "schema_version": 3,
+        "preregistration_revision": 2,
+        "status": AMENDED_LOCK_STATUS,
         "branch": config["branch"],
         "formal_cell_count": len(cells),
         "plan_sha256": file_sha256(ROOT / "EXPERIMENT_PLAN.md"),
         "config_sha256": file_sha256(config_path),
-        "privacy_policy_sha256": file_sha256(ROOT / ".gitignore"),
+        "privacy_policy_sha256": privacy_policy_sha256,
+        "amendment_sha256": file_sha256(amendment_path),
+        "superseded_preregistration_commit": original_commit,
+        "superseded_preregistration_lock_sha256": original_lock_sha256,
         "config_canonical_sha256": canonical_sha256(config),
         "selected_cells": cells,
         "implementation_sha256": implementation_sha256,
         "upstream_code_sha256": upstream_code_sha256,
-        "runtime_environment": runtime_environment(),
+        "runtime_environment": runtime,
         "git_provenance_before_freeze": git_provenance,
         "analysis_outputs_present_before_freeze": bool(preexisting_results),
         "analysis_outputs_before_freeze": [],
@@ -339,7 +460,12 @@ def main() -> None:
     atomic_json(payload, output_path)
     print(
         json.dumps(
-            {"status": payload["status"], "formal_cell_count": 20}, sort_keys=True
+            {
+                "status": payload["status"],
+                "preregistration_revision": 2,
+                "formal_cell_count": 20,
+            },
+            sort_keys=True,
         )
     )
 

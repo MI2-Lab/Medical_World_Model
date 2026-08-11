@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import copy
 import json
 from pathlib import Path
+import subprocess
 import sys
 
 import numpy as np
@@ -12,11 +14,17 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
+import common as common_module  # noqa: E402
 from common import file_sha256  # noqa: E402
 import freeze_preregistration as freeze  # noqa: E402
 import generate_figures as figures  # noqa: E402
 from generate_figures import pair_matched_oracle_deltas  # noqa: E402
-from generate_report import _stage_b_text, two_seed_endpoint_support  # noqa: E402
+from generate_report import (  # noqa: E402
+    STAGE_A_AUTHORIZATION_KEYS,
+    STAGE_A_RUN_SUMMARY_KEYS,
+    _stage_b_text,
+    two_seed_endpoint_support,
+)
 import run_feature_matrix as feature_matrix  # noqa: E402
 from run_feature_matrix import (  # noqa: E402
     COMPLETION_KEYS,
@@ -102,7 +110,7 @@ def _synthetic_run_summary(
     }
     feature_summary = {"cells": feature_records}
     summary: dict[str, object] = {
-        "schema_version": 1,
+        "schema_version": 2,
         "experiment": "spatial_heterogeneity_phenotype_audit",
         "stage": "A",
         "status": "COMPLETE",
@@ -115,6 +123,14 @@ def _synthetic_run_summary(
         "elapsed_seconds": 1.25,
         "config_sha256": file_sha256(config_path),
         "preregistration_lock_sha256": file_sha256(lock_path),
+        "preregistration_chain": {
+            "preregistration_revision": 2,
+            "active_preregistration_lock_sha256": file_sha256(lock_path),
+            "preregistration_amendment_sha256": "c" * 64,
+            "original_preregistration_lock_sha256": "d" * 64,
+            "original_preregistration_commit": "e" * 40,
+            "active_preregistration_commit": "f" * 40,
+        },
         "feature_asset_sha256": feature_hashes,
         "reused_implementation_sha256": {
             "data_contracts": "a" * 64,
@@ -196,6 +212,27 @@ def test_stage_b_report_summarizes_actual_paired_deltas() -> None:
     assert "Brier" in text
 
 
+def test_stage_a_provenance_schemas_are_synchronized() -> None:
+    chain = {
+        "preregistration_revision": 2,
+        "active_preregistration_lock_sha256": "a" * 64,
+        "preregistration_amendment_sha256": "b" * 64,
+        "original_preregistration_lock_sha256": "c" * 64,
+        "original_preregistration_commit": "d" * 40,
+        "active_preregistration_commit": "e" * 40,
+    }
+    gates = {
+        "gates": {"A": {"passed": False}, "C": {"passed": True}},
+        "scientific_classification": "PHENOTYPE_IS_SPATIALLY_LOCALIZED",
+    }
+    authorization = validator.stage_b_authorization(
+        {"stage_b": {"enabled": True}}, gates, chain, "f" * 64
+    )
+    authorization["stage_a_gates_sha256"] = "0" * 64
+    assert set(authorization) == set(STAGE_A_AUTHORIZATION_KEYS)
+    assert set(STAGE_A_RUN_SUMMARY_KEYS) == set(validator.RUN_SUMMARY_KEYS)
+
+
 def test_representative_npz_has_strict_schema_dtype_and_hash(tmp_path: Path) -> None:
     shape = FEATURE_SHAPE_ZYX
     path = tmp_path / "representative.private.npz"
@@ -236,12 +273,156 @@ def test_privacy_scan_is_a_closed_delivery_allowlist(
         validator._privacy_scan([public_csv])
 
 
+def test_amendment_schema_is_exact_and_patient_free(tmp_path: Path) -> None:
+    source = ROOT / "PREREGISTRATION_AMENDMENT.json"
+    amendment = json.loads(source.read_text(encoding="utf-8"))
+    path = tmp_path / source.name
+    path.write_text(json.dumps(amendment), encoding="utf-8")
+    observed = common_module.load_preregistration_amendment(path)
+    assert (
+        observed["geometry_qc"]["all_four_post_local_core_valid_patient_count"] == 373
+    )
+    assert observed["contains_patient_identifiers"] is False
+
+    amendment["geometry_qc"]["representative_candidate_count_after"] = 375
+    path.write_text(json.dumps(amendment), encoding="utf-8")
+    with pytest.raises(ValueError, match="geometry QC"):
+        common_module.load_preregistration_amendment(path)
+
+
+def test_refreeze_historical_parity_allows_only_representative_amendment() -> None:
+    historical_config = {
+        "branch": "feature/spatial-heterogeneity-phenotype-audit",
+        "oracle": {"comparison_population": "prefix_specific"},
+        "analysis": {"gates": ["A", "B", "C", "D"]},
+    }
+    current_config = copy.deepcopy(historical_config)
+    current_config["oracle"]["representative"] = {"candidate_count": 373}
+    selected_cells = {"seed_2026/LOCAL3/fold_0": {"checkpoint_sha256": "a" * 64}}
+    upstream = {"/sealed/module.py": "b" * 64}
+    runtime = {"python": "3.11.14"}
+    privacy = "c" * 64
+    historical_lock = {
+        "schema_version": 2,
+        "status": freeze.ORIGINAL_LOCK_STATUS,
+        "analysis_outputs_present_before_freeze": False,
+        "analysis_outputs_before_freeze": [],
+        "branch": current_config["branch"],
+        "formal_cell_count": 1,
+        "privacy_policy_sha256": privacy,
+        "runtime_environment": runtime,
+        "selected_cells": copy.deepcopy(selected_cells),
+        "upstream_code_sha256": dict(upstream),
+    }
+    arguments = {
+        "historical_lock": historical_lock,
+        "historical_config": historical_config,
+        "current_config": current_config,
+        "selected_cells": selected_cells,
+        "upstream_code_sha256": upstream,
+        "runtime": runtime,
+        "privacy_policy_sha256": privacy,
+    }
+    freeze._require_historical_parity(**arguments)
+
+    drifted_cells = copy.deepcopy(selected_cells)
+    drifted_cells["seed_2026/LOCAL3/fold_0"]["checkpoint_sha256"] = "d" * 64
+    with pytest.raises(ValueError, match="selected-cell assets"):
+        freeze._require_historical_parity(
+            **{**arguments, "selected_cells": drifted_cells}
+        )
+
+    with pytest.raises(ValueError, match="upstream code"):
+        freeze._require_historical_parity(
+            **{**arguments, "upstream_code_sha256": {"/sealed/module.py": "e" * 64}}
+        )
+
+    drifted_config = copy.deepcopy(current_config)
+    drifted_config["analysis"]["gates"].append("UNDECLARED")
+    with pytest.raises(ValueError, match="outside the representative-only amendment"):
+        freeze._require_historical_parity(
+            **{**arguments, "current_config": drifted_config}
+        )
+
+    with pytest.raises(ValueError, match="runtime_environment"):
+        freeze._require_historical_parity(
+            **{**arguments, "runtime": {"python": "3.12.0"}}
+        )
+
+
+def test_preregistration_chain_authenticates_both_committed_locks(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    repo = tmp_path / "repo"
+    experiment = repo / "audit"
+    experiment.mkdir(parents=True)
+
+    def git(*arguments: str) -> str:
+        return subprocess.check_output(["git", *arguments], cwd=repo, text=True).strip()
+
+    subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+    git("config", "user.email", "audit@example.invalid")
+    git("config", "user.name", "Audit Test")
+    original_lock_path = experiment / "PREREGISTRATION_LOCK.json"
+    original_lock_path.write_text('{"revision":1}\n', encoding="utf-8")
+    git("add", ".")
+    git("commit", "-q", "-m", "original preregistration")
+    original_commit = git("rev-parse", "HEAD")
+    original_lock_sha256 = file_sha256(original_lock_path)
+
+    amendment = json.loads(
+        (ROOT / "PREREGISTRATION_AMENDMENT.json").read_text(encoding="utf-8")
+    )
+    amendment["original_preregistration_commit"] = original_commit
+    amendment["original_preregistration_lock_sha256"] = original_lock_sha256
+    amendment_path = experiment / "PREREGISTRATION_AMENDMENT.json"
+    amendment_path.write_text(json.dumps(amendment, sort_keys=True), encoding="utf-8")
+    amended_lock = {
+        "schema_version": 3,
+        "preregistration_revision": 2,
+        "status": common_module.AMENDED_LOCK_STATUS,
+        "amendment_sha256": file_sha256(amendment_path),
+        "superseded_preregistration_commit": original_commit,
+        "superseded_preregistration_lock_sha256": original_lock_sha256,
+    }
+    original_lock_path.write_text(
+        json.dumps(amended_lock, sort_keys=True), encoding="utf-8"
+    )
+    git("add", ".")
+    git("commit", "-q", "-m", "amended preregistration")
+    active_commit = git("rev-parse", "HEAD")
+
+    monkeypatch.setattr(common_module, "REPO_ROOT", repo)
+    monkeypatch.setattr(common_module, "EXPERIMENT_ROOT", experiment)
+    monkeypatch.setattr(common_module, "AMENDMENT_PATH", amendment_path)
+    monkeypatch.setattr(common_module, "LOCK_PATH", original_lock_path)
+    chain = common_module.preregistration_chain(amended_lock)
+    assert chain == {
+        "preregistration_revision": 2,
+        "active_preregistration_lock_sha256": file_sha256(original_lock_path),
+        "preregistration_amendment_sha256": file_sha256(amendment_path),
+        "original_preregistration_lock_sha256": original_lock_sha256,
+        "original_preregistration_commit": original_commit,
+        "active_preregistration_commit": active_commit,
+    }
+
+    original_lock_path.write_text('{"tampered":true}\n', encoding="utf-8")
+    with pytest.raises(ValueError, match="committed amended lock"):
+        common_module.preregistration_chain(amended_lock)
+
+
 def test_run_summary_is_exact_and_authenticates_features_and_provenance(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     config, lock, gates, feature_summary = _synthetic_run_summary(tmp_path)
     monkeypatch.setattr(validator, "ROOT", tmp_path)
     path = tmp_path / "metrics" / "run_summary.json"
+    expected_chain = json.loads(path.read_text(encoding="utf-8"))[
+        "preregistration_chain"
+    ]
+    monkeypatch.setattr(
+        validator, "preregistration_chain", lambda _lock: expected_chain
+    )
 
     validated = validator._validate_run_summary(config, lock, gates, feature_summary)
     assert validated["status"] == "COMPLETE"

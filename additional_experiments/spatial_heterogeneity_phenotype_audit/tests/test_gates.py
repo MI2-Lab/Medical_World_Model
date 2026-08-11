@@ -17,11 +17,20 @@ from run_audit import (  # noqa: E402
     causal_prefix,
     evaluate_gates,
     oracle_complete_case_mask,
+    stage_b_authorization,
     timing_end_index,
 )
 
 
 SEEDS = (2026, 3026)
+PREREGISTRATION_CHAIN = {
+    "preregistration_revision": 2,
+    "active_preregistration_lock_sha256": "a" * 64,
+    "preregistration_amendment_sha256": "b" * 64,
+    "original_preregistration_lock_sha256": "c" * 64,
+    "original_preregistration_commit": "d" * 40,
+    "active_preregistration_commit": "e" * 40,
+}
 
 
 def _config() -> dict:
@@ -239,3 +248,24 @@ def test_output_policy_recovers_only_partial_run_and_freezes_completed_run(
         _prepare_output_policy(paths)
     assert artifact.exists()
     assert summary.exists()
+
+
+def test_stage_b_authorization_carries_exact_amendment_chain() -> None:
+    config = {"stage_b": {"authorization": "gate_A_or_gate_C"}}
+    gates = {
+        "gates": {"A": {"passed": True}, "C": {"passed": False}},
+        "scientific_classification": "PHENOTYPE INFORMATION PRESENT",
+    }
+    payload = stage_b_authorization(
+        config,
+        gates,
+        PREREGISTRATION_CHAIN,
+        "f" * 64,
+    )
+    assert payload["schema_version"] == 2
+    assert payload["config_sha256"] == "f" * 64
+    assert payload["preregistration_chain"] == PREREGISTRATION_CHAIN
+    assert (
+        payload["preregistration_lock_sha256"]
+        == PREREGISTRATION_CHAIN["active_preregistration_lock_sha256"]
+    )

@@ -153,9 +153,29 @@ prefix, only masks and validity through that timing are used. A future lesion ma
 or future-visit availability is forbidden even for population selection in the
 oracle diagnostic. Pair-specific sample sizes may therefore vary (T0 cohorts can
 include up to 808 patients; later/prefix cohorts up to 375), while the exact Table 7
-design still contains 640 metric rows. The de-identified representative is selected
-only from the exact 375 patients with CORE valid at all four visits, using the stable
-median total CORE input-voxel count in seed-2026/LOCAL3/fold-0.
+design still contains 640 metric rows.
+
+**Pre-probe QC amendment 1 (representative only).** The original preregistration
+is anchored at commit `116b34f0eeec7485ead4d076517dcdfdf10960e8` and lock
+SHA-256 `7ef5eb028d6dbc1e2c01d01cc86787d89a7156ffb9c6e7b5b61b9fe22591ca21`;
+the label-free Oracle sidecar inspected in this QC had SHA-256
+`884447b44f6dcb4e519f2d236ecb65afbfe49f24bd0220e75e037630733dbc61`.
+The check found 375 patients with upstream CORE parity at all four visits, but
+two source-authorized parity visits (one T2 and one T3, in distinct patients)
+had empty CORE after exact LOCAL confinement. Therefore, 373 patients—not
+375—have post-LOCAL CORE valid at all four visits. No clinical-label table was
+parsed, no probe was fit, and no prediction or public result was produced before
+this amendment.
+
+The de-identified descriptive representative is selected only in the designated
+seed-2026/LOCAL3/fold-0 cell and displayed at T0. Candidates are the exact 373
+patients with post-LOCAL CORE valid at T0, T1, T2, and T3. They are ranked in
+ascending order by total CORE input-voxel count across those four visits; ties
+retain locked Oracle patient order. The selected patient is the upper-median rank
+`floor(n/2)`. This representative is never an analytic population. The amendment
+changes only this representative-selection diagnostic: the causal, pair-specific
+Oracle probe populations, the 1,500-visit upstream parity requirement, Table 7,
+all gates, mask-free analyses, and Stage B remain unchanged.
 
 ## 7. Longitudinal heterogeneity
 

@@ -31,6 +31,10 @@ from pooling import (
     weighted_mean,
     weighted_population_std,
 )  # noqa: E402
+from run_feature_matrix import (  # noqa: E402
+    require_representative_contract,
+    validate_representative_contract,
+)
 from verify_cache_integrity import (  # noqa: E402
     PRIVATE_MANIFEST as CACHE_PRIVATE_MANIFEST,
     PUBLIC_CONTRACT as CACHE_PUBLIC_CONTRACT,
@@ -178,6 +182,12 @@ def _load_oracle(
     ):
         raise ValueError("oracle validity shape/dtype drifted")
     if (
+        output["input_voxel_count"].shape != (PRIMARY_PATIENT_COUNT, 4, 4)
+        or output["input_voxel_count"].dtype != np.int64
+        or np.any(output["input_voxel_count"] < 0)
+    ):
+        raise ValueError("oracle input-voxel count shape/dtype/value drifted")
+    if (
         output["patient_id"].shape != (PRIMARY_PATIENT_COUNT,)
         or len(set(output["patient_id"].astype(str))) != PRIMARY_PATIENT_COUNT
     ):
@@ -278,7 +288,9 @@ def _representative_payload(
     oracle: Mapping[str, np.ndarray],
     oracle_lookup: Mapping[str, int],
     local_weight: np.ndarray,
+    representative_contract: Mapping[str, Any],
 ) -> dict[str, np.ndarray] | None:
+    contract = validate_representative_contract(representative_contract)
     formal_in_batch = [
         index
         for index, patient_id in enumerate(patient_ids)
@@ -289,8 +301,9 @@ def _representative_payload(
     # Caller invokes this only when the globally selected representative occurs.
     patient_index = formal_in_batch[0]
     oracle_index = oracle_lookup[patient_ids[patient_index]]
+    display_index = VISITS.index(str(contract["display_visit"]))
     activation = spatial.reshape(len(patient_ids), 4, 128, *FEATURE_SHAPE_ZYX)[
-        patient_index, 0
+        patient_index, display_index
     ]
     return {
         "activation_mean_abs": activation.abs()
@@ -306,13 +319,64 @@ def _representative_payload(
         .numpy(),
         "local_weight": np.asarray(local_weight, dtype=np.float32),
         "region_weight": np.asarray(
-            oracle["region_weight"][oracle_index, 0], dtype=np.float32
+            oracle["region_weight"][oracle_index, display_index], dtype=np.float32
         ),
         "regions": np.asarray(REGIONS),
-        "selection_rule": np.asarray(
-            "median_total_core_voxel_count_all_four_core_valid_patient_seed2026_LOCAL3_fold0_T0"
-        ),
+        "selection_rule": np.asarray(contract["selection_rule"]),
     }
+
+
+def select_representative_index(
+    oracle: Mapping[str, np.ndarray],
+    representative_contract: Mapping[str, Any],
+) -> int:
+    """Select the locked-order upper median from exact post-LOCAL candidates."""
+
+    contract = validate_representative_contract(representative_contract)
+    required = {"visits", "regions", "region_valid", "input_voxel_count"}
+    if not required.issubset(oracle):
+        raise ValueError("representative oracle inputs are incomplete")
+    visits = np.asarray(oracle["visits"])
+    regions = np.asarray(oracle["regions"])
+    region_valid = np.asarray(oracle["region_valid"])
+    input_voxel_count = np.asarray(oracle["input_voxel_count"])
+    if tuple(visits.astype(str)) != VISITS or tuple(regions.astype(str)) != REGIONS:
+        raise ValueError("representative oracle visit/region order drifted")
+    if (
+        region_valid.shape != (PRIMARY_PATIENT_COUNT, 4, 4)
+        or region_valid.dtype != np.bool_
+    ):
+        raise ValueError("representative oracle validity shape/dtype drifted")
+    if (
+        input_voxel_count.shape != (PRIMARY_PATIENT_COUNT, 4, 4)
+        or input_voxel_count.dtype != np.int64
+        or np.any(input_voxel_count < 0)
+    ):
+        raise ValueError("representative input-voxel count shape/dtype/value drifted")
+
+    visit_indices = [VISITS.index(str(visit)) for visit in contract["candidate_visits"]]
+    region_index = REGIONS.index(str(contract["candidate_region"]))
+    candidate_mask = region_valid[:, visit_indices, region_index].all(axis=1)
+    candidate_indices = np.flatnonzero(candidate_mask)
+    if len(candidate_indices) != int(contract["candidate_count"]):
+        raise ValueError(
+            "representative post-LOCAL all-four CORE-valid candidate count drifted: "
+            f"expected {contract['candidate_count']}, observed {len(candidate_indices)}"
+        )
+
+    total_counts = (
+        input_voxel_count[:, visit_indices, region_index]
+        .astype(np.int64, copy=False)
+        .sum(axis=1, dtype=np.int64)
+    )
+    ranked_indices = candidate_indices[
+        np.argsort(total_counts[candidate_indices], kind="stable")
+    ]
+    selected = int(ranked_indices[len(ranked_indices) // 2])
+    display_index = VISITS.index(str(contract["display_visit"]))
+    if not bool(region_valid[selected, display_index, region_index]):
+        raise ValueError("representative is invalid at its configured display visit")
+    return selected
 
 
 def export_cell(
@@ -341,6 +405,13 @@ def export_cell(
 
     private_directory(ROOT / "features")
     private_directory(output.parent)
+    representative_contract = require_representative_contract(config)
+    representative_identity = representative_contract["designated_cell"]
+    representative_cell = (seed, arm, fold) == (
+        representative_identity["seed_base"],
+        representative_identity["arm"],
+        representative_identity["fold"],
+    )
     key = f"seed_{seed}/{arm}/fold_{fold}"
     if key not in lock["selected_cells"]:
         raise ValueError(f"cell is outside preregistration: {key}")
@@ -418,18 +489,10 @@ def export_cell(
     parameter_versions = tuple(parameter._version for parameter in model.parameters())
     representative_id: str | None = None
     representative_arrays: dict[str, np.ndarray] | None = None
-    if seed == 2026 and arm == "LOCAL3" and fold == 0:
-        representative_candidates = np.asarray(
-            oracle["region_valid"][:, :, REGIONS.index("CORE")].all(axis=1)
-        )
-        if int(representative_candidates.sum()) != 375:
-            raise ValueError("representative all-four-visit CORE-valid cohort drifted")
-        core_counts = np.asarray(oracle["input_voxel_count"][:, :, 0]).sum(axis=1)
-        candidate_indices = np.flatnonzero(representative_candidates)
-        median_order = candidate_indices[
-            np.argsort(core_counts[candidate_indices], kind="stable")
+    if representative_cell:
+        representative_id = oracle_ids[
+            select_representative_index(oracle, representative_contract)
         ]
-        representative_id = oracle_ids[int(median_order[len(median_order) // 2])]
 
     with torch.inference_mode():
         offset = 0
@@ -511,6 +574,7 @@ def export_cell(
                     oracle,
                     oracle_lookup,
                     upstream_local,
+                    representative_contract,
                 )
             observed_ids.extend(batch_ids)
             offset += len(batch_ids)
@@ -575,7 +639,6 @@ def export_cell(
         complete_oracle_std[~complete_oracle_valid] != 0
     ):
         raise ValueError("invalid oracle rows must remain explicit zeros")
-    representative_cell = seed == 2026 and arm == "LOCAL3" and fold == 0
     if representative_cell and representative_arrays is None:
         raise ValueError("designated representative activation was not observed")
     if not representative_cell and representative_arrays is not None:
@@ -706,6 +769,7 @@ def main() -> None:
     os.umask(0o077)
     config = load_config(ROOT / "configs" / "audit.json", verify_inputs=True)
     lock = require_preregistration_lock(config)
+    representative_contract = require_representative_contract(config)
     cache_integrity = require_cache_integrity(config, lock)
     output = (
         ROOT
@@ -718,8 +782,11 @@ def main() -> None:
     output = output.resolve()
     metadata_path = output.with_suffix(".metadata.json")
     representative_output = ROOT / "features" / "representative_activation.private.npz"
-    representative_cell = (
-        args.seed_base == 2026 and args.arm == "LOCAL3" and args.fold == 0
+    representative_identity = representative_contract["designated_cell"]
+    representative_cell = (args.seed_base, args.arm, args.fold) == (
+        representative_identity["seed_base"],
+        representative_identity["arm"],
+        representative_identity["fold"],
     )
     # A killed process can leave exactly one member of the atomic output pair.
     # Remove only that incomplete cell (and its derived representative, if

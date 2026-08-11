@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import os
 from pathlib import Path
@@ -25,6 +24,9 @@ from common import (  # noqa: E402
     atomic_json,
     file_sha256,
     load_config,
+    load_preregistration_amendment,
+    preregistration_anchor_commits,
+    preregistration_chain,
     require_preregistration_lock,
 )
 from generate_figures import pair_matched_oracle_deltas  # noqa: E402
@@ -51,28 +53,55 @@ FIGURES = (
     "08_representative_spatial_activation_statistics.png",
 )
 REQUIRED_COMMIT_SUBJECT = "Add spatial heterogeneity phenotype audit"
+STAGE_A_AUTHORIZATION_KEYS = frozenset(
+    {
+        "schema_version",
+        "experiment",
+        "authorization_rule",
+        "authorized",
+        "status",
+        "reason",
+        "gate_a_passed",
+        "gate_c_passed",
+        "stage_a_scientific_classification",
+        "stage_b_contract",
+        "contains_patient_level_data",
+        "stage_a_gates_sha256",
+        "config_sha256",
+        "preregistration_lock_sha256",
+        "preregistration_chain",
+    }
+)
+STAGE_A_RUN_SUMMARY_KEYS = frozenset(
+    {
+        "schema_version",
+        "experiment",
+        "stage",
+        "status",
+        "branch",
+        "n_feature_assets",
+        "n_full_patients",
+        "n_ftv_complete_patients",
+        "scientific_classification",
+        "stage_b_authorized",
+        "elapsed_seconds",
+        "config_sha256",
+        "preregistration_lock_sha256",
+        "preregistration_chain",
+        "feature_asset_sha256",
+        "reused_implementation_sha256",
+        "runtime_implementation_sha256",
+        "artifacts",
+        "public_outputs_contain_patient_level_data",
+    }
+)
 
 
 def preregistration_commit_sha() -> str:
-    """Return the committed lock anchor and require byte identity with disk."""
+    """Return the active amended lock anchor after authenticating both revisions."""
 
-    repo = ROOT.parents[1]
-    relative = (ROOT / "PREREGISTRATION_LOCK.json").relative_to(repo).as_posix()
-    commit = subprocess.check_output(
-        ["git", "log", "-1", "--format=%H", "--", relative],
-        cwd=repo,
-        text=True,
-    ).strip()
-    if re.fullmatch(r"[0-9a-f]{40}", commit) is None:
-        raise ValueError("preregistration lock has no committed Git anchor")
-    committed = subprocess.check_output(
-        ["git", "show", f"{commit}:{relative}"], cwd=repo
-    )
-    if hashlib.sha256(committed).hexdigest() != file_sha256(
-        ROOT / "PREREGISTRATION_LOCK.json"
-    ):
-        raise ValueError("committed preregistration lock differs from the current lock")
-    return commit
+    _original, active = preregistration_anchor_commits()
+    return active
 
 
 def validate_final_git_provenance(
@@ -80,6 +109,7 @@ def validate_final_git_provenance(
     push_status: str,
     branch: str,
     preregistration_commit: str | None = None,
+    original_preregistration_commit: str | None = None,
 ) -> None:
     """Authenticate the non-self-referential experiment commit and push claim."""
 
@@ -101,12 +131,21 @@ def validate_final_git_provenance(
         != 0
     ):
         raise ValueError("experiment commit is not an ancestor of current branch HEAD")
-    observed_preregistration_commit = preregistration_commit_sha()
+    observed_original_commit, observed_preregistration_commit = (
+        preregistration_anchor_commits()
+    )
     if (
         preregistration_commit is not None
         and str(preregistration_commit) != observed_preregistration_commit
     ):
         raise ValueError("reported preregistration commit differs from the lock anchor")
+    if (
+        original_preregistration_commit is not None
+        and str(original_preregistration_commit) != observed_original_commit
+    ):
+        raise ValueError(
+            "reported original preregistration differs from the amendment chain"
+        )
     if (
         observed_preregistration_commit == commit
         or subprocess.run(
@@ -128,6 +167,7 @@ def validate_final_git_provenance(
     relative_root = ROOT.relative_to(repo)
     for required in (
         relative_root / "PREREGISTRATION_LOCK.json",
+        relative_root / "PREREGISTRATION_AMENDMENT.json",
         relative_root / "metrics" / "gates.json",
         relative_root / "reports" / "final_report.md",
     ):
@@ -183,6 +223,19 @@ def validate_final_git_provenance(
             raise ValueError(
                 "reported experiment commit is not contained in origin branch"
             )
+        for anchor, label in (
+            (observed_original_commit, "original preregistration"),
+            (observed_preregistration_commit, "active amended preregistration"),
+        ):
+            if (
+                subprocess.run(
+                    ["git", "merge-base", "--is-ancestor", anchor, remote_tip],
+                    cwd=repo,
+                    check=False,
+                ).returncode
+                != 0
+            ):
+                raise ValueError(f"origin branch does not contain {label}")
 
 
 def _atomic_text(text: str, path: Path) -> None:
@@ -411,12 +464,63 @@ def _stage_b_text(table: pd.DataFrame, authorization: Mapping[str, Any]) -> str:
 def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, Any]]:
     config = load_config(ROOT / "configs" / "audit.json", verify_inputs=True)
     lock = require_preregistration_lock(config)
+    amendment_path = ROOT / "PREREGISTRATION_AMENDMENT.json"
+    amendment = load_preregistration_amendment(amendment_path)
+    chain = preregistration_chain(lock, amendment)
+    original_preregistration_commit = chain["original_preregistration_commit"]
+    preregistration_commit = chain["active_preregistration_commit"]
     gates_path = ROOT / "metrics" / "gates.json"
     authorization_path = ROOT / "metrics" / "stage_b_authorization.json"
+    run_summary_path = ROOT / "metrics" / "run_summary.json"
     gates = json.loads(gates_path.read_text(encoding="utf-8"))
     authorization = json.loads(authorization_path.read_text(encoding="utf-8"))
-    if authorization.get("stage_a_gates_sha256") != file_sha256(gates_path):
-        raise ValueError("Stage-B authorization is not bound to current gates")
+    run_summary = json.loads(run_summary_path.read_text(encoding="utf-8"))
+    expected_authorization_provenance = {
+        "schema_version": 2,
+        "stage_a_gates_sha256": file_sha256(gates_path),
+        "config_sha256": file_sha256(ROOT / "configs" / "audit.json"),
+        "preregistration_lock_sha256": chain["active_preregistration_lock_sha256"],
+        "preregistration_chain": chain,
+    }
+    if (
+        not isinstance(authorization, dict)
+        or set(authorization) != set(STAGE_A_AUTHORIZATION_KEYS)
+        or any(
+            authorization.get(name) != expected
+            for name, expected in expected_authorization_provenance.items()
+        )
+    ):
+        raise ValueError("Stage-B authorization provenance contract drifted")
+    if (
+        not isinstance(run_summary, dict)
+        or set(run_summary) != set(STAGE_A_RUN_SUMMARY_KEYS)
+        or run_summary.get("schema_version") != 2
+        or run_summary.get("experiment") != "spatial_heterogeneity_phenotype_audit"
+        or run_summary.get("stage") != "A"
+        or run_summary.get("status") != "COMPLETE"
+        or run_summary.get("branch") != config["branch"]
+        or run_summary.get("config_sha256")
+        != expected_authorization_provenance["config_sha256"]
+        or run_summary.get("preregistration_lock_sha256")
+        != chain["active_preregistration_lock_sha256"]
+        or run_summary.get("preregistration_chain") != chain
+        or run_summary.get("public_outputs_contain_patient_level_data") is not False
+    ):
+        raise ValueError("Stage-A run-summary provenance contract drifted")
+    expected_stage_b_authorized = bool(
+        gates["gates"]["A"]["passed"] or gates["gates"]["C"]["passed"]
+    )
+    if (
+        authorization.get("authorized") is not expected_stage_b_authorized
+        or authorization.get("gate_a_passed") is not bool(gates["gates"]["A"]["passed"])
+        or authorization.get("gate_c_passed") is not bool(gates["gates"]["C"]["passed"])
+        or authorization.get("stage_a_scientific_classification")
+        != gates["scientific_classification"]
+        or run_summary.get("stage_b_authorized") is not expected_stage_b_authorized
+        or run_summary.get("scientific_classification")
+        != gates["scientific_classification"]
+    ):
+        raise ValueError("Stage-A result artifacts disagree on gates/classification")
     tables = {name: _load_table(name) for name in TABLES}
     for name in FIGURES:
         if not (ROOT / "figures" / name).is_file():
@@ -489,7 +593,8 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
         )
         or "none"
     )
-    preregistration_commit = preregistration_commit_sha()
+    geometry_qc = amendment["geometry_qc"]
+    execution_ledger = amendment["pre_amendment_execution"]
 
     answers = [
         f"1. **Mean pooling 是否丢失 heterogeneity information？** {'有预注册阈值证据' if direct_or_complementary_support else '未获得预注册阈值证据'}（支持来源：{evidence_sources}）。Gate A 检验 P3−P1 的 phenotype/matched-pCR 信号；Gate B 独立检验 P3 在 C+F 之外且优于 C+F+P1 的互补性。P3−P1 phenotype AUROC：{_delta_text(phenotype_p3)}。",
@@ -520,6 +625,10 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
 
 本实验的 Stage-A 科学分类为 **{code}. `{classification}`**。四个预注册 Gate：A={'PASS' if gate_a else 'FAIL'}，B={'PASS' if gate_b else 'FAIL'}，C={'PASS' if gate_c else 'FAIL'}，D={'PASS' if gate_d else 'FAIL'}。该分类只由冻结 Stage A 决定，Conditional Stage B 不回写诊断结论。
 
+## 预注册修订披露
+
+原始预注册在任何临床标签表解析、Stage-A probe 拟合或 Stage-B 启动之前的 geometry QC 中发现：四次 source-authorized 患者仍为 {geometry_qc['all_four_source_authorized_patient_count']}，但经过固定 LOCAL 支持约束后，四次 CORE 均有效的 Figure-8 去标识化代表候选为 {geometry_qc['all_four_post_local_core_valid_patient_count']}，而不是原先硬编码的 {geometry_qc['representative_candidate_count_before']}。修订仅校正 Figure 8 代表选择；FTV/pCR 的 375 人群、probe、Gate 与科学分类合同均未改变。修订前生成的 {len(amendment['discarded_artifact_sha256'])} 个 cache/oracle/feature/log 工件均按公开哈希台账丢弃且禁止复用；当时 completed feature cells={len(execution_ledger['completed_feature_cells'])}，clinical label table parsed={str(execution_ledger['clinical_label_table_parsed']).lower()}，Stage-A probe fit={str(execution_ledger['stage_a_probe_fit']).lower()}，Stage-B started={str(execution_ledger['stage_b_started']).lower()}。完整修订记录由 `PREREGISTRATION_AMENDMENT.json` 固定。
+
 ## 十二个问题的明确回答
 
 {chr(10).join(answers)}
@@ -543,8 +652,13 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
 ## 可复现性与交付
 
 - Branch：`{config['branch']}`
+- Preregistration revision：`{lock['preregistration_revision']}`
+- Original preregistration commit SHA：`{original_preregistration_commit}`
+- Original preregistration lock：`{amendment['original_preregistration_lock_sha256']}`
+- Preregistration amendment：`{file_sha256(amendment_path)}`
 - Preregistration lock：`{file_sha256(ROOT / 'PREREGISTRATION_LOCK.json')}`
 - Preregistration commit SHA：`{preregistration_commit}`
+- Active amended preregistration commit SHA：`{preregistration_commit}`
 - Preregistration base HEAD：`{lock['git_provenance_before_freeze']['base_head']}`
 - Experiment commit SHA：`{experiment_commit}`
 - GitHub push status：`{push_status}`
@@ -552,8 +666,10 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
 """
     input_paths = [
         ROOT / "PREREGISTRATION_LOCK.json",
+        amendment_path,
         gates_path,
         authorization_path,
+        run_summary_path,
         *(ROOT / "metrics" / name for name in TABLES),
         *(ROOT / "figures" / name for name in FIGURES),
     ]
@@ -562,7 +678,14 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
         "status": "COMPLETE",
         "language": "zh-CN",
         "scientific_classification": classification,
+        "preregistration_revision": 2,
+        "original_preregistration_commit": original_preregistration_commit,
+        "original_preregistration_lock_sha256": amendment[
+            "original_preregistration_lock_sha256"
+        ],
+        "preregistration_amendment_sha256": file_sha256(amendment_path),
         "preregistration_commit": preregistration_commit,
+        "active_amended_preregistration_commit": preregistration_commit,
         "experiment_commit": experiment_commit,
         "push_status": push_status,
         "input_sha256": {
@@ -595,6 +718,7 @@ def main() -> None:
     repo = ROOT.parents[1]
     config = load_config(ROOT / "configs" / "audit.json", verify_inputs=True)
     require_preregistration_lock(config)
+    original_anchor, active_anchor = preregistration_anchor_commits()
     branch = subprocess.check_output(
         ["git", "branch", "--show-current"], cwd=repo, text=True
     ).strip()
@@ -605,7 +729,8 @@ def main() -> None:
             commit,
             str(args.push_status),
             str(config["branch"]),
-            preregistration_commit_sha(),
+            active_anchor,
+            original_anchor,
         )
     report_path = ROOT / "reports" / "final_report.md"
     manifest_path = ROOT / "reports" / "report_manifest.json"
@@ -623,6 +748,15 @@ def main() -> None:
             raise ValueError("scientific report inputs changed after first rendering")
         if previous.get("preregistration_commit") != manifest["preregistration_commit"]:
             raise ValueError("preregistration Git anchor changed after first rendering")
+        for name in (
+            "preregistration_revision",
+            "original_preregistration_commit",
+            "original_preregistration_lock_sha256",
+            "active_amended_preregistration_commit",
+            "preregistration_amendment_sha256",
+        ):
+            if previous.get(name) != manifest.get(name):
+                raise ValueError(f"report amendment provenance changed at {name}")
         previous_pending = previous.get("experiment_commit") == "PENDING"
         previous_push_pending = previous.get("push_status") == "PENDING"
         if previous_pending != previous_push_pending:

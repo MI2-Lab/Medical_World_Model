@@ -22,6 +22,7 @@ PYTHON = Path(sys.executable).resolve()
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from common import (  # noqa: E402
+    canonical_sha256,
     file_sha256,
     load_config,
     ordered_sha256,
@@ -33,8 +34,37 @@ from common import (  # noqa: E402
 FEATURE_SHAPE_ZYX = (14, 22, 20)
 ORACLE_REGIONS = ("CORE", "PERI10", "PERI20", "LOCAL_REST")
 REPRESENTATIVE_SELECTION_RULE = (
-    "median_total_core_voxel_count_all_four_core_valid_patient_seed2026_LOCAL3_fold0_T0"
+    "upper_median_total_core_input_voxel_count_all_four_post_local_core_valid_373_"
+    "locked_order_seed2026_LOCAL3_fold0_display_T0"
 )
+REPRESENTATIVE_CONTRACT_KEYS = frozenset(
+    {
+        "designated_cell",
+        "display_visit",
+        "candidate_region",
+        "candidate_visits",
+        "candidate_validity",
+        "candidate_count",
+        "ranking",
+        "tie_break",
+        "median",
+        "selection_rule",
+        "role",
+    }
+)
+EXPECTED_REPRESENTATIVE_CONTRACT = {
+    "designated_cell": {"seed_base": 2026, "arm": "LOCAL3", "fold": 0},
+    "display_visit": "T0",
+    "candidate_region": "CORE",
+    "candidate_visits": ["T0", "T1", "T2", "T3"],
+    "candidate_validity": "post_LOCAL_region_valid_true_at_every_candidate_visit",
+    "candidate_count": 373,
+    "ranking": "ascending_total_CORE_input_voxel_count_across_candidate_visits",
+    "tie_break": "stable_locked_oracle_patient_order",
+    "median": "upper_median_rank_floor_n_over_2",
+    "selection_rule": REPRESENTATIVE_SELECTION_RULE,
+    "role": "deidentified_descriptive_only_never_analytic_population",
+}
 REPRESENTATIVE_PATH = ROOT / "features" / "representative_activation.private.npz"
 CONFIG_PATH = ROOT / "configs" / "audit.json"
 LOCK_PATH = ROOT / "PREREGISTRATION_LOCK.json"
@@ -49,6 +79,31 @@ COMPLETION_KEYS = frozenset(
         "cells",
     }
 )
+
+
+def validate_representative_contract(value: Mapping[str, Any]) -> dict[str, Any]:
+    """Require the exact label-free, post-LOCAL representative amendment."""
+
+    if not isinstance(value, Mapping) or set(value) != set(
+        REPRESENTATIVE_CONTRACT_KEYS
+    ):
+        raise ValueError("representative config schema drifted")
+    observed = dict(value)
+    if canonical_sha256(observed) != canonical_sha256(EXPECTED_REPRESENTATIVE_CONTRACT):
+        raise ValueError("representative config contract drifted")
+    return observed
+
+
+def require_representative_contract(config: Mapping[str, Any]) -> dict[str, Any]:
+    """Extract and authenticate the representative contract from audit.json."""
+
+    oracle = config.get("oracle")
+    if not isinstance(oracle, Mapping):
+        raise ValueError("oracle config contract is absent")
+    representative = oracle.get("representative")
+    if not isinstance(representative, Mapping):
+        raise ValueError("representative config contract is absent")
+    return validate_representative_contract(representative)
 
 
 def cells() -> list[tuple[int, str, int]]:
@@ -72,10 +127,18 @@ def feature_path(seed: int, arm: str, fold: int) -> Path:
 
 
 def validate_representative_asset(
-    path: Path = REPRESENTATIVE_PATH, *, expected_sha256: str | None = None
+    path: Path = REPRESENTATIVE_PATH,
+    *,
+    expected_sha256: str | None = None,
+    representative_contract: Mapping[str, Any] | None = None,
 ) -> dict[str, np.ndarray]:
     """Authenticate and strictly load the de-identified Figure-8 source."""
 
+    contract = (
+        require_representative_contract(load_config(CONFIG_PATH, verify_inputs=True))
+        if representative_contract is None
+        else validate_representative_contract(representative_contract)
+    )
     source = Path(path).resolve(strict=True)
     if source.stat().st_mode & 0o077:
         raise PermissionError("representative activation source must remain owner-only")
@@ -120,7 +183,7 @@ def validate_representative_asset(
     if tuple(arrays["regions"].astype(str)) != ORACLE_REGIONS:
         raise ValueError("representative region order drifted")
     selection = np.asarray(arrays["selection_rule"])
-    if selection.shape != () or str(selection.item()) != REPRESENTATIVE_SELECTION_RULE:
+    if selection.shape != () or str(selection.item()) != contract["selection_rule"]:
         raise ValueError("representative selection rule drifted")
     return arrays
 
@@ -175,6 +238,7 @@ def _authenticate_parent_context() -> tuple[dict[str, Any], dict[str, Any]]:
 
     config = load_config(CONFIG_PATH, verify_inputs=True)
     lock = require_preregistration_lock(config)
+    require_representative_contract(config)
     return config, lock
 
 
@@ -191,6 +255,8 @@ def validate_complete(
         config, lock = _authenticate_parent_context()
     elif config is None or lock is None:
         raise ValueError("config and preregistration lock must be supplied together")
+    representative_contract = require_representative_contract(config)
+    representative_identity = representative_contract["designated_cell"]
     folds = audit.load_fold_manifest(
         config["paths"]["fold_manifest"],
         config["paths"]["fold_manifest_sha256"],
@@ -227,7 +293,11 @@ def validate_complete(
                 f"feature cell identity/provenance drifted: {metadata_path}"
             )
         representative = metadata.get("representative_activation")
-        designated = (seed, arm, fold) == (2026, "LOCAL3", 0)
+        designated = (seed, arm, fold) == (
+            representative_identity["seed_base"],
+            representative_identity["arm"],
+            representative_identity["fold"],
+        )
         if designated:
             if not isinstance(representative, dict) or set(representative) != {
                 "path",
@@ -241,12 +311,15 @@ def validate_complete(
             if (
                 Path(str(representative["path"])).resolve()
                 != REPRESENTATIVE_PATH.resolve()
-                or representative["selection_rule"] != REPRESENTATIVE_SELECTION_RULE
+                or representative["selection_rule"]
+                != representative_contract["selection_rule"]
                 or representative["contains_patient_identifier"] is not False
             ):
                 raise ValueError("representative activation provenance drifted")
             validate_representative_asset(
-                REPRESENTATIVE_PATH, expected_sha256=str(representative["sha256"])
+                REPRESENTATIVE_PATH,
+                expected_sha256=str(representative["sha256"]),
+                representative_contract=representative_contract,
             )
         elif representative is not None:
             raise ValueError(

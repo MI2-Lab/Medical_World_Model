@@ -52,6 +52,7 @@ from common import (  # noqa: E402
     file_sha256,
     load_config,
     ordered_sha256,
+    preregistration_chain,
     private_directory,
     require_preregistration_lock,
 )
@@ -67,6 +68,10 @@ from modeling import (  # noqa: E402
     fit_ftv_mri_residualizer,
     fit_multiclass_logistic,
     multiclass_metrics,
+)
+from run_feature_matrix import (  # noqa: E402
+    require_representative_contract,
+    validate_representative_asset,
 )
 
 
@@ -273,6 +278,8 @@ def load_spatial_feature_asset(
 ) -> SpatialFeatureAsset:
     """Load one exported cell and fail closed on any schema/provenance drift."""
 
+    representative_contract = require_representative_contract(config)
+    representative_identity = representative_contract["designated_cell"]
     source = path.expanduser().resolve(strict=True)
     expected_tail = (
         f"seed_{seed}",
@@ -404,7 +411,11 @@ def load_spatial_feature_asset(
                 f"feature metadata differs at {name}: {metadata.get(name)!r}"
             )
     representative = metadata.get("representative_activation")
-    designated_representative = (seed, arm, fold) == (2026, "LOCAL3", 0)
+    designated_representative = (seed, arm, fold) == (
+        representative_identity["seed_base"],
+        representative_identity["arm"],
+        representative_identity["fold"],
+    )
     if designated_representative:
         if not isinstance(representative, Mapping) or set(representative) != {
             "path",
@@ -425,9 +436,14 @@ def load_spatial_feature_asset(
             != representative_path.resolve()
             or representative.get("sha256") != file_sha256(representative_path)
             or representative.get("selection_rule")
-            != "median_total_core_voxel_count_all_four_core_valid_patient_seed2026_LOCAL3_fold0_T0"
+            != representative_contract["selection_rule"]
         ):
             raise ValueError("representative activation source/hash drifted")
+        validate_representative_asset(
+            representative_path,
+            expected_sha256=str(representative["sha256"]),
+            representative_contract=representative_contract,
+        )
     elif representative is not None:
         raise ValueError(
             "representative provenance appears outside its designated cell"
@@ -741,6 +757,7 @@ def timing_end_index(view: str) -> int:
 def validate_analysis_contract(config: Mapping[str, Any]) -> None:
     """Bind matrix construction to the locked visits, dimensions, and block order."""
 
+    require_representative_contract(config)
     analysis = config["analysis"]
     cells = config["frozen_cells"]
     if tuple(cells["arms"]) != ("LOCAL0", "LOCAL3"):
@@ -2014,14 +2031,17 @@ def evaluate_gates(
 
 
 def stage_b_authorization(
-    config: Mapping[str, Any], gates: Mapping[str, Any]
+    config: Mapping[str, Any],
+    gates: Mapping[str, Any],
+    chain: Mapping[str, Any],
+    config_sha256: str,
 ) -> dict[str, Any]:
     gate_values = gates["gates"]
     gate_a = bool(gate_values["A"]["passed"])
     gate_c = bool(gate_values["C"]["passed"])
     authorized = gate_a or gate_c
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "experiment": "spatial_heterogeneity_phenotype_audit",
         "authorization_rule": "Gate A OR Gate C",
         "authorized": authorized,
@@ -2037,6 +2057,9 @@ def stage_b_authorization(
         "gate_c_passed": gate_c,
         "stage_a_scientific_classification": gates["scientific_classification"],
         "stage_b_contract": dict(config["stage_b"]),
+        "config_sha256": config_sha256,
+        "preregistration_lock_sha256": chain["active_preregistration_lock_sha256"],
+        "preregistration_chain": dict(chain),
         "contains_patient_level_data": False,
     }
 
@@ -2089,8 +2112,11 @@ def main() -> None:
     started = time.time()
     output_root = ROOT
     feature_root = ROOT / "features"
-    config = load_config(ROOT / "configs" / "audit.json", verify_inputs=True)
+    config_path = ROOT / "configs" / "audit.json"
+    config = load_config(config_path, verify_inputs=True)
     lock = require_preregistration_lock(config)
+    chain = preregistration_chain(lock)
+    config_sha256 = file_sha256(config_path)
     for private_root in ("features", "manifests", "checkpoints", "predictions"):
         private_directory(ROOT / private_root)
     validate_analysis_contract(config)
@@ -2251,7 +2277,7 @@ def main() -> None:
         config, phenotype_metrics, mri_pcr_metrics, beyond_metrics, oracle_metrics
     )
     atomic_json(gates, output_paths["gates"])
-    authorization = stage_b_authorization(config, gates)
+    authorization = stage_b_authorization(config, gates, chain, config_sha256)
     authorization["stage_a_gates_sha256"] = file_sha256(output_paths["gates"])
     atomic_json(authorization, output_paths["stage_b_authorization"])
 
@@ -2264,7 +2290,7 @@ def main() -> None:
         )
 
     summary = {
-        "schema_version": 1,
+        "schema_version": 2,
         "experiment": "spatial_heterogeneity_phenotype_audit",
         "stage": "A",
         "status": "COMPLETE",
@@ -2275,8 +2301,9 @@ def main() -> None:
         "scientific_classification": gates["scientific_classification"],
         "stage_b_authorized": bool(authorization["authorized"]),
         "elapsed_seconds": float(time.time() - started),
-        "config_sha256": file_sha256(ROOT / "configs" / "audit.json"),
-        "preregistration_lock_sha256": file_sha256(ROOT / "PREREGISTRATION_LOCK.json"),
+        "config_sha256": config_sha256,
+        "preregistration_lock_sha256": chain["active_preregistration_lock_sha256"],
+        "preregistration_chain": dict(chain),
         "feature_asset_sha256": {
             f"seed_{seed}/{arm}/fold_{fold}": str(asset.metadata["feature_sha256"])
             for (seed, arm, fold), asset in sorted(assets.items())

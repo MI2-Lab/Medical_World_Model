@@ -26,6 +26,7 @@ from common import (  # noqa: E402
     canonical_sha256,
     file_sha256,
     load_config,
+    preregistration_chain,
     require_preregistration_lock,
 )
 from export_features import _load_oracle  # noqa: E402
@@ -136,6 +137,7 @@ DELIVERY_ALLOWED_PATHS = frozenset(
     {
         ".gitignore",
         "EXPERIMENT_PLAN.md",
+        "PREREGISTRATION_AMENDMENT.json",
         "PREREGISTRATION_LOCK.json",
         "configs/audit.json",
         "features/.gitkeep",
@@ -192,11 +194,22 @@ RUN_SUMMARY_KEYS = frozenset(
         "elapsed_seconds",
         "config_sha256",
         "preregistration_lock_sha256",
+        "preregistration_chain",
         "feature_asset_sha256",
         "reused_implementation_sha256",
         "runtime_implementation_sha256",
         "artifacts",
         "public_outputs_contain_patient_level_data",
+    }
+)
+PREREGISTRATION_CHAIN_KEYS = frozenset(
+    {
+        "preregistration_revision",
+        "active_preregistration_lock_sha256",
+        "preregistration_amendment_sha256",
+        "original_preregistration_lock_sha256",
+        "original_preregistration_commit",
+        "active_preregistration_commit",
     }
 )
 RUN_SUMMARY_ARTIFACT_KEYS = frozenset(
@@ -708,7 +721,7 @@ def _validate_run_summary(
     if not isinstance(summary, dict) or set(summary) != set(RUN_SUMMARY_KEYS):
         raise ValueError("Stage-A run summary top-level schema drifted")
     expected_scalars = {
-        "schema_version": 1,
+        "schema_version": 2,
         "experiment": "spatial_heterogeneity_phenotype_audit",
         "stage": "A",
         "status": "COMPLETE",
@@ -738,6 +751,16 @@ def _validate_run_summary(
         or type(summary["public_outputs_contain_patient_level_data"]) is not bool
     ):
         raise ValueError("Stage-A run summary Boolean fields have invalid types")
+    expected_chain = preregistration_chain(lock)
+    observed_chain = summary.get("preregistration_chain")
+    if (
+        not isinstance(observed_chain, Mapping)
+        or set(observed_chain) != set(PREREGISTRATION_CHAIN_KEYS)
+        or observed_chain != expected_chain
+        or summary["preregistration_lock_sha256"]
+        != expected_chain["active_preregistration_lock_sha256"]
+    ):
+        raise ValueError("Stage-A run summary preregistration chain drifted")
     elapsed = summary.get("elapsed_seconds")
     if (
         isinstance(elapsed, bool)
@@ -848,6 +871,7 @@ def _validate_report(
     gates: Mapping[str, Any],
     authorization_path: Path,
     branch: str,
+    chain: Mapping[str, Any],
 ) -> tuple[str, Mapping[str, Any]]:
     report_path = ROOT / "reports" / "final_report.md"
     manifest_path = ROOT / "reports" / "report_manifest.json"
@@ -857,7 +881,12 @@ def _validate_report(
         "status",
         "language",
         "scientific_classification",
+        "preregistration_revision",
+        "original_preregistration_commit",
+        "original_preregistration_lock_sha256",
+        "preregistration_amendment_sha256",
         "preregistration_commit",
+        "active_amended_preregistration_commit",
         "experiment_commit",
         "push_status",
         "input_sha256",
@@ -869,6 +898,7 @@ def _validate_report(
         or manifest.get("schema_version") != 1
         or manifest.get("status") != "COMPLETE"
         or manifest.get("language") != "zh-CN"
+        or manifest.get("preregistration_revision") != 2
         or manifest.get("contains_patient_level_data") is not False
     ):
         raise ValueError("report manifest contract drifted")
@@ -878,8 +908,10 @@ def _validate_report(
         raise ValueError("report classification differs from current Stage-A gates")
     input_paths = [
         ROOT / "PREREGISTRATION_LOCK.json",
+        ROOT / "PREREGISTRATION_AMENDMENT.json",
         ROOT / "metrics" / "gates.json",
         authorization_path,
+        ROOT / "metrics" / "run_summary.json",
         *(ROOT / "metrics" / name for name in TABLES),
         *(ROOT / "figures" / name for name in FIGURES),
     ]
@@ -892,9 +924,22 @@ def _validate_report(
         )
     commit = str(manifest.get("experiment_commit", ""))
     preregistration_commit = str(manifest.get("preregistration_commit", ""))
-    if preregistration_commit != preregistration_commit_sha():
+    original_preregistration_commit = str(
+        manifest.get("original_preregistration_commit", "")
+    )
+    if (
+        preregistration_commit != preregistration_commit_sha()
+        or preregistration_commit != chain["active_preregistration_commit"]
+        or manifest.get("active_amended_preregistration_commit")
+        != chain["active_preregistration_commit"]
+        or original_preregistration_commit != chain["original_preregistration_commit"]
+        or manifest.get("original_preregistration_lock_sha256")
+        != chain["original_preregistration_lock_sha256"]
+        or manifest.get("preregistration_amendment_sha256")
+        != chain["preregistration_amendment_sha256"]
+    ):
         raise ValueError(
-            "report preregistration commit differs from current lock anchor"
+            "report preregistration amendment chain differs from current anchors"
         )
     push = str(manifest.get("push_status", ""))
     pending = commit == "PENDING" and push == "PENDING"
@@ -907,10 +952,24 @@ def _validate_report(
     if final and not completed:
         raise ValueError("final report lacks completed commit/push provenance")
     if completed:
-        validate_final_git_provenance(commit, push, branch, preregistration_commit)
+        validate_final_git_provenance(
+            commit,
+            push,
+            branch,
+            preregistration_commit,
+            original_preregistration_commit,
+        )
     text = report_path.read_text(encoding="utf-8")
     if (
         f"Preregistration commit SHA：`{preregistration_commit}`" not in text
+        or f"Original preregistration commit SHA：`{original_preregistration_commit}`"
+        not in text
+        or f"Original preregistration lock：`{chain['original_preregistration_lock_sha256']}`"
+        not in text
+        or f"Active amended preregistration commit SHA：`{preregistration_commit}`"
+        not in text
+        or f"Preregistration amendment：`{chain['preregistration_amendment_sha256']}`"
+        not in text
         or f"Experiment commit SHA：`{commit}`" not in text
         or f"GitHub push status：`{push}`" not in text
     ):
@@ -921,6 +980,7 @@ def _validate_report(
 def validate(*, final: bool) -> dict[str, Any]:
     config = load_config(ROOT / "configs" / "audit.json", verify_inputs=True)
     lock = require_preregistration_lock(config)
+    chain = preregistration_chain(lock)
     if _git("branch", "--show-current") != config["branch"]:
         raise ValueError("current Git branch differs from the formal branch")
 
@@ -1002,6 +1062,18 @@ def validate(*, final: bool) -> dict[str, Any]:
     expected_authorized = bool(
         gates["gates"]["A"]["passed"] or gates["gates"]["C"]["passed"]
     )
+    expected_authorization_provenance = {
+        "schema_version": 2,
+        "config_sha256": file_sha256(ROOT / "configs" / "audit.json"),
+        "preregistration_lock_sha256": chain["active_preregistration_lock_sha256"],
+        "preregistration_chain": chain,
+        "stage_a_gates_sha256": file_sha256(gates_path),
+    }
+    if any(
+        authorization.get(name) != expected
+        for name, expected in expected_authorization_provenance.items()
+    ):
+        raise ValueError("Stage-B authorization provenance chain drifted")
     if bool(authorization.get("authorized")) != expected_authorized:
         raise ValueError("Stage-B authorization differs from Gate A OR Gate C")
     tables, table_frames = _validate_public_tables(
@@ -1018,7 +1090,12 @@ def validate(*, final: bool) -> dict[str, Any]:
         raise ValueError(
             "published Stage-A gates differ from canonical table recomputation"
         )
-    recomputed_authorization = stage_b_authorization(config, recomputed_gates)
+    recomputed_authorization = stage_b_authorization(
+        config,
+        recomputed_gates,
+        chain,
+        expected_authorization_provenance["config_sha256"],
+    )
     recomputed_authorization["stage_a_gates_sha256"] = file_sha256(gates_path)
     if canonical_sha256(authorization) != canonical_sha256(recomputed_authorization):
         raise ValueError("published Stage-B authorization differs from canonical gates")
@@ -1094,6 +1171,7 @@ def validate(*, final: bool) -> dict[str, Any]:
         gates=gates,
         authorization_path=authorization_path,
         branch=str(config["branch"]),
+        chain=chain,
     )
     for index in range(1, 13):
         if f"{index}. **" not in report_text:
@@ -1103,6 +1181,7 @@ def validate(*, final: bool) -> dict[str, Any]:
         "schema_version": 1,
         "status": "PASS",
         "branch": config["branch"],
+        "preregistration_chain": chain,
         "base_head": base,
         "old_repository_paths_unchanged": True,
         "changed_paths": changed,
