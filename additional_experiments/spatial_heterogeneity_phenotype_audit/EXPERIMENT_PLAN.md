@@ -236,6 +236,65 @@ including the 65 re-created upstream artifacts, completion marker, and Table 1.
 Every listed output must be discarded before schema-5 refreeze and rebuilt from
 the new lock; none may be reused.
 
+**Post-Stage-A/pre-Stage-B implementation validation erratum 3 (no scientific
+change).** The compatibility refreeze is anchored at commit
+`226003f31f876c314e7c1e31092a4bf816aa89e7` and lock SHA-256
+`7d1b0dc1a789a83510e0e5e48b926ed744c152f009527aa0393f43601925575b`.
+Under that lock, Stage A completed with 691,412 private OOF prediction rows,
+1,256 registered metric rows (excluding the 10-row pooling contract), and 6,280
+hyperparameter-selection rows. Exhaustive read-only review passed the table
+grids, OOF/fold-isolation contracts, hashes, privacy, modes, authorization, and
+run-summary contracts. The published gates were A=false, B=false, C=true, and
+D=false, yielding the Stage-A classification `PHENOTYPE SPATIALLY LOCALIZED`.
+
+The sole validation failure was numeric parsing in `validate_results.py`:
+default `pandas.read_csv` reconstruction changed 26 gate-JSON floating values
+through numeric roundoff (minimum absolute difference
+`5.551115123125783e-17`, maximum `1.1102230246251565e-16`). Its recomputed
+canonical gate SHA-256 was
+`74852fefb8498561b31af43d868f60ed3ac50f8bf01d1be19b3a90670e54a596`.
+Reading the identical public CSV bytes with `float_precision='round_trip'`
+reproduced the published gate object exactly, canonical SHA-256
+`1b1063f6c0c545b57738050738d7581157e1af31a9ebfaa0ec87d520c9b16ded`.
+All four gate decisions, Stage-B authorization, and scientific classification
+were unchanged. The validator correction adds only this parser option to its
+public-table loader; it changes no CSV bytes, probe/model, metric definition,
+gate threshold or logic, Stage-B training contract, population, representative,
+causal-Oracle contract, or scientific contract.
+
+The same pre-refreeze audit found four public-presentation gaps, none of which
+had yet produced a figure or report artifact. First, report Q2 summarized
+phenotype P2-minus-P1 but omitted the separately registered matched-375 pCR
+P2-minus-P1 evidence. The corrected report requires exactly 16 unique
+`ftv_complete_375` pairs and reports them separately. Second, Figure 7 grouped
+Table 6 by view and variant while silently averaging `full_808` with
+`ftv_complete_375`; the correction preserves both registered populations as six
+explicit curves (three variants times two populations), with population encoded
+by line style. Third, report Q12 pooled Stage-B pCR rows across the two
+populations; the corrected primary pCR summary uses the configured
+`analysis.primary_pcr_population` (`ftv_complete_375`) and never pools across
+populations. Fourth, report Q8/Q9 stated Gate-C status/count without disclosing
+that its sole supporting comparison was pCR and that HR/HER2/subtype had zero
+supporting comparisons. The corrected report derives an endpoint-specific
+summary directly from the authenticated Gate-C records and qualifies the Stage-A
+classification with the exact supporting identity and two seed deltas. These
+are presentation-only corrections to future Figure 7 and report rendering; the
+registered tables, models, metrics, Gates, authorization, classification, and
+scientific interpretation contract remain unchanged.
+
+Stage-B preflight and folds 0--2 entered epoch execution, but each process was
+interrupted during epoch 1 before any epoch completed. No Stage-B file,
+checkpoint, prediction, metric, or result was created; the only filesystem side
+effects were six owner-private, artifact-empty directories in the
+`checkpoints/stage_b/seed_2026/fold_{0,1,2}` tree. The exact patient-free
+ledger in `PREREGISTRATION_IMPLEMENTATION_ERRATUM_3.json` binds all 83 files
+present at failure (409,345,148 bytes; canonical record-set SHA-256
+`01b6f348c78f800b044bce5659fb8b029956299fa4e9585e75d6a940cadb1ace`).
+It also records one validator blocker, four presentation-contract gaps, and
+zero public figure/report artifacts at failure.
+Every listed file and the artifact-empty Stage-B directory tree must be discarded before
+schema-6 refreeze and rebuilt from the new lock; none may be reused.
+
 ## 7. Longitudinal heterogeneity
 
 For each adjacent transition `T0->T1`, `T1->T2`, and `T2->T3`, probe pCR using:

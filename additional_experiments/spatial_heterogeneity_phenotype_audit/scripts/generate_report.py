@@ -27,6 +27,7 @@ from common import (  # noqa: E402
     load_preregistration_amendment,
     load_preregistration_implementation_erratum,
     load_preregistration_implementation_erratum_2,
+    load_preregistration_implementation_erratum_3,
     preregistration_anchor_commits,
     preregistration_chain,
     preregistration_provenance_anchors,
@@ -115,6 +116,7 @@ def validate_final_git_provenance(
     original_preregistration_commit: str | None = None,
     prior_amended_preregistration_commit: str | None = None,
     prior_implementation_refreeze_commit: str | None = None,
+    prior_compatibility_refreeze_commit: str | None = None,
 ) -> None:
     """Authenticate the non-self-referential experiment commit and push claim."""
 
@@ -140,6 +142,7 @@ def validate_final_git_provenance(
         observed_original_commit,
         observed_prior_amended_commit,
         observed_prior_implementation_commit,
+        observed_prior_compatibility_commit,
         observed_preregistration_commit,
     ) = preregistration_provenance_anchors()
     if (
@@ -170,6 +173,12 @@ def validate_final_git_provenance(
             "reported prior implementation refreeze differs from erratum-2 chain"
         )
     if (
+        prior_compatibility_refreeze_commit is not None
+        and str(prior_compatibility_refreeze_commit)
+        != observed_prior_compatibility_commit
+    ):
+        raise ValueError("reported compatibility refreeze differs from erratum-3 chain")
+    if (
         observed_preregistration_commit == commit
         or subprocess.run(
             [
@@ -193,6 +202,7 @@ def validate_final_git_provenance(
         relative_root / "PREREGISTRATION_AMENDMENT.json",
         relative_root / "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json",
         relative_root / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json",
+        relative_root / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_3.json",
         relative_root / "metrics" / "gates.json",
         relative_root / "reports" / "final_report.md",
     ):
@@ -252,7 +262,8 @@ def validate_final_git_provenance(
             (observed_original_commit, "original preregistration"),
             (observed_prior_amended_commit, "prior amended preregistration"),
             (observed_prior_implementation_commit, "prior implementation refreeze"),
-            (observed_preregistration_commit, "active implementation refreeze"),
+            (observed_prior_compatibility_commit, "prior compatibility refreeze"),
+            (observed_preregistration_commit, "active validation-erratum refreeze"),
         ):
             if (
                 subprocess.run(
@@ -302,34 +313,38 @@ def _paired_delta(
     comparison: str,
     reference: str,
     mask: pd.Series | None = None,
+    expected_count: int | None = None,
+    expected_n: int | None = None,
 ) -> dict[str, Any]:
-    selected = frame if mask is None else frame.loc[mask]
+    selected = (frame if mask is None else frame.loc[mask]).copy()
     identity = [
         name
         for name in ("seed", "arm", "view", "target", "population")
         if name in selected.columns
     ]
-    paired = selected.loc[selected[column].isin((reference, comparison))]
-    pivot = paired.pivot_table(
-        index=identity, columns=column, values="auroc", aggfunc="first"
-    )
-    if reference not in pivot or comparison not in pivot:
-        return {
-            "count": 0,
-            "mean": float("nan"),
-            "minimum": float("nan"),
-            "maximum": float("nan"),
-            "best": "无可比记录",
-        }
-    delta = (pivot[comparison] - pivot[reference]).dropna()
-    if delta.empty:
-        return {
-            "count": 0,
-            "mean": float("nan"),
-            "minimum": float("nan"),
-            "maximum": float("nan"),
-            "best": "无可比记录",
-        }
+    required_columns = {*identity, column, "auroc"}
+    if not identity or not required_columns.issubset(selected.columns):
+        raise ValueError("paired AUROC summary lacks its identity/value columns")
+    paired = selected.loc[selected[column].isin((reference, comparison))].copy()
+    if paired.empty or paired.duplicated([*identity, column]).any():
+        raise ValueError("paired AUROC summary rows are absent or non-unique")
+    if expected_n is not None:
+        if "n" not in paired or not paired["n"].eq(int(expected_n)).all():
+            raise ValueError("paired AUROC summary population coverage drifted")
+    values = pd.to_numeric(paired["auroc"], errors="coerce").to_numpy(dtype=float)
+    if not np.isfinite(values).all():
+        raise ValueError("paired AUROC summary contains a non-finite value")
+    pivot = paired.pivot(index=identity, columns=column, values="auroc")
+    if (
+        set(pivot.columns.astype(str)) != {reference, comparison}
+        or pivot.isna().any().any()
+    ):
+        raise ValueError("paired AUROC summary lacks exact comparison/reference pairs")
+    delta = pivot[comparison] - pivot[reference]
+    if expected_count is not None and len(delta) != int(expected_count):
+        raise ValueError(
+            f"paired AUROC summary has {len(delta)} pairs; expected {expected_count}"
+        )
     best_index = delta.idxmax()
     values = best_index if isinstance(best_index, tuple) else (best_index,)
     best = ", ".join(
@@ -344,12 +359,13 @@ def _paired_delta(
     }
 
 
-def _delta_text(summary: Mapping[str, Any]) -> str:
+def _delta_text(summary: Mapping[str, Any], *, decimals: int = 3) -> str:
     if int(summary["count"]) == 0:
         return "无成对记录"
     return (
-        f"平均 {float(summary['mean']):+.3f}，范围 "
-        f"[{float(summary['minimum']):+.3f}, {float(summary['maximum']):+.3f}]；"
+        f"平均 {float(summary['mean']):+.{decimals}f}，范围 "
+        f"[{float(summary['minimum']):+.{decimals}f}, "
+        f"{float(summary['maximum']):+.{decimals}f}]；"
         f"最大值位于 {summary['best']}"
     )
 
@@ -424,6 +440,88 @@ def _endpoint_support_text(support: Mapping[str, list[str]]) -> str:
     )
 
 
+def gate_c_support_summary(
+    gate: Mapping[str, Any], *, expected_seeds: tuple[int, ...]
+) -> dict[str, Any]:
+    """Validate and summarize exact endpoint-specific Gate-C support records."""
+
+    supporting = gate.get("supporting_comparisons")
+    threshold = gate.get("minimum_matched_auroc_gain_each_seed")
+    if not isinstance(supporting, list) or not isinstance(threshold, (int, float)):
+        raise ValueError("Gate C lacks its support list or registered threshold")
+    threshold_value = float(threshold)
+    if not np.isfinite(threshold_value):
+        raise ValueError("Gate-C threshold is non-finite")
+    if gate.get("passed") is not bool(supporting):
+        raise ValueError("Gate-C status differs from its supporting comparisons")
+    required = {
+        "arm",
+        "comparison",
+        "passed",
+        "population",
+        "reference",
+        "seed_deltas",
+        "target",
+        "view",
+    }
+    expected_seed_keys = {str(seed) for seed in expected_seeds}
+    identities: set[tuple[str, ...]] = set()
+    rendered: list[str] = []
+    phenotype_count = 0
+    pcr_count = 0
+    for record in supporting:
+        if not isinstance(record, Mapping) or set(record) != required:
+            raise ValueError("Gate-C supporting-comparison schema drifted")
+        comparison = str(record["comparison"])
+        identity = (
+            str(record["arm"]),
+            comparison,
+            str(record["target"]),
+            str(record["view"]),
+            str(record["population"]),
+        )
+        if identity in identities:
+            raise ValueError("Gate C repeats a supporting-comparison identity")
+        identities.add(identity)
+        deltas = record["seed_deltas"]
+        if (
+            record["passed"] is not True
+            or str(record["reference"]) != "FIXED_P3"
+            or str(record["population"]) != f"oracle_pair_{comparison}"
+            or not isinstance(deltas, Mapping)
+            or set(deltas) != expected_seed_keys
+        ):
+            raise ValueError("Gate-C supporting-comparison contract drifted")
+        ordered_deltas = [float(deltas[str(seed)]) for seed in expected_seeds]
+        if not np.isfinite(ordered_deltas).all() or any(
+            value < threshold_value for value in ordered_deltas
+        ):
+            raise ValueError("Gate-C supporting comparison violates its threshold")
+        target = str(record["target"])
+        if target in {"HR", "HER2", "subtype_4class"}:
+            phenotype_count += 1
+        elif target == "pCR":
+            pcr_count += 1
+        else:
+            raise ValueError("Gate-C support names an unregistered endpoint")
+        rendered.append(
+            f"arm={record['arm']}, comparison={comparison} vs reference=FIXED_P3, "
+            f"target={target}, view={record['view']}, "
+            f"population={record['population']} ("
+            + "; ".join(
+                f"seed{seed}={value:+.17g}"
+                for seed, value in zip(expected_seeds, ordered_deltas, strict=True)
+            )
+            + ")"
+        )
+    return {
+        "count": len(supporting),
+        "phenotype_count": phenotype_count,
+        "pcr_count": pcr_count,
+        "text": "；".join(rendered) if rendered else "无 supporting comparison",
+    }
+
+
 def _best_oracle(table: pd.DataFrame) -> str:
     paired = pair_matched_oracle_deltas(table)
     paired = paired.loc[paired["target"].isin(("HR", "HER2", "subtype_4class"))]
@@ -449,7 +547,12 @@ def _classification_code(name: str) -> str:
     return mapping[name]
 
 
-def _stage_b_text(table: pd.DataFrame, authorization: Mapping[str, Any]) -> str:
+def _stage_b_text(
+    table: pd.DataFrame,
+    authorization: Mapping[str, Any],
+    *,
+    primary_pcr_population: str,
+) -> str:
     authorized = bool(authorization["authorized"])
     status_values = sorted(set(table.get("status", pd.Series(dtype=str)).astype(str)))
     status = ", ".join(status_values) if status_values else "未提供状态列"
@@ -457,17 +560,72 @@ def _stage_b_text(table: pd.DataFrame, authorization: Mapping[str, Any]) -> str:
         if "NOT_RUN_NOT_AUTHORIZED" not in status_values:
             raise ValueError("unauthorized Stage B table lacks NOT_RUN_NOT_AUTHORIZED")
         return "未授权且未运行（NOT_RUN_NOT_AUTHORIZED），符合 Gate A OR Gate C 规则。"
-    required = {"target", "delta_auroc", "brier_improvement"}
+    required = {
+        "status",
+        "seed",
+        "arm",
+        "view",
+        "target",
+        "variant",
+        "population",
+        "n",
+        "delta_auroc",
+        "brier_improvement",
+    }
     if not required.issubset(table.columns):
         raise ValueError("authorized Stage B table lacks paired delta columns")
+    identity = ["view", "target", "population"]
+    expected_phenotype = {
+        (view, target, "full_808")
+        for view in ("T0", "T1", "T2", "T3")
+        for target in ("HR", "HER2", "subtype_4class")
+    }
+    expected_pcr = {
+        (view, "pCR", population)
+        for view in ("T0", "T0-T1", "T0-T2", "T0-T3")
+        for population in ("full_808", "ftv_complete_375")
+    }
+    if (
+        len(table) != 20
+        or table.duplicated(identity).any()
+        or set(table.loc[:, identity].itertuples(index=False, name=None))
+        != expected_phenotype | expected_pcr
+        or not table["status"].astype(str).eq("COMPLETE").all()
+        or not pd.to_numeric(table["seed"], errors="coerce").eq(2026).all()
+        or not table["arm"]
+        .astype(str)
+        .eq("RESPONSE_PHENOTYPE_DUAL_STATISTIC_STATE")
+        .all()
+        or not table["variant"].astype(str).eq("DUAL_MEAN_STD_192").all()
+        or not table["n"]
+        .eq(table["population"].map({"full_808": 808, "ftv_complete_375": 375}))
+        .all()
+    ):
+        raise ValueError("authorized Stage B report grid/identity contract drifted")
+    all_delta = pd.to_numeric(table["delta_auroc"], errors="coerce").to_numpy(
+        dtype=float
+    )
+    all_brier = pd.to_numeric(table["brier_improvement"], errors="coerce").to_numpy(
+        dtype=float
+    )
+    pcr_mask = table["target"].eq("pCR").to_numpy()
+    if (
+        not np.isfinite(all_delta).all()
+        or not np.isfinite(all_brier[pcr_mask]).all()
+        or np.isfinite(all_brier[~pcr_mask]).any()
+    ):
+        raise ValueError("authorized Stage B report metrics are non-finite/invalid")
     phenotype = pd.to_numeric(
         table.loc[table["target"].ne("pCR"), "delta_auroc"], errors="coerce"
     )
-    pcr = pd.to_numeric(
-        table.loc[table["target"].eq("pCR"), "delta_auroc"], errors="coerce"
-    )
+    primary_pcr_rows = table.loc[
+        table["target"].eq("pCR") & table["population"].eq(str(primary_pcr_population))
+    ]
+    if len(primary_pcr_rows) != 4:
+        raise ValueError("authorized Stage B lacks the four primary pCR comparisons")
+    pcr = pd.to_numeric(primary_pcr_rows["delta_auroc"], errors="coerce")
     brier = pd.to_numeric(
-        table.loc[table["target"].eq("pCR"), "brier_improvement"],
+        primary_pcr_rows["brier_improvement"],
         errors="coerce",
     )
     if (
@@ -483,7 +641,8 @@ def _stage_b_text(table: pd.DataFrame, authorization: Mapping[str, Any]) -> str:
         f"已授权；表 8 状态为 {status}。相对同 seed/view/target/population 的 "
         f"Stage-A LOCAL3/P1 基线（Stage-B 为 dual-state arm）：phenotype ΔAUROC 平均 {phenotype.mean():+.3f}，"
         f"范围 [{phenotype.min():+.3f}, {phenotype.max():+.3f}]；"
-        f"pCR ΔAUROC 平均 {pcr.mean():+.3f}，范围 [{pcr.min():+.3f}, "
+        f"pCR primary population `{primary_pcr_population}` ΔAUROC 平均 "
+        f"{pcr.mean():+.3f}，范围 [{pcr.min():+.3f}, "
         f"{pcr.max():+.3f}]；pCR Brier 改善平均 {brier.mean():+.3f}。"
     )
 
@@ -503,6 +662,12 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
     implementation_erratum_2 = load_preregistration_implementation_erratum_2(
         implementation_erratum_2_path
     )
+    implementation_erratum_3_path = (
+        ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_3.json"
+    )
+    implementation_erratum_3 = load_preregistration_implementation_erratum_3(
+        implementation_erratum_3_path
+    )
     chain = preregistration_chain(lock, amendment)
     original_preregistration_commit = chain["original_preregistration_commit"]
     preregistration_commit = chain["active_preregistration_commit"]
@@ -510,9 +675,13 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
         observed_original_commit,
         prior_amended_preregistration_commit,
         prior_implementation_refreeze_commit,
+        prior_compatibility_refreeze_commit,
         observed_active_commit,
     ) = preregistration_provenance_anchors(
-        amendment, implementation_erratum, implementation_erratum_2
+        amendment,
+        implementation_erratum,
+        implementation_erratum_2,
+        implementation_erratum_3,
     )
     if (
         observed_original_commit != original_preregistration_commit
@@ -591,7 +760,21 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
         mask=table2["target"].eq("HR"),
     )
     std_vs_mean = _paired_delta(
-        table2, column="variant", comparison="P2", reference="P1"
+        table2,
+        column="variant",
+        comparison="P2",
+        reference="P1",
+        expected_count=48,
+        expected_n=808,
+    )
+    pcr_std_vs_mean = _paired_delta(
+        table3,
+        column="variant",
+        comparison="P2",
+        reference="P1",
+        mask=(table3["target"].eq("pCR") & table3["population"].eq("ftv_complete_375")),
+        expected_count=16,
+        expected_n=375,
     )
     pcr_p3 = _paired_delta(
         table3,
@@ -613,7 +796,14 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
     gate_d = bool(gate_values["D"]["passed"])
     classification = str(gates["scientific_classification"])
     code = _classification_code(classification)
-    stage_b = _stage_b_text(tables[TABLES[7]], authorization)
+    primary_pcr_population = str(config["analysis"]["primary_pcr_population"])
+    if primary_pcr_population != "ftv_complete_375":
+        raise ValueError("registered primary pCR population drifted")
+    stage_b = _stage_b_text(
+        tables[TABLES[7]],
+        authorization,
+        primary_pcr_population=primary_pcr_population,
+    )
     seeds = tuple(int(value) for value in config["frozen_cells"]["seed_bases"])
     threshold_a = float(config["gates"]["A"]["minimum_auroc_gain_each_seed"])
     phenotype_support = two_seed_endpoint_support(
@@ -643,21 +833,43 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
         )
         or "none"
     )
+    gate_c_support = gate_c_support_summary(gate_values["C"], expected_seeds=seeds)
     geometry_qc = amendment["geometry_qc"]
     execution_ledger = amendment["pre_amendment_execution"]
     erratum_execution = implementation_erratum["pre_erratum_execution"]
     erratum_2_execution = implementation_erratum_2["pre_erratum_execution"]
+    erratum_3_execution = implementation_erratum_3["pre_erratum_execution"]
+    if (
+        gate_c_support["count"],
+        gate_c_support["phenotype_count"],
+        gate_c_support["pcr_count"],
+    ) != (
+        erratum_3_execution["gate_c_supporting_comparison_count"],
+        erratum_3_execution["gate_c_phenotype_supporting_comparison_count"],
+        erratum_3_execution["gate_c_pcr_supporting_comparison_count"],
+    ):
+        raise ValueError("current Gate-C endpoint support differs from erratum ledger")
+    if gate_c_support["phenotype_count"] == 0 and gate_c_support["pcr_count"] > 0:
+        gate_c_boundary = (
+            "当前 B 标签狭义地由上述 pCR supporting comparison 驱动；"
+            "HR/HER2/subtype 没有 Gate-C supporting comparison"
+        )
+    else:
+        gate_c_boundary = (
+            "当前 B 标签由上述 endpoint-specific Gate-C records 驱动，"
+            "必须按 phenotype 与 pCR 分开解释"
+        )
 
     answers = [
         f"1. **Mean pooling 是否丢失 heterogeneity information？** {'有预注册阈值证据' if direct_or_complementary_support else '未获得预注册阈值证据'}（支持来源：{evidence_sources}）。Gate A 检验 P3−P1 的 phenotype/matched-pCR 信号；Gate B 独立检验 P3 在 C+F 之外且优于 C+F+P1 的互补性。P3−P1 phenotype AUROC：{_delta_text(phenotype_p3)}。",
-        f"2. **Std 是否有独立价值？** P2−P1 phenotype AUROC 的描述性结果为：{_delta_text(std_vs_mean)}。这回答可解码性，不把单次正增益解释为因果或泛化证明。",
+        f"2. **Std 是否有独立价值？** 未为 P2 单独预注册 Gate，因此这些描述性配对结果不能建立稳定的独立 SD 价值。P2−P1 phenotype AUROC：{_delta_text(std_vs_mean)}。独立的 matched-375 pCR P2−P1（严格 16 对）：{_delta_text(pcr_std_vs_mean, decimals=6)}。它们回答可解码性，不把单次正增益解释为因果或泛化证明。",
         f"3. **Mean+Std 是否优于 Mean？** {'存在稳定的直接或互补证据' if direct_or_complementary_support else '未满足直接 Gate-A 或互补 Gate-B 的双-seed标准'}（{evidence_sources}）；Gate B 通过时即表示 C+F+P3 同时优于 C+F 与 C+F+P1，不能因 Gate A 失败而忽略。",
         f"4. **HR/HER2/subtype 是否改善？** 以两个 seed 均满足 P3−P1 AUROC ≥ +{threshold_a:.2f} 分别判定：{_endpoint_support_text(phenotype_support)}。HR 不进入 Gate A；HER2/subtype disjunct={'PASS' if phenotype_gate_a_disjunct else 'FAIL'}。HR 全部成对结果：{_delta_text(hr_p3)}。",
         f"5. **pCR 是否改善？** matched 375 的独立双-seed pCR disjunct={'PASS' if pcr_gate_a_disjunct else 'FAIL'}（{_endpoint_support_text(pcr_support)}）；全部 P3−P1 成对结果：{_delta_text(pcr_p3)}。该结论不由 phenotype disjunct 代替。",
         f"6. **是否有 FTV 之外的信息？** Gate B={'PASS' if gate_b else 'FAIL'}。C+F+P3−C+F：{_delta_text(beyond)}。",
         f"7. **Core 还是 peritumoral 含更多 phenotype signal？** 仅在 HR/HER2/subtype 内，各区域与其同一 oracle_pair complete-case 人群的 FIXED_P3 比较；最大 matched uplift 及平均配对增量排序为：{_best_oracle(table7)}。区域间使用不同 variant-specific cohorts，因此 absolute core-vs-peri AUROC 排名不可识别，也不作该排序。",
-        f"8. **Oracle 是否强于 mask-free fixed local？** Gate C={'PASS' if gate_c else 'FAIL'}，支持比较数={len(gate_values['C']['supporting_comparisons'])}。每个比较都在相同、variant-specific complete-case 人群并限制于同一 64-mm LOCAL support。",
-        f"9. **当前瓶颈是什么？** Stage-A 唯一分类为 {code}. `{classification}`；Gate D={'PASS' if gate_d else 'FAIL'}。",
+        f"8. **Oracle 是否强于 mask-free fixed local？** Gate C={'PASS' if gate_c else 'FAIL'}，支持比较数={gate_c_support['count']}：{gate_c_support['text']}。其中 HR/HER2/subtype 支持数={gate_c_support['phenotype_count']}，pCR 支持数={gate_c_support['pcr_count']}。每个比较都在相同、variant-specific complete-case 人群并限制于同一 64-mm LOCAL support。",
+        f"9. **当前瓶颈是什么？** Stage-A 唯一分类为 {code}. `{classification}`；Gate D={'PASS' if gate_d else 'FAIL'}。{gate_c_boundary}。该标签的 Gate-C 支持明细为 {gate_c_support['text']}。",
         f"10. **是否需要 Response–Phenotype factorized state？** {'值得进入后续确认，因为 Gate A 或 Gate B 支持统计保留/互补。' if gate_a or gate_b else '当前证据不足以把它列为首选；应先处理定位或表征问题。'}",
         f"11. **是否需要 foundation encoder？** {'是，当前 encoder-deficit 分类使预训练/foundation encoder 成为首要下一步。' if code == 'C' else '本审计不要求立即更换；应先按当前分类完成更大样本/多 seed 确认。'}",
         f"12. **Stage B 是否授权、结果如何？** {stage_b}",
@@ -690,6 +902,12 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
 第一次实现 refreeze 后，cache/Oracle、20 个 feature cells、代表资产与 feature-matrix completion marker 均完成。Stage A 解析了冻结 fold/pCR labels、clinical phenotype labels 与 FTV；唯一落盘的 Stage-A 文件是无标签派生值的 Table 1。首个 `seed_2026/LOCAL0/fold_0`、`T0`、`P1` cell 中，HR/HER2 两个 binary tasks 的 {erratum_2_execution['completed_binary_candidate_fits_in_memory']} 次候选拟合、{erratum_2_execution['in_memory_prediction_rows_before_failure']} 行预测与 {erratum_2_execution['in_memory_hyperparameter_rows_before_failure']} 行超参数只存在内存中。首个 subtype `C={erratum_2_execution['failure_c']}` 拟合因 sklearn 1.8 禁止 legacy bare multiclass liblinear 而在拟合前失败；没有 patient-level prediction、label-derived public metric、Table 2+、hyperparameter table、gate、authorization、run summary 或 Stage B 工件落盘。
 
 兼容修复通过 sklearn `_fit_liblinear` 得到 binary OvR rows，并严格复现 legacy sigmoid 与逐行概率归一化；它不是 generic child-balanced OvR。solver、penalty、class-weight、C grid、选择/tie、outer folds/populations 与 scientific/representative/causal-Oracle contracts 均不改变。local runner 仅抑制 sklearn 1.8 重复的 `penalty='l2'` deprecation `FutureWarning`，不改变 estimator；`ConvergenceWarning` 继续 fail-closed。`PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json` 精确绑定失败时 {erratum_2_execution['discarded_artifact_count']} 个工件（{erratum_2_execution['discarded_artifact_total_bytes']:,} bytes；record-set SHA-256 `{erratum_2_execution['discarded_artifact_record_set_sha256']}`）；全部在 schema-5 refreeze 前丢弃且禁止复用。
+
+## 实现验证勘误 3 披露
+
+兼容性 refreeze 后，Stage A 已完整结束：{erratum_3_execution['private_oof_prediction_row_count']:,} 行 private OOF prediction、{erratum_3_execution['metric_row_count_excluding_pooling_contract']:,} 行注册 metric（不含 pooling contract）与 {erratum_3_execution['hyperparameter_selection_row_count']:,} 行 hyperparameter selection 均通过 grid、OOF/fold isolation、hash、privacy、mode、authorization 与 run-summary 复核。默认 CSV parser 在 Gate 重算对象中造成 {erratum_3_execution['default_parser_gate_json_difference_count']} 个纯数值舍入差异，绝对差范围为 [{erratum_3_execution['default_parser_minimum_gate_absolute_difference']:.17g}, {erratum_3_execution['default_parser_maximum_gate_absolute_difference']:.17g}]；`float_precision='round_trip'` 精确恢复已发布 Gate 对象及 SHA-256 `{erratum_3_execution['published_gate_json_canonical_sha256']}`。A/B/C/D 决策与 `{erratum_3_execution['scientific_classification']}` 分类均未改变。
+
+同一次预 refreeze 审计修正四个尚未生成公开 figure/report 工件的呈现合同：Q2 另列严格 16 对 matched-375 pCR P2−P1；Figure 7 将三种 variant 在 `full_808` 与 `ftv_complete_375` 分成六条曲线；Q12 只用配置的 matched primary pCR population 作主汇总而不跨人群平均；Q8/Q9 从 Gate-C supporting records 导出 endpoint-specific 支持并明确 phenotype 与 pCR 的边界。这些修正不改变模型、表格、metric、Gate、authorization 或科学合同。Stage-B folds 0--2 已进入 epoch 1 执行，但在任何 epoch 完成前中断，completed epochs={erratum_3_execution['stage_b_completed_epoch_count']}，Stage-B files/checkpoints/results 均为 0；六个目录仅是 artifact-empty side effects。`PREREGISTRATION_IMPLEMENTATION_ERRATUM_3.json` 精确绑定当时 {erratum_3_execution['discarded_artifact_count']} 个文件（{erratum_3_execution['discarded_artifact_total_bytes']:,} bytes；record-set SHA-256 `{erratum_3_execution['discarded_artifact_record_set_sha256']}`），全部在 schema-6 refreeze 前丢弃且禁止复用。
 
 ## 十二个问题的明确回答
 
@@ -724,6 +942,9 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
 - Prior implementation refreeze commit SHA：`{prior_implementation_refreeze_commit}`
 - Prior implementation refreeze lock：`{implementation_erratum_2['prior_implementation_refreeze_lock_sha256']}`
 - Preregistration implementation erratum 2：`{file_sha256(implementation_erratum_2_path)}`
+- Prior compatibility refreeze commit SHA：`{prior_compatibility_refreeze_commit}`
+- Prior compatibility refreeze lock：`{implementation_erratum_3['prior_compatibility_refreeze_lock_sha256']}`
+- Preregistration implementation erratum 3：`{file_sha256(implementation_erratum_3_path)}`
 - Preregistration lock：`{file_sha256(ROOT / 'PREREGISTRATION_LOCK.json')}`
 - Preregistration commit SHA：`{preregistration_commit}`
 - Active implementation-refrozen preregistration commit SHA：`{preregistration_commit}`
@@ -737,6 +958,7 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
         amendment_path,
         implementation_erratum_path,
         implementation_erratum_2_path,
+        implementation_erratum_3_path,
         gates_path,
         authorization_path,
         run_summary_path,
@@ -744,7 +966,7 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
         *(ROOT / "figures" / name for name in FIGURES),
     ]
     manifest = {
-        "schema_version": 2,
+        "schema_version": 3,
         "status": "COMPLETE",
         "language": "zh-CN",
         "scientific_classification": classification,
@@ -764,6 +986,11 @@ def render(*, experiment_commit: str, push_status: str) -> tuple[str, dict[str, 
             "prior_implementation_refreeze_lock_sha256"
         ],
         "implementation_erratum_2_sha256": file_sha256(implementation_erratum_2_path),
+        "prior_compatibility_refreeze_commit": (prior_compatibility_refreeze_commit),
+        "prior_compatibility_refreeze_lock_sha256": implementation_erratum_3[
+            "prior_compatibility_refreeze_lock_sha256"
+        ],
+        "implementation_erratum_3_sha256": file_sha256(implementation_erratum_3_path),
         "preregistration_commit": preregistration_commit,
         "active_amended_preregistration_commit": preregistration_commit,
         "experiment_commit": experiment_commit,
@@ -802,6 +1029,7 @@ def main() -> None:
         original_anchor,
         prior_amended_anchor,
         prior_implementation_anchor,
+        prior_compatibility_anchor,
         active_anchor,
     ) = preregistration_provenance_anchors()
     branch = subprocess.check_output(
@@ -818,6 +1046,7 @@ def main() -> None:
             original_anchor,
             prior_amended_anchor,
             prior_implementation_anchor,
+            prior_compatibility_anchor,
         )
     report_path = ROOT / "reports" / "final_report.md"
     manifest_path = ROOT / "reports" / "report_manifest.json"
@@ -847,6 +1076,9 @@ def main() -> None:
             "prior_implementation_refreeze_commit",
             "prior_implementation_refreeze_lock_sha256",
             "implementation_erratum_2_sha256",
+            "prior_compatibility_refreeze_commit",
+            "prior_compatibility_refreeze_lock_sha256",
+            "implementation_erratum_3_sha256",
         ):
             if previous.get(name) != manifest.get(name):
                 raise ValueError(f"report amendment provenance changed at {name}")

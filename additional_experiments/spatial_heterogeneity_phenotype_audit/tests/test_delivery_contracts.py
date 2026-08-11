@@ -22,7 +22,9 @@ from generate_figures import pair_matched_oracle_deltas  # noqa: E402
 from generate_report import (  # noqa: E402
     STAGE_A_AUTHORIZATION_KEYS,
     STAGE_A_RUN_SUMMARY_KEYS,
+    _paired_delta,
     _stage_b_text,
+    gate_c_support_summary,
     two_seed_endpoint_support,
 )
 import run_feature_matrix as feature_matrix  # noqa: E402
@@ -198,18 +200,197 @@ def test_gate_a_support_is_endpoint_specific() -> None:
 
 
 def test_stage_b_report_summarizes_actual_paired_deltas() -> None:
-    table = pd.DataFrame(
-        {
-            "status": ["COMPLETE", "COMPLETE"],
-            "target": ["HER2", "pCR"],
-            "delta_auroc": [0.05, -0.01],
-            "brier_improvement": [np.nan, 0.02],
-        }
+    rows = []
+    for view in ("T0", "T1", "T2", "T3"):
+        for target in ("HR", "HER2", "subtype_4class"):
+            rows.append(
+                {
+                    "status": "COMPLETE",
+                    "seed": 2026,
+                    "arm": "RESPONSE_PHENOTYPE_DUAL_STATISTIC_STATE",
+                    "view": view,
+                    "target": target,
+                    "variant": "DUAL_MEAN_STD_192",
+                    "population": "full_808",
+                    "n": 808,
+                    "delta_auroc": 0.05,
+                    "brier_improvement": np.nan,
+                }
+            )
+    for view in ("T0", "T0-T1", "T0-T2", "T0-T3"):
+        for population, n, delta, brier in (
+            ("full_808", 808, 0.50, 0.40),
+            ("ftv_complete_375", 375, -0.01, 0.02),
+        ):
+            rows.append(
+                {
+                    "status": "COMPLETE",
+                    "seed": 2026,
+                    "arm": "RESPONSE_PHENOTYPE_DUAL_STATISTIC_STATE",
+                    "view": view,
+                    "target": "pCR",
+                    "variant": "DUAL_MEAN_STD_192",
+                    "population": population,
+                    "n": n,
+                    "delta_auroc": delta,
+                    "brier_improvement": brier,
+                }
+            )
+    table = pd.DataFrame(rows)
+    text = _stage_b_text(
+        table,
+        {"authorized": True},
+        primary_pcr_population="ftv_complete_375",
     )
-    text = _stage_b_text(table, {"authorized": True})
     assert "phenotype ΔAUROC" in text
-    assert "pCR ΔAUROC" in text
+    assert "pCR primary population `ftv_complete_375`" in text
+    assert "-0.010" in text
+    assert "+0.500" not in text
     assert "Brier" in text
+
+    duplicate = pd.concat((table, table.iloc[[0]]), ignore_index=True)
+    with pytest.raises(ValueError, match="grid/identity"):
+        _stage_b_text(
+            duplicate,
+            {"authorized": True},
+            primary_pcr_population="ftv_complete_375",
+        )
+    nonfinite = table.copy()
+    nonfinite.loc[
+        nonfinite["target"].eq("pCR") & nonfinite["population"].eq("full_808"),
+        "delta_auroc",
+    ] = np.nan
+    with pytest.raises(ValueError, match="non-finite/invalid"):
+        _stage_b_text(
+            nonfinite,
+            {"authorized": True},
+            primary_pcr_population="ftv_complete_375",
+        )
+
+
+def test_q2_pcr_summary_requires_exact_matched_375_pairs() -> None:
+    rows = []
+    for seed in (2026, 3026):
+        for arm in ("LOCAL0", "LOCAL3"):
+            for view in ("T0", "T0-T1", "T0-T2", "T0-T3"):
+                for variant, auroc in (("P1", 0.60), ("P2", 0.59)):
+                    rows.append(
+                        {
+                            "seed": seed,
+                            "arm": arm,
+                            "view": view,
+                            "target": "pCR",
+                            "variant": variant,
+                            "population": "ftv_complete_375",
+                            "n": 375,
+                            "auroc": auroc,
+                        }
+                    )
+    frame = pd.DataFrame(rows)
+    summary = _paired_delta(
+        frame,
+        column="variant",
+        comparison="P2",
+        reference="P1",
+        expected_count=16,
+        expected_n=375,
+    )
+    assert summary["count"] == 16
+    assert summary["mean"] == pytest.approx(-0.01)
+
+    with pytest.raises(ValueError, match="non-unique"):
+        _paired_delta(
+            pd.concat((frame, frame.iloc[[0]]), ignore_index=True),
+            column="variant",
+            comparison="P2",
+            reference="P1",
+            expected_count=16,
+            expected_n=375,
+        )
+    with pytest.raises(ValueError, match="coverage"):
+        _paired_delta(
+            frame.assign(n=374),
+            column="variant",
+            comparison="P2",
+            reference="P1",
+            expected_count=16,
+            expected_n=375,
+        )
+
+
+def test_gate_c_report_support_is_endpoint_specific_and_exact() -> None:
+    gate = {
+        "passed": True,
+        "minimum_matched_auroc_gain_each_seed": 0.03,
+        "supporting_comparisons": [
+            {
+                "arm": "LOCAL0",
+                "comparison": "PERI20",
+                "passed": True,
+                "population": "oracle_pair_PERI20",
+                "reference": "FIXED_P3",
+                "seed_deltas": {
+                    "2026": 0.03567753001715257,
+                    "3026": 0.033276157804459694,
+                },
+                "target": "pCR",
+                "view": "T0-T1",
+            }
+        ],
+    }
+    summary = gate_c_support_summary(gate, expected_seeds=(2026, 3026))
+    assert summary["count"] == 1
+    assert summary["phenotype_count"] == 0
+    assert summary["pcr_count"] == 1
+    assert "comparison=PERI20 vs reference=FIXED_P3" in summary["text"]
+    assert "population=oracle_pair_PERI20" in summary["text"]
+    assert "seed2026=+0.03567753001715257" in summary["text"]
+
+
+def test_figure7_stratifies_both_registered_populations() -> None:
+    rows = []
+    for seed in (2026, 3026):
+        for arm in ("LOCAL0", "LOCAL3"):
+            for view_index, view in enumerate(("T0->T1", "T1->T2", "T2->T3")):
+                for variant_index, variant in enumerate(
+                    ("DELTA_MEAN", "DELTA_STD", "P3_PLUS_DELTA")
+                ):
+                    for population, n, baseline in (
+                        ("full_808", 808, 0.80),
+                        ("ftv_complete_375", 375, 0.55),
+                    ):
+                        rows.append(
+                            {
+                                "seed": seed,
+                                "arm": arm,
+                                "view": view,
+                                "target": "pCR",
+                                "variant": variant,
+                                "population": population,
+                                "n": n,
+                                "auroc": baseline
+                                + 0.01 * view_index
+                                + 0.001 * variant_index,
+                            }
+                        )
+    frame = pd.DataFrame(rows)
+    figure = figures.longitudinal_figure(frame)
+    lines = [line for line in figure.axes[0].get_lines() if " · " in line.get_label()]
+    assert len(lines) == 6
+    by_label = {line.get_label(): line for line in lines}
+    for variant in ("DELTA_MEAN", "DELTA_STD", "P3_PLUS_DELTA"):
+        full = by_label[f"{variant} · full_808"]
+        matched = by_label[f"{variant} · ftv_complete_375"]
+        assert np.all(full.get_ydata() > matched.get_ydata())
+        assert full.get_linestyle() != matched.get_linestyle()
+    figures.plt.close(figure)
+
+    with pytest.raises(ValueError, match="exact registered grid"):
+        figures.longitudinal_figure(frame.iloc[:-1])
+    with pytest.raises(ValueError, match="repeats"):
+        figures.longitudinal_figure(
+            pd.concat((frame, frame.iloc[[0]]), ignore_index=True)
+        )
 
 
 def test_stage_a_provenance_schemas_are_synchronized() -> None:
@@ -260,6 +441,9 @@ def test_privacy_scan_is_a_closed_delivery_allowlist(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     assert "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json" in (
+        validator.DELIVERY_ALLOWED_PATHS
+    )
+    assert "PREREGISTRATION_IMPLEMENTATION_ERRATUM_3.json" in (
         validator.DELIVERY_ALLOWED_PATHS
     )
     assert "tests/test_multiclass_compat.py" in validator.DELIVERY_ALLOWED_PATHS
@@ -338,6 +522,45 @@ def test_implementation_erratum_2_schema_is_exact_and_patient_free(
         common_module.load_preregistration_implementation_erratum_2(path)
 
 
+def test_implementation_erratum_3_schema_is_exact_and_patient_free(
+    tmp_path: Path,
+) -> None:
+    source = ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_3.json"
+    erratum = json.loads(source.read_text(encoding="utf-8"))
+    path = tmp_path / source.name
+    path.write_bytes(source.read_bytes())
+    observed = common_module.load_preregistration_implementation_erratum_3(path)
+    execution = observed["pre_erratum_execution"]
+    assert len(observed["discarded_artifact_sha256"]) == 83
+    assert execution["discarded_artifact_total_bytes"] == 409345148
+    assert execution["private_oof_prediction_row_count"] == 691412
+    assert execution["default_parser_gate_json_difference_count"] == 26
+    assert (
+        execution["default_parser_maximum_gate_absolute_difference"]
+        == 1.1102230246251565e-16
+    )
+    assert execution["stage_b_epoch_execution_entered"] is True
+    assert execution["stage_b_interrupted_during_epoch_1_before_completion"] is True
+    assert execution["stage_b_completed_epoch_count"] == 0
+    assert execution["presentation_contract_gap_count"] == 4
+    assert observed["contains_patient_identifiers"] is False
+
+    erratum["contract_scope"]["scientific_contract_changed"] = True
+    path.write_text(json.dumps(erratum), encoding="utf-8")
+    with pytest.raises(ValueError, match="contract scope"):
+        common_module.load_preregistration_implementation_erratum_3(path)
+
+
+def test_validator_public_table_loader_round_trips_decimal(tmp_path: Path) -> None:
+    path = tmp_path / "metric.csv"
+    path.write_text("value\n0.03567753001715257\n", encoding="utf-8")
+    expected = float("0.03567753001715257")
+    observed = float(validator._read_public_table(path).loc[0, "value"])
+    default = float(pd.read_csv(path).loc[0, "value"])
+    assert observed.hex() == expected.hex()
+    assert default.hex() != expected.hex()
+
+
 def test_implementation_refreeze_preserves_prior_scientific_contract() -> None:
     prior = common_module.historical_json(
         common_module.PRIOR_AMENDED_PREREGISTRATION_COMMIT,
@@ -356,12 +579,18 @@ def test_implementation_refreeze_preserves_prior_scientific_contract() -> None:
     )
     common_module.require_implementation_erratum_2_plan_disclosure(prior_implementation)
 
+    prior_compatibility = common_module.historical_json(
+        common_module.PRIOR_COMPATIBILITY_REFREEZE_COMMIT,
+        "PREREGISTRATION_LOCK.json",
+    )
+    common_module.require_implementation_erratum_3_plan_disclosure(prior_compatibility)
+
     active["config_sha256"] = "0" * 64
     with pytest.raises(ValueError, match="config_sha256"):
         common_module.require_preserved_prior_lock_contract(active, prior)
 
 
-def test_preregistration_chain_authenticates_all_four_committed_locks(
+def test_preregistration_chain_authenticates_all_five_committed_locks(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     repo = tmp_path / "repo"
@@ -442,7 +671,7 @@ def test_preregistration_chain_authenticates_all_four_committed_locks(
     erratum_2["prior_implementation_erratum_sha256"] = file_sha256(erratum_path)
     erratum_2_path = experiment / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json"
     erratum_2_path.write_text(json.dumps(erratum_2, sort_keys=True), encoding="utf-8")
-    active_lock = {
+    compatibility_lock = {
         **implementation_lock,
         "schema_version": 5,
         "status": common_module.IMPLEMENTATION_ERRATUM_2_LOCK_STATUS,
@@ -453,10 +682,40 @@ def test_preregistration_chain_authenticates_all_four_committed_locks(
         ),
     }
     original_lock_path.write_text(
-        json.dumps(active_lock, sort_keys=True), encoding="utf-8"
+        json.dumps(compatibility_lock, sort_keys=True), encoding="utf-8"
     )
     git("add", ".")
     git("commit", "-q", "-m", "second implementation erratum refreeze")
+    prior_compatibility_commit = git("rev-parse", "HEAD")
+    prior_compatibility_lock_sha256 = file_sha256(original_lock_path)
+
+    erratum_3 = json.loads(
+        (ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_3.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    erratum_3["prior_compatibility_refreeze_commit"] = prior_compatibility_commit
+    erratum_3["prior_compatibility_refreeze_lock_sha256"] = (
+        prior_compatibility_lock_sha256
+    )
+    erratum_3["prior_implementation_erratum_2_sha256"] = file_sha256(erratum_2_path)
+    erratum_3_path = experiment / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_3.json"
+    erratum_3_path.write_text(json.dumps(erratum_3, sort_keys=True), encoding="utf-8")
+    active_lock = {
+        **compatibility_lock,
+        "schema_version": 6,
+        "status": common_module.IMPLEMENTATION_ERRATUM_3_LOCK_STATUS,
+        "implementation_erratum_3_sha256": file_sha256(erratum_3_path),
+        "superseded_compatibility_refreeze_commit": prior_compatibility_commit,
+        "superseded_compatibility_refreeze_lock_sha256": (
+            prior_compatibility_lock_sha256
+        ),
+    }
+    original_lock_path.write_text(
+        json.dumps(active_lock, sort_keys=True), encoding="utf-8"
+    )
+    git("add", ".")
+    git("commit", "-q", "-m", "third implementation erratum refreeze")
     active_commit = git("rev-parse", "HEAD")
 
     monkeypatch.setattr(common_module, "REPO_ROOT", repo)
@@ -464,6 +723,7 @@ def test_preregistration_chain_authenticates_all_four_committed_locks(
     monkeypatch.setattr(common_module, "AMENDMENT_PATH", amendment_path)
     monkeypatch.setattr(common_module, "IMPLEMENTATION_ERRATUM_PATH", erratum_path)
     monkeypatch.setattr(common_module, "IMPLEMENTATION_ERRATUM_2_PATH", erratum_2_path)
+    monkeypatch.setattr(common_module, "IMPLEMENTATION_ERRATUM_3_PATH", erratum_3_path)
     monkeypatch.setattr(
         common_module,
         "IMPLEMENTATION_ERRATUM_SHA256",
@@ -473,6 +733,11 @@ def test_preregistration_chain_authenticates_all_four_committed_locks(
         common_module,
         "IMPLEMENTATION_ERRATUM_2_SHA256",
         file_sha256(erratum_2_path),
+    )
+    monkeypatch.setattr(
+        common_module,
+        "IMPLEMENTATION_ERRATUM_3_SHA256",
+        file_sha256(erratum_3_path),
     )
     monkeypatch.setattr(common_module, "LOCK_PATH", original_lock_path)
     monkeypatch.setattr(
@@ -497,7 +762,27 @@ def test_preregistration_chain_authenticates_all_four_committed_locks(
     )
     monkeypatch.setattr(
         common_module,
+        "PRIOR_COMPATIBILITY_REFREEZE_COMMIT",
+        prior_compatibility_commit,
+    )
+    monkeypatch.setattr(
+        common_module,
+        "PRIOR_COMPATIBILITY_REFREEZE_LOCK_SHA256",
+        prior_compatibility_lock_sha256,
+    )
+    monkeypatch.setattr(
+        common_module,
         "require_implementation_erratum_plan_disclosure",
+        lambda _prior: None,
+    )
+    monkeypatch.setattr(
+        common_module,
+        "require_implementation_erratum_2_plan_disclosure",
+        lambda _prior: None,
+    )
+    monkeypatch.setattr(
+        common_module,
+        "require_implementation_erratum_3_plan_disclosure",
         lambda _prior: None,
     )
     chain = common_module.preregistration_chain(active_lock)
