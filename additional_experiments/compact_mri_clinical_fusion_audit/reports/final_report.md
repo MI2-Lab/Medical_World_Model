@@ -190,6 +190,8 @@ PCA16 在 T2 对 HR/HER2/subtype 都有小幅改善，但 PCA32 并没有稳定�
 |---|---|
 | Branch | `feature/compact-mri-clinical-fusion-audit` |
 | Parent commit | `064e0596348f0972decc39774336580f58e8da61` |
+| Audit implementation commit | `efb1749a9c475917050ab645a5130e8babb4cdd6` (`Add compact MRI clinical fusion audit`) |
+| GitHub push status | **SUCCESS** — `origin/feature/compact-mri-clinical-fusion-audit` 已创建并包含上述 implementation commit；无 force push |
 | LOCAL cells | 2 seeds × 2 arms × 5 outer folds = 20 |
 | Formal pCR prediction rows | 566,416 |
 | Profile prediction rows | 116,352 |

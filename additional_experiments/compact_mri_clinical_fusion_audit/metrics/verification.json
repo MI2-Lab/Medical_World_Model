@@ -13,7 +13,7 @@
       "category": "core",
       "details": {
         "branch": "feature/compact-mri-clinical-fusion-audit",
-        "head": "064e0596348f0972decc39774336580f58e8da61",
+        "head": "efb1749a9c475917050ab645a5130e8babb4cdd6",
         "parent_is_ancestor": true
       },
       "name": "git_branch_and_parent",
@@ -183,14 +183,14 @@
       "details": {
         "linked_figures": 7,
         "linked_tables": 8,
-        "report_bytes": 18018
+        "report_bytes": 18293
       },
       "name": "final_report_links",
       "status": "PASS"
     }
   ],
   "experiment": "compact_mri_clinical_fusion_audit",
-  "generated_at_utc": "2026-08-11T12:40:31.588890+00:00",
+  "generated_at_utc": "2026-08-11T12:41:37.159397+00:00",
   "schema_version": 1,
   "status": "PASS",
   "summary": {
