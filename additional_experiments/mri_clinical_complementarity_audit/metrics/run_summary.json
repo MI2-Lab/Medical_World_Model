@@ -1,0 +1,99 @@
+{
+  "artifacts": {
+    "bootstrap": {
+      "path": "metrics/bootstrap_ci.csv",
+      "sha256": "b6a223a666b9449817707e23e4f2b523b133302395cf0045b57d4845ed5b057b",
+      "size_bytes": 35332
+    },
+    "bootstrap_draws": {
+      "path": "predictions/bootstrap_draws.private.csv",
+      "sha256": "581d4d9fe96beb8f3e2cf95e5701c6c6416d962cbf8d3f39c92aed90d7b10a75",
+      "size_bytes": 11023068
+    },
+    "clinical_metrics": {
+      "path": "metrics/clinical_baseline_metrics.csv",
+      "sha256": "c100aeb1febcbaaac22e7b71ebe9b79d319916607ac863efac2a3c5821d674eb",
+      "size_bytes": 1338
+    },
+    "clinical_predictions": {
+      "path": "predictions/clinical_baselines_oof.private.csv",
+      "sha256": "e3e347c7971d542a56825b206016b34fd2bc0e86c23b04b5b69f1618e49e60a8",
+      "size_bytes": 555566
+    },
+    "clinical_residual_metrics": {
+      "path": "metrics/clinical_residual_metrics.csv",
+      "sha256": "0433e073827e3042cdbf1941b5a2b78569602877d1b384de4494c7e4865e8efe",
+      "size_bytes": 9512
+    },
+    "cohort_summary": {
+      "path": "metrics/cohort_summary.csv",
+      "sha256": "cc65cc673223de26c71439c75080d1754601bed7b1cb5d03b2583509895af914",
+      "size_bytes": 299
+    },
+    "hyperparameters": {
+      "path": "metrics/hyperparameter_selections.csv",
+      "sha256": "36aadd0add83d6f71edbeb547055f34f37ce3f4611cc36df7d73542bc8752c84",
+      "size_bytes": 259968
+    },
+    "incremental": {
+      "path": "metrics/incremental_effects.csv",
+      "sha256": "11edceb93cf9a32fcbf064e4d6dbfbf2f8b792614ffa8266a29c21addc6c9949",
+      "size_bytes": 6725
+    },
+    "input_manifest": {
+      "path": "metrics/input_manifest.csv",
+      "sha256": "fa989d2328b36d799cf654f2faae61a73a4a1bd5c1ad6a0acc3cdba32a08a03c",
+      "size_bytes": 9213
+    },
+    "pcr_fold_metrics": {
+      "path": "metrics/pcr_fold_metrics.csv",
+      "sha256": "64f95cd3ac55a22db0f22e8cd43a68897d31f467cef37afa806c7bf6119e04fa",
+      "size_bytes": 153100
+    },
+    "pcr_metrics": {
+      "path": "metrics/pcr_oof_metrics.csv",
+      "sha256": "41a7eb1892008ce6de3c4ec02839eb9c9d64537799e1e8d7844d6d6696e1e14c",
+      "size_bytes": 30878
+    },
+    "pcr_predictions": {
+      "path": "predictions/pcr_oof.private.csv",
+      "sha256": "7c9a10808e8d56eb20d1b7302cc19f1b32df0202979e290013969b9127d8e5a1",
+      "size_bytes": 12123017
+    },
+    "profile_metrics": {
+      "path": "metrics/profile_oof_metrics.csv",
+      "sha256": "ff941b4c75dea23d28d79d6646747036e20c315b12e708f5bb0ad91c64435808",
+      "size_bytes": 9261
+    },
+    "profile_predictions": {
+      "path": "predictions/profile_oof.private.csv",
+      "sha256": "15c8aa1aefe3cee43eaec0afe6a216494a58d29e41ce8f15204684325bdf44ae",
+      "size_bytes": 7239636
+    },
+    "residual_predictions": {
+      "path": "predictions/clinical_residual_oof.private.csv",
+      "sha256": "bc82987cb79e58adc63e1121a22fd45c1142ac36e107717ea76a19c7feb787a0",
+      "size_bytes": 2851001
+    },
+    "subgroup_metrics": {
+      "path": "metrics/subgroup_metrics.csv",
+      "sha256": "5c38025a3d0e913605c7018f068146e18ee22e3eb4cf643925c5cdfdaf07eea4",
+      "size_bytes": 18209
+    },
+    "subgroup_predictions": {
+      "path": "predictions/subgroup_oof.private.csv",
+      "sha256": "d392ff51f9132742267032b6cadcb82ba0367ff66e26b978b830aab4438b3273",
+      "size_bytes": 3758356
+    }
+  },
+  "branch": "feature/mri-clinical-complementarity-audit",
+  "elapsed_seconds": 477.04913663864136,
+  "evidence_status": "diagnostic_exploratory_two_seed_local_pilot",
+  "experiment": "mri_clinical_complementarity_audit",
+  "formal_bootstrap_replicates": 2000,
+  "n_local_cells": 20,
+  "n_primary_ftv_patients": 375,
+  "n_profile_patients": 808,
+  "parent_commit": "78ba693",
+  "schema_version": 1
+}

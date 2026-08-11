@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "experiment": "mri_clinical_complementarity_audit",
+  "parent_commit": "78ba693",
+  "evidence_status": "diagnostic_exploratory_two_seed_local_pilot",
+  "paths": {
+    "clinical_labels": "/data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv",
+    "clinical_labels_sha256": "b3355f8ac80cf8f0fa95722b8d8a8b73d96790e9ded5c491ddb5b2e6a7793436",
+    "fold_manifest": "/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+    "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+    "ftv_table": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv",
+    "ftv_table_sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d",
+    "local_feature_root": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8",
+    "local_preregistration_lock": "additional_experiments/local_global_response_state_pilot/PREREGISTRATION_LOCK.json",
+    "local_preregistration_lock_sha256": "d2fcbd6e92300debe462da1968d74f4809a03bfdccaea2cd82edfead846c4daa"
+  },
+  "local_cells": {
+    "arms": ["LOCAL0", "LOCAL3"],
+    "seed_bases": [2026, 3026],
+    "folds": [0, 1, 2, 3, 4],
+    "visits": ["T0", "T1", "T2", "T3"],
+    "state_dim": 192
+  },
+  "populations": {
+    "profile": "full_808",
+    "primary_pcr": "ftv_complete_375",
+    "secondary_pcr": "full_808"
+  },
+  "clinical_contracts": {
+    "C1_hr_her2": ["label_hr", "label_her2"],
+    "C_condition_without_treatment": ["label_hr", "label_her2", "label_mp", "age_at_screening"],
+    "C_condition_with_treatment": ["label_hr", "label_her2", "label_mp", "age_at_screening", "arm"],
+    "C2_full_without_treatment": ["label_hr", "label_her2", "label_mp", "age_at_screening", "race_simple", "menopausal_status_simple", "ethnicity"],
+    "C2_full_with_treatment": ["label_hr", "label_her2", "label_mp", "age_at_screening", "race_simple", "menopausal_status_simple", "ethnicity", "arm"],
+    "C_subtype_remaining_with_treatment": ["label_mp", "age_at_screening", "race_simple", "menopausal_status_simple", "ethnicity", "arm"]
+  },
+  "primary_clinical_contract": "C2_full_with_treatment",
+  "logistic": {
+    "penalty": "l2",
+    "c_grid": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "solver": "liblinear",
+    "max_iter": 10000,
+    "class_weight": null,
+    "selection_metric": "validation_auroc",
+    "tie_break": "smaller_C"
+  },
+  "profile_logistic": {
+    "class_weight": "balanced",
+    "selection_metric": "validation_auroc",
+    "binary_threshold": "validation_balanced_accuracy"
+  },
+  "residual_ridge_alphas": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0],
+  "bootstrap": {
+    "replicates": 2000,
+    "confidence_level": 0.95,
+    "unit": "patient",
+    "stratify_by": "outer_fold",
+    "random_seed": 260811
+  }
+}

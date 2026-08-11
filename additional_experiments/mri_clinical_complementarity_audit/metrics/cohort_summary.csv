@@ -1,0 +1,4 @@
+population,n,pcr_positive,pcr_prevalence,hr_positive,her2_positive,mp1,age_missing,race_missing,menopause_missing
+full_808,808,275,0.34034653465346537,453,201,383,3,3,29
+ftv_complete_375,375,110,0.29333333333333333,217,88,175,0,0,14
+ftv_unavailable_433,433,165,0.3810623556581986,236,113,208,3,3,15
