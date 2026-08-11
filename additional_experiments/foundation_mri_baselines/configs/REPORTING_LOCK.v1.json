@@ -1,0 +1,245 @@
+{
+  "schema_version": "foundation_mri_reporting_lock_v1",
+  "lock_kind": "formal_reporting_retry",
+  "lock_generation": "calibration_identity_recompute_tolerance_v1",
+  "locked_at": "2026-08-11T08:49:16-04:00",
+  "locked_after_probe_v3_completion": true,
+  "locked_before_formal_summarizer_retry": true,
+  "parent_lock": {
+    "path": "configs/EVALUATION_LOCK.v3.json",
+    "sha256": "8e8c4a5488fc862e1c73ac643495216bcc6eb015b767d7be39150894c8265104"
+  },
+  "finalization_lock": {
+    "path": "configs/FINALIZATION_LOCK.v1.json",
+    "sha256": "30c0c0e6ce7d92fb6164368addf467e2142e5159fb95240f4c030ddb986c4e7b"
+  },
+  "visibility": {
+    "calibration_intercept_values_seen": true,
+    "observed_identity": {
+      "source": "baseline_v2_public_vs_serialized_private_recompute",
+      "target": "pCR",
+      "model": "dino_vitb16_imagenet1k_mri_clinical_ftv",
+      "spatial": "GLOBAL",
+      "timing": "T0-T2",
+      "analysis_population": "radiomics_complete_case_375",
+      "aggregation": "outer_fold_macro",
+      "affected_cell_count": 1,
+      "column": "calibration_intercept",
+      "public_value": "-0.2992681677870132",
+      "recomputed_value": "-0.29926816783893295",
+      "absolute_difference": "5.191974628004914e-11"
+    },
+    "auroc_auprc_brier_ece_prediction_or_selection_performance_values_seen": false,
+    "revision_used_model_direction_or_performance": false
+  },
+  "failed_summarizer_attempts": [
+    {
+      "consumer": "summarizer",
+      "producer_lock_sha256": "8e8c4a5488fc862e1c73ac643495216bcc6eb015b767d7be39150894c8265104",
+      "argument_count": 0,
+      "argument_vector_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+      "exit_code": 1,
+      "expected_public_output_count": 5,
+      "public_outputs_written_count": 0,
+      "reporting_marker_written": false,
+      "exception_type": "ValueError",
+      "exception_message": "baseline public aggregate drifted in numeric column calibration_intercept",
+      "observed_values_limited_to_visibility_record": true
+    }
+  ],
+  "prelock_state": {
+    "baseline_v2_completed": true,
+    "probe_v3_completed": true,
+    "historical_receipts_bound": true,
+    "retry_public_outputs_exist": false,
+    "reporting_marker_exists": false
+  },
+  "inherited_inputs": {
+    "source": "parent_lock.inherited_inputs",
+    "sha256": "db3cd74d7b4bb68dd191f6c64f78dac8cabb5375f97562010ae2b6da7cd08147"
+  },
+  "historical_producers": {
+    "baseline_v2": {
+      "consumer": "baseline",
+      "producer_lock": {
+        "path": "configs/EVALUATION_LOCK.v2.json",
+        "sha256": "b15f7023b7021f5c1169b51cf6bc8fe0cc1d9085102a61fbdb1d68589fe2edc5"
+      },
+      "run_receipt": {
+        "path": "metrics/baseline_v2_run.private.provenance.json",
+        "sha256": "8fb79e1e4316e2fab94e386c3e2a0bbebde074d78771341188818e2d9702f42c"
+      },
+      "argv": {
+        "argc": 16,
+        "sha256": "755957f2143829fb27dc2317e35d1490dd2d2d630ff98ce06a4ad8691a8a1864"
+      },
+      "artifacts": {
+        "predictions": {
+          "path": "predictions/baseline_predictions.private.csv",
+          "sha256": "d45b55341fc8c6c0c169d547a3b47d81dc55d9423e0e06be0be72bea654b350e"
+        },
+        "selection": {
+          "path": "metrics/baseline_selection.private.csv",
+          "sha256": "313a7b38e413381adeceee3fbe40f0baf0cd086377346e83de8620b1e010b937"
+        },
+        "metrics": {
+          "path": "metrics/baseline_metrics.csv",
+          "sha256": "9ba743cfb6515784bd06d1384c1fe3bcad1d2d9873e00ba438bed1e31b71f52e"
+        },
+        "progress": {
+          "path": "logs/baseline_v2.progress.private.jsonl",
+          "sha256": "4e52fe3f379f7e1f25b5892a4ea2d66cd3f00657e058c2ec282c100e7fb1180a"
+        }
+      },
+      "audit_counts": {
+        "prediction_rows": 64137,
+        "selection_rows": 630,
+        "public_metric_rows": 252,
+        "progress_fold_completed": 630,
+        "progress_candidate_completed": 11340,
+        "max_observed_n_iter": 1485,
+        "capped_candidate_count": 0
+      }
+    },
+    "probe_v3": {
+      "consumer": "probe",
+      "producer_lock": {
+        "path": "configs/EVALUATION_LOCK.v3.json",
+        "sha256": "8e8c4a5488fc862e1c73ac643495216bcc6eb015b767d7be39150894c8265104"
+      },
+      "run_receipt": {
+        "path": "metrics/probe_v3_run.private.provenance.json",
+        "sha256": "c7b515a099a5da6fb2a88e25cad92ddb6aaa45d2fb8b9a79e7357b4381955505"
+      },
+      "argv": {
+        "argc": 16,
+        "sha256": "0d1af3956391f7c58a48eaffae914c0af51b1eceffb5ba792624d2e04a4923ec"
+      },
+      "artifacts": {
+        "phenotype_predictions": {
+          "path": "predictions/phenotype_predictions.private.csv",
+          "sha256": "356705b0e3e21988579d0b1f30242741f57c3d6a42619a71b6da4928822aa877"
+        },
+        "phenotype_selection": {
+          "path": "metrics/phenotype_selection.private.csv",
+          "sha256": "f5107a2c295b67a15652c3243a6bfc86539b9665e20686daa7f934b28e13ce85"
+        },
+        "phenotype_metrics": {
+          "path": "metrics/phenotype_metrics.csv",
+          "sha256": "042258b147c6076083846aad80c9df71c0e1236b51573410b4025505cd5c93f0"
+        },
+        "subtype_predictions": {
+          "path": "predictions/subtype_predictions.private.csv",
+          "sha256": "f80b571dcf121729910e14290cb47d73ddd3e7f5b928f111d48ab8263a818010"
+        },
+        "subtype_selection": {
+          "path": "metrics/subtype_selection.private.csv",
+          "sha256": "4f949691bb6b3b64cda0fb10b7b2da613bc188fb419edd8ae7f5e357e29b916d"
+        },
+        "subtype_metrics": {
+          "path": "metrics/subtype_metrics.csv",
+          "sha256": "c05256803c629122625078d4f1c9f7eed0974554fcf86720e4d2e17f24162279"
+        },
+        "ftv_predictions": {
+          "path": "predictions/ftv_probe_predictions.private.csv",
+          "sha256": "36b9b29d51cdde788cdf81193ce670906bf7231e08edc65e4f373c6e1f042f69"
+        },
+        "ftv_selection": {
+          "path": "metrics/ftv_probe_selection.private.csv",
+          "sha256": "980dc29507f532d3088226f8b6fc7c3383e49bfde5365e0cc399294e49a7aaaf"
+        },
+        "ftv_metrics": {
+          "path": "metrics/ftv_probe_metrics.csv",
+          "sha256": "0341cffefe45e5e393ff9dcad147c5839331bf32608cd8ade3b2ca49d4bb76a8"
+        },
+        "progress": {
+          "path": "logs/probe_v3.progress.private.jsonl",
+          "sha256": "07c21dea7e06ecf8805809ad5fe13cffa1608fdee0e191d50d63454468a078eb"
+        }
+      },
+      "audit_counts": {
+        "phenotype_prediction_rows": 9696,
+        "subtype_prediction_rows": 4848,
+        "ftv_prediction_rows": 15750,
+        "phenotype_selection_rows": 60,
+        "subtype_selection_rows": 30,
+        "ftv_selection_rows": 210,
+        "phenotype_public_rows": 24,
+        "subtype_public_rows": 12,
+        "ftv_public_rows": 84,
+        "progress_fold_completed": 300,
+        "progress_candidate_completed": 3300,
+        "progress_ovr_estimator_completed": 2160,
+        "max_binary_n_iter": 677,
+        "max_subtype_n_iter": 197,
+        "max_ridge_n_iter": 805,
+        "capped_candidate_count": 0
+      }
+    }
+  },
+  "development_provenance": {
+    "source_snapshot": {
+      "path": "configs/REPORTING_V3_SOURCE_SNAPSHOT.json",
+      "sha256": "e27e06449dd6c4d73dd7ed4910617ff1f9ab78be5151024fefd02dbf88f2903e"
+    },
+    "patch_manifest": {
+      "path": "configs/REPORTING_V3_TO_R1.patch",
+      "sha256": "fdfaee789993e88d6d708bc3ce18a6c62cebd5161da56bbe35c9565cc51d7dfe"
+    },
+    "synthetic_receipt": {
+      "path": "reports/reporting_v1_numeric_consistency_smoke.json",
+      "sha256": "7294bcd871cfd4cf4919f8878c72a1d23b6f0dafef6a97d25ae7997362415351"
+    }
+  },
+  "files": {
+    "EXPERIMENT_PLAN.md": "70270da091a222688e91d2c4f04a852520135a13a7236242884259e789fc7479",
+    "configs/FINALIZATION_LOCK.v1.json": "30c0c0e6ce7d92fb6164368addf467e2142e5159fb95240f4c030ddb986c4e7b",
+    "configs/MODEL_INPUT_LOCK.json": "639ec6e82f67c3927d8f543dfa3f9834ac8e09aec4820906c138b1839662c377",
+    "configs/REPORTING_V3_SOURCE_SNAPSHOT.json": "e27e06449dd6c4d73dd7ed4910617ff1f9ab78be5151024fefd02dbf88f2903e",
+    "configs/REPORTING_V3_TO_R1.patch": "fdfaee789993e88d6d708bc3ce18a6c62cebd5161da56bbe35c9565cc51d7dfe",
+    "configs/evaluation_protocol.json": "6ad48550861b444a3348a99e3c6bf1dd5c1cb88e1dbf20038b1d3fc95f85d91e",
+    "configs/evaluation_protocol_v2.json": "69f5b00f63986532609da6b0f63c83cec7d90945b300313d5ba4a4aa85a17aa6",
+    "configs/evaluation_protocol_v3.json": "4717b6c764528ace2c84a374eaa3dfbfe0eb84baba5be5951f6b5882db243916",
+    "configs/final_report_contract.json": "79b07f5de2d6118ba02fc0aa8b0e1f51f8bfe8b7ced0833acb1fa75e4ccd590b",
+    "configs/formal.json": "c9b85c0be6e0d8e1eea77ffdf6388be6d5975785d1a4076406a6ff71b2161ca6",
+    "configs/information_timing_contract.csv": "9dd1fa6c414f1433076048d244f7eb1c898076a209a47e408788d0a009475580",
+    "configs/reporting_retry_protocol_v1.json": "47ebd3ef448aebc42be270ec7333f1e35c1d4d68d23fcaa0ae8904e07a5879af",
+    "reports/final_report.template.md": "3ce8006aee4e3ead4e91cbe9663faf39d0937a29f8a5b0af51ea132d0d49ef0c",
+    "reports/foundation_model_selection.md": "77fe49a82aadcc988a5a937e2190df8774f5992ec85bd68a9a7c1d113bd58d08",
+    "reports/reporting_v1_numeric_consistency_smoke.json": "7294bcd871cfd4cf4919f8878c72a1d23b6f0dafef6a97d25ae7997362415351",
+    "requirements.txt": "b85810d33d3e9a502ebc29e0fb75741c372933bbac200e875346c93e7e53e4be",
+    "scripts/finalize_report.py": "4f9d8bd0c5f1689c754f5c42a96a15b88a3ae7b7803229c18c32d39641a72293",
+    "scripts/run_baselines.py": "e04e3447529bf28fe2d6aef9e1ccbf128b2b7b7950834f846373fdb98f6d0ebe",
+    "scripts/run_probes.py": "e45a46680cf8eb8688cdfea2a5df67a5c7941d9d5dcf3ede6166aef43fa1b572",
+    "scripts/summarize_results.py": "db076cf1fa6d8d1ba9ee1b3d72ffd997d0544712ca1e0f601e36d3f40528dd17",
+    "src/foundation_mri/data.py": "61aa9635a6cd367cc1d84556a45785f4a413fea1dd7d374907b257cd7b30eaa9",
+    "src/foundation_mri/evaluation.py": "595330be53dbf574c8aa2192825c2cd537a687e4017467e0a2b274b3983457b7",
+    "src/foundation_mri/finalization.py": "4ce4c0109bbf5133d0ad109f3ab71f321a83c2cdbb46dfc0e70fffffd69770d3",
+    "src/foundation_mri/locking.py": "57d45a65bf49d447508541ca85286bfa1ffa8d677abe3afb42f5464e0f9313e6",
+    "src/foundation_mri/reporting.py": "e24e1cb284a5c03af32db91447cc833117e65c10343406836ba63059a602b38e",
+    "src/foundation_mri/upstream.py": "0cac94b802599465f6edd7b9219ab056ba04af28ec22a0a37a05028d0b3d2330",
+    "tests/test_data.py": "1a0c68ab595c9a064afafe57405c9091824b2f8b93c524d44aed375405be8bb2",
+    "tests/test_evaluation.py": "b034a7ae0913d17e99fc810d9873317122672646252952ff0e95a7929af13dcf",
+    "tests/test_finalization.py": "e76e82ff947df965b0fee5593ce9fc9ff7e4d4ba422f133af81d92511849b085",
+    "tests/test_locking.py": "ace75f600a4eb5e8507594539bfa5f8e67d161c5299c3032a1167e9d98e2cb9a",
+    "tests/test_models.py": "ed7e6f691a4bcce37d796e9a8734f2b5f779ceac62813679ccb2521e98238d89",
+    "tests/test_reporting.py": "446f0946de175dbafaea4b5244d2810a7ce213b285b2fa90f2d1cab23b2bb1b4",
+    "tests/test_scripts.py": "4d93eac80680b55fc3c2d7b4289afd42504150823222dc2551695b744f742ed0",
+    "tests/test_spatial.py": "686de906c64edbe982c0ced8c6eba4546cdb3649d682e8b6b59a28275103edcc"
+  },
+  "execution": {
+    "parent_execution_sha256": "810f95351ad289f7dbe33684ef8ee80c3f417a38dc0da16e13cd0a23a2ffc9c5",
+    "consumer_argv": {
+      "summarizer": {
+        "argc": 0,
+        "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+      }
+    },
+    "producer_order": [
+      "baseline:v2",
+      "probe:v3",
+      "summarizer:reporting-v1"
+    ],
+    "marker_summarizer_protocol_version": "v3"
+  }
+}

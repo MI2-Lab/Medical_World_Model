@@ -1,0 +1,2785 @@
+--- a/configs/formal.json
++++ b/configs/formal.json
+@@ -17,10 +17,16 @@
+     "c1b_cache_manifest_sha256": "672ad7436b19f30a89640a2b36504f1e7fbaaff83fd07bc058c008b204d2a3c9",
+     "clinical": "/data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv",
+     "clinical_sha256": "b3355f8ac80cf8f0fa95722b8d8a8b73d96790e9ded5c491ddb5b2e6a7793436",
+-    "radiomics": "/data/data/Preprocessed/I-SPY2/mri_nact_features_complete4visits_wide.csv",
+-    "radiomics_sha256": "571b466595e7ae4f204585abb4e5f4d7838a89d161292ba3549afafc16f47c0c",
+-    "ftv_transitions": "../radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv",
+-    "ftv_transitions_sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d"
++    "radiomics_wide_upstream_only": {
++      "path": "/data/data/Preprocessed/I-SPY2/mri_nact_features_complete4visits_wide.csv",
++      "sha256": "571b466595e7ae4f204585abb4e5f4d7838a89d161292ba3549afafc16f47c0c",
++      "role": "upstream_only_not_a_formal_evaluation_input"
++    },
++    "radiomics_transition_formal_input": {
++      "path": "../radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv",
++      "sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d",
++      "role": "sole_formal_radiomics_ftv_input"
++    }
+   },
+   "models": {
+     "formal": [
+@@ -91,4 +97,3 @@
+     "reason_T0-T3": "not needed for the preregistered early-prediction primary"
+   }
+ }
+-
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -2,6 +2,8 @@
+ numpy==2.2.6
+ pandas==2.3.3
+ scikit-learn==1.8.0
++scipy==1.16.3
++matplotlib==3.10.8
+ torch==2.9.1
+ timm==1.0.22
+ transformers==5.2.0
+--- a/scripts/run_probes.py
++++ b/scripts/run_probes.py
+@@ -44,7 +44,12 @@
+     LOGISTIC_MAX_ITER,
+     MULTICLASS_LOGISTIC_TOL,
+     PENALTIES,
++    RIDGE_ALPHAS,
++    RIDGE_MAX_ITER,
++    RIDGE_TOL,
+     SEED,
++    _bound_transformed_ridge_predictions,
++    _target_inverse,
+     aggregate_binary_predictions,
+     aggregate_continuous_predictions,
+     aggregate_multiclass_predictions,
+@@ -54,6 +59,7 @@
+     evaluate_ridge_cv,
+     metric_free_progress,
+     select_multiclass_logistic,
++    select_ridge,
+     timing_matrix,
+     write_private_csv,
+     write_public_csv,
+@@ -78,15 +84,15 @@
+     / "additional_experiments/radiomics_next_change/data_audit/"
+     "radiomics_transition_targets_raw.csv"
+ )
+-DEFAULT_EVALUATION_LOCK = EXPERIMENT_ROOT / "configs/EVALUATION_LOCK.v2.json"
++DEFAULT_EVALUATION_LOCK = EXPERIMENT_ROOT / "configs/EVALUATION_LOCK.v3.json"
+ 
+ FORMAL_MEDICALNET_SHA256 = (
+     "ca45a46bd62e18e42b6d3f2426ce4690a4f3dbf7c2f44804ab0d19bd333ee4a2"
+ )
+-SMOKE_RECEIPT_KIND = "foundation_mri_probe_v2_medicalnet_synthetic_smoke"
++SMOKE_RECEIPT_KIND = "foundation_mri_probe_v3_medicalnet_synthetic_smoke"
+ SMOKE_CLASSES = ("synthetic_0", "synthetic_1", "synthetic_2", "synthetic_3")
+-FORMAL_PROGRESS_PATH = EXPERIMENT_ROOT / "logs/probe_v2.progress.private.jsonl"
+-FORMAL_RECEIPT_PATH = EXPERIMENT_ROOT / "metrics/probe_v2_run.private.provenance.json"
++FORMAL_PROGRESS_PATH = EXPERIMENT_ROOT / "logs/probe_v3.progress.private.jsonl"
++FORMAL_RECEIPT_PATH = EXPERIMENT_ROOT / "metrics/probe_v3_run.private.provenance.json"
+ 
+ 
+ @dataclass(frozen=True)
+@@ -259,7 +265,11 @@
+             raise RuntimeError(f"synthetic {role_name} split lacks a smoke class")
+ 
+     candidate_rows: list[dict[str, object]] = []
++    ridge_candidate_rows: list[dict[str, object]] = []
+     elapsed_by_axis: dict[str, float] = {}
++    ridge_elapsed_by_axis: dict[str, float] = {}
++    continuous_digests: dict[str, str] = {}
++    ridge_reserved_clipped: dict[str, int] = {}
+     sentinel_rows: list[dict[str, object]] = []
+     started = time.perf_counter()
+     for spatial in tuple(spatial_axes):
+@@ -320,6 +330,65 @@
+             )
+         sentinel_rows.append({"spatial": str(spatial), **fingerprints[0]})
+ 
++        # Metric-free Ridge smoke for the v3 static-FTV numerical path.  The
++        # continuous values are synthesized only from the representation rank;
++        # no fold, clinical, radiomics, or outcome loader is reachable here.
++        feature_index = int(
++            np.argmax(np.std(matrix[train_indices], axis=0, dtype=np.float64))
++        )
++        signal = matrix[:, feature_index]
++        order = np.argsort(np.argsort(signal, kind="stable"), kind="stable")
++        synthetic_continuous = np.expm1(
++            3.0 * order.astype(np.float64) / max(1, expected_n - 1)
++        )
++        continuous_digests[str(spatial)] = _array_sha256(synthetic_continuous)
++        ridge_started = time.perf_counter()
++        selected_ridge = select_ridge(
++            matrix[train_indices],
++            synthetic_continuous[train_indices],
++            matrix[validation_indices],
++            synthetic_continuous[validation_indices],
++            alphas=RIDGE_ALPHAS,
++            target_transform="log1p",
++        )
++        reserved_matrix = np.ascontiguousarray(matrix[reserved_indices].copy())
++        train_scale = float(np.std(matrix[train_indices, feature_index], dtype=np.float64))
++        reserved_matrix[0, feature_index] = float(
++            np.max(matrix[train_indices, feature_index]) + max(train_scale, 1.0) * 1e6
++        )
++        reserved_standardized = selected_ridge.x_scaler.transform(reserved_matrix)
++        reserved_raw = selected_ridge.y_scaler.inverse_transform(
++            np.asarray(
++                selected_ridge.model.predict(reserved_standardized), dtype=np.float64
++            ).reshape(-1, 1)
++        ).reshape(-1)
++        reserved_bounded, clipped = _bound_transformed_ridge_predictions(
++            reserved_raw,
++            target_transform="log1p",
++            train_transformed_min=selected_ridge.train_transformed_min,
++            train_transformed_max=selected_ridge.train_transformed_max,
++        )
++        reserved_natural = _target_inverse(reserved_bounded, "log1p")
++        if not np.isfinite(reserved_natural).all():
++            raise RuntimeError("synthetic Ridge smoke emitted a non-finite value")
++        if not bool(clipped[0]):
++            raise RuntimeError(
++                f"{spatial} synthetic Ridge smoke did not exercise train-bound clipping"
++            )
++        ridge_reserved_clipped[str(spatial)] = int(np.count_nonzero(clipped))
++        ridge_elapsed_by_axis[str(spatial)] = time.perf_counter() - ridge_started
++        ridge_candidate_rows.extend(
++            {
++                "spatial": str(spatial),
++                "alpha": float(row["alpha"]),
++                "n_iter": int(row["n_iter"]),
++                "validation_predictions_clipped": int(
++                    row["validation_predictions_clipped"]
++                ),
++            }
++            for row in selected_ridge.grid
++        )
++
+     expected_candidates = len(tuple(spatial_axes)) * len(set(penalties)) * len(set(c_grid))
+     if len(candidate_rows) != expected_candidates:
+         raise AssertionError("synthetic smoke candidate count drifted")
+@@ -336,6 +405,14 @@
+         raise AssertionError("synthetic smoke underlying-estimator count drifted")
+     if np.any(n_iter_values < 0) or np.any(n_iter_values >= LOGISTIC_MAX_ITER):
+         raise RuntimeError("synthetic smoke accepted an invalid/nonconverged candidate")
++    expected_ridge_candidates = len(tuple(spatial_axes)) * len(RIDGE_ALPHAS)
++    if len(ridge_candidate_rows) != expected_ridge_candidates:
++        raise AssertionError("synthetic Ridge smoke candidate count drifted")
++    ridge_n_iter = np.asarray(
++        [row["n_iter"] for row in ridge_candidate_rows], dtype=np.int64
++    )
++    if np.any(ridge_n_iter < 0) or np.any(ridge_n_iter >= RIDGE_MAX_ITER):
++        raise RuntimeError("synthetic Ridge smoke accepted a nonconverged candidate")
+     label_digest = _array_sha256(labels.astype("U32"))
+     receipt: dict[str, object] = {
+         "schema_version": 1,
+@@ -376,9 +453,28 @@
+         "max_observed_n_iter": int(n_iter_values.max()),
+         "all_candidate_n_iter_nonnegative": True,
+         "all_candidate_n_iter_strictly_less_than_max_iter": True,
++        "synthetic_continuous_algorithm": (
++            "per_axis_rank_of_max_train_variance_feature_mapped_by_expm1_0_to_3"
++        ),
++        "synthetic_continuous_sha256_by_axis": continuous_digests,
++        "ridge_solver": "lsqr",
++        "ridge_alphas": [float(value) for value in RIDGE_ALPHAS],
++        "ridge_tol": RIDGE_TOL,
++        "ridge_max_iter": RIDGE_MAX_ITER,
++        "ridge_candidate_count": len(ridge_candidate_rows),
++        "ridge_candidates": ridge_candidate_rows,
++        "ridge_min_observed_n_iter": int(ridge_n_iter.min()),
++        "ridge_max_observed_n_iter": int(ridge_n_iter.max()),
++        "ridge_all_candidate_n_iter_nonnegative": True,
++        "ridge_all_candidate_n_iter_strictly_less_than_max_iter": True,
++        "ridge_prediction_bound_policy": (
++            "log1p_only_outer_train_transformed_min_max_identity_unbounded"
++        ),
++        "ridge_reserved_rows_clipped_by_axis": ridge_reserved_clipped,
+         "determinism_sentinels": sentinel_rows,
+         "elapsed_seconds": time.perf_counter() - started,
+         "elapsed_seconds_by_axis": elapsed_by_axis,
++        "ridge_elapsed_seconds_by_axis": ridge_elapsed_by_axis,
+         "runtime": {
+             "python": platform.python_version(),
+             "numpy": np.__version__,
+@@ -605,11 +701,11 @@
+     lock_receipt = None
+     if not args.allow_unlocked_inputs:
+         if args.overwrite:
+-            raise ValueError("formal v2 probes forbid --overwrite")
++            raise ValueError("formal v3 probes forbid --overwrite")
+         if Path(args.output_dir).resolve() != EXPERIMENT_ROOT:
+-            raise ValueError("formal v2 probe output-dir must be the experiment root")
++            raise ValueError("formal v3 probe output-dir must be the experiment root")
+         if command_argv is None:
+-            raise ValueError("formal v2 probes require the exact command argv")
++            raise ValueError("formal v3 probes require the exact command argv")
+         lock_receipt = verify_formal_evaluation_lock(
+             experiment_root=EXPERIMENT_ROOT,
+             lock_path=args.evaluation_lock,
+@@ -813,7 +909,7 @@
+         "--medicalnet-synthetic-smoke",
+         type=Path,
+         help=(
+-            "Outcome-blind v2 convergence/runtime smoke on the locked formal "
++            "Outcome-blind v3 convergence/runtime smoke on the locked formal "
+             "MedicalNet NPZ; bypasses every outcome loader."
+         ),
+     )
+@@ -885,7 +981,10 @@
+         return 0
+     if args.smoke_receipt is not None:
+         raise ValueError("--smoke-receipt requires --medicalnet-synthetic-smoke")
+-    summary = run(args, command_argv=raw_argv)
++    try:
++        summary = run(args, command_argv=raw_argv)
++    finally:
++        configure_metric_free_progress(None)
+     print(
+         "probe evaluation complete: "
+         + ", ".join(f"{key}={value}" for key, value in summary.items())
+--- a/scripts/summarize_results.py
++++ b/scripts/summarize_results.py
+@@ -22,14 +22,21 @@
+     summarize_results,
+ )
+ from foundation_mri.locking import (  # noqa: E402
++    file_sha256,
+     verify_evaluation_code_lock,
++    verify_historical_metric_free_run_provenance,
+     verify_metric_free_run_provenance,
+ )
+ 
+ 
+-DEFAULT_EVALUATION_LOCK = EXPERIMENT_ROOT / "configs/EVALUATION_LOCK.v2.json"
+-BASELINE_RECEIPT = EXPERIMENT_ROOT / "metrics/baseline_v2_run.private.provenance.json"
+-PROBE_RECEIPT = EXPERIMENT_ROOT / "metrics/probe_v2_run.private.provenance.json"
++DEFAULT_EVALUATION_LOCK = EXPERIMENT_ROOT / "configs/EVALUATION_LOCK.v3.json"
++PROBE_RECEIPT = EXPERIMENT_ROOT / "metrics/probe_v3_run.private.provenance.json"
++REPORTING_MARKER = EXPERIMENT_ROOT / "metrics/reporting_run_provenance.json"
++FINALIZATION_LOCK = EXPERIMENT_ROOT / "configs/FINALIZATION_LOCK.v1.json"
++FORMAL_FOUNDATION_MODELS = (
++    "medicalnet_resnet50_3dseg8",
++    "dino_vitb16_imagenet1k",
++)
+ 
+ 
+ def _default_inputs(root: Path) -> ReportingInputs:
+@@ -105,35 +112,35 @@
+         )
+         return 0
+     if not args.allow_unlocked_inputs:
++        if raw_argv:
++            raise ValueError("formal v3 summarization requires exact empty argv")
+         if args.overwrite:
+-            raise ValueError("formal v2 summarization forbids --overwrite")
++            raise ValueError("formal v3 summarization forbids --overwrite")
+         if Path(args.input_dir).resolve() != EXPERIMENT_ROOT:
+-            raise ValueError("formal v2 summary input-dir must be the experiment root")
++            raise ValueError("formal v3 summary input-dir must be the experiment root")
+         if Path(args.output_dir).resolve() != EXPERIMENT_ROOT:
+-            raise ValueError("formal v2 summary output-dir must be the experiment root")
+-        verify_evaluation_code_lock(
++            raise ValueError("formal v3 summary output-dir must be the experiment root")
++        code_receipt = verify_evaluation_code_lock(
+             experiment_root=EXPERIMENT_ROOT,
+             lock_path=args.evaluation_lock,
+             expected_consumer="summarizer",
+             command_argv=raw_argv,
+         )
+-        verify_metric_free_run_provenance(
++        baseline_receipt = verify_historical_metric_free_run_provenance(
+             experiment_root=EXPERIMENT_ROOT,
+-            lock_path=args.evaluation_lock,
+-            expected_consumer="baseline",
+-            receipt_path=BASELINE_RECEIPT,
++            active_lock_path=args.evaluation_lock,
++            producer_key="baseline_v2",
+             expected_artifacts={
+-                "baseline_predictions_private": EXPERIMENT_ROOT
++                "predictions": EXPERIMENT_ROOT
+                 / "predictions/baseline_predictions.private.csv",
+-                "baseline_selection_private": EXPERIMENT_ROOT
++                "selection": EXPERIMENT_ROOT
+                 / "metrics/baseline_selection.private.csv",
+-                "baseline_metrics_public": EXPERIMENT_ROOT
+-                / "metrics/baseline_metrics.csv",
+-                "baseline_progress_private": EXPERIMENT_ROOT
++                "metrics": EXPERIMENT_ROOT / "metrics/baseline_metrics.csv",
++                "progress": EXPERIMENT_ROOT
+                 / "logs/baseline_v2.progress.private.jsonl",
+             },
+         )
+-        verify_metric_free_run_provenance(
++        probe_receipt = verify_metric_free_run_provenance(
+             experiment_root=EXPERIMENT_ROOT,
+             lock_path=args.evaluation_lock,
+             expected_consumer="probe",
+@@ -158,13 +165,57 @@
+                 "ftv_metrics_public": EXPERIMENT_ROOT
+                 / "metrics/ftv_probe_metrics.csv",
+                 "probe_progress_private": EXPERIMENT_ROOT
+-                / "logs/probe_v2.progress.private.jsonl",
++                / "logs/probe_v3.progress.private.jsonl",
+             },
+         )
++        probe_artifact_roles = {
++            "phenotype_predictions": "phenotype_predictions_private",
++            "phenotype_selection": "phenotype_selection_private",
++            "phenotype_metrics": "phenotype_metrics_public",
++            "subtype_predictions": "subtype_predictions_private",
++            "subtype_selection": "subtype_selection_private",
++            "subtype_metrics": "subtype_metrics_public",
++            "ftv_predictions": "ftv_predictions_private",
++            "ftv_selection": "ftv_selection_private",
++            "ftv_metrics": "ftv_metrics_public",
++            "progress": "probe_progress_private",
++        }
++        reporting_lineage = {
++            "baseline_v2": {
++                "protocol_version": "v2",
++                "evaluation_lock_sha256": baseline_receipt["lock_sha256"],
++                "run_receipt_sha256": baseline_receipt["receipt_sha256"],
++                "argv_sha256": baseline_receipt["argument_vector_sha256"],
++                "artifact_sha256": baseline_receipt["artifact_sha256"],
++            },
++            "probe_v3": {
++                "protocol_version": "v3",
++                "evaluation_lock_sha256": probe_receipt["lock_sha256"],
++                "run_receipt_sha256": probe_receipt["receipt_sha256"],
++                "argv_sha256": probe_receipt["argument_vector_sha256"],
++                "artifact_sha256": {
++                    role: probe_receipt["artifact_sha256"][key]
++                    for role, key in probe_artifact_roles.items()
++                },
++            },
++            "summarizer": {
++                "protocol_version": "v3",
++                "argv_sha256": code_receipt["argument_vector_sha256"],
++                "code_lock_sha256": code_receipt["lock_sha256"],
++                "finalization_lock_sha256": file_sha256(FINALIZATION_LOCK),
++            },
++        }
++    else:
++        reporting_lineage = None
+     summary = summarize_results(
+         _default_inputs(args.input_dir),
+         _default_outputs(args.output_dir),
+         overwrite=args.overwrite,
++        expected_foundation_models=(
++            FORMAL_FOUNDATION_MODELS if reporting_lineage is not None else None
++        ),
++        reporting_lineage=reporting_lineage,
++        reporting_marker=(REPORTING_MARKER if reporting_lineage is not None else None),
+     )
+     print(
+         "public result summary complete: "
+--- a/src/foundation_mri/evaluation.py
++++ b/src/foundation_mri/evaluation.py
+@@ -179,8 +179,14 @@
+             if written <= 0:
+                 raise OSError("progress JSONL write made no progress")
+             view = view[written:]
+-        sys.stderr.write(line + "\n")
+-        sys.stderr.flush()
++        # The private JSONL descriptor is the authoritative progress record and
++        # remains fail-closed.  A detached PTY must not invalidate an otherwise
++        # durable record or terminate a multi-hour formal run.
++        try:
++            sys.stderr.write(line + "\n")
++            sys.stderr.flush()
++        except (BrokenPipeError, OSError):
++            pass
+ 
+ 
+ def _logistic_candidate_context(
+@@ -721,7 +727,7 @@
+             c_grid=c_grid,
+             random_state=SEED + fold,
+         )
+-        metric_free_progress("fold_completed", **fold_progress)
++        metric_free_progress("fold_selection_completed", **fold_progress)
+         # Test slicing, transformation and prediction occur only after selection.
+         test_scaled = selected.scaler.transform(fold_matrix[test_indices])
+         guard = _SingleUseProbabilityGuard()
+@@ -809,6 +815,7 @@
+                 "test_predict_proba_call_count": guard.calls,
+             }
+         )
++        metric_free_progress("fold_completed", **fold_progress)
+     predictions = pd.DataFrame(prediction_rows)
+     selections = pd.DataFrame(selection_rows)
+     if len(predictions) != len(ids) or predictions.duplicated(["patient_id"]).any():
+@@ -1341,7 +1348,7 @@
+             c_grid=c_grid,
+             random_state=SEED + fold,
+         )
+-        metric_free_progress("fold_completed", **fold_progress)
++        metric_free_progress("fold_selection_completed", **fold_progress)
+         test_scaled = selected.scaler.transform(fold_matrix[test_indices])
+         guard = _SingleUseMulticlassProbabilityGuard()
+         probability = guard.predict(selected.model, test_scaled)
+@@ -1416,6 +1423,7 @@
+                 "test_predict_proba_call_count": guard.calls,
+             }
+         )
++        metric_free_progress("fold_completed", **fold_progress)
+     predictions = pd.DataFrame(prediction_rows)
+     selections = pd.DataFrame(selection_rows)
+     if len(predictions) != len(ids) or predictions.duplicated("patient_id").any():
+@@ -1497,8 +1505,11 @@
+     model: Ridge
+     alpha: float
+     validation_mse: float
+-    grid: tuple[dict[str, float], ...]
++    grid: tuple[dict[str, Any], ...]
+     target_transform: str
++    train_transformed_min: float
++    train_transformed_max: float
++    validation_clipped_count: int
+ 
+ 
+ def _target_forward(values: np.ndarray, transform: str) -> np.ndarray:
+@@ -1517,11 +1528,115 @@
+ 
+ 
+ def _target_inverse(values: np.ndarray, transform: str) -> np.ndarray:
++    array = np.asarray(values, dtype=np.float64)
+     if transform == "identity":
+-        return np.asarray(values, dtype=np.float64)
+-    if transform == "log1p":
+-        return np.expm1(np.asarray(values, dtype=np.float64))
+-    raise ValueError("target_transform must be identity or log1p")
++        output = array
++    elif transform == "log1p":
++        with np.errstate(over="raise", invalid="raise"):
++            output = np.expm1(array)
++    else:
++        raise ValueError("target_transform must be identity or log1p")
++    if not np.isfinite(output).all():
++        raise FloatingPointError("inverse-transformed Ridge prediction contains NaN/Inf")
++    return output
++
++
++def _bound_transformed_ridge_predictions(
++    values: np.ndarray,
++    *,
++    target_transform: str,
++    train_transformed_min: float,
++    train_transformed_max: float,
++) -> tuple[np.ndarray, np.ndarray]:
++    """Apply the frozen outer-train prediction-bound rule before inversion.
++
++    Static FTV uses ``log1p`` and is bounded to the outer-train target range in
++    that transformed domain.  Delta-FTV uses the identity transform and is not
++    clipped.  Test targets are intentionally absent from this interface.
++    """
++
++    prediction = np.asarray(values, dtype=np.float64).reshape(-1)
++    lower = float(train_transformed_min)
++    upper = float(train_transformed_max)
++    if not np.isfinite(prediction).all():
++        raise FloatingPointError("pre-clipping Ridge prediction contains NaN/Inf")
++    if not math.isfinite(lower) or not math.isfinite(upper) or lower > upper:
++        raise FloatingPointError("outer-train transformed Ridge bounds are invalid")
++    if target_transform == "identity":
++        return prediction.copy(), np.zeros(len(prediction), dtype=bool)
++    if target_transform != "log1p":
++        raise ValueError("target_transform must be identity or log1p")
++    bounded = np.clip(prediction, lower, upper)
++    if not np.isfinite(bounded).all():
++        raise FloatingPointError("bounded transformed Ridge prediction contains NaN/Inf")
++    return bounded, bounded != prediction
++
++
++def _validated_ridge_iterations(model: Ridge, *, alpha: float) -> tuple[int, ...]:
++    """Require a valid LSQR convergence record for every fitted alpha."""
++
++    context = f"lsqr Ridge candidate alpha={float(alpha):g}"
++    raw_max_iter = getattr(model, "max_iter", None)
++    if (
++        isinstance(raw_max_iter, (bool, np.bool_))
++        or not isinstance(raw_max_iter, (int, np.integer))
++        or int(raw_max_iter) <= 0
++    ):
++        raise RuntimeError(f"{context} has invalid max_iter={raw_max_iter!r}")
++    raw_iterations = getattr(model, "n_iter_", None)
++    try:
++        iteration_array = np.asarray(raw_iterations)
++    except Exception as error:
++        raise RuntimeError(f"{context} has invalid n_iter_") from error
++    if (
++        iteration_array.size == 0
++        or np.issubdtype(iteration_array.dtype, np.bool_)
++        or not np.issubdtype(iteration_array.dtype, np.integer)
++    ):
++        raise RuntimeError(f"{context} has empty or invalid n_iter_={raw_iterations!r}")
++    iterations = np.asarray(iteration_array, dtype=np.int64).reshape(-1)
++    if np.any(iterations < 0):
++        raise RuntimeError(f"{context} has negative n_iter_={iterations.tolist()}")
++    max_iter = int(raw_max_iter)
++    if np.any(iterations >= max_iter):
++        raise RuntimeError(
++            f"{context} did not converge strictly before max_iter={max_iter}: "
++            f"n_iter_={iterations.tolist()}"
++        )
++    return tuple(int(value) for value in iterations)
++
++
++def _fit_validated_ridge(
++    model: Ridge,
++    matrix: np.ndarray,
++    targets: np.ndarray,
++    *,
++    alpha: float,
++) -> tuple[Ridge, tuple[int, ...]]:
++    """Fit one LSQR candidate and gate warning/iterations/parameters."""
++
++    context = f"lsqr Ridge candidate alpha={float(alpha):g}"
++    try:
++        with warnings.catch_warnings():
++            warnings.simplefilter("error", ConvergenceWarning)
++            fitted = model.fit(matrix, targets)
++    except ConvergenceWarning as error:
++        raise RuntimeError(f"{context} emitted ConvergenceWarning") from error
++    iterations = _validated_ridge_iterations(fitted, alpha=alpha)
++    for parameter_name in ("coef_", "intercept_"):
++        try:
++            parameter = np.asarray(
++                getattr(fitted, parameter_name, None), dtype=np.float64
++            )
++        except Exception as error:
++            raise RuntimeError(
++                f"{context} has invalid fitted {parameter_name}"
++            ) from error
++        if parameter.size == 0 or not np.isfinite(parameter).all():
++            raise RuntimeError(
++                f"{context} has empty or non-finite fitted {parameter_name}"
++            )
++    return fitted, iterations
+ 
+ 
+ def select_ridge(
+@@ -1560,30 +1675,95 @@
+     x_validation = x_scaler.transform(validation_x)
+     y_train = y_scaler.transform(train_y[:, None]).reshape(-1)
+     y_validation = y_scaler.transform(validation_y[:, None]).reshape(-1)
+-    candidates: list[tuple[float, float, Ridge]] = []
+-    grid: list[dict[str, float]] = []
++    train_transformed_min = float(np.min(train_y))
++    train_transformed_max = float(np.max(train_y))
++    candidates: list[tuple[float, float, Ridge, int]] = []
++    grid: list[dict[str, Any]] = []
+ 
+     def fit_candidate(alpha: float):
+-        model = Ridge(
+-            alpha=alpha,
+-            fit_intercept=True,
++        metric_free_progress(
++            "candidate_started",
++            family="ridge",
+             solver="lsqr",
+-            tol=RIDGE_TOL,
++            alpha=float(alpha),
+             max_iter=RIDGE_MAX_ITER,
+-        ).fit(x_train, y_train)
+-        mse = float(mean_squared_error(y_validation, model.predict(x_validation)))
++            tol=RIDGE_TOL,
++        )
++        fit_started = time.perf_counter()
++        model, iterations = _fit_validated_ridge(
++            Ridge(
++                alpha=alpha,
++                fit_intercept=True,
++                solver="lsqr",
++                tol=RIDGE_TOL,
++                max_iter=RIDGE_MAX_ITER,
++            ),
++            x_train,
++            y_train,
++            alpha=alpha,
++        )
++        validation_standardized_raw = np.asarray(
++            model.predict(x_validation), dtype=np.float64
++        ).reshape(-1)
++        if not np.isfinite(validation_standardized_raw).all():
++            raise FloatingPointError(
++                "pre-clipping validation Ridge prediction contains NaN/Inf"
++            )
++        validation_transformed_raw = y_scaler.inverse_transform(
++            validation_standardized_raw[:, None]
++        ).reshape(-1)
++        validation_transformed, validation_clipped = (
++            _bound_transformed_ridge_predictions(
++                validation_transformed_raw,
++                target_transform=target_transform,
++                train_transformed_min=train_transformed_min,
++                train_transformed_max=train_transformed_max,
++            )
++        )
++        validation_standardized = y_scaler.transform(
++            validation_transformed[:, None]
++        ).reshape(-1)
++        mse = float(mean_squared_error(y_validation, validation_standardized))
+         if not math.isfinite(mse):
+             raise FloatingPointError("validation Ridge MSE is non-finite")
++        clipped_count = int(np.count_nonzero(validation_clipped))
++        elapsed = time.perf_counter() - fit_started
++        metric_free_progress(
++            "candidate_completed",
++            family="ridge",
++            solver="lsqr",
++            alpha=float(alpha),
++            elapsed_seconds=float(elapsed),
++            n_iter=max(iterations),
++        )
+         return (
+-            {"alpha": float(alpha), "val_mse_standardized": mse},
+-            (mse, alpha, model),
++            {
++                "alpha": float(alpha),
++                "val_mse_standardized": mse,
++                "solver": "lsqr",
++                "tol": RIDGE_TOL,
++                "max_iter": RIDGE_MAX_ITER,
++                "n_iter": max(iterations),
++                "n_iter_json": json.dumps(iterations, separators=(",", ":")),
++                "n_iter_contract": "integer_0_le_n_iter_lt_max_iter",
++                "convergence_warning_observed": False,
++                "converged_before_max_iter": True,
++                "validation_prediction_bound_policy": (
++                    "outer_train_transformed_min_max"
++                    if target_transform == "log1p"
++                    else "none"
++                ),
++                "validation_predictions_clipped": clipped_count,
++                "validation_clip_rate": clipped_count / len(validation_y),
++            },
++            (mse, alpha, model, clipped_count),
+         )
+ 
+     for row, candidate in _ordered_selection_map(fit_candidate, alpha_values):
+         grid.append(row)
+         candidates.append(candidate)
+     best = min(row[0] for row in candidates)
+-    mse, alpha, model = min(
++    mse, alpha, model, validation_clipped_count = min(
+         (row for row in candidates if row[0] <= best + 1e-12), key=lambda row: row[1]
+     )
+     return SelectedRidge(
+@@ -1594,6 +1774,9 @@
+         float(mse),
+         tuple(grid),
+         target_transform,
++        train_transformed_min,
++        train_transformed_max,
++        validation_clipped_count,
+     )
+ 
+ 
+@@ -1654,13 +1837,25 @@
+             alphas=alphas,
+             target_transform=target_transform,
+         )
+-        metric_free_progress("fold_completed", **fold_progress)
++        metric_free_progress("fold_selection_completed", **fold_progress)
+         test_scaled = selected.x_scaler.transform(fold_matrix[test_indices])
+         guard = _SingleUseRegressionGuard()
+         predicted_standardized = guard.predict(selected.model, test_scaled)
++        if not np.isfinite(predicted_standardized).all():
++            raise FloatingPointError(
++                "pre-clipping outer-test Ridge prediction contains NaN/Inf"
++            )
+         predicted_transformed = selected.y_scaler.inverse_transform(
+             predicted_standardized[:, None]
+         ).reshape(-1)
++        predicted_transformed, prediction_clipped = (
++            _bound_transformed_ridge_predictions(
++                predicted_transformed,
++                target_transform=target_transform,
++                train_transformed_min=selected.train_transformed_min,
++                train_transformed_max=selected.train_transformed_max,
++            )
++        )
+         predicted = _target_inverse(predicted_transformed, target_transform)
+         if guard.calls != 1 or predicted.shape != (len(test_indices),):
+             raise AssertionError("outer-test Ridge call contract failed")
+@@ -1682,6 +1877,9 @@
+                 "train_mean_baseline": train_mean,
+                 "selected_alpha": selected.alpha,
+                 "target_transform": target_transform,
++                "prediction_clipped_to_outer_train_bounds": bool(
++                    prediction_clipped[row]
++                ),
+                 "test_predict_call_count": guard.calls,
+             }
+             for row, index in enumerate(test_indices)
+@@ -1697,6 +1895,31 @@
+                 "alpha_validation_metrics_json": json.dumps(selected.grid, separators=(",", ":")),
+                 "selection_parallel_workers": _selection_worker_count(len(set(alphas))),
+                 "target_transform": target_transform,
++                "prediction_bound_policy": (
++                    "outer_train_transformed_min_max"
++                    if target_transform == "log1p"
++                    else "none"
++                ),
++                "train_transformed_min": selected.train_transformed_min,
++                "train_transformed_max": selected.train_transformed_max,
++                "validation_predictions_clipped": selected.validation_clipped_count,
++                "validation_clip_rate": selected.validation_clipped_count
++                / len(validation_indices),
++                "test_predictions_clipped": int(np.count_nonzero(prediction_clipped)),
++                "test_clip_rate": float(np.mean(prediction_clipped)),
++                "test_used_for_prediction_bounds": False,
++                "solver": "lsqr",
++                "tol": RIDGE_TOL,
++                "max_iter": RIDGE_MAX_ITER,
++                "selected_n_iter": max(
++                    _validated_ridge_iterations(selected.model, alpha=selected.alpha)
++                ),
++                "grid_max_n_iter": max(row["n_iter"] for row in selected.grid),
++                "n_iter_contract": "integer_0_le_n_iter_lt_max_iter",
++                "convergence_warning_observed": False,
++                "all_grid_candidates_converged_before_max_iter": all(
++                    row["converged_before_max_iter"] for row in selected.grid
++                ),
+                 "x_scaler_train_rows": int(selected.x_scaler.n_samples_seen_),
+                 "y_scaler_train_rows": int(selected.y_scaler.n_samples_seen_),
+                 **_array_audit("x_scaler_mean", selected.x_scaler.mean_),
+@@ -1710,6 +1933,7 @@
+                 "test_predict_call_count": guard.calls,
+             }
+         )
++        metric_free_progress("fold_completed", **fold_progress)
+     predictions = pd.DataFrame(prediction_rows)
+     selections = pd.DataFrame(selection_rows)
+     if len(predictions) != len(ids) or predictions.duplicated("patient_id").any():
+--- a/src/foundation_mri/locking.py
++++ b/src/foundation_mri/locking.py
+@@ -21,6 +21,15 @@
+ _ARTIFACT_KEY_RE = re.compile(r"^[a-z][a-z0-9_]*$")
+ _V2_CONSUMERS = ("baseline", "probe", "summarizer")
+ _V2_RUN_CONSUMERS = ("baseline", "probe")
++_V3_CONSUMERS = ("probe", "summarizer")
++_V3_RUN_CONSUMERS = ("probe",)
++_FORMAL_FOUNDATION_MODELS = (
++    "medicalnet_resnet50_3dseg8",
++    "dino_vitb16_imagenet1k",
++)
++_FINALIZATION_LOCK_SHA256 = (
++    "30c0c0e6ce7d92fb6164368addf467e2142e5159fb95240f4c030ddb986c4e7b"
++)
+ 
+ 
+ def canonical_json_sha256(value: object) -> str:
+@@ -334,7 +343,10 @@
+ 
+ 
+ def _load_and_verify_v2_chain(
+-    experiment_root: str | Path, lock_path: str | Path
++    experiment_root: str | Path,
++    lock_path: str | Path,
++    *,
++    verify_final_files: bool = True,
+ ) -> tuple[Path, Path, dict[str, object], Path, dict[str, object]]:
+     root, source, payload = _read_lock_payload(experiment_root, lock_path)
+     try:
+@@ -436,15 +448,19 @@
+     if not isinstance(files, dict) or not files:
+         raise ValueError("schema-v2 evaluation lock has no final file hashes")
+     for relative, digest in sorted(files.items()):
+-        path = _root_relative_file(root, relative, f"final locked file {relative}")
+         expected = _checked_lower_digest(
+             digest, f"final locked file {relative} SHA-256"
+         )
+-        observed = file_sha256(path)
+-        if observed != expected:
+-            raise ValueError(
+-                f"evaluation file drifted: {relative}; expected={expected}, observed={observed}"
+-            )
++        relative_path = Path(str(relative))
++        if relative_path.is_absolute() or ".." in relative_path.parts:
++            raise ValueError("schema-v2 locked file path escaped experiment root")
++        if verify_final_files:
++            path = _root_relative_file(root, relative, f"final locked file {relative}")
++            observed = file_sha256(path)
++            if observed != expected:
++                raise ValueError(
++                    f"evaluation file drifted: {relative}; expected={expected}, observed={observed}"
++                )
+ 
+     execution = payload["execution"]
+     if not isinstance(execution, dict) or set(execution) != {
+@@ -517,6 +533,487 @@
+     }
+ 
+ 
++def _verify_v2_to_v3_source_snapshot(
++    *,
++    root: Path,
++    snapshot_source: Path,
++    patch_source: Path,
++    v2_source: Path,
++    v2_payload: Mapping[str, object],
++    v3_payload: Mapping[str, object],
++) -> None:
++    snapshot = json.loads(snapshot_source.read_text(encoding="utf-8"))
++    required = {
++        "schema_version",
++        "snapshot_kind",
++        "v2_lock",
++        "forward_patch",
++        "changed_v2_locked_files",
++        "reconstruction",
++    }
++    if not isinstance(snapshot, dict) or set(snapshot) != required:
++        raise ValueError("v2-to-v3 source snapshot schema drifted")
++    if (
++        snapshot["schema_version"] != 1
++        or snapshot["snapshot_kind"]
++        != "reconstructable_evaluation_v2_to_v3_source_transition"
++    ):
++        raise ValueError("wrong v2-to-v3 source snapshot identity")
++    lock_record = snapshot["v2_lock"]
++    if not isinstance(lock_record, dict) or set(lock_record) != {
++        "path",
++        "sha256",
++        "locked_file_count",
++    }:
++        raise ValueError("v2-to-v3 snapshot v2-lock schema drifted")
++    if (
++        _root_relative_file(root, lock_record["path"], "snapshot v2 lock")
++        != v2_source
++        or _checked_lower_digest(lock_record["sha256"], "snapshot v2 lock SHA-256")
++        != file_sha256(v2_source)
++        or lock_record["locked_file_count"] != len(v2_payload["files"])  # type: ignore[arg-type]
++    ):
++        raise ValueError("v2-to-v3 snapshot parent-lock identity drifted")
++    patch_record = snapshot["forward_patch"]
++    if not isinstance(patch_record, dict) or set(patch_record) != {
++        "path",
++        "sha256",
++        "format",
++        "line_count",
++        "byte_count",
++    }:
++        raise ValueError("v2-to-v3 forward-patch schema drifted")
++    if (
++        _root_relative_file(root, patch_record["path"], "snapshot forward patch")
++        != patch_source
++        or _checked_lower_digest(
++            patch_record["sha256"], "snapshot forward patch SHA-256"
++        )
++        != file_sha256(patch_source)
++        or patch_record["format"] != "unified_diff_a_to_b_strip_1"
++        or patch_record["byte_count"] != patch_source.stat().st_size
++        or patch_record["line_count"]
++        != len(patch_source.read_bytes().splitlines())
++    ):
++        raise ValueError("v2-to-v3 forward-patch identity drifted")
++    v2_files = v2_payload["files"]
++    v3_files = v3_payload["files"]
++    if not isinstance(v2_files, dict) or not isinstance(v3_files, dict):
++        raise ValueError("v2-to-v3 locked file maps are invalid")
++    if not set(v2_files).issubset(v3_files):
++        raise ValueError("v3 final files do not retain every v2 locked path")
++    expected_changed = {
++        relative
++        for relative, digest in v2_files.items()
++        if v3_files[relative] != digest
++    }
++    changed = snapshot["changed_v2_locked_files"]
++    if not isinstance(changed, dict) or set(changed) != expected_changed:
++        raise ValueError("v2-to-v3 changed-file manifest drifted")
++    for relative, record in changed.items():
++        if not isinstance(record, dict) or set(record) != {"v2_sha256", "v3_sha256"}:
++            raise ValueError("v2-to-v3 changed-file record schema drifted")
++        if (
++            record["v2_sha256"] != v2_files[relative]
++            or record["v3_sha256"] != v3_files[relative]
++        ):
++            raise ValueError(f"v2-to-v3 changed-file hashes drifted: {relative}")
++    reconstruction = snapshot["reconstruction"]
++    if not isinstance(reconstruction, dict) or set(reconstruction) != {
++        "v2_from_v3_command",
++        "v3_from_v2_command",
++        "verify_v2_command",
++        "forward_patch_verified",
++        "reverse_patch_verified",
++    }:
++        raise ValueError("v2-to-v3 reconstruction schema drifted")
++    if (
++        reconstruction["forward_patch_verified"] is not True
++        or reconstruction["reverse_patch_verified"] is not True
++        or not all(
++            str(reconstruction[key]).strip()
++            for key in (
++                "v2_from_v3_command",
++                "v3_from_v2_command",
++                "verify_v2_command",
++            )
++        )
++    ):
++        raise ValueError("v2-to-v3 reconstruction was not verified")
++
++
++def _load_and_verify_v3_chain(
++    experiment_root: str | Path, lock_path: str | Path
++) -> tuple[
++    Path,
++    Path,
++    dict[str, object],
++    Path,
++    dict[str, object],
++    Path,
++    dict[str, object],
++]:
++    """Verify active v3 code plus immutable v2/v1 and mixed-producer lineage."""
++
++    root, source, payload = _read_lock_payload(experiment_root, lock_path)
++    try:
++        source.relative_to(root)
++    except ValueError as error:
++        raise ValueError("schema-v3 evaluation lock must stay within experiment root") from error
++    required = {
++        "schema_version",
++        "lock_kind",
++        "lock_generation",
++        "locked_at",
++        "locked_after_baseline_v2_completion",
++        "baseline_v2_metric_prediction_values_seen",
++        "locked_before_formal_probe_v3_evaluation",
++        "formal_probe_v3_outcomes_seen",
++        "parent_lock",
++        "finalization_lock",
++        "aborted_v2_attempts",
++        "prelock_state",
++        "inherited_inputs",
++        "historical_producers",
++        "development_provenance",
++        "files",
++        "execution",
++    }
++    if set(payload) != required:
++        raise ValueError("schema-v3 evaluation lock top-level schema drifted")
++    if (
++        payload["schema_version"] != 3
++        or payload["lock_kind"] != "formal_outcome_evaluation_chain"
++        or payload["lock_generation"] != "probe_retry_v3"
++    ):
++        raise ValueError("wrong schema-v3 evaluation lock identity")
++    if not str(payload["locked_at"]).strip():
++        raise ValueError("schema-v3 evaluation lock timestamp is empty")
++    if (
++        payload["locked_after_baseline_v2_completion"] is not True
++        or payload["baseline_v2_metric_prediction_values_seen"] is not False
++        or payload["locked_before_formal_probe_v3_evaluation"] is not True
++        or payload["formal_probe_v3_outcomes_seen"] is not False
++    ):
++        raise ValueError("schema-v3 timing/value-visibility declarations are inconsistent")
++
++    v2_source = _verify_root_record(root, payload["parent_lock"], "v3 parent lock")
++    (
++        _,
++        verified_v2_source,
++        v2_payload,
++        v1_source,
++        v1_payload,
++    ) = _load_and_verify_v2_chain(root, v2_source, verify_final_files=False)
++    if verified_v2_source != v2_source:
++        raise AssertionError("schema-v3 parent v2 source drifted")
++    finalization_source = _verify_root_record(
++        root, payload["finalization_lock"], "finalization lock"
++    )
++    if file_sha256(finalization_source) != _FINALIZATION_LOCK_SHA256:
++        raise ValueError("FINALIZATION_LOCK.v1 SHA-256 drifted")
++
++    attempts = payload["aborted_v2_attempts"]
++    if not isinstance(attempts, list) or len(attempts) != 1:
++        raise ValueError("schema-v3 must record exactly one failed v2 probe")
++    attempt = attempts[0]
++    expected_attempt_keys = {
++        "consumer",
++        "producer_lock_sha256",
++        "exit_code",
++        "outputs_written",
++        "metric_values_viewed",
++        "original_traceback_recovered",
++        "formal_exception_claimed",
++        "failure_window",
++        "synthetic_diagnostic_scope",
++        "progress_log",
++    }
++    if not isinstance(attempt, dict) or set(attempt) != expected_attempt_keys:
++        raise ValueError("failed v2 probe record schema drifted")
++    if (
++        attempt["consumer"] != "probe"
++        or attempt["producer_lock_sha256"] != file_sha256(v2_source)
++        or attempt["exit_code"] != 1
++        or attempt["outputs_written"] is not False
++        or attempt["metric_values_viewed"] is not False
++        or attempt["original_traceback_recovered"] is not False
++        or attempt["formal_exception_claimed"] is not False
++        or attempt["failure_window"]
++        != "ridge_fold3_after_selection_before_fold4_start"
++        or attempt["synthetic_diagnostic_scope"]
++        != "matching_failure_path_not_recovered_formal_exception"
++    ):
++        raise ValueError("failed v2 probe provenance is inconsistent")
++    progress = attempt["progress_log"]
++    progress_keys = {
++        "path",
++        "sha256",
++        "mode_octal",
++        "byte_count",
++        "line_count",
++        "ends_with_newline",
++        "event_counts",
++        "last_event",
++    }
++    if not isinstance(progress, dict) or set(progress) != progress_keys:
++        raise ValueError("failed v2 probe progress schema drifted")
++    progress_source = _verify_root_record(
++        root,
++        {"path": progress["path"], "sha256": progress["sha256"]},
++        "failed v2 probe progress",
++    )
++    expected_event_counts = {
++        "formal_run_started": 1,
++        "fold_started": 69,
++        "fold_completed": 69,
++        "candidate_started": 540,
++        "candidate_completed": 540,
++        "estimator_started": 720,
++        "estimator_completed": 720,
++    }
++    if (
++        progress["mode_octal"] != "0600"
++        or progress["byte_count"] != progress_source.stat().st_size
++        or progress["line_count"] != 2659
++        or progress["ends_with_newline"] is not True
++        or progress["event_counts"] != expected_event_counts
++        or progress["last_event"] != "fold_completed"
++        or oct(progress_source.stat().st_mode & 0o777) != "0o600"
++    ):
++        raise ValueError("failed v2 probe progress metadata drifted")
++
++    state = payload["prelock_state"]
++    if not isinstance(state, dict) or set(state) != {
++        "baseline_v2_completed",
++        "baseline_v2_receipt_bound",
++        "probe_v3_outputs_exist",
++        "metric_values_viewed",
++    }:
++        raise ValueError("schema-v3 prelock-state schema drifted")
++    if state != {
++        "baseline_v2_completed": True,
++        "baseline_v2_receipt_bound": True,
++        "probe_v3_outputs_exist": False,
++        "metric_values_viewed": False,
++    }:
++        raise ValueError("schema-v3 prelock state is inconsistent")
++    inherited = payload["inherited_inputs"]
++    if not isinstance(inherited, dict) or set(inherited) != {"source", "sha256"}:
++        raise ValueError("schema-v3 inherited-input schema drifted")
++    if (
++        inherited["source"] != "parent_lock.inherited_inputs"
++        or inherited["sha256"] != v2_payload["inherited_inputs"]["sha256"]  # type: ignore[index]
++    ):
++        raise ValueError("schema-v3 inherited input contract drifted")
++
++    historical = payload["historical_producers"]
++    if not isinstance(historical, dict) or set(historical) != {"baseline_v2"}:
++        raise ValueError("schema-v3 historical producer schema drifted")
++    baseline = historical["baseline_v2"]
++    if not isinstance(baseline, dict) or set(baseline) != {
++        "consumer",
++        "producer_lock",
++        "run_receipt",
++        "argv",
++        "artifacts",
++        "audit_counts",
++    }:
++        raise ValueError("historical baseline-v2 schema drifted")
++    if baseline["consumer"] != "baseline":
++        raise ValueError("historical producer is not baseline-v2")
++    producer_lock = _verify_root_record(
++        root, baseline["producer_lock"], "historical baseline producer lock"
++    )
++    if producer_lock != v2_source:
++        raise ValueError("historical baseline producer lock differs from v3 parent")
++    receipt_source = _verify_root_record(
++        root, baseline["run_receipt"], "historical baseline run receipt"
++    )
++    receipt = json.loads(receipt_source.read_text(encoding="utf-8"))
++    receipt_required = {
++        "schema_version",
++        "receipt_kind",
++        "consumer",
++        "lock_sha256",
++        "parent_lock_sha256",
++        "argument_count",
++        "argument_vector_sha256",
++        "artifact_hash_method",
++        "metric_values_viewed",
++        "artifacts",
++    }
++    if not isinstance(receipt, dict) or set(receipt) != receipt_required:
++        raise ValueError("historical baseline receipt schema drifted")
++    argv = baseline["argv"]
++    if not isinstance(argv, dict) or set(argv) != {"argc", "sha256"}:
++        raise ValueError("historical baseline argv schema drifted")
++    if (
++        receipt["schema_version"] != 1
++        or receipt["receipt_kind"] != "formal_metric_free_run_provenance"
++        or receipt["consumer"] != "baseline"
++        or receipt["lock_sha256"] != file_sha256(v2_source)
++        or receipt["parent_lock_sha256"] != file_sha256(v1_source)
++        or receipt["artifact_hash_method"] != "sha256_binary_stream_no_parse"
++        or receipt["metric_values_viewed"] is not False
++        or receipt["argument_count"] != argv["argc"]
++        or receipt["argument_vector_sha256"] != argv["sha256"]
++        or argv != v2_payload["execution"]["consumer_argv"]["baseline"]  # type: ignore[index]
++    ):
++        raise ValueError("historical baseline receipt/argv lineage drifted")
++    artifacts = baseline["artifacts"]
++    role_to_receipt = {
++        "predictions": "baseline_predictions_private",
++        "selection": "baseline_selection_private",
++        "metrics": "baseline_metrics_public",
++        "progress": "baseline_progress_private",
++    }
++    if not isinstance(artifacts, dict) or set(artifacts) != set(role_to_receipt):
++        raise ValueError("historical baseline artifact schema drifted")
++    if not isinstance(receipt["artifacts"], dict) or set(receipt["artifacts"]) != set(
++        role_to_receipt.values()
++    ):
++        raise ValueError("historical baseline receipt artifact schema drifted")
++    for role, receipt_key in role_to_receipt.items():
++        historical_path = _verify_root_record(
++            root, artifacts[role], f"historical baseline artifact {role}"
++        )
++        receipt_record = receipt["artifacts"][receipt_key]
++        if (
++            not isinstance(receipt_record, dict)
++            or set(receipt_record) != {"path", "sha256"}
++            or receipt_record != artifacts[role]
++            or historical_path
++            != _root_relative_file(
++                root, receipt_record["path"], f"baseline receipt artifact {role}"
++            )
++        ):
++            raise ValueError(f"historical baseline artifact lineage drifted: {role}")
++    audit_counts = baseline["audit_counts"]
++    expected_audit_counts = {
++        "prediction_rows": 64137,
++        "selection_rows": 630,
++        "public_metric_rows": 252,
++        "progress_fold_completed": 630,
++        "progress_candidate_completed": 11340,
++        "max_observed_n_iter": 1485,
++        "capped_candidate_count": 0,
++    }
++    if audit_counts != expected_audit_counts:
++        raise ValueError("historical baseline-v2 audited counts drifted")
++
++    development = payload["development_provenance"]
++    if not isinstance(development, dict) or set(development) != {
++        "source_snapshot",
++        "patch_manifest",
++        "smoke_receipt",
++    }:
++        raise ValueError("schema-v3 development provenance schema drifted")
++    snapshot_source = _verify_root_record(
++        root, development["source_snapshot"], "v2-to-v3 source snapshot"
++    )
++    patch_source = _verify_root_record(
++        root, development["patch_manifest"], "v2-to-v3 patch manifest"
++    )
++    _verify_root_record(root, development["smoke_receipt"], "v3 smoke receipt")
++
++    files = payload["files"]
++    if not isinstance(files, dict) or not files:
++        raise ValueError("schema-v3 evaluation lock has no final file hashes")
++    for relative, digest in sorted(files.items()):
++        path = _root_relative_file(root, relative, f"v3 final locked file {relative}")
++        expected = _checked_lower_digest(
++            digest, f"v3 final locked file {relative} SHA-256"
++        )
++        observed = file_sha256(path)
++        if observed != expected:
++            raise ValueError(
++                f"evaluation file drifted: {relative}; expected={expected}, observed={observed}"
++            )
++    _verify_v2_to_v3_source_snapshot(
++        root=root,
++        snapshot_source=snapshot_source,
++        patch_source=patch_source,
++        v2_source=v2_source,
++        v2_payload=v2_payload,
++        v3_payload=payload,
++    )
++    execution = payload["execution"]
++    if not isinstance(execution, dict) or set(execution) != {
++        "parent_execution_sha256",
++        "consumer_argv",
++        "producer_order",
++    }:
++        raise ValueError("schema-v3 execution contract drifted")
++    if execution["parent_execution_sha256"] != canonical_json_sha256(
++        v2_payload["execution"]
++    ):
++        raise ValueError("schema-v3 parent execution contract drifted")
++    consumers = execution["consumer_argv"]
++    if not isinstance(consumers, dict) or set(consumers) != set(_V3_CONSUMERS):
++        raise ValueError("schema-v3 must define only probe/summarizer argv")
++    for consumer, record in consumers.items():
++        if (
++            not isinstance(record, dict)
++            or set(record) != {"argc", "sha256"}
++            or isinstance(record["argc"], bool)
++            or not isinstance(record["argc"], int)
++            or record["argc"] < 0
++        ):
++            raise ValueError(f"schema-v3 {consumer} argv contract drifted")
++        _checked_lower_digest(record["sha256"], f"schema-v3 {consumer} argv SHA-256")
++    if execution["producer_order"] != ["baseline:v2", "probe:v3", "summarizer:v3"]:
++        raise ValueError("schema-v3 producer order drifted")
++    return root, source, payload, v2_source, v2_payload, v1_source, v1_payload
++
++
++def _verify_v3_consumer(
++    payload: Mapping[str, object],
++    expected_consumer: str,
++    command_argv: Sequence[str | Path] | None,
++) -> tuple[int, str]:
++    if expected_consumer not in _V3_CONSUMERS:
++        raise ValueError("schema-v3 expected_consumer must be probe or summarizer")
++    if command_argv is None:
++        raise ValueError("schema-v3 verification requires the exact command argv")
++    values = tuple(str(value) for value in command_argv)
++    contract = payload["execution"]["consumer_argv"][expected_consumer]  # type: ignore[index]
++    digest = argument_vector_sha256(values)
++    if contract["argc"] != len(values) or contract["sha256"] != digest:
++        raise ValueError(f"{expected_consumer} command argv does not match the v3 lock")
++    return len(values), digest
++
++
++def _v3_code_receipt(
++    root: Path,
++    source: Path,
++    payload: Mapping[str, object],
++    v2_source: Path,
++    *,
++    expected_consumer: str,
++    argument_count: int,
++    argument_sha256: str,
++) -> dict[str, object]:
++    development = payload["development_provenance"]
++    return {
++        "schema_version": 3,
++        "lock_generation": "probe_retry_v3",
++        "lock_path": source.relative_to(root).as_posix(),
++        "lock_sha256": file_sha256(source),
++        "parent_lock_sha256": file_sha256(v2_source),
++        "inherited_inputs_sha256": payload["inherited_inputs"]["sha256"],  # type: ignore[index]
++        "verified_file_count": len(payload["files"]),
++        "expected_consumer": expected_consumer,
++        "argument_count": argument_count,
++        "argument_vector_sha256": argument_sha256,
++        "source_snapshot_sha256": development["source_snapshot"]["sha256"],  # type: ignore[index]
++        "patch_manifest_sha256": development["patch_manifest"]["sha256"],  # type: ignore[index]
++        "smoke_receipt_sha256": development["smoke_receipt"]["sha256"],  # type: ignore[index]
++        "finalization_lock_sha256": payload["finalization_lock"]["sha256"],  # type: ignore[index]
++        "execution": payload["execution"],
++    }
++
++
+ def _verify_locked_formal_inputs(
+     *,
+     root: Path,
+@@ -632,21 +1129,35 @@
+             "verified_file_count": len(payload["files"]),
+             "execution": payload["execution"],
+         }
+-    if peek.get("schema_version") != 2:
+-        raise ValueError("unsupported evaluation lock schema")
+-    root, source, payload, parent_source, _ = _load_and_verify_v2_chain(
+-        experiment_root, lock_path
+-    )
+-    count, digest = _verify_v2_consumer(payload, expected_consumer, command_argv)
+-    return _v2_code_receipt(
+-        root,
+-        source,
+-        payload,
+-        parent_source,
+-        expected_consumer=expected_consumer,
+-        argument_count=count,
+-        argument_sha256=digest,
+-    )
++    if peek.get("schema_version") == 2:
++        root, source, payload, parent_source, _ = _load_and_verify_v2_chain(
++            experiment_root, lock_path
++        )
++        count, digest = _verify_v2_consumer(payload, expected_consumer, command_argv)
++        return _v2_code_receipt(
++            root,
++            source,
++            payload,
++            parent_source,
++            expected_consumer=expected_consumer,
++            argument_count=count,
++            argument_sha256=digest,
++        )
++    if peek.get("schema_version") == 3:
++        root, source, payload, v2_source, _, _, _ = _load_and_verify_v3_chain(
++            experiment_root, lock_path
++        )
++        count, digest = _verify_v3_consumer(payload, expected_consumer, command_argv)
++        return _v3_code_receipt(
++            root,
++            source,
++            payload,
++            v2_source,
++            expected_consumer=expected_consumer,
++            argument_count=count,
++            argument_sha256=digest,
++        )
++    raise ValueError("unsupported evaluation lock schema")
+ 
+ 
+ def verify_formal_evaluation_lock(
+@@ -690,34 +1201,64 @@
+             "current_cnn_assets": cnn_assets,
+             "execution": execution,
+         }
+-    if peek.get("schema_version") != 2:
+-        raise ValueError("unsupported evaluation lock schema")
+-    if expected_consumer not in _V2_RUN_CONSUMERS:
+-        raise ValueError(
+-            "schema-v2 formal evaluation consumer must be baseline or probe"
++    if peek.get("schema_version") == 2:
++        if expected_consumer not in _V2_RUN_CONSUMERS:
++            raise ValueError(
++                "schema-v2 formal evaluation consumer must be baseline or probe"
++            )
++        root, source, payload, parent_source, parent_payload = _load_and_verify_v2_chain(
++            experiment_root, lock_path
+         )
+-    root, source, payload, parent_source, parent_payload = _load_and_verify_v2_chain(
+-        experiment_root, lock_path
+-    )
+-    count, digest = _verify_v2_consumer(payload, expected_consumer, command_argv)
+-    models, cnn_assets = _verify_locked_formal_inputs(
+-        root=root,
+-        inputs=parent_payload["inputs"],
+-        foundation_features=foundation_features,
+-        current_cnn_features=current_cnn_features,
+-        fold_manifest=fold_manifest,
+-        clinical_labels=clinical_labels,
+-        radiomics=radiomics,
+-    )
+-    receipt = _v2_code_receipt(
+-        root,
+-        source,
+-        payload,
+-        parent_source,
+-        expected_consumer=expected_consumer,
+-        argument_count=count,
+-        argument_sha256=digest,
+-    )
++        count, digest = _verify_v2_consumer(payload, expected_consumer, command_argv)
++        models, cnn_assets = _verify_locked_formal_inputs(
++            root=root,
++            inputs=parent_payload["inputs"],
++            foundation_features=foundation_features,
++            current_cnn_features=current_cnn_features,
++            fold_manifest=fold_manifest,
++            clinical_labels=clinical_labels,
++            radiomics=radiomics,
++        )
++        receipt = _v2_code_receipt(
++            root,
++            source,
++            payload,
++            parent_source,
++            expected_consumer=expected_consumer,
++            argument_count=count,
++            argument_sha256=digest,
++        )
++    elif peek.get("schema_version") == 3:
++        if expected_consumer not in _V3_RUN_CONSUMERS:
++            raise ValueError("schema-v3 formal evaluation consumer must be probe")
++        root, source, payload, v2_source, _, _, parent_payload = (
++            _load_and_verify_v3_chain(experiment_root, lock_path)
++        )
++        count, digest = _verify_v3_consumer(payload, expected_consumer, command_argv)
++        models, cnn_assets = _verify_locked_formal_inputs(
++            root=root,
++            inputs=parent_payload["inputs"],
++            foundation_features=foundation_features,
++            current_cnn_features=current_cnn_features,
++            fold_manifest=fold_manifest,
++            clinical_labels=clinical_labels,
++            radiomics=radiomics,
++        )
++        receipt = _v3_code_receipt(
++            root,
++            source,
++            payload,
++            v2_source,
++            expected_consumer=expected_consumer,
++            argument_count=count,
++            argument_sha256=digest,
++        )
++        if tuple(models) != _FORMAL_FOUNDATION_MODELS:
++            raise ValueError(
++                "formal foundation feature set/order must be exactly MedicalNet then DINO"
++            )
++    else:
++        raise ValueError("unsupported evaluation lock schema")
+     receipt.update(
+         {
+             "foundation_models": models,
+@@ -807,9 +1348,11 @@
+     values are never parsed or selected; ``file_sha256`` streams raw bytes.
+     """
+ 
+-    if expected_consumer not in _V2_RUN_CONSUMERS:
+-        raise ValueError("metric-free provenance consumer must be baseline or probe")
+     root = Path(experiment_root).resolve(strict=True)
++    _, _, peek = _read_lock_payload(root, lock_path)
++    allowed = _V3_RUN_CONSUMERS if peek.get("schema_version") == 3 else _V2_RUN_CONSUMERS
++    if expected_consumer not in allowed:
++        raise ValueError("metric-free provenance consumer is invalid for this lock")
+     destination = _path_within_root(
+         root, receipt_path, "run provenance receipt", must_exist=False
+     )
+@@ -819,8 +1362,8 @@
+         expected_consumer=expected_consumer,
+         command_argv=command_argv,
+     )
+-    if code_receipt.get("schema_version") != 2:
+-        raise ValueError("metric-free run provenance requires a schema-v2 lock")
++    if code_receipt.get("schema_version") not in {2, 3}:
++        raise ValueError("metric-free run provenance requires a chained lock")
+     artifact_records = _artifact_records(root, artifacts)
+     payload: dict[str, object] = {
+         "schema_version": 1,
+@@ -852,9 +1395,11 @@
+ ) -> dict[str, object]:
+     """Verify producer/code/argv lineage and artifact bytes before CSV parsing."""
+ 
+-    if expected_consumer not in _V2_RUN_CONSUMERS:
+-        raise ValueError("metric-free provenance consumer must be baseline or probe")
+     root = Path(experiment_root).resolve(strict=True)
++    _, _, peek = _read_lock_payload(root, lock_path)
++    allowed = _V3_RUN_CONSUMERS if peek.get("schema_version") == 3 else _V2_RUN_CONSUMERS
++    if expected_consumer not in allowed:
++        raise ValueError("metric-free provenance consumer is invalid for this lock")
+     source = _path_within_root(
+         root, receipt_path, "run provenance receipt", must_exist=True
+     )
+@@ -896,9 +1441,16 @@
+     if argument_count < 0:
+         raise ValueError("receipt argv count must be a nonnegative integer")
+ 
+-    _, lock_source, lock_payload, parent_source, _ = _load_and_verify_v2_chain(
+-        root, lock_path
+-    )
++    if peek.get("schema_version") == 2:
++        _, lock_source, lock_payload, parent_source, _ = _load_and_verify_v2_chain(
++            root, lock_path
++        )
++    elif peek.get("schema_version") == 3:
++        _, lock_source, lock_payload, parent_source, _, _, _ = _load_and_verify_v3_chain(
++            root, lock_path
++        )
++    else:
++        raise ValueError("metric-free provenance requires a chained lock")
+     consumer_contract = lock_payload["execution"]["consumer_argv"][  # type: ignore[index]
+         expected_consumer
+     ]
+@@ -938,12 +1490,66 @@
+     }
+ 
+ 
++def verify_historical_metric_free_run_provenance(
++    *,
++    experiment_root: str | Path,
++    active_lock_path: str | Path,
++    producer_key: str,
++    expected_artifacts: Mapping[str, str | Path],
++) -> dict[str, object]:
++    """Verify the v2 baseline producer named by an active v3 lock.
++
++    The caller cannot provide or substitute the historical lock/receipt paths.
++    Historical source identity is checked through immutable manifests, while
++    active v3 code is checked separately by the schema-v3 chain verifier.
++    Artifact files are streamed only for SHA-256 and are never parsed.
++    """
++
++    if producer_key != "baseline_v2":
++        raise ValueError("schema-v3 historical producer_key must be baseline_v2")
++    root, _, payload, v2_source, _, _, _ = _load_and_verify_v3_chain(
++        experiment_root, active_lock_path
++    )
++    producer = payload["historical_producers"][producer_key]  # type: ignore[index]
++    artifacts = producer["artifacts"]
++    if not isinstance(expected_artifacts, Mapping) or set(expected_artifacts) != set(
++        artifacts
++    ):
++        raise ValueError("historical baseline expected artifact set does not match v3")
++    verified: dict[str, str] = {}
++    for role, raw_path in expected_artifacts.items():
++        expected_path = _path_within_root(
++            root, raw_path, f"expected historical artifact {role}", must_exist=True
++        )
++        locked_record = artifacts[role]
++        locked_path = _verify_root_record(
++            root, locked_record, f"historical baseline artifact {role}"
++        )
++        if expected_path != locked_path:
++            raise ValueError(f"historical baseline artifact path differs: {role}")
++        verified[str(role)] = str(locked_record["sha256"])
++    receipt_path = _verify_root_record(
++        root, producer["run_receipt"], "historical baseline run receipt"
++    )
++    return {
++        "schema_version": 3,
++        "consumer": "baseline",
++        "lock_generation": "whole_evaluation_v2",
++        "lock_sha256": file_sha256(v2_source),
++        "argument_vector_sha256": producer["argv"]["sha256"],
++        "artifact_count": len(verified),
++        "artifact_sha256": verified,
++        "receipt_sha256": file_sha256(receipt_path),
++    }
++
++
+ __all__ = [
+     "argument_vector_sha256",
+     "canonical_json_sha256",
+     "file_sha256",
+     "verify_evaluation_code_lock",
+     "verify_formal_evaluation_lock",
++    "verify_historical_metric_free_run_provenance",
+     "verify_metric_free_run_provenance",
+     "write_metric_free_run_provenance",
+ ]
+--- a/src/foundation_mri/reporting.py
++++ b/src/foundation_mri/reporting.py
+@@ -16,6 +16,7 @@
+ import math
+ import os
+ from pathlib import Path
++import re
+ import tempfile
+ from typing import Any, Iterable, Mapping, Sequence
+ 
+@@ -36,6 +37,12 @@
+ BOOTSTRAP_REPLICATES = 5000
+ CI_LEVEL = 0.95
+ COMPARISON_CONTRACT_VERSION = "foundation_mri_paired_comparisons_v1"
++COMPARISON_CONTRACT_CANONICAL_SHA256 = (
++    "f99fd76bd35b784500194347c4b363725616ca6adab2ba830a006cc7cc4a7e13"
++)
++SUMMARY_SCHEMA_VERSION = "foundation_mri_results_summary_v1"
++REPORTING_PROVENANCE_SCHEMA_VERSION = "foundation_mri_reporting_run_provenance_v1"
++MIN_PUBLIC_CALIBRATION_BIN_N = 10
+ INFERENCE_SCOPE = (
+     "descriptive paired outer-fold OOF patient bootstrap; not confirmatory and "
+     "not used for model or checkpoint selection"
+@@ -926,7 +933,7 @@
+     complete_size: int,
+ ) -> dict[str, Any]:
+     return {
+-        "schema_version": "foundation_mri_results_summary_v1",
++        "schema_version": SUMMARY_SCHEMA_VERSION,
+         "comparison_contract": static_comparison_contract(),
+         "resolved_comparison_count": len(specs),
+         "reported_candidate_policy": "all preregistered candidates; no best-model filtering",
+@@ -1223,7 +1230,7 @@
+     mean_score, fraction_positive = [], []
+     for index in range(10):
+         selected = bins == index
+-        if np.any(selected):
++        if int(np.count_nonzero(selected)) >= MIN_PUBLIC_CALIBRATION_BIN_N:
+             mean_score.append(float(np.mean(score[selected])))
+             fraction_positive.append(float(np.mean(truth[selected])))
+     return np.asarray(mean_score), np.asarray(fraction_positive)
+@@ -1260,9 +1267,15 @@
+         truth = pd.to_numeric(group["y_true"]).to_numpy(dtype=np.float64)
+         score = pd.to_numeric(group["y_score"]).to_numpy(dtype=np.float64)
+         x, y = _reliability_points(truth, score)
++        if len(x) == 0:
++            raise ValueError(
++                "calibration series has no public bin meeting minimum n=10"
++            )
+         axes[0].plot(x, y, marker="o", linewidth=1.4, markersize=3, label=_series_label(model, spatial))
+     axes[0].set(xlim=(0, 1), ylim=(0, 1), xlabel="Mean predicted probability", ylabel="Observed pCR fraction")
+-    axes[0].set_title(f"Calibration at {final_timing} (fixed 10-bin contract)")
++    axes[0].set_title(
++        f"Calibration at {final_timing} (fixed 10-bin; public bins n>=10)"
++    )
+     axes[0].grid(alpha=0.25, linewidth=0.7)
+     axes[0].legend(fontsize=7, frameon=False, loc="best")
+ 
+@@ -1317,8 +1330,15 @@
+     return json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + "\n"
+ 
+ 
+-def _check_output_targets(outputs: ReportingOutputs, overwrite: bool) -> None:
++def _check_output_targets(
++    outputs: ReportingOutputs,
++    overwrite: bool,
++    *,
++    reporting_marker: Path | None = None,
++) -> None:
+     paths = [Path(value) for value in asdict(outputs).values()]
++    if reporting_marker is not None:
++        paths.append(Path(reporting_marker))
+     if len(set(paths)) != len(paths):
+         raise ValueError("reporting output paths must be distinct")
+     existing = [path.name for path in paths if path.exists()]
+@@ -1326,6 +1346,119 @@
+         raise FileExistsError(f"reporting outputs already exist: {existing}")
+ 
+ 
++def _build_reporting_marker(
++    lineage: Mapping[str, Any], staged: Mapping[str, Path]
++) -> dict[str, Any]:
++    if set(lineage) != {"baseline_v2", "probe_v3", "summarizer"}:
++        raise ValueError("reporting lineage must contain baseline_v2/probe_v3/summarizer")
++    stage_schema = {
++        "protocol_version",
++        "evaluation_lock_sha256",
++        "run_receipt_sha256",
++        "argv_sha256",
++        "artifact_sha256",
++    }
++    expected_artifacts = {
++        "baseline_v2": {"predictions", "selection", "metrics", "progress"},
++        "probe_v3": {
++            "phenotype_predictions",
++            "phenotype_selection",
++            "phenotype_metrics",
++            "subtype_predictions",
++            "subtype_selection",
++            "subtype_metrics",
++            "ftv_predictions",
++            "ftv_selection",
++            "ftv_metrics",
++            "progress",
++        },
++    }
++    digest_pattern = re.compile(r"^[0-9a-f]{64}$")
++    for stage, version in (("baseline_v2", "v2"), ("probe_v3", "v3")):
++        record = lineage[stage]
++        if not isinstance(record, Mapping) or set(record) != stage_schema:
++            raise ValueError(f"reporting lineage {stage} schema drifted")
++        if record["protocol_version"] != version:
++            raise ValueError(f"reporting lineage {stage} protocol drifted")
++        if any(
++            not digest_pattern.fullmatch(str(record[key]))
++            for key in (
++                "evaluation_lock_sha256",
++                "run_receipt_sha256",
++                "argv_sha256",
++            )
++        ):
++            raise ValueError(f"reporting lineage {stage} digest drifted")
++        artifacts = record["artifact_sha256"]
++        if (
++            not isinstance(artifacts, Mapping)
++            or set(artifacts) != expected_artifacts[stage]
++            or any(not digest_pattern.fullmatch(str(value)) for value in artifacts.values())
++        ):
++            raise ValueError(f"reporting lineage {stage} artifact schema drifted")
++    summarizer = lineage["summarizer"]
++    if not isinstance(summarizer, Mapping) or set(summarizer) != {
++        "protocol_version",
++        "argv_sha256",
++        "code_lock_sha256",
++        "finalization_lock_sha256",
++    }:
++        raise ValueError("reporting lineage summarizer schema drifted")
++    if summarizer["protocol_version"] != "v3" or any(
++        not digest_pattern.fullmatch(str(summarizer[key]))
++        for key in ("argv_sha256", "code_lock_sha256", "finalization_lock_sha256")
++    ):
++        raise ValueError("reporting lineage summarizer identity drifted")
++    roles = {
++        "paired_public": "paired_csv",
++        "summary_json": "summary_json",
++        "results_summary_markdown": "summary_markdown",
++        "timing_figure": "timing_figure",
++        "calibration_figure": "calibration_figure",
++    }
++    return {
++        "schema_version": REPORTING_PROVENANCE_SCHEMA_VERSION,
++        "summary_schema_version": SUMMARY_SCHEMA_VERSION,
++        "comparison_contract_canonical_sha256": (
++            COMPARISON_CONTRACT_CANONICAL_SHA256
++        ),
++        "baseline_v2": dict(lineage["baseline_v2"]),
++        "probe_v3": dict(lineage["probe_v3"]),
++        "summarizer": dict(summarizer),
++        "public_artifact_sha256": {
++            role: file_sha256(staged[field]) for role, field in roles.items()
++        },
++    }
++
++
++def _publish_no_overwrite_with_rollback(
++    staged: Mapping[str, Path],
++    destinations: Mapping[str, Path],
++    *,
++    marker_field: str | None,
++) -> None:
++    """Hard-link staged bytes, publish marker last, and roll back on failure."""
++
++    order = [field for field in destinations if field != marker_field]
++    if marker_field is not None:
++        order.append(marker_field)
++    published: list[Path] = []
++    try:
++        for field in order:
++            destination = destinations[field]
++            destination.parent.mkdir(parents=True, exist_ok=True)
++            os.link(staged[field], destination)
++            published.append(destination)
++            os.chmod(destination, 0o644)
++    except Exception:
++        for destination in reversed(published):
++            try:
++                destination.unlink()
++            except FileNotFoundError:
++                pass
++        raise
++
++
+ def summarize_results(
+     inputs: ReportingInputs,
+     outputs: ReportingOutputs,
+@@ -1333,11 +1466,24 @@
+     full_size: int = 808,
+     complete_size: int = 375,
+     overwrite: bool = False,
++    expected_foundation_models: Sequence[str] | None = None,
++    reporting_lineage: Mapping[str, Any] | None = None,
++    reporting_marker: Path | None = None,
+ ) -> dict[str, int]:
+     """Validate, compare, render, and atomically publish identifier-free outputs."""
+ 
+-    _check_output_targets(outputs, overwrite)
++    if (reporting_lineage is None) != (reporting_marker is None):
++        raise ValueError("reporting lineage and commit marker must be supplied together")
++    if reporting_marker is not None and overwrite:
++        raise ValueError("formal reporting marker publication forbids overwrite")
++    _check_output_targets(outputs, overwrite, reporting_marker=reporting_marker)
+     loaded = _load_and_validate(inputs, full_size=full_size, complete_size=complete_size)
++    if expected_foundation_models is not None:
++        expected = tuple(str(value) for value in expected_foundation_models)
++        if len(expected) != 2 or len(set(expected)) != 2:
++            raise ValueError("formal reporting requires exactly two foundation models")
++        if set(loaded.foundation_models) != set(expected):
++            raise ValueError("formal foundation set is not the exact frozen two-model set")
+     full_population = f"full_{full_size}"
+     complete_population = f"radiomics_complete_case_{complete_size}"
+     specs = build_comparison_contract(
+@@ -1389,16 +1535,40 @@
+             staged["calibration_figure"],
+             full_population=full_population,
+         )
+-        for field, destination in zip(asdict(outputs), output_paths, strict=True):
+-            destination.parent.mkdir(parents=True, exist_ok=True)
+-            os.replace(staged[field], destination)
+-            os.chmod(destination, 0o644)
+-    return {
++        if reporting_marker is None:
++            for field, destination in zip(asdict(outputs), output_paths, strict=True):
++                destination.parent.mkdir(parents=True, exist_ok=True)
++                os.replace(staged[field], destination)
++                os.chmod(destination, 0o644)
++        else:
++            marker = _build_reporting_marker(reporting_lineage, staged)
++            staged["reporting_marker"] = staging / "reporting_run_provenance.json"
++            staged["reporting_marker"].write_text(
++                _json_text(marker), encoding="utf-8"
++            )
++            destinations = {
++                **{
++                    field: destination
++                    for field, destination in zip(
++                        asdict(outputs), output_paths, strict=True
++                    )
++                },
++                "reporting_marker": Path(reporting_marker),
++            }
++            _publish_no_overwrite_with_rollback(
++                staged,
++                destinations,
++                marker_field="reporting_marker",
++            )
++    result = {
+         "foundation_models": len(loaded.foundation_models),
+         "resolved_comparisons": len(specs),
+         "paired_metric_rows": len(comparisons),
+         "public_outputs": len(output_paths),
+     }
++    if reporting_marker is not None:
++        result["reporting_marker"] = 1
++    return result
+ 
+ 
+ __all__ = [
+--- a/tests/test_evaluation.py
++++ b/tests/test_evaluation.py
+@@ -102,10 +102,14 @@
+     assert [record["event"] for record in fold_records] == [
+         event
+         for _ in FOLDS
+-        for event in ("fold_started", "fold_completed")
++        for event in (
++            "fold_started",
++            "fold_selection_completed",
++            "fold_completed",
++        )
+     ]
+     assert [record["fold"] for record in fold_records] == [
+-        fold for fold in FOLDS for _ in range(2)
++        fold for fold in FOLDS for _ in range(3)
+     ]
+     assert all(record["task_family"] == task_family for record in fold_records)
+     assert all(
+@@ -834,6 +838,17 @@
+     assert result.predictions["test_predict_call_count"].eq(1).all()
+     assert result.selections["test_used_for_scaler"].eq(False).all()
+     assert result.selections["test_used_for_alpha_selection"].eq(False).all()
++    assert result.selections["test_used_for_prediction_bounds"].eq(False).all()
++    assert result.selections["prediction_bound_policy"].eq(
++        "outer_train_transformed_min_max"
++    ).all()
++    assert result.selections["solver"].eq("lsqr").all()
++    assert result.selections["n_iter_contract"].eq(
++        "integer_0_le_n_iter_lt_max_iter"
++    ).all()
++    assert result.selections["all_grid_candidates_converged_before_max_iter"].eq(
++        True
++    ).all()
+     assert not {
+         "x_scaler_mean_json",
+         "x_scaler_scale_json",
+@@ -847,6 +862,197 @@
+     ensure_public_safe(metrics)
+ 
+ 
++def test_metric_free_stderr_mirror_is_best_effort_but_jsonl_write_is_hard(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    class BrokenMirror:
++        def write(self, _value: str) -> None:
++            raise BrokenPipeError("detached synthetic stderr")
++
++        def flush(self) -> None:
++            raise AssertionError("flush must not follow a failed write")
++
++    mirror_path = tmp_path / "mirror.private.jsonl"
++    configure_metric_free_progress(mirror_path)
++    try:
++        monkeypatch.setattr(evaluation_module.sys, "stderr", BrokenMirror())
++        metric_free_progress("synthetic_event", fold=0)
++    finally:
++        configure_metric_free_progress(None)
++    assert json.loads(mirror_path.read_text()) == {
++        "event": "synthetic_event",
++        "fold": 0,
++    }
++
++    hard_path = tmp_path / "hard.private.jsonl"
++    configure_metric_free_progress(hard_path)
++    try:
++        monkeypatch.setattr(
++            evaluation_module.os,
++            "write",
++            lambda *_args, **_kwargs: (_ for _ in ()).throw(OSError("synthetic fd failure")),
++        )
++        with pytest.raises(OSError, match="synthetic fd failure"):
++            metric_free_progress("synthetic_event", fold=1)
++    finally:
++        configure_metric_free_progress(None)
++
++
++def test_ridge_iteration_parameter_and_warning_gates_precede_validation(
++    monkeypatch: pytest.MonkeyPatch,
++) -> None:
++    class FittedState:
++        max_iter = 10
++        n_iter_ = np.asarray([0], dtype=np.int64)
++        coef_ = np.asarray([0.0])
++        intercept_ = np.asarray(0.0)
++
++    assert evaluation_module._validated_ridge_iterations(
++        FittedState(), alpha=0.1
++    ) == (0,)
++    for invalid, pattern in (
++        (np.asarray([], dtype=np.int64), "empty or invalid"),
++        (np.asarray([1.5]), "empty or invalid"),
++        (np.asarray([-1]), "negative"),
++        (np.asarray([10]), "did not converge"),
++    ):
++        state = FittedState()
++        state.n_iter_ = invalid
++        with pytest.raises(RuntimeError, match=pattern):
++            evaluation_module._validated_ridge_iterations(state, alpha=0.1)
++    state = FittedState()
++    state.coef_ = np.asarray([np.inf])
++    state.fit = lambda *_args, **_kwargs: state
++    with pytest.raises(RuntimeError, match="non-finite fitted coef_"):
++        evaluation_module._fit_validated_ridge(
++            state, np.ones((2, 1)), np.zeros(2), alpha=0.1
++        )
++
++    rng = np.random.default_rng(2026)
++    train_x = rng.normal(size=(30, 3))
++    train_y = rng.uniform(0.0, 5.0, size=30)
++    validation_x = rng.normal(size=(10, 3))
++    validation_y = rng.uniform(0.0, 5.0, size=10)
++    original_fit = evaluation_module.Ridge.fit
++    original_predict = evaluation_module.Ridge.predict
++    fit_calls = 0
++    validation_prediction_calls = 0
++
++    def second_candidate_warns(model: object, matrix: np.ndarray, targets: np.ndarray):
++        nonlocal fit_calls
++        fit_calls += 1
++        fitted = original_fit(model, matrix, targets)
++        if fit_calls == 2:
++            warnings.warn("forced Ridge warning", evaluation_module.ConvergenceWarning)
++        return fitted
++
++    def tracked_predict(model: object, matrix: np.ndarray):
++        nonlocal validation_prediction_calls
++        validation_prediction_calls += 1
++        return original_predict(model, matrix)
++
++    monkeypatch.setattr(evaluation_module.Ridge, "fit", second_candidate_warns)
++    monkeypatch.setattr(evaluation_module.Ridge, "predict", tracked_predict)
++    with pytest.raises(RuntimeError, match="emitted ConvergenceWarning"):
++        select_ridge(
++            train_x,
++            train_y,
++            validation_x,
++            validation_y,
++            alphas=(0.01, 1.0),
++            target_transform="log1p",
++        )
++    assert fit_calls == 2
++    assert validation_prediction_calls == 1
++
++
++def test_ridge_log1p_bounds_prevent_test_only_overflow_and_are_train_only(
++    tmp_path: Path,
++) -> None:
++    patient_ids, _, folds, _ = _fixture(tmp_path)
++    target = np.exp(np.linspace(0.0, 3.0, len(patient_ids))) - 1.0
++    base = np.column_stack((np.log1p(target), np.sin(np.arange(len(target)))))
++    matrices = {fold: base.copy() for fold in FOLDS}
++    fold = 3
++    roles = folds.roles(fold, patient_ids)
++    matrices[fold][roles == "test", 0] = 1e6
++    result = evaluate_ridge_cv(
++        patient_ids=patient_ids,
++        targets=target,
++        fold_manifest=folds,
++        matrices=matrices,
++        target_name="FTV",
++        model_name="synthetic_encoder",
++        spatial="LOCAL",
++        task="static",
++        endpoint="T0",
++        analysis_population="radiomics_complete_case_30",
++        alphas=(0.01,),
++        target_transform="log1p",
++    )
++    fold_predictions = result.predictions.loc[result.predictions["fold"].eq(fold)]
++    train_max = float(np.max(target[roles == "train"]))
++    assert np.isfinite(fold_predictions["y_pred"]).all()
++    assert fold_predictions["prediction_clipped_to_outer_train_bounds"].all()
++    assert np.allclose(fold_predictions["y_pred"], train_max)
++    selection = result.selections.loc[result.selections["fold"].eq(fold)].iloc[0]
++    assert selection["test_predictions_clipped"] == len(fold_predictions)
++    assert selection["test_clip_rate"] == 1.0
++    assert selection["test_used_for_prediction_bounds"] is False or not bool(
++        selection["test_used_for_prediction_bounds"]
++    )
++    with pytest.raises(FloatingPointError):
++        evaluation_module._target_inverse(np.asarray([1e6]), "log1p")
++    with pytest.raises(FloatingPointError, match="pre-clipping"):
++        evaluation_module._bound_transformed_ridge_predictions(
++            np.asarray([np.inf]),
++            target_transform="log1p",
++            train_transformed_min=0.0,
++            train_transformed_max=1.0,
++        )
++
++
++def test_ridge_progress_does_not_claim_fold_complete_after_selection_failure(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    patient_ids, _, folds, _ = _fixture(tmp_path)
++    target = np.linspace(1.0, 10.0, len(patient_ids))
++    matrix = np.column_stack((np.log1p(target), np.sin(target)))
++    progress = tmp_path / "ridge-failure.private.jsonl"
++    monkeypatch.setattr(
++        evaluation_module,
++        "_target_inverse",
++        lambda *_args, **_kwargs: (_ for _ in ()).throw(
++            FloatingPointError("synthetic post-selection failure")
++        ),
++    )
++    configure_metric_free_progress(progress)
++    try:
++        with pytest.raises(FloatingPointError, match="synthetic post-selection"):
++            evaluate_ridge_cv(
++                patient_ids=patient_ids,
++                targets=target,
++                fold_manifest=folds,
++                matrices=matrix,
++                target_name="FTV",
++                model_name="synthetic_encoder",
++                spatial="LOCAL",
++                task="static",
++                endpoint="T0",
++                analysis_population="radiomics_complete_case_30",
++                alphas=(0.1,),
++                target_transform="log1p",
++            )
++    finally:
++        configure_metric_free_progress(None)
++    events = [
++        row["event"]
++        for row in map(json.loads, progress.read_text().splitlines())
++        if row["event"].startswith("fold_")
++    ]
++    assert events == ["fold_started", "fold_selection_completed"]
++
++
+ def test_private_and_public_writers_enforce_filename_privacy_and_permissions(
+     tmp_path: Path,
+ ) -> None:
+--- a/tests/test_locking.py
++++ b/tests/test_locking.py
+@@ -1,6 +1,7 @@
+ from __future__ import annotations
+ 
+ import json
++import os
+ from pathlib import Path
+ import sys
+ 
+@@ -16,6 +17,7 @@
+     file_sha256,
+     verify_evaluation_code_lock,
+     verify_formal_evaluation_lock,
++    verify_historical_metric_free_run_provenance,
+     verify_metric_free_run_provenance,
+     write_metric_free_run_provenance,
+ )
+@@ -33,6 +35,8 @@
+ 
+ def _synthetic_lock(
+     root: Path,
++    *,
++    models: tuple[str, str] = ("medical", "dino"),
+ ) -> tuple[Path, list[Path], dict, tuple[Path, Path, Path]]:
+     code = _write(root / "src/evaluation.py", b"locked-code\n")
+     fold = _write(root / "inputs/folds.csv", b"folds\n")
+@@ -80,7 +84,7 @@
+             "radiomics": _record(root, radiomics),
+             "foundation_features": [
+                 {"model": model, **_record(root, path)}
+-                for model, path in zip(("medical", "dino"), foundation, strict=True)
++                for model, path in zip(models, foundation, strict=True)
+             ],
+             "current_cnn_features": cnn_records,
+         },
+@@ -94,6 +98,8 @@
+ 
+ def _synthetic_v2_chain(
+     root: Path,
++    *,
++    models: tuple[str, str] = ("medical", "dino"),
+ ) -> tuple[
+     Path,
+     list[Path],
+@@ -102,7 +108,7 @@
+     dict[str, tuple[str, ...]],
+     dict[str, Path],
+ ]:
+-    parent, foundation, cnn, tabular = _synthetic_lock(root)
++    parent, foundation, cnn, tabular = _synthetic_lock(root, models=models)
+     parent_payload = json.loads(parent.read_text(encoding="utf-8"))
+ 
+     # The final v2 tree may differ from the historical v1 code.  The chain binds
+@@ -186,6 +192,212 @@
+     return lock, foundation, cnn, tabular, argv, provenance
+ 
+ 
++def _synthetic_v3_chain(
++    root: Path,
++) -> tuple[
++    Path,
++    list[Path],
++    dict[tuple[str, str], dict[int, Path]],
++    tuple[Path, Path, Path],
++    dict[str, tuple[str, ...]],
++    dict[str, Path],
++]:
++    formal_models = (
++        "medicalnet_resnet50_3dseg8",
++        "dino_vitb16_imagenet1k",
++    )
++    v2_lock, foundation, cnn, tabular, v2_argv, v2_provenance = (
++        _synthetic_v2_chain(root, models=formal_models)
++    )
++    v2_payload = json.loads(v2_lock.read_text(encoding="utf-8"))
++    v2_code_sha = v2_payload["files"]["src/evaluation.py"]
++    final_code = _write(root / "src/evaluation.py", b"final-v3-code\n")
++    patch = _write(
++        root / "configs/EVALUATION_V2_TO_V3.patch",
++        b"--- a/src/evaluation.py\n+++ b/src/evaluation.py\n@@ synthetic\n",
++    )
++    snapshot_payload = {
++        "schema_version": 1,
++        "snapshot_kind": "reconstructable_evaluation_v2_to_v3_source_transition",
++        "v2_lock": {
++            "path": str(v2_lock.relative_to(root)),
++            "sha256": file_sha256(v2_lock),
++            "locked_file_count": len(v2_payload["files"]),
++        },
++        "forward_patch": {
++            "path": str(patch.relative_to(root)),
++            "sha256": file_sha256(patch),
++            "format": "unified_diff_a_to_b_strip_1",
++            "line_count": len(patch.read_bytes().splitlines()),
++            "byte_count": patch.stat().st_size,
++        },
++        "changed_v2_locked_files": {
++            "src/evaluation.py": {
++                "v2_sha256": v2_code_sha,
++                "v3_sha256": file_sha256(final_code),
++            }
++        },
++        "reconstruction": {
++            "v2_from_v3_command": "patch -R -p1 < configs/EVALUATION_V2_TO_V3.patch",
++            "v3_from_v2_command": "patch -p1 < configs/EVALUATION_V2_TO_V3.patch",
++            "verify_v2_command": "sha256sum -c v2.manifest",
++            "forward_patch_verified": True,
++            "reverse_patch_verified": True,
++        },
++    }
++    snapshot = _write(
++        root / "configs/EVALUATION_V2_SOURCE_SNAPSHOT.json",
++        (json.dumps(snapshot_payload, sort_keys=True) + "\n").encode(),
++    )
++    smoke = _write(root / "reports/probe_v3_metric_free_smoke.json", b'{"status":"PASS"}\n')
++    finalization = _write(
++        root / "configs/FINALIZATION_LOCK.v1.json",
++        (ROOT / "configs/FINALIZATION_LOCK.v1.json").read_bytes(),
++    )
++
++    progress_body = b"x\n" * 2658 + b"x" * (447729 - 2658 * 2 - 1) + b"\n"
++    assert len(progress_body) == 447729
++    failed_progress = _write(root / "logs/probe_v2.progress.private.jsonl", progress_body)
++    os.chmod(failed_progress, 0o600)
++    artifacts = {
++        "predictions": _write(root / "predictions/baseline.private.csv", b"predictions\n"),
++        "selection": _write(root / "metrics/baseline_selection.private.csv", b"selection\n"),
++        "metrics": _write(root / "metrics/baseline.csv", b"metrics\n"),
++        "progress": _write(root / "logs/baseline.private.jsonl", b"progress\n"),
++    }
++    receipt_artifact_keys = {
++        "predictions": "baseline_predictions_private",
++        "selection": "baseline_selection_private",
++        "metrics": "baseline_metrics_public",
++        "progress": "baseline_progress_private",
++    }
++    receipt_payload = {
++        "schema_version": 1,
++        "receipt_kind": "formal_metric_free_run_provenance",
++        "consumer": "baseline",
++        "lock_sha256": file_sha256(v2_lock),
++        "parent_lock_sha256": file_sha256(v2_provenance["parent_lock"]),
++        "argument_count": len(v2_argv["baseline"]),
++        "argument_vector_sha256": argument_vector_sha256(v2_argv["baseline"]),
++        "artifact_hash_method": "sha256_binary_stream_no_parse",
++        "metric_values_viewed": False,
++        "artifacts": {
++            receipt_artifact_keys[role]: _record(root, path)
++            for role, path in artifacts.items()
++        },
++    }
++    baseline_receipt = _write(
++        root / "metrics/baseline_v2_run.private.provenance.json",
++        (json.dumps(receipt_payload, sort_keys=True) + "\n").encode(),
++    )
++    argv = {
++        "probe": ("--evaluation-lock", "configs/EVALUATION_LOCK.v3.json", "--probe"),
++        "summarizer": (),
++    }
++    payload = {
++        "schema_version": 3,
++        "lock_kind": "formal_outcome_evaluation_chain",
++        "lock_generation": "probe_retry_v3",
++        "locked_at": "2026-08-11T08:00:00-04:00",
++        "locked_after_baseline_v2_completion": True,
++        "baseline_v2_metric_prediction_values_seen": False,
++        "locked_before_formal_probe_v3_evaluation": True,
++        "formal_probe_v3_outcomes_seen": False,
++        "parent_lock": _record(root, v2_lock),
++        "finalization_lock": _record(root, finalization),
++        "aborted_v2_attempts": [
++            {
++                "consumer": "probe",
++                "producer_lock_sha256": file_sha256(v2_lock),
++                "exit_code": 1,
++                "outputs_written": False,
++                "metric_values_viewed": False,
++                "original_traceback_recovered": False,
++                "formal_exception_claimed": False,
++                "failure_window": "ridge_fold3_after_selection_before_fold4_start",
++                "synthetic_diagnostic_scope": (
++                    "matching_failure_path_not_recovered_formal_exception"
++                ),
++                "progress_log": {
++                    **_record(root, failed_progress),
++                    "mode_octal": "0600",
++                    "byte_count": 447729,
++                    "line_count": 2659,
++                    "ends_with_newline": True,
++                    "event_counts": {
++                        "formal_run_started": 1,
++                        "fold_started": 69,
++                        "fold_completed": 69,
++                        "candidate_started": 540,
++                        "candidate_completed": 540,
++                        "estimator_started": 720,
++                        "estimator_completed": 720,
++                    },
++                    "last_event": "fold_completed",
++                },
++            }
++        ],
++        "prelock_state": {
++            "baseline_v2_completed": True,
++            "baseline_v2_receipt_bound": True,
++            "probe_v3_outputs_exist": False,
++            "metric_values_viewed": False,
++        },
++        "inherited_inputs": {
++            "source": "parent_lock.inherited_inputs",
++            "sha256": v2_payload["inherited_inputs"]["sha256"],
++        },
++        "historical_producers": {
++            "baseline_v2": {
++                "consumer": "baseline",
++                "producer_lock": _record(root, v2_lock),
++                "run_receipt": _record(root, baseline_receipt),
++                "argv": v2_payload["execution"]["consumer_argv"]["baseline"],
++                "artifacts": {
++                    role: _record(root, path) for role, path in artifacts.items()
++                },
++                "audit_counts": {
++                    "prediction_rows": 64137,
++                    "selection_rows": 630,
++                    "public_metric_rows": 252,
++                    "progress_fold_completed": 630,
++                    "progress_candidate_completed": 11340,
++                    "max_observed_n_iter": 1485,
++                    "capped_candidate_count": 0,
++                },
++            }
++        },
++        "development_provenance": {
++            "source_snapshot": _record(root, snapshot),
++            "patch_manifest": _record(root, patch),
++            "smoke_receipt": _record(root, smoke),
++        },
++        "files": {"src/evaluation.py": file_sha256(final_code)},
++        "execution": {
++            "parent_execution_sha256": canonical_json_sha256(v2_payload["execution"]),
++            "consumer_argv": {
++                consumer: {
++                    "argc": len(arguments),
++                    "sha256": argument_vector_sha256(arguments),
++                }
++                for consumer, arguments in argv.items()
++            },
++            "producer_order": ["baseline:v2", "probe:v3", "summarizer:v3"],
++        },
++    }
++    lock = _write(
++        root / "configs/EVALUATION_LOCK.v3.json",
++        (json.dumps(payload, sort_keys=True) + "\n").encode(),
++    )
++    provenance = {
++        "final_code": final_code,
++        "baseline_receipt": baseline_receipt,
++        "failed_progress": failed_progress,
++        **artifacts,
++    }
++    return lock, foundation, cnn, tabular, argv, provenance
++
++
+ def test_formal_evaluation_lock_binds_code_and_all_input_paths(tmp_path: Path) -> None:
+     lock, foundation, cnn, tabular = _synthetic_lock(tmp_path)
+     code_receipt = verify_evaluation_code_lock(experiment_root=tmp_path, lock_path=lock)
+@@ -422,3 +634,135 @@
+             artifacts={"outside": outside},
+             receipt_path=tmp_path / "metrics/outside.private.provenance.json",
+         )
++
++
++def test_schema_v3_mixed_lineage_accepts_historical_v2_and_active_probe(
++    tmp_path: Path,
++) -> None:
++    lock, foundation, cnn, tabular, argv, provenance = _synthetic_v3_chain(tmp_path)
++    code = verify_evaluation_code_lock(
++        experiment_root=tmp_path,
++        lock_path=lock,
++        expected_consumer="summarizer",
++        command_argv=argv["summarizer"],
++    )
++    assert code["schema_version"] == 3
++    assert code["lock_generation"] == "probe_retry_v3"
++    assert code["argument_count"] == 0
++    formal = verify_formal_evaluation_lock(
++        experiment_root=tmp_path,
++        lock_path=lock,
++        foundation_features=foundation,
++        current_cnn_features=cnn,
++        fold_manifest=tabular[0],
++        clinical_labels=tabular[1],
++        radiomics=tabular[2],
++        expected_consumer="probe",
++        command_argv=argv["probe"],
++    )
++    assert formal["foundation_models"] == (
++        "medicalnet_resnet50_3dseg8",
++        "dino_vitb16_imagenet1k",
++    )
++    historical = verify_historical_metric_free_run_provenance(
++        experiment_root=tmp_path,
++        active_lock_path=lock,
++        producer_key="baseline_v2",
++        expected_artifacts={
++            role: provenance[role]
++            for role in ("predictions", "selection", "metrics", "progress")
++        },
++    )
++    assert historical["lock_generation"] == "whole_evaluation_v2"
++    assert historical["artifact_count"] == 4
++    assert historical["receipt_sha256"] == file_sha256(
++        provenance["baseline_receipt"]
++    )
++
++    probe_artifact = _write(tmp_path / "metrics/probe.csv", b"probe bytes\n")
++    probe_receipt = tmp_path / "metrics/probe_v3.private.provenance.json"
++    written = write_metric_free_run_provenance(
++        experiment_root=tmp_path,
++        lock_path=lock,
++        expected_consumer="probe",
++        command_argv=argv["probe"],
++        artifacts={"probe_metrics": probe_artifact},
++        receipt_path=probe_receipt,
++    )
++    assert written["lock_sha256"] == file_sha256(lock)
++    verified = verify_metric_free_run_provenance(
++        experiment_root=tmp_path,
++        lock_path=lock,
++        receipt_path=probe_receipt,
++        expected_consumer="probe",
++        expected_artifacts={"probe_metrics": probe_artifact},
++    )
++    assert verified["artifact_count"] == 1
++
++
++def test_schema_v3_rejects_historical_drift_substitution_and_baseline_rerun(
++    tmp_path: Path,
++) -> None:
++    lock, foundation, cnn, tabular, argv, provenance = _synthetic_v3_chain(tmp_path)
++    with pytest.raises(ValueError, match="consumer must be probe"):
++        verify_formal_evaluation_lock(
++            experiment_root=tmp_path,
++            lock_path=lock,
++            foundation_features=foundation,
++            current_cnn_features=cnn,
++            fold_manifest=tabular[0],
++            clinical_labels=tabular[1],
++            radiomics=tabular[2],
++            expected_consumer="baseline",
++            command_argv=(),
++        )
++    outside = _write(tmp_path / "metrics/substitute.csv", b"substitute\n")
++    with pytest.raises(ValueError, match="path differs"):
++        verify_historical_metric_free_run_provenance(
++            experiment_root=tmp_path,
++            active_lock_path=lock,
++            producer_key="baseline_v2",
++            expected_artifacts={
++                **{
++                    role: provenance[role]
++                    for role in ("selection", "metrics", "progress")
++                },
++                "predictions": outside,
++            },
++        )
++    provenance["predictions"].write_bytes(b"historical drift")
++    with pytest.raises(ValueError, match="SHA-256 drifted"):
++        verify_evaluation_code_lock(
++            experiment_root=tmp_path,
++            lock_path=lock,
++            expected_consumer="summarizer",
++            command_argv=(),
++        )
++
++
++def test_schema_v3_rejects_false_probe_failure_claim_and_progress_drift(
++    tmp_path: Path,
++) -> None:
++    lock, _, _, _, argv, provenance = _synthetic_v3_chain(tmp_path)
++    payload = json.loads(lock.read_text(encoding="utf-8"))
++    payload["aborted_v2_attempts"][0]["formal_exception_claimed"] = True
++    lock.write_text(json.dumps(payload), encoding="utf-8")
++    with pytest.raises(ValueError, match="failed v2 probe provenance"):
++        verify_evaluation_code_lock(
++            experiment_root=tmp_path,
++            lock_path=lock,
++            expected_consumer="summarizer",
++            command_argv=argv["summarizer"],
++        )
++
++    lock, _, _, _, argv, provenance = _synthetic_v3_chain(tmp_path / "progress")
++    provenance["failed_progress"].write_bytes(
++        provenance["failed_progress"].read_bytes()[:-1] + b"z"
++    )
++    with pytest.raises(ValueError, match="SHA-256 drifted"):
++        verify_evaluation_code_lock(
++            experiment_root=tmp_path / "progress",
++            lock_path=lock,
++            expected_consumer="summarizer",
++            command_argv=argv["summarizer"],
++        )
+--- a/tests/test_models.py
++++ b/tests/test_models.py
+@@ -12,11 +12,25 @@
+     load_medicalnet_encoder,
+     model_audit,
+ )
++from foundation_mri.upstream import (  # noqa: E402
++    EXPECTED_STAGE_B_CONTRACTS_SHA256,
++    STAGE_B_SRC,
++    file_sha256,
++)
+ 
+ 
+ EXPERIMENT_ROOT = Path(__file__).resolve().parents[1]
+ 
+ 
++def test_stage_b_contracts_source_is_hash_gated() -> None:
++    assert EXPECTED_STAGE_B_CONTRACTS_SHA256 == (
++        "48d7738b6764780ba2e784f826be44ac718fdbb0beb526ec31c3c5525cba4bf9"
++    )
++    assert file_sha256(STAGE_B_SRC / "c1b_stage_b/contracts.py") == (
++        EXPECTED_STAGE_B_CONTRACTS_SHA256
++    )
++
++
+ def test_official_checkpoints_strictly_cover_backbones() -> None:
+     medicalnet = load_medicalnet_encoder(
+         EXPERIMENT_ROOT / "checkpoints" / "medicalnet" / "resnet_50.pth"
+@@ -51,4 +65,3 @@
+     assert dino_feature.shape == (2, DINO_EMBED_DIM)
+     assert torch.isfinite(medical_map).all()
+     assert torch.isfinite(dino_feature).all()
+-
+--- a/tests/test_reporting.py
++++ b/tests/test_reporting.py
+@@ -24,10 +24,14 @@
+     BOOTSTRAP_SEED,
+     ReportingInputs,
+     ReportingOutputs,
++    _build_reporting_marker,
++    _publish_no_overwrite_with_rollback,
++    _reliability_points,
+     _weighted_metric_distribution,
+     static_comparison_contract,
+     summarize_results,
+ )
++from foundation_mri.data import file_sha256  # noqa: E402
+ 
+ 
+ FOLD_HASH = "a" * 64
+@@ -292,6 +296,115 @@
+         )
+ 
+ 
++def test_public_reliability_curve_suppresses_bins_below_n10() -> None:
++    truth = np.asarray([0, 1] * 10, dtype=np.int64)
++    score = np.asarray([0.05] * 9 + [0.25] * 10 + [0.95], dtype=np.float64)
++    x, y = _reliability_points(truth, score)
++    assert np.array_equal(x, np.asarray([0.25]))
++    assert np.array_equal(y, np.asarray([np.mean(truth[9:19])]))
++
++
++def _synthetic_lineage() -> dict[str, object]:
++    baseline_artifacts = {
++        role: character * 64
++        for role, character in zip(
++            ("predictions", "selection", "metrics", "progress"),
++            "abcd",
++            strict=True,
++        )
++    }
++    probe_roles = (
++        "phenotype_predictions",
++        "phenotype_selection",
++        "phenotype_metrics",
++        "subtype_predictions",
++        "subtype_selection",
++        "subtype_metrics",
++        "ftv_predictions",
++        "ftv_selection",
++        "ftv_metrics",
++        "progress",
++    )
++    probe_artifacts = {
++        role: f"{index + 10:064x}" for index, role in enumerate(probe_roles)
++    }
++    return {
++        "baseline_v2": {
++            "protocol_version": "v2",
++            "evaluation_lock_sha256": "1" * 64,
++            "run_receipt_sha256": "2" * 64,
++            "argv_sha256": "3" * 64,
++            "artifact_sha256": baseline_artifacts,
++        },
++        "probe_v3": {
++            "protocol_version": "v3",
++            "evaluation_lock_sha256": "4" * 64,
++            "run_receipt_sha256": "5" * 64,
++            "argv_sha256": "6" * 64,
++            "artifact_sha256": probe_artifacts,
++        },
++        "summarizer": {
++            "protocol_version": "v3",
++            "argv_sha256": "7" * 64,
++            "code_lock_sha256": "8" * 64,
++            "finalization_lock_sha256": "9" * 64,
++        },
++    }
++
++
++def test_reporting_marker_schema_hashes_and_marker_last_rollback(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    staged = {}
++    for field in (
++        "paired_csv",
++        "summary_json",
++        "summary_markdown",
++        "timing_figure",
++        "calibration_figure",
++        "reporting_marker",
++    ):
++        path = tmp_path / "staged" / field
++        path.parent.mkdir(parents=True, exist_ok=True)
++        path.write_bytes((field + "\n").encode())
++        staged[field] = path
++    marker = _build_reporting_marker(_synthetic_lineage(), staged)
++    assert set(marker) == {
++        "schema_version",
++        "summary_schema_version",
++        "comparison_contract_canonical_sha256",
++        "baseline_v2",
++        "probe_v3",
++        "summarizer",
++        "public_artifact_sha256",
++    }
++    assert marker["public_artifact_sha256"]["paired_public"] == file_sha256(
++        staged["paired_csv"]
++    )
++
++    destinations = {
++        field: tmp_path / "published" / field for field in staged
++    }
++    original_link = __import__("os").link
++    calls: list[str] = []
++
++    def fail_on_marker(source: Path, destination: Path) -> None:
++        calls.append(Path(source).name)
++        if Path(source).name == "reporting_marker":
++            raise OSError("synthetic marker publish failure")
++        original_link(source, destination)
++
++    monkeypatch.setattr("foundation_mri.reporting.os.link", fail_on_marker)
++    with pytest.raises(OSError, match="synthetic marker publish failure"):
++        _publish_no_overwrite_with_rollback(
++            staged,
++            destinations,
++            marker_field="reporting_marker",
++        )
++    assert calls[-1] == "reporting_marker"
++    assert not any(path.exists() for path in destinations.values())
++
++
+ def test_end_to_end_reporting_is_deterministic_and_public(tmp_path: Path) -> None:
+     inputs = _synthetic_outputs(tmp_path / "inputs")
+     first = _outputs(tmp_path / "first")
+--- a/tests/test_scripts.py
++++ b/tests/test_scripts.py
+@@ -16,7 +16,7 @@
+ 
+ from foundation_mri.data import FOLDS, HR_HER2_SUBTYPES  # noqa: E402
+ from foundation_mri.evaluation import EvaluationResult  # noqa: E402
+-from foundation_mri.locking import file_sha256  # noqa: E402
++from foundation_mri.locking import argument_vector_sha256, file_sha256  # noqa: E402
+ 
+ 
+ def _load_probe_script():
+@@ -200,9 +200,17 @@
+     assert first["min_observed_n_iter"] == 7
+     assert first["all_candidate_n_iter_nonnegative"] is True
+     assert first["all_candidate_n_iter_strictly_less_than_max_iter"] is True
++    assert first["ridge_candidate_count"] == 2 * len(module.RIDGE_ALPHAS)
++    assert first["ridge_all_candidate_n_iter_nonnegative"] is True
++    assert first["ridge_all_candidate_n_iter_strictly_less_than_max_iter"] is True
++    assert all(
++        int(value) >= 1
++        for value in first["ridge_reserved_rows_clipped_by_axis"].values()
++    )
+     for payload in (first, second):
+         payload.pop("elapsed_seconds")
+         payload.pop("elapsed_seconds_by_axis")
++        payload.pop("ridge_elapsed_seconds_by_axis")
+     assert first == second
+     serialized = first_path.read_text(encoding="utf-8").lower()
+     assert not any(
+@@ -247,17 +255,26 @@
+ 
+ 
+ @pytest.mark.parametrize(
+-    ("script_name", "consumer", "extra_argv"),
++    ("script_name", "consumer", "lock_name", "extra_argv"),
+     (
+-        ("run_baselines", "baseline", ()),
+-        ("run_probes", "probe", ("--foundation-feature", "/does/not/open.npz")),
++        ("run_baselines", "baseline", "EVALUATION_LOCK.v2.json", ()),
++        (
++            "run_probes",
++            "probe",
++            "EVALUATION_LOCK.v3.json",
++            ("--foundation-feature", "/does/not/open.npz"),
++        ),
+     ),
+ )
+-def test_formal_evaluation_clis_gate_on_v2_before_any_outcome_loader(
+-    monkeypatch, script_name: str, consumer: str, extra_argv: tuple[str, ...]
++def test_formal_evaluation_clis_gate_before_any_outcome_loader(
++    monkeypatch,
++    script_name: str,
++    consumer: str,
++    lock_name: str,
++    extra_argv: tuple[str, ...],
+ ) -> None:
+     module = _load_script(script_name)
+-    assert module.DEFAULT_EVALUATION_LOCK.name == "EVALUATION_LOCK.v2.json"
++    assert module.DEFAULT_EVALUATION_LOCK.name == lock_name
+     observed: dict[str, object] = {}
+ 
+     def verify(**kwargs):
+@@ -279,20 +296,25 @@
+     assert tuple(observed["command_argv"]) == raw
+ 
+ 
+-def test_formal_summarizer_verifies_both_v2_receipts_before_reporting(monkeypatch) -> None:
++def test_formal_summarizer_verifies_mixed_lineage_before_reporting(monkeypatch) -> None:
+     module = _load_script("summarize_results")
+-    assert module.DEFAULT_EVALUATION_LOCK.name == "EVALUATION_LOCK.v2.json"
++    assert module.DEFAULT_EVALUATION_LOCK.name == "EVALUATION_LOCK.v3.json"
+     calls: list[str] = []
+     monkeypatch.setattr(
+         module,
+         "verify_evaluation_code_lock",
+-        lambda **kwargs: calls.append(str(kwargs["expected_consumer"])),
++        lambda **kwargs: calls.append(f"code:{kwargs['expected_consumer']}") or {},
++    )
++
++    monkeypatch.setattr(
++        module,
++        "verify_historical_metric_free_run_provenance",
++        lambda **kwargs: calls.append(f"historical:{kwargs['producer_key']}") or {},
+     )
+ 
+     def provenance(**kwargs):
+-        calls.append(str(kwargs["expected_consumer"]))
+-        if kwargs["expected_consumer"] == "probe":
+-            raise RuntimeError("PROVENANCE_SENTINEL")
++        calls.append(f"active:{kwargs['expected_consumer']}")
++        raise RuntimeError("PROVENANCE_SENTINEL")
+ 
+     monkeypatch.setattr(module, "verify_metric_free_run_provenance", provenance)
+     monkeypatch.setattr(
+@@ -300,7 +322,47 @@
+         "summarize_results",
+         lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("CSV read reached")),
+     )
+-    raw = ("--evaluation-lock", str(module.DEFAULT_EVALUATION_LOCK))
+     with pytest.raises(RuntimeError, match="PROVENANCE_SENTINEL"):
+-        module.main(raw)
+-    assert calls == ["summarizer", "baseline", "probe"]
++        module.main(())
++    assert calls == ["code:summarizer", "historical:baseline_v2", "active:probe"]
++
++
++def test_formal_summarizer_requires_exact_empty_argv(monkeypatch) -> None:
++    module = _load_script("summarize_results")
++    monkeypatch.setattr(
++        module,
++        "verify_evaluation_code_lock",
++        lambda **kwargs: (_ for _ in ()).throw(AssertionError("lock read reached")),
++    )
++    with pytest.raises(ValueError, match="exact empty argv"):
++        module.main(("--evaluation-lock", str(module.DEFAULT_EVALUATION_LOCK)))
++
++
++def test_v3_protocol_execution_and_metric_free_count_contracts_are_self_consistent() -> None:
++    protocol = json.loads(
++        (ROOT / "configs/evaluation_protocol_v3.json").read_text(encoding="utf-8")
++    )
++    execution = protocol["execution_contract"]
++    for consumer in ("probe_v3", "summarizer_v3"):
++        record = execution[consumer]
++        argv = tuple(record["argv"])
++        assert record["argument_count"] == len(argv)
++        assert record["argument_vector_sha256"] == argument_vector_sha256(argv)
++    counts = protocol["metric_free_monitoring_v3"]["expected_formal_probe_counts"]
++    assert counts == {
++        "source_count": 6,
++        "fold_started": 300,
++        "fold_selection_completed": 300,
++        "fold_completed": 300,
++        "candidate_started": 3300,
++        "candidate_completed": 3300,
++        "ovr_estimator_started": 2160,
++        "ovr_estimator_completed": 2160,
++        "binary_candidate_count": 1080,
++        "multiclass_candidate_count": 540,
++        "ridge_candidate_count": 1680,
++    }
++    assert (
++        protocol["v3_solver_contract"]["delta_ftv_bound_application"]
++        == "unbounded_fail_on_nonfinite"
++    )

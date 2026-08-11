@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_BEFORE_FORMAL_TEST_OUTCOMES",
+  "freeze_date": "2026-08-11",
+  "formal_test_outcomes_seen_at_freeze": false,
+  "seed": 2026,
+  "populations": {
+    "primary": {
+      "name": "full_808",
+      "n": 808,
+      "pcr_positive": 275,
+      "role": "all image-only, image-plus-clinical, phenotype, and current-CNN comparisons"
+    },
+    "radiomics_complete_case": {
+      "name": "radiomics_complete_case_375",
+      "n": 375,
+      "pcr_positive": 110,
+      "role": "paired FTV/radiomics and beyond-FTV sensitivity only",
+      "missingness_warning": "not interchangeable with the full-808 primary population"
+    }
+  },
+  "formal_image_sources": [
+    {
+      "name": "medicalnet_resnet50_3dseg8",
+      "kind": "foundation",
+      "spatial_axes": ["GLOBAL", "LOCAL"]
+    },
+    {
+      "name": "dino_vitb16_imagenet1k",
+      "kind": "foundation",
+      "spatial_axes": ["GLOBAL", "LOCAL"]
+    },
+    {
+      "name": "GAP0",
+      "kind": "current_cnn_no_ftv_supervision",
+      "spatial_axes": ["GLOBAL"]
+    },
+    {
+      "name": "LOCAL0",
+      "kind": "current_cnn_no_ftv_supervision",
+      "spatial_axes": ["LOCAL"]
+    }
+  ],
+  "decision_points": {
+    "T0": "z0",
+    "T0-T1": "concat(z0,z1,z1-z0)",
+    "T0-T2": "concat(z0,z1,z2,z1-z0,z2-z1,z2-z0)"
+  },
+  "binary_readout": {
+    "scaler": "outer-train-only StandardScaler",
+    "classifier": "class-balanced liblinear logistic regression",
+    "penalties": ["l1", "l2"],
+    "C_grid": [0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0, 3.0, 10.0],
+    "selection": "maximum validation AUROC, then validation AUPRC, then smaller C, then fixed l1-before-l2 order",
+    "threshold": "validation-only Youden J",
+    "outer_test": "constructed only after validation selection and passed through one guarded predict_proba call"
+  },
+  "continuous_readout": {
+    "regressor": "Ridge with outer-train-only X/Y scaling",
+    "alpha_grid": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0],
+    "selection": "minimum validation MSE, then smaller alpha",
+    "FTV_transform": "log1p",
+    "delta_FTV_transform": "identity"
+  },
+  "primary_metrics": [
+    "pooled_oof_AUROC",
+    "pooled_oof_AUPRC",
+    "pooled_oof_Brier",
+    "calibration_intercept",
+    "calibration_slope",
+    "ECE_10_equal_width"
+  ],
+  "secondary_metrics": {
+    "phenotype_binary": ["AUROC", "AUPRC", "Brier", "calibration", "ECE_10_equal_width"],
+    "subtype_multiclass": ["macro_OVR_AUROC", "macro_OVR_AUPRC", "multiclass_Brier", "top_label_ECE_10_equal_width"],
+    "FTV_and_delta_FTV": ["R2", "MAE", "RMSE", "Spearman"]
+  },
+  "required_pcr_designs": {
+    "full_808": [
+      "clinical_only",
+      "each_image_source_mri_only",
+      "each_image_source_mri_clinical"
+    ],
+    "radiomics_complete_case_375": [
+      "clinical_only_paired",
+      "ftv_only",
+      "radiomics_only",
+      "clinical_ftv",
+      "clinical_radiomics",
+      "each_image_source_mri_only_paired",
+      "each_image_source_mri_clinical_paired",
+      "each_image_source_mri_ftv",
+      "each_image_source_mri_clinical_ftv"
+    ]
+  },
+  "required_probes": {
+    "HR": "T0, full_808, every formal image source/spatial axis",
+    "HER2": "T0, full_808, every formal image source/spatial axis",
+    "HR_HER2_subtype": "T0 four-class multinomial, full_808, every formal image source/spatial axis",
+    "FTV": "T0/T1/T2/T3 static Ridge, complete_case_375",
+    "delta_FTV": "T0-T1/T1-T2/T2-T3 Ridge, complete_case_375"
+  },
+  "paired_comparisons": [
+    "each foundation LOCAL MRI-only versus LOCAL0 MRI-only at every decision point",
+    "each foundation GLOBAL MRI-only versus GAP0 MRI-only at every decision point",
+    "each foundation MRI-plus-clinical versus clinical-only at every decision point",
+    "each foundation LOCAL versus its own GLOBAL variant at every decision point",
+    "each foundation MRI-plus-clinical-plus-FTV versus clinical-plus-FTV on the same 375 patients",
+    "current CNN versus foundation for HR/HER2/subtype and FTV decodability"
+  ],
+  "uncertainty": {
+    "method": "paired patient-level nonparametric bootstrap of fixed OOF predictions",
+    "replicates": 5000,
+    "seed": 2026,
+    "interval": "2.5th and 97.5th percentiles",
+    "metrics": ["AUROC", "AUPRC", "Brier"],
+    "inference_scope": "descriptive; no test-driven model selection or multiplicity-adjusted confirmatory claim"
+  },
+  "reporting_policy": {
+    "report_all_formal_candidates": true,
+    "rank_or_filter_models_using_test": false,
+    "absolute_375_scores_may_be_compared_to_808_scores": false,
+    "underuse_interpretation": "based on all preregistered paired foundation-versus-current-CNN deltas, not a selected best candidate",
+    "beyond_FTV_interpretation": "requires paired clinical+FTV versus clinical+FTV+MRI deltas within the same 375 patients"
+  }
+}

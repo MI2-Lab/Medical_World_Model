@@ -1,0 +1,52 @@
+{
+  "expected_counts": {
+    "baseline_public_rows": 252,
+    "ftv_pooled": 42,
+    "ftv_public_rows": 84,
+    "paired_comparisons": 132,
+    "paired_metric_rows": 396,
+    "pcr_pooled_complete_case": 87,
+    "pcr_pooled_full": 39,
+    "pcr_pooled_total": 126,
+    "phenotype_pooled": 12,
+    "phenotype_public_rows": 24,
+    "subtype_pooled": 6,
+    "subtype_public_rows": 12
+  },
+  "fixed_public_paths": {
+    "baseline_public": "additional_experiments/foundation_mri_baselines/metrics/baseline_metrics.csv",
+    "calibration_figure": "additional_experiments/foundation_mri_baselines/figures/calibration_clinical_complementarity.png",
+    "contract_json": "additional_experiments/foundation_mri_baselines/configs/final_report_contract.json",
+    "current_cnn_provenance_audit": "additional_experiments/foundation_mri_baselines/reports/current_cnn_provenance_audit.md",
+    "finalization_lock": "additional_experiments/foundation_mri_baselines/configs/FINALIZATION_LOCK.v1.json",
+    "finalization_module": "additional_experiments/foundation_mri_baselines/src/foundation_mri/finalization.py",
+    "finalization_test": "additional_experiments/foundation_mri_baselines/tests/test_finalization.py",
+    "finalizer_cli": "additional_experiments/foundation_mri_baselines/scripts/finalize_report.py",
+    "foundation_model_selection": "additional_experiments/foundation_mri_baselines/reports/foundation_model_selection.md",
+    "ftv_public": "additional_experiments/foundation_mri_baselines/metrics/ftv_probe_metrics.csv",
+    "git_handoff_json": "additional_experiments/foundation_mri_baselines/reports/git_handoff.json",
+    "model_execution_ledger": "additional_experiments/foundation_mri_baselines/reports/model_execution_ledger.md",
+    "paired_public": "additional_experiments/foundation_mri_baselines/metrics/paired_bootstrap_comparisons.csv",
+    "phenotype_public": "additional_experiments/foundation_mri_baselines/metrics/phenotype_metrics.csv",
+    "reporting_run_provenance": "additional_experiments/foundation_mri_baselines/metrics/reporting_run_provenance.json",
+    "results_summary_markdown": "additional_experiments/foundation_mri_baselines/reports/results_summary.md",
+    "subtype_public": "additional_experiments/foundation_mri_baselines/metrics/subtype_metrics.csv",
+    "summary_json": "additional_experiments/foundation_mri_baselines/metrics/results_summary.json",
+    "template_markdown": "additional_experiments/foundation_mri_baselines/reports/final_report.template.md",
+    "timing_figure": "additional_experiments/foundation_mri_baselines/figures/pcr_timing_performance.png"
+  },
+  "formal_argv": [],
+  "formal_metric_values_unseen": true,
+  "git_handoff_schema_version": "foundation_mri_git_handoff_v1",
+  "locked_sha256": {
+    "contract_json": "79b07f5de2d6118ba02fc0aa8b0e1f51f8bfe8b7ced0833acb1fa75e4ccd590b",
+    "finalization_module": "4ce4c0109bbf5133d0ad109f3ab71f321a83c2cdbb46dfc0e70fffffd69770d3",
+    "finalization_test": "e76e82ff947df965b0fee5593ce9fc9ff7e4d4ba422f133af81d92511849b085",
+    "finalizer_cli": "4f9d8bd0c5f1689c754f5c42a96a15b88a3ae7b7803229c18c32d39641a72293",
+    "template_markdown": "3ce8006aee4e3ead4e91cbe9663faf39d0937a29f8a5b0af51ea132d0d49ef0c"
+  },
+  "parent_evaluation_lock_sha256": "b15f7023b7021f5c1169b51cf6bc8fe0cc1d9085102a61fbdb1d68589fe2edc5",
+  "reporting_provenance_schema_version": "foundation_mri_reporting_run_provenance_v1",
+  "schema_version": "foundation_mri_finalization_lock_v1",
+  "summary_schema_version": "foundation_mri_results_summary_v1"
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "receipt_kind": "foundation_mri_reporting_v1_numeric_consistency_smoke",
+  "status": "PASS",
+  "formal_csv_or_outcome_loader_used": false,
+  "formal_files_opened": [],
+  "binary_irls_rtol": 1e-08,
+  "binary_irls_atol": 1e-09,
+  "strict_numeric_rtol": 1e-10,
+  "strict_numeric_atol": 1e-12,
+  "checks": {
+    "disclosed_binary_irls_roundoff_accepted": true,
+    "outside_derived_boundary_rejected": true,
+    "core_metric_strict_rejected": true,
+    "ftv_same_named_calibration_strict_rejected": true,
+    "nan_rule_unchanged": true,
+    "unsupported_relaxed_column_rejected": true,
+    "nonbinary_relaxation_callsite_rejected": true
+  },
+  "code_sha256": {
+    "src/foundation_mri/reporting.py": "e24e1cb284a5c03af32db91447cc833117e65c10343406836ba63059a602b38e",
+    "tests/test_reporting.py": "446f0946de175dbafaea4b5244d2810a7ce213b285b2fa90f2d1cab23b2bb1b4",
+    "configs/reporting_retry_protocol_v1.json": "47ebd3ef448aebc42be270ec7333f1e35c1d4d68d23fcaa0ae8904e07a5879af"
+  }
+}

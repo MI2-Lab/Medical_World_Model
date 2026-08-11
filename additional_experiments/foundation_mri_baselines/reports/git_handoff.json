@@ -1,0 +1,31 @@
+{
+  "artifact_sha256": {
+    "additional_experiments/foundation_mri_baselines/configs/FINALIZATION_LOCK.v1.json": "30c0c0e6ce7d92fb6164368addf467e2142e5159fb95240f4c030ddb986c4e7b",
+    "additional_experiments/foundation_mri_baselines/configs/final_report_contract.json": "79b07f5de2d6118ba02fc0aa8b0e1f51f8bfe8b7ced0833acb1fa75e4ccd590b",
+    "additional_experiments/foundation_mri_baselines/figures/calibration_clinical_complementarity.png": "31c3e7ea14ba00a6ed862049fdb48b3115c50be7da192eb91036d8a1a70648b5",
+    "additional_experiments/foundation_mri_baselines/figures/pcr_timing_performance.png": "0c0accec1b7a9fda27a59cfedb57870346afa456384f8a6c8357b52a62192df0",
+    "additional_experiments/foundation_mri_baselines/metrics/baseline_metrics.csv": "9ba743cfb6515784bd06d1384c1fe3bcad1d2d9873e00ba438bed1e31b71f52e",
+    "additional_experiments/foundation_mri_baselines/metrics/ftv_probe_metrics.csv": "0341cffefe45e5e393ff9dcad147c5839331bf32608cd8ade3b2ca49d4bb76a8",
+    "additional_experiments/foundation_mri_baselines/metrics/paired_bootstrap_comparisons.csv": "76a55e828c024513d5fcbe5ed9db4e2c3768d1d5657fe71cea13be316c08c363",
+    "additional_experiments/foundation_mri_baselines/metrics/phenotype_metrics.csv": "042258b147c6076083846aad80c9df71c0e1236b51573410b4025505cd5c93f0",
+    "additional_experiments/foundation_mri_baselines/metrics/reporting_run_provenance.json": "ea917e3adfb8391fc396d463eb6aa1ed1bd73e0f7182fe0ebcb0a301c487e325",
+    "additional_experiments/foundation_mri_baselines/metrics/results_summary.json": "bec3af0bd2b73695f5933cce25fb17b8dd2c72589be3784196e5e5f9605575b8",
+    "additional_experiments/foundation_mri_baselines/metrics/subtype_metrics.csv": "c05256803c629122625078d4f1c9f7eed0974554fcf86720e4d2e17f24162279",
+    "additional_experiments/foundation_mri_baselines/reports/current_cnn_provenance_audit.md": "fc091467cb0254963b04f84be80653afddcecdfd83ee366b994d646b9e3da9ad",
+    "additional_experiments/foundation_mri_baselines/reports/final_report.template.md": "3ce8006aee4e3ead4e91cbe9663faf39d0937a29f8a5b0af51ea132d0d49ef0c",
+    "additional_experiments/foundation_mri_baselines/reports/foundation_model_selection.md": "77fe49a82aadcc988a5a937e2190df8774f5992ec85bd68a9a7c1d113bd58d08",
+    "additional_experiments/foundation_mri_baselines/reports/model_execution_ledger.md": "302d4dd8426d18f7d3f0fbe309bcc8854484c81360a391e9695279388e78523e",
+    "additional_experiments/foundation_mri_baselines/reports/results_summary.md": "646d21d815bef09695230a0a4ae6dd153604c810b6f23abbe0fbd69ba294697d",
+    "additional_experiments/foundation_mri_baselines/scripts/finalize_report.py": "4f9d8bd0c5f1689c754f5c42a96a15b88a3ae7b7803229c18c32d39641a72293",
+    "additional_experiments/foundation_mri_baselines/src/foundation_mri/finalization.py": "4ce4c0109bbf5133d0ad109f3ab71f321a83c2cdbb46dfc0e70fffffd69770d3",
+    "additional_experiments/foundation_mri_baselines/tests/test_finalization.py": "e76e82ff947df965b0fee5593ce9fc9ff7e4d4ba422f133af81d92511849b085"
+  },
+  "branch": "feature/foundation-mri-baselines",
+  "content_commit_sha": "42c5a882479d0852a88e3e960f94322dc1dc7fdc",
+  "remote": "origin",
+  "remote_ref": "refs/heads/feature/foundation-mri-baselines",
+  "sanitized_push_error": null,
+  "schema_version": "foundation_mri_git_handoff_v1",
+  "substantive_push_status": "SUBSTANTIVE_PUSH_OK",
+  "substantive_remote_ref_sha": "42c5a882479d0852a88e3e960f94322dc1dc7fdc"
+}

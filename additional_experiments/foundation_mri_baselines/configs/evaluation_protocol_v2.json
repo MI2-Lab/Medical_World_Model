@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "protocol_id": "foundation_mri_whole_evaluation_v2",
+  "amendment_scope": "outcome_blind_computational_reliability_only",
+  "parent_evaluation_lock_sha256": "45969bee8a0cd40466b6538f80b2b6fc35dd4bbf6abba7f021144e9c8489f272",
+  "v1_incident": {
+    "baseline": {
+      "termination": "predeclared_150_minute_boundary_SIGTERM",
+      "exit_code": 143,
+      "outputs_written": false,
+      "metric_or_prediction_values_viewed": false
+    },
+    "probe": {
+      "termination": "computational_abort_after_SAGA_max_iter_warnings_SIGTERM",
+      "exit_code": 143,
+      "outputs_written": false,
+      "metric_or_prediction_values_viewed": false
+    }
+  },
+  "unchanged_scientific_contract": {
+    "seed": 2026,
+    "folds": 5,
+    "decision_points": [
+      "T0",
+      "T0-T1",
+      "T0-T2"
+    ],
+    "binary_penalties": [
+      "l1",
+      "l2"
+    ],
+    "multiclass_penalties": [
+      "l1",
+      "l2"
+    ],
+    "C_grid": [
+      0.001,
+      0.003,
+      0.01,
+      0.03,
+      0.1,
+      0.3,
+      1.0,
+      3.0,
+      10.0
+    ],
+    "binary_solver": "liblinear",
+    "multiclass_solver": "explicit_four_class_one_vs_rest_liblinear",
+    "class_weight": "balanced",
+    "standard_scaler_fit": "outer_train_only",
+    "selection": "validation_only",
+    "outer_test_predictions": "single_use",
+    "implicit_PCA": false
+  },
+  "v2_solver_contract": {
+    "max_iter": 20000,
+    "binary_tol": 1e-07,
+    "multiclass_subtype_tol": 0.0001,
+    "multiclass_probability": "four_binary_sigmoid_probabilities_row_normalized_to_simplex",
+    "convergence_gate": "every_liblinear_estimator_requires_integer_0_le_n_iter_lt_max_iter_and_no_ConvergenceWarning_before_validation_prediction",
+    "liblinear_zero_iteration_semantics": "n_iter_zero_is_a_valid_initial_all_zero_optimum_if_parameters_are_finite_and_no_ConvergenceWarning_was_emitted",
+    "selection_workers": 1,
+    "blas_openmp_threads": 1
+  },
+  "prelock_solver_smoke_incident": {
+    "solver": "multinomial_saga",
+    "operational_boundary_seconds": 1800,
+    "observed_elapsed_at_SIGTERM_seconds": 1819,
+    "exit_code": 143,
+    "pass_receipt_written": false,
+    "clinical_fold_or_radiomics_loaded": false,
+    "metric_or_prediction_values_written_or_viewed": false,
+    "outcome_blind_decision": "replace_only_subtype_solver_with_explicit_four_class_one_vs_rest_liblinear"
+  },
+  "metric_free_monitoring": {
+    "baseline_progress_log": "logs/baseline_v2.progress.private.jsonl",
+    "probe_progress_log": "logs/probe_v2.progress.private.jsonl",
+    "baseline_completion_receipt": "metrics/baseline_v2_run.private.provenance.json",
+    "probe_completion_receipt": "metrics/probe_v2_run.private.provenance.json",
+    "forbidden_progress_fields": [
+      "patient_id",
+      "target",
+      "y_true",
+      "y_pred",
+      "probability",
+      "score",
+      "metric",
+      "auroc",
+      "auprc",
+      "brier",
+      "calibration"
+    ]
+  },
+  "medicalnet_synthetic_smoke": {
+    "feature_sha256": "ca45a46bd62e18e42b6d3f2426ce4690a4f3dbf7c2f44804ab0d19bd333ee4a2",
+    "model": "medicalnet_resnet50_3dseg8",
+    "shape": [
+      808,
+      4,
+      2,
+      14336
+    ],
+    "spatial_axes": [
+      "GLOBAL",
+      "LOCAL"
+    ],
+    "decision_point": "T0",
+    "labels": "seed2026_balanced_four_class_numpy_permutation",
+    "split": "row_index_mod5_fold0_reserved0_val1_train234",
+    "formal_manifest_read": false,
+    "clinical_outcomes_read": false,
+    "radiomics_read": false,
+    "full_grid_candidate_count": 36,
+    "full_grid_underlying_estimator_fit_count": 144,
+    "determinism_sentinel": "repeat_OVR_liblinear_l2_C0.1_per_spatial_and_match_all_n_iter_coef_intercept_sha256",
+    "receipt": "reports/probe_v2_medicalnet_synthetic_smoke.json"
+  }
+}

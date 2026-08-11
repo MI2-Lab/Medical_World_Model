@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "lock_kind": "model_selection_and_label_blind_input_extraction",
+  "locked_at": "2026-08-11",
+  "locked_before_formal_test_evaluation": true,
+  "formal_test_outcomes_seen": false,
+  "git_branch": "feature/foundation-mri-baselines",
+  "base_commit": "78ba693ad34dbb2b5a28f0476185966714bb63c5",
+  "formal_models": [
+    "medicalnet_resnet50_3dseg8",
+    "dino_vitb16_imagenet1k"
+  ],
+  "checkpoint_sha256": {
+    "medicalnet_resnet50_3dseg8": "5b6189cafbee2f5604a7279b62bc163365aa6a86a377e1dc260a14275cacbd84",
+    "dino_vitb16_imagenet1k": "bf34ad0f424b9029b593e8dc3ed553bf26e88bcba0d32bf3e62a6209cb64c85e"
+  },
+  "files": {
+    "EXPERIMENT_PLAN.md": "70270da091a222688e91d2c4f04a852520135a13a7236242884259e789fc7479",
+    "configs/formal.json": "79774a33fdd73e07318fe7d4c6aa068b5a0f2052564b50546ff4a57aff6d555e",
+    "configs/information_timing_contract.csv": "9dd1fa6c414f1433076048d244f7eb1c898076a209a47e408788d0a009475580",
+    "reports/foundation_model_selection.md": "77fe49a82aadcc988a5a937e2190df8774f5992ec85bd68a9a7c1d113bd58d08",
+    "scripts/extract_features.py": "75b38436962a3c49a1b43e3f4e8662103b9861e4daa9d2c7a437724d631b30b8",
+    "src/foundation_mri/extraction.py": "c3f269e717506faa9892862398af723eb4a6157e26e50bade9a9dac69cfe9157",
+    "src/foundation_mri/models.py": "95948d1726ac03bfb5c777ab1a94cfa11f36ea807c1a73d5b481428da5352cb2",
+    "src/foundation_mri/provenance.py": "993fede4734bae119f3d2a95b296773f3128a047dea9a6bf6585864fd420ffd6",
+    "src/foundation_mri/spatial.py": "e94ff64625c234c40945b1e762af0ff5bf7070267944ec5a712ce8b899371a50",
+    "src/foundation_mri/upstream.py": "659aa958de90ae3ba91084a98e55f54cd1415d33df6da2226c01e959c5b3ac6e"
+  },
+  "ordered_sha256sum_manifest_sha256": "085facd40abc0ccac11cec776d67a9b73609eb9661f0cd147f75beed7f4314db",
+  "prelock_gates": {
+    "strict_checkpoint_load": "PASS",
+    "synthetic_shape_and_finite_tests": "5 passed",
+    "one_patient_label_blind_smoke": "PASS for both models",
+    "private_artifact_mode": "PASS (600 files, 700 directories)"
+  }
+}

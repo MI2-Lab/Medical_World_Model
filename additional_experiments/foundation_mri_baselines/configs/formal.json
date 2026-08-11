@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_BEFORE_FORMAL_TEST_EVALUATION",
+  "freeze_date": "2026-08-11",
+  "seed": 2026,
+  "population": {
+    "primary_patient_count": 808,
+    "primary_pcr_positive": 275,
+    "complete_case_patient_count": 375,
+    "complete_case_pcr_positive": 110,
+    "complete_case_role": "paired_radiomics_ftv_sensitivity_only"
+  },
+  "data": {
+    "fold_manifest": "/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+    "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+    "c1b_cache_manifest": "../c1b_overlap_eligibility_ftv_stageb/manifests/stage_b_c1b_cache.private.csv",
+    "c1b_cache_manifest_sha256": "672ad7436b19f30a89640a2b36504f1e7fbaaff83fd07bc058c008b204d2a3c9",
+    "clinical": "/data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv",
+    "clinical_sha256": "b3355f8ac80cf8f0fa95722b8d8a8b73d96790e9ded5c491ddb5b2e6a7793436",
+    "radiomics_wide_upstream_only": {
+      "path": "/data/data/Preprocessed/I-SPY2/mri_nact_features_complete4visits_wide.csv",
+      "sha256": "571b466595e7ae4f204585abb4e5f4d7838a89d161292ba3549afafc16f47c0c",
+      "role": "upstream_only_not_a_formal_evaluation_input"
+    },
+    "radiomics_transition_formal_input": {
+      "path": "../radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv",
+      "sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d",
+      "role": "sole_formal_radiomics_ftv_input"
+    }
+  },
+  "models": {
+    "formal": [
+      "medicalnet_resnet50_3dseg8",
+      "dino_vitb16_imagenet1k"
+    ],
+    "medicalnet_resnet50_3dseg8": {
+      "checkpoint": "checkpoints/medicalnet/resnet_50.pth",
+      "checkpoint_sha256": "5b6189cafbee2f5604a7279b62bc163365aa6a86a377e1dc260a14275cacbd84",
+      "source_revision": "Tencent/MedicalNet@2d880ef30f86d573b21adbaa7661161701382c2d",
+      "parameter_count": 46155072,
+      "representation_dim": 14336,
+      "adapter": "seven single-channel native-grid passes through one shared frozen encoder; pool each layer4 map; concatenate in DCE7 order"
+    },
+    "dino_vitb16_imagenet1k": {
+      "checkpoint": "checkpoints/dino/dino_vitbase16_pretrain.pth",
+      "checkpoint_sha256": "bf34ad0f424b9029b593e8dc3ed553bf26e88bcba0d32bf3e62a6209cb64c85e",
+      "source_revision": "facebookresearch/dino@7c446df5b9f45747937fb0d72314eb9f7b66930a",
+      "parameter_count": 85798656,
+      "representation_dim": 1536,
+      "adapter": "early/late/late-minus-pre axial images; native DINO CLS concatenated with mean patch tokens; mean over 32 slices"
+    }
+  },
+  "extraction": {
+    "precision": "bf16",
+    "visits": ["T0", "T1", "T2", "T3"],
+    "spatial_axes": ["GLOBAL", "LOCAL"],
+    "local_cube_mm_xyz": [64.0, 64.0, 64.0],
+    "local_uses_lesion_mask": false,
+    "local_inherits_frozen_t0_localisation_prior": true,
+    "dino_dce_channel_indices": [1, 2, 4],
+    "dino_dce_channels": ["early", "late", "late_minus_pre"],
+    "dino_value_mapping": "clip interpolated C1B values to [-5,5], affine to [0,1], ImageNet mean/std",
+    "dino_global_geometry": "32 uniform full-FOV axial samples; symmetric square pad; explicit bicubic resize to 224",
+    "dino_local_geometry": "exact central 64-mm cube sampled to 32x72x72; explicit bicubic resize to 224",
+    "medicalnet_geometry": "native C1B 112x176x160; layer4 14x22x20; audited fixed 64-mm sampling-cell overlap weights"
+  },
+  "evaluation": {
+    "primary_decision_points": ["T0", "T0-T1", "T0-T2"],
+    "feature_schemas": {
+      "T0": "z0",
+      "T0-T1": "concat(z0,z1,z1-z0)",
+      "T0-T2": "concat(z0,z1,z2,z1-z0,z2-z1,z2-z0)"
+    },
+    "outer_folds": 5,
+    "scaler": "outer-train-only StandardScaler",
+    "classifier": "class-balanced liblinear logistic regression",
+    "penalties": ["l1", "l2"],
+    "C_grid": [0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0, 3.0, 10.0],
+    "selection": "validation AUROC, then validation AUPRC, then simpler deterministic tie rule",
+    "threshold": "validation-only Youden J",
+    "test_policy": "construct after selection lock; one predict_proba call per fold/task/model/timing",
+    "primary_metrics": ["AUROC", "AUPRC", "Brier"],
+    "calibration": ["calibration_intercept", "calibration_slope", "ECE_10_equal_width"],
+    "primary_estimand": "pooled out-of-fold predictions over the same 808 patients",
+    "uncertainty": "patient-level deterministic bootstrap where reported"
+  },
+  "clinical": {
+    "features": ["HR", "HER2", "MammaPrint", "age", "exact_treatment_arm"],
+    "age_imputation": "outer-train mean",
+    "age_scaling": "outer-train only",
+    "categorical_levels": "outer-train fit with fail-closed known full support"
+  },
+  "secondary": {
+    "light_finetuning": false,
+    "reason": "not part of the representation-quality primary; only reconsider after all frozen paired analyses",
+    "T0-T3": false,
+    "reason_T0-T3": "not needed for the preregistered early-prediction primary"
+  }
+}

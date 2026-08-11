@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "protocol_id": "foundation_mri_reporting_retry_v1",
+  "amendment_scope": "reporting_only_binary_irls_recomputation_identity_tolerance",
+  "parent_evaluation_lock": {
+    "path": "configs/EVALUATION_LOCK.v3.json",
+    "sha256": "8e8c4a5488fc862e1c73ac643495216bcc6eb015b767d7be39150894c8265104"
+  },
+  "finalization_lock": {
+    "path": "configs/FINALIZATION_LOCK.v1.json",
+    "sha256": "30c0c0e6ce7d92fb6164368addf467e2142e5159fb95240f4c030ddb986c4e7b",
+    "changed": false
+  },
+  "visibility": {
+    "calibration_intercept_values_seen": true,
+    "observed_identity": {
+      "source": "baseline_v2_public_vs_serialized_private_recompute",
+      "target": "pCR",
+      "model": "dino_vitb16_imagenet1k_mri_clinical_ftv",
+      "spatial": "GLOBAL",
+      "timing": "T0-T2",
+      "analysis_population": "radiomics_complete_case_375",
+      "aggregation": "outer_fold_macro",
+      "affected_cell_count": 1,
+      "column": "calibration_intercept",
+      "public_value": "-0.2992681677870132",
+      "recomputed_value": "-0.29926816783893295",
+      "absolute_difference": "5.191974628004914e-11"
+    },
+    "auroc_auprc_brier_ece_prediction_or_selection_performance_values_seen": false,
+    "revision_used_model_direction_or_performance": false
+  },
+  "failed_summarizer_attempt": {
+    "consumer": "summarizer",
+    "producer_lock_sha256": "8e8c4a5488fc862e1c73ac643495216bcc6eb015b767d7be39150894c8265104",
+    "argument_count": 0,
+    "argument_vector_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+    "exit_code": 1,
+    "expected_public_output_count": 5,
+    "public_outputs_written_count": 0,
+    "reporting_marker_written": false,
+    "exception_type": "ValueError",
+    "exception_message": "baseline public aggregate drifted in numeric column calibration_intercept"
+  },
+  "numeric_identity_contract": {
+    "binary_irls_stopping_threshold": 1e-09,
+    "binary_irls_relaxed_columns": [
+      "calibration_slope",
+      "calibration_intercept"
+    ],
+    "binary_irls_relaxed_call_sites": [
+      "baseline",
+      "phenotype"
+    ],
+    "binary_irls_rtol": 1e-08,
+    "binary_irls_atol": 1e-09,
+    "derivation": "one-order relative safety margin around the locked 1e-9 IRLS step stopping threshold for recomputation from serialized OOF values plus linear-algebra variation",
+    "all_other_numeric_rtol": 1e-10,
+    "all_other_numeric_atol": 1e-12,
+    "subtype_all_numeric_strict": true,
+    "ftv_all_numeric_including_same_named_calibration_columns_strict": true,
+    "equal_nan_rule_unchanged": true,
+    "selection_or_model_fit_changed": false
+  },
+  "historical_probe_v3": {
+    "producer_lock_sha256": "8e8c4a5488fc862e1c73ac643495216bcc6eb015b767d7be39150894c8265104",
+    "receipt": {
+      "path": "metrics/probe_v3_run.private.provenance.json",
+      "sha256": "c7b515a099a5da6fb2a88e25cad92ddb6aaa45d2fb8b9a79e7357b4381955505",
+      "argument_count": 16,
+      "argument_vector_sha256": "0d1af3956391f7c58a48eaffae914c0af51b1eceffb5ba792624d2e04a4923ec",
+      "artifact_hash_method": "sha256_binary_stream_no_parse",
+      "metric_values_viewed": false
+    },
+    "artifact_sha256": {
+      "phenotype_predictions": "356705b0e3e21988579d0b1f30242741f57c3d6a42619a71b6da4928822aa877",
+      "phenotype_selection": "f5107a2c295b67a15652c3243a6bfc86539b9665e20686daa7f934b28e13ce85",
+      "phenotype_metrics": "042258b147c6076083846aad80c9df71c0e1236b51573410b4025505cd5c93f0",
+      "subtype_predictions": "f80b571dcf121729910e14290cb47d73ddd3e7f5b928f111d48ab8263a818010",
+      "subtype_selection": "4f949691bb6b3b64cda0fb10b7b2da613bc188fb419edd8ae7f5e357e29b916d",
+      "subtype_metrics": "c05256803c629122625078d4f1c9f7eed0974554fcf86720e4d2e17f24162279",
+      "ftv_predictions": "36b9b29d51cdde788cdf81193ce670906bf7231e08edc65e4f373c6e1f042f69",
+      "ftv_selection": "980dc29507f532d3088226f8b6fc7c3383e49bfde5365e0cc399294e49a7aaaf",
+      "ftv_metrics": "0341cffefe45e5e393ff9dcad147c5839331bf32608cd8ade3b2ca49d4bb76a8",
+      "progress": "07c21dea7e06ecf8805809ad5fe13cffa1608fdee0e191d50d63454468a078eb"
+    },
+    "audit_counts": {
+      "phenotype_prediction_rows": 9696,
+      "subtype_prediction_rows": 4848,
+      "ftv_prediction_rows": 15750,
+      "phenotype_selection_rows": 60,
+      "subtype_selection_rows": 30,
+      "ftv_selection_rows": 210,
+      "phenotype_public_rows": 24,
+      "subtype_public_rows": 12,
+      "ftv_public_rows": 84,
+      "progress_fold_completed": 300,
+      "progress_candidate_completed": 3300,
+      "progress_ovr_estimator_completed": 2160,
+      "max_binary_n_iter": 677,
+      "max_subtype_n_iter": 197,
+      "max_ridge_n_iter": 805,
+      "capped_candidate_count": 0
+    }
+  },
+  "formal_retry_contract": {
+    "active_lock": "configs/REPORTING_LOCK.v1.json",
+    "summarizer_argv": [],
+    "summarizer_argument_vector_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+    "verification_before_csv_parse": [
+      "active_reporting_code_lock",
+      "historical_baseline_v2_receipt_and_artifacts",
+      "historical_probe_v3_receipt_and_artifacts"
+    ],
+    "marker_summarizer_protocol_version": "v3",
+    "marker_protocol_version_interpretation": "immutable FINALIZATION_LOCK marker schema label; retry code identity is the active REPORTING_LOCK SHA",
+    "public_outputs_no_overwrite": true,
+    "marker_published_last": true,
+    "failure_rollback": true,
+    "formal_summarizer_run_permitted_before_lock": false,
+    "formal_probe_rerun": false
+  },
+  "synthetic_validation": {
+    "formal_csv_or_outcome_loader_used": false,
+    "required_cases": [
+      "disclosed_binary_IRLS_roundoff_identity_accepted",
+      "just_outside_derived_binary_IRLS_tolerance_rejected",
+      "core_binary_metric_remains_strict",
+      "FTV_same_named_calibration_column_remains_strict",
+      "NaN_equivalence_rule_unchanged"
+    ],
+    "receipt": "reports/reporting_v1_numeric_consistency_smoke.json"
+  }
+}
