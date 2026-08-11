@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "record_scope": "main experiment commit immediately preceding the provenance-only commit",
+  "branch": "feature/classical-dce-phenotype-complementarity",
+  "commit_sha": "01f2b3dad409347e31adf2dbae9082293fe86950",
+  "push_status": "PUSHED",
+  "push_error": "",
+  "remote": "origin",
+  "remote_url": "https://github.com/MI2-Lab/Medical_World_Model.git",
+  "remote_ref": "refs/heads/feature/classical-dce-phenotype-complementarity",
+  "verified_remote_sha": "01f2b3dad409347e31adf2dbae9082293fe86950",
+  "pushed_at": "2026-08-11T08:41:25-04:00"
+}

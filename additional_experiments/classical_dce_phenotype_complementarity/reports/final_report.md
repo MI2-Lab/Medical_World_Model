@@ -182,9 +182,9 @@ A 类结果支持在本 cohort 中传统 DCE 存在 FTV 外、对 pCR 有增量�
 
 | 字段 | 值 |
 | --- | --- |
-| branch | `PENDING` |
-| commit SHA | `PENDING` |
-| push status | `PENDING` |
-| push error | `PENDING` |
+| branch | `feature/classical-dce-phenotype-complementarity` |
+| commit SHA | `01f2b3dad409347e31adf2dbae9082293fe86950` |
+| push status | `PUSHED` |
+| push error | `NONE` |
 
 若 `reports/delivery_provenance.json` 尚不存在或字段缺失，上述值按要求显示 `PENDING`；报告生成器不会猜测 branch、SHA 或 push 状态。

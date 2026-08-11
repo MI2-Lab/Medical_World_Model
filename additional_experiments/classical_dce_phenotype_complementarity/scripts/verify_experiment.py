@@ -1456,7 +1456,16 @@ def _check_delivery(root: Path, allow_pending: bool) -> dict[str, Any]:
     if actual_branch != branch:
         raise VerificationFailure("recorded delivery branch differs from the checked-out branch")
     if actual_sha.lower() != sha.lower():
-        raise VerificationFailure("recorded delivery SHA differs from repository HEAD")
+        # A delivery record cannot contain the SHA of the commit that contains
+        # that same record.  The supported final layout is therefore a main
+        # experiment commit followed by one provenance-only commit.  Accept
+        # the recorded experiment SHA only when it is the direct parent of
+        # HEAD; older ancestors remain an error.
+        parent_sha = _run_git(repo, ("rev-parse", "HEAD^"))
+        if parent_sha.lower() != sha.lower():
+            raise VerificationFailure(
+                "recorded delivery SHA must be repository HEAD or its direct parent"
+            )
     return {
         "status": status,
         "branch": branch,

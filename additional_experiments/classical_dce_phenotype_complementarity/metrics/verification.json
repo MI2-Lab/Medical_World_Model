@@ -1,5 +1,5 @@
 {
-  "allow_pending_delivery": true,
+  "allow_pending_delivery": false,
   "checks": [
     {
       "details": {
@@ -220,7 +220,7 @@
     },
     {
       "details": {
-        "aggregate_text_files_scanned": 32,
+        "aggregate_text_files_scanned": 33,
         "private_files_checked": 7,
         "six_digit_ids_found": 0
       },
@@ -238,8 +238,9 @@
     {
       "details": {
         "branch": "feature/classical-dce-phenotype-complementarity",
-        "reason": "pre-commit verification",
-        "status": "PENDING_ALLOWED"
+        "commit_sha": "01f2b3dad409347e31adf2dbae9082293fe86950",
+        "push_error_recorded": false,
+        "status": "PUSHED"
       },
       "name": "delivery",
       "status": "passed"

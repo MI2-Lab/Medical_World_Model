@@ -609,6 +609,16 @@ def test_post_delivery_requires_and_validates_branch_sha_push_status(tmp_path: P
     assert delivered["status"] == "passed"
     assert _status(delivered, "delivery") == "passed"
 
+    # A provenance file cannot self-reference the SHA of the commit that
+    # contains it.  The final two-commit layout records the immediately
+    # preceding experiment commit and must remain verifiable after the
+    # provenance-only commit is created.
+    _git(repo, "add", "additional_experiments/classical_dce_phenotype_complementarity")
+    _git(repo, "commit", "-q", "-m", "record delivery provenance")
+    committed_provenance = verify_experiment(root, allow_pending_delivery=False)
+    assert committed_provenance["status"] == "passed"
+    assert _status(committed_provenance, "delivery") == "passed"
+
 
 def test_failed_push_is_valid_only_when_real_error_is_recorded(tmp_path: Path) -> None:
     root, repo = _build_valid_tree(tmp_path)

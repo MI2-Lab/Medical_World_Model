@@ -648,11 +648,26 @@ def _delivery(path: Path) -> Mapping[str, str]:
                 return str(candidate)
         return "PENDING"
 
+    push_status = (
+        first("push_status", "status")
+        if not push
+        else str(push.get("status") or first("push_status", "status"))
+    )
+    raw_push_error = (
+        value.get("push_error", value.get("error"))
+        if not push
+        else push.get("error", value.get("push_error", value.get("error")))
+    )
+    push_error = str(raw_push_error) if raw_push_error not in (None, "") else (
+        "NONE"
+        if push_status.upper() in {"PUSHED", "SUCCESS", "PUSH_SUCCESS", "GITHUB_PUSH_SUCCESS"}
+        else "PENDING"
+    )
     return {
         "branch": first("branch", "git_branch"),
         "commit_sha": first("commit_sha", "sha", "commit", "git_commit"),
-        "push_status": first("push_status", "status") if not push else str(push.get("status") or first("push_status", "status")),
-        "push_error": first("push_error", "error") if not push else str(push.get("error") or first("push_error", "error")),
+        "push_status": push_status,
+        "push_error": push_error,
     }
 
 
