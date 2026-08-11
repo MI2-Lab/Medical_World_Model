@@ -89,6 +89,6 @@
 - Preregistration commit SHA：`7de344f0b7ac3393d07616e538fdcafd487944c3`
 - Active implementation-refrozen preregistration commit SHA：`7de344f0b7ac3393d07616e538fdcafd487944c3`
 - Preregistration base HEAD：`226003f31f876c314e7c1e31092a4bf816aa89e7`
-- Experiment commit SHA：`PENDING`
-- GitHub push status：`PENDING`
+- Experiment commit SHA：`ebe7fe6a851421226e97efd8e26b0455ea08cbed`
+- GitHub push status：`PUSHED`
 - 原始 MRI、patient-level feature/prediction 与 checkpoint 均未纳入版本控制；公开表不含 patient identifier。

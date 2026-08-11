@@ -1,7 +1,7 @@
 {
   "active_amended_preregistration_commit": "7de344f0b7ac3393d07616e538fdcafd487944c3",
   "contains_patient_level_data": false,
-  "experiment_commit": "PENDING",
+  "experiment_commit": "ebe7fe6a851421226e97efd8e26b0455ea08cbed",
   "implementation_erratum_2_sha256": "db9eeda0895f65caadd508c1ed0ab499862463f0e0fe287022001ab0a25a5e35",
   "implementation_erratum_3_sha256": "e4d9ebcf85f611e9fcd3cd9e8973f2b25acc4e8b837d5c9a47bfcb59c01b934b",
   "implementation_erratum_sha256": "ea49551e49a57bb7ddc52bc5ab841fab3cc9c3e1f1a9959d4f8a621d0dae9662",
@@ -43,8 +43,8 @@
   "prior_compatibility_refreeze_lock_sha256": "7d1b0dc1a789a83510e0e5e48b926ed744c152f009527aa0393f43601925575b",
   "prior_implementation_refreeze_commit": "01ecd8a4101a3a122bc58d148960f1e36f57720d",
   "prior_implementation_refreeze_lock_sha256": "6063df14db751d9ad2f25af57e48b99a3d2282571f75c4683a24deb5a2762ce5",
-  "push_status": "PENDING",
-  "report_sha256": "b7c8b37b32cad237f85688aa735f5be6562af3e8ddf518146348342442743ee1",
+  "push_status": "PUSHED",
+  "report_sha256": "8525d0833a98d0f83ba5b68d7855d9ebeb8717b08e1eef7ce795ff0d4e6b0956",
   "schema_version": 3,
   "scientific_classification": "PHENOTYPE SPATIALLY LOCALIZED",
   "status": "COMPLETE"

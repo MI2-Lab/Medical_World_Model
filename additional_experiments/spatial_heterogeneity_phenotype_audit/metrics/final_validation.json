@@ -1,0 +1,133 @@
+{
+  "base_head": "226003f31f876c314e7c1e31092a4bf816aa89e7",
+  "branch": "feature/spatial-heterogeneity-phenotype-audit",
+  "cache_contract_sha256": "35d0a62d0fcea9bde50e14558c59468b662c0c3379488d182c5a3aa36fcce238",
+  "changed_paths": [
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/EXPERIMENT_PLAN.md",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/PREREGISTRATION_IMPLEMENTATION_ERRATUM_3.json",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/PREREGISTRATION_LOCK.json",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/figures/01_pooling_schematic.png",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/figures/02_phenotype_auroc_by_pooling.png",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/figures/03_pcr_auroc.png",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/figures/04_beyond_ftv_delta.png",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/figures/05_mean_vs_std.png",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/figures/06_core_peritumoral_comparison.png",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/figures/07_longitudinal_heterogeneity.png",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/figures/08_representative_spatial_activation_statistics.png",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/cache_integrity_contract.json",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/figure_manifest.csv",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/gates.json",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/hyperparameter_selections.csv",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/oracle_region_contract.json",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/run_summary.json",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/stage_b_authorization.json",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/table1_pooling_contract.csv",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/table2_phenotype_probes.csv",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/table3_mri_only_pcr.csv",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/table4_clinical_ftv_incremental.csv",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/table5_residualized_mri.csv",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/table6_longitudinal_heterogeneity.csv",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/table7_oracle_regions.csv",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/table8_stage_b.csv",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/reports/final_report.md",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/reports/report_manifest.json",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/common.py",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/freeze_preregistration.py",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/generate_figures.py",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/generate_report.py",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/scripts/validate_results.py",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit/tests/test_delivery_contracts.py"
+  ],
+  "discarded_pre_erratum_2_artifact_count": 67,
+  "discarded_pre_erratum_2_artifact_total_bytes": 307938585,
+  "discarded_pre_erratum_2_record_set_sha256": "97768d153498c4fb953184ed6677e61ff4dc083f2f98362fafa360c896f39484",
+  "discarded_pre_erratum_3_artifact_count": 83,
+  "discarded_pre_erratum_3_artifact_total_bytes": 409345148,
+  "discarded_pre_erratum_3_record_set_sha256": "01b6f348c78f800b044bce5659fb8b029956299fa4e9585e75d6a940cadb1ace",
+  "discarded_pre_erratum_artifact_count": 65,
+  "discarded_pre_erratum_artifact_total_bytes": 307933315,
+  "feature_cell_count": 20,
+  "figures": {
+    "01_pooling_schematic.png": "88212d683c89b28d8803a177a25231f13a0db7934382f72f95cc73be1c4ac6bb",
+    "02_phenotype_auroc_by_pooling.png": "65349663ec2fc134730ac214a42dd824713fa2550bc9de9383ae835b0d3d016b",
+    "03_pcr_auroc.png": "d831b1cc889ab22773f1c5cb35220867a528f5ba907e45e4ea55fc7e8630cca0",
+    "04_beyond_ftv_delta.png": "f51100b356a849de4ead02419f82d77bb6ff50546183e614cc6fbc2a46015fe4",
+    "05_mean_vs_std.png": "1bca9fd277269f5db0fc8863975199b129b8e7f27d9a985b48627845dca90016",
+    "06_core_peritumoral_comparison.png": "cdc2db87f506e9272b84f91ec0f25844b5696f70d995a2ea3b142fdd9b0af816",
+    "07_longitudinal_heterogeneity.png": "29ac578e5a8726a6b8b8999f9f476b8bd98bfa7e738aca8528dc7e69a31648e8",
+    "08_representative_spatial_activation_statistics.png": "1287876709e5257ac62816ae6bf20bc93ad9e7743ce4982c83cb0beaccf7c814"
+  },
+  "implementation_erratum_2_sha256": "db9eeda0895f65caadd508c1ed0ab499862463f0e0fe287022001ab0a25a5e35",
+  "implementation_erratum_3_sha256": "e4d9ebcf85f611e9fcd3cd9e8973f2b25acc4e8b837d5c9a47bfcb59c01b934b",
+  "implementation_erratum_sha256": "ea49551e49a57bb7ddc52bc5ab841fab3cc9c3e1f1a9959d4f8a621d0dae9662",
+  "old_repository_paths_unchanged": true,
+  "oracle_contract_sha256": "7e2a8e121f4a708082c32690f97025dafb29145f936db6bda220d185c68140f3",
+  "patient_level_public_output": false,
+  "pre_erratum_2_run_state_verified": true,
+  "pre_erratum_3_gate_parser_difference_count": 26,
+  "pre_erratum_3_presentation_contract_gap_count": 4,
+  "pre_erratum_3_run_state_verified": true,
+  "pre_erratum_run_state_verified": true,
+  "preregistration_chain": {
+    "active_preregistration_commit": "7de344f0b7ac3393d07616e538fdcafd487944c3",
+    "active_preregistration_lock_sha256": "bf838056dcdf2286c6365468fec274137f482adb188ad82620cceadcae393a1a",
+    "original_preregistration_commit": "116b34f0eeec7485ead4d076517dcdfdf10960e8",
+    "original_preregistration_lock_sha256": "7ef5eb028d6dbc1e2c01d01cc86787d89a7156ffb9c6e7b5b61b9fe22591ca21",
+    "preregistration_amendment_sha256": "a8af41acc6d89bab956430fe35123a8520898d1443dfe1431b75905e13559690",
+    "preregistration_revision": 2
+  },
+  "prior_amended_preregistration_commit": "cdc7a57bf1ff373d97a97f51817ea83abe75d7e3",
+  "prior_amended_preregistration_lock_sha256": "12e3c046f108d601c99fd354745fc5620e3ab234a72f307a2b1529063b7be0c4",
+  "prior_compatibility_refreeze_commit": "226003f31f876c314e7c1e31092a4bf816aa89e7",
+  "prior_compatibility_refreeze_lock_sha256": "7d1b0dc1a789a83510e0e5e48b926ed744c152f009527aa0393f43601925575b",
+  "prior_implementation_refreeze_commit": "01ecd8a4101a3a122bc58d148960f1e36f57720d",
+  "prior_implementation_refreeze_lock_sha256": "6063df14db751d9ad2f25af57e48b99a3d2282571f75c4683a24deb5a2762ce5",
+  "privacy_scan": {
+    "maximum_allowed_bytes": 20971520,
+    "tracked_files_scanned": 59
+  },
+  "raw_mri_or_checkpoint_tracked": false,
+  "report_experiment_commit": "ebe7fe6a851421226e97efd8e26b0455ea08cbed",
+  "report_push_status": "PUSHED",
+  "report_sha256": "8525d0833a98d0f83ba5b68d7855d9ebeb8717b08e1eef7ce795ff0d4e6b0956",
+  "run_summary_artifact_count": 16,
+  "run_summary_sha256": "1c27542ee9760c90ff8d3a31d1eedb330421a796ae23acbeb3fcc1852d2d138d",
+  "schema_version": 3,
+  "scientific_classification": "PHENOTYPE SPATIALLY LOCALIZED",
+  "stage_b_authorized": true,
+  "status": "PASS",
+  "tables": {
+    "table1_pooling_contract.csv": {
+      "rows": 10,
+      "sha256": "8f5da02c1581f0bfe880cd5fc33211600e82a88a438c82714b57d7146c79cf76"
+    },
+    "table2_phenotype_probes.csv": {
+      "rows": 240,
+      "sha256": "6f304fa7f48ea90b2b7e5812e8290c126f8acaea1b84f56e58fcfa46f869ab74"
+    },
+    "table3_mri_only_pcr.csv": {
+      "rows": 160,
+      "sha256": "faa43062499eb4551445fb8484937580dbfa9a04edaead49078ebca0f201afe0"
+    },
+    "table4_clinical_ftv_incremental.csv": {
+      "rows": 80,
+      "sha256": "f2ada6b9b8cf29d37bd9e0cb520adb67a836e509fb95ecb7c0e94b8112290194"
+    },
+    "table5_residualized_mri.csv": {
+      "rows": 64,
+      "sha256": "ea2f78313b58e15f0b049febfbd3580608b98116eaf17a2f619dbde4c44f2e8b"
+    },
+    "table6_longitudinal_heterogeneity.csv": {
+      "rows": 72,
+      "sha256": "803acb081c5b22056089da0485d8b43cdb4367932cb51a4829ac77f8c5ec2ed1"
+    },
+    "table7_oracle_regions.csv": {
+      "rows": 640,
+      "sha256": "4c1286d97dc452adc05c7b42d2d901297114b99f333f72eaf2eb7f3771108a83"
+    },
+    "table8_stage_b.csv": {
+      "rows": 20,
+      "sha256": "147fe6ab2d822bd7a5b71791e072b8f125394fdf6aa9d71c56ee28983b09355a"
+    }
+  }
+}
