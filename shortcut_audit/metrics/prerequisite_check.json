@@ -1,12 +1,12 @@
 {
   "status": "blocked",
   "repository": {
-    "root": "/data/mi2-interns/bowen/Medical_World_Model",
+    "root": "<repo-root>",
     "branch": "feature/ispy-clean-corejepa",
     "expected_branch": "feature/ispy-clean-corejepa",
     "commit": "c413ec86af04795434bdc19e65bbb006c966f379"
   },
-  "config": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/configs/paper_v1.yaml",
+  "config": "<repo-root>/ispy_jepa_tmi_clean/configs/paper_v1.yaml",
   "records": {
     "total": 964,
     "ispy2_primary": 808,
@@ -22,87 +22,87 @@
   },
   "data": {
     "ispy2_root": {
-      "path": "/data/data/Preprocessed/I-SPY2",
+      "path": "<ISPY2_ROOT>",
       "exists": true,
       "kind": "directory"
     },
     "ispy2_labels": {
-      "path": "/data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv",
+      "path": "<ISPY2_ROOT>/clinical_labels_complete4visits.csv",
       "exists": true,
       "kind": "file",
       "size_bytes": 235414
     },
     "ispy1_root": {
-      "path": "/data/data/Preprocessed/I-SPY1",
+      "path": "<ISPY1_ROOT>",
       "exists": true,
       "kind": "directory"
     },
     "ispy1_labels": {
-      "path": "/data/data/Preprocessed/I-SPY1/clinical_labels_complete4visits.csv",
+      "path": "<ISPY1_ROOT>/clinical_labels_complete4visits.csv",
       "exists": true,
       "kind": "file",
       "size_bytes": 18138
     },
     "tensor_cache": {
-      "path": "/data/data/Preprocessed/I-SPY2/_corejepa_clean_dce8",
+      "path": "<ISPY2_ROOT>/_corejepa_clean_dce8",
       "exists": false,
       "kind": "missing"
     },
     "response_cache": {
-      "path": "/data/data/Preprocessed/I-SPY2/corejepa_response_features.npz",
+      "path": "<ISPY2_ROOT>/corejepa_response_features.npz",
       "exists": false,
       "kind": "missing"
     }
   },
-  "run_directory": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean",
+  "run_directory": "<repo-root>/ispy_jepa_tmi_clean/runs/corejepa_clean",
   "run_artifacts": {
     "config.yaml": {
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/config.yaml",
+      "path": "<repo-root>/ispy_jepa_tmi_clean/runs/corejepa_clean/config.yaml",
       "exists": false,
       "kind": "missing"
     },
     "best_corejepa.pt": {
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/best_corejepa.pt",
+      "path": "<repo-root>/ispy_jepa_tmi_clean/runs/corejepa_clean/best_corejepa.pt",
       "exists": false,
       "kind": "missing"
     },
     "last_corejepa.pt": {
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/last_corejepa.pt",
+      "path": "<repo-root>/ispy_jepa_tmi_clean/runs/corejepa_clean/last_corejepa.pt",
       "exists": false,
       "kind": "missing"
     },
     "history.csv": {
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/history.csv",
+      "path": "<repo-root>/ispy_jepa_tmi_clean/runs/corejepa_clean/history.csv",
       "exists": false,
       "kind": "missing"
     },
     "frozen_states.npz": {
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/frozen_states.npz",
+      "path": "<repo-root>/ispy_jepa_tmi_clean/runs/corejepa_clean/frozen_states.npz",
       "exists": false,
       "kind": "missing"
     },
     "splits.json": {
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/splits.json",
+      "path": "<repo-root>/ispy_jepa_tmi_clean/runs/corejepa_clean/splits.json",
       "exists": false,
       "kind": "missing"
     },
     "flr.pkl": {
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/flr.pkl",
+      "path": "<repo-root>/ispy_jepa_tmi_clean/runs/corejepa_clean/flr.pkl",
       "exists": false,
       "kind": "missing"
     },
     "flr_metrics.csv": {
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/flr_metrics.csv",
+      "path": "<repo-root>/ispy_jepa_tmi_clean/runs/corejepa_clean/flr_metrics.csv",
       "exists": false,
       "kind": "missing"
     },
     "flr_scores.csv": {
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/flr_scores.csv",
+      "path": "<repo-root>/ispy_jepa_tmi_clean/runs/corejepa_clean/flr_scores.csv",
       "exists": false,
       "kind": "missing"
     },
     "flr_summary.json": {
-      "path": "/data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean/runs/corejepa_clean/flr_summary.json",
+      "path": "<repo-root>/ispy_jepa_tmi_clean/runs/corejepa_clean/flr_summary.json",
       "exists": false,
       "kind": "missing"
     }

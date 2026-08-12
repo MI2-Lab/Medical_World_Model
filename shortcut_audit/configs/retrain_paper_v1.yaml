@@ -1,10 +1,11 @@
 data:
-  ispy2_root: /data/data/Preprocessed/I-SPY2
-  ispy2_labels: /data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv
-  ispy1_root: /data/data/Preprocessed/I-SPY1
-  ispy1_labels: /data/data/Preprocessed/I-SPY1/clinical_labels_complete4visits.csv
-  tensor_cache: /data/data/Preprocessed/I-SPY2/_mixed_ispy1_train_cache_dce8_adaptivephase_axiscanonv1_autoroi_t0fallback_minfrac05_z32_y96_x96
-  response_cache: /data/mi2-interns/bowen/Medical_World_Model/shortcut_audit/cache/corejepa_response_features.npz
+  # GitHub 发布版隐去本机根目录；运行前将尖括号占位符替换为本地路径。
+  ispy2_root: <ISPY2_ROOT>
+  ispy2_labels: <ISPY2_ROOT>/clinical_labels_complete4visits.csv
+  ispy1_root: <ISPY1_ROOT>
+  ispy1_labels: <ISPY1_ROOT>/clinical_labels_complete4visits.csv
+  tensor_cache: <ISPY2_ROOT>/_mixed_ispy1_train_cache_dce8_adaptivephase_axiscanonv1_autoroi_t0fallback_minfrac05_z32_y96_x96
+  response_cache: <repo-root>/shortcut_audit/cache/corejepa_response_features.npz
   breastdcedl_metadata_csv: ispy_jepa_tmi_clean/data_processing/metadata/BreastDCEDL_metadata_min_crop.csv
   crop_size: [32, 96, 96]
   phase_policy: adaptive_early_late
@@ -78,4 +79,3 @@ readout:
   c_grid: [0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 1.0, 3.0, 10.0]
   landmark_weights: [2.0, 1.0, 0.5]
   max_iter: 5000
-

@@ -3,7 +3,7 @@
 检查日期：2026-08-06  
 目标分支：`feature/ispy-clean-corejepa`  
 目标提交：`c413ec86af04795434bdc19e65bbb006c966f379`  
-仓库工作树：`/data/mi2-interns/bowen/Medical_World_Model`
+仓库工作树：`<repo-root>`
 
 > **后续状态更新（2026-08-06）**：项目方确认原五折资产无法提供，并明确授权参考
 > repo 当前模型设计自行重训练。原始资产缺失的事实和本报告检查结论保持不变；后续
@@ -27,7 +27,7 @@
 最初定位到的目标远程仓库为：
 
 ```text
-/data/mi2-interns/bowen/Cancer_World_Model/data_source
+<existing-data-processing-worktree>
 origin = https://github.com/MI2-Lab/Medical_World_Model.git
 ```
 
@@ -36,7 +36,7 @@ origin = https://github.com/MI2-Lab/Medical_World_Model.git
 ```bash
 git fetch origin feature/ispy-clean-corejepa
 git worktree add -b feature/ispy-clean-corejepa \
-  /data/mi2-interns/bowen/Medical_World_Model FETCH_HEAD
+  <new-worktree-path> FETCH_HEAD
 ```
 
 新工作树确认结果：
@@ -81,12 +81,12 @@ clean CoRe-JEPA 是 `ispy_jepa_tmi_clean/` 下的独立实现：
 
 | 资产 | 配置路径 | 状态 |
 |---|---|---|
-| I-SPY2 root | `/data/data/Preprocessed/I-SPY2` | 存在 |
-| I-SPY2 labels | `/data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv` | 存在 |
-| I-SPY1 root | `/data/data/Preprocessed/I-SPY1` | 存在 |
-| I-SPY1 labels | `/data/data/Preprocessed/I-SPY1/clinical_labels_complete4visits.csv` | 存在 |
-| clean DCE8 cache | `/data/data/Preprocessed/I-SPY2/_corejepa_clean_dce8` | **缺失** |
-| clean response cache | `/data/data/Preprocessed/I-SPY2/corejepa_response_features.npz` | **缺失** |
+| I-SPY2 root | `<ISPY2_ROOT>` | 存在 |
+| I-SPY2 labels | `<ISPY2_ROOT>/clinical_labels_complete4visits.csv` | 存在 |
+| I-SPY1 root | `<ISPY1_ROOT>` | 存在 |
+| I-SPY1 labels | `<ISPY1_ROOT>/clinical_labels_complete4visits.csv` | 存在 |
+| clean DCE8 cache | `<ISPY2_ROOT>/_corejepa_clean_dce8` | **缺失** |
+| clean response cache | `<ISPY2_ROOT>/corejepa_response_features.npz` | **缺失** |
 
 clean loader 实际得到：
 
@@ -143,7 +143,7 @@ test
 发现一份与 808 名 clean I-SPY2 患者及 label 完全一致的五折 manifest 副本：
 
 ```text
-/data/data/Preprocessed/I-SPY2/
+<ISPY2_ROOT>/
   _matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/
   matched_patient_cv_splits_seed2026.csv
 ```
@@ -168,7 +168,7 @@ SHA256: 143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38
 相邻 `summary.json` 声明它复制自：
 
 ```text
-/home/lin/Projects/Breast_Cancer/ispy2_jepa_world_model/
+<historical-run-root>/
   runs/core_jepa_5fold_cv_seed2026_20260717/
   patient_cv_splits_seed2026.csv
 ```
@@ -178,7 +178,7 @@ SHA256: 143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38
 另有 legacy seed-3072 manifest：
 
 ```text
-/data/mi2-interns/bowen/Cancer_World_Model/splits/ispy2_5fold_seed3072.csv
+<legacy-worktree>/splits/ispy2_5fold_seed3072.csv
 ```
 
 它同样覆盖 808 人，但其 held-out fold 只有 157/808 人与 seed-2026 候选一致，不能混用。legacy 计划文档还表明该五折是建议补充，并非当时主模型已完成的五折训练。
@@ -343,7 +343,7 @@ flr_scores.csv
 flr_summary.json
 ```
 
-实际为 0/10；该目录本身不存在。对 `/data` 和 `/home/bowen` 进行精确文件名搜索也没有找到任何 clean `best_corejepa.pt`、`frozen_states.npz`、`flr.pkl` 或 `flr_*` 产物。
+实际为 0/10；该目录本身不存在。对已挂载数据根目录和用户工作区进行精确文件名搜索，也没有找到任何 clean `best_corejepa.pt`、`frozen_states.npz`、`flr.pkl` 或 `flr_*` 产物。
 
 Cancer 开发树中存在大量 legacy checkpoint，包括 E30a `best_loss.ckpt`，但：
 
@@ -361,7 +361,7 @@ clean 仓库还没有给出 paper T0、T0–T1、T0–T2 的数值结果或 pred
 官方命令必须从 `ispy_jepa_tmi_clean/` 执行，因为 metadata 路径是相对路径：
 
 ```bash
-cd /data/mi2-interns/bowen/Medical_World_Model/ispy_jepa_tmi_clean
+cd <repo-root>/ispy_jepa_tmi_clean
 python scripts/build_tensor_cache.py --config configs/paper_v1.yaml
 python scripts/build_response_cache.py --config configs/paper_v1.yaml
 python scripts/pretrain.py --config configs/paper_v1.yaml
@@ -371,7 +371,7 @@ python scripts/fit_readout.py --config configs/paper_v1.yaml
 当前 base Python 缺少 PyTorch 和 pydicom；可用环境是：
 
 ```text
-/home/bowen/.conda/envs/bowen
+conda environment: bowen
 Python 3.11.14
 PyTorch 2.9.1+cu130
 CUDA available: true
@@ -400,7 +400,7 @@ forward/loss/backward: passed
 
 ### 10.2 真实患者 tensor/response cache smoke
 
-患者 `ACRIN-6698-102212`：
+一名真实 cache smoke 样本（研究 ID 不在发布包中公开）：
 
 ```text
 image:          [4,8,32,96,96] float32, finite

@@ -7,7 +7,7 @@ repository_commit: c413ec86af04795434bdc19e65bbb006c966f379
 base_config: shortcut_audit/configs/retrain_paper_v1.yaml
 
 folds:
-  manifest: /data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv
+  manifest: <ISPY2_ROOT>/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv
   sha256: 143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38
   expected_folds: [0, 1, 2, 3, 4]
   representation_training: independent_per_fold

@@ -24,6 +24,8 @@ follow-up swap 和 F1–F5 简化输入基线。完整的逐折与合并 OOF pre
 保留在本地 `predictions/`；为避免向 Git 提交患者级大表，GitHub 分支只发布
 去标识化汇总表、图、代码、测试和中文报告。结论包的 SHA manifest 位于
 `metrics/conclusion_artifacts_manifest.json`，完整报告见 `report/shortcut_audit_report.md`。
+公开版不保留研究样本 ID 或用户级本机路径；配置和 provenance 中的
+`<repo-root>`、`<ISPY1_ROOT>` 与 `<ISPY2_ROOT>` 是发布占位符，复现时需替换为本地路径。
 
 原始资产缺失的历史证据与实现差异见：
 
