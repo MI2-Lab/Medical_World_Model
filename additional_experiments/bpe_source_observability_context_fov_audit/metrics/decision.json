@@ -1,0 +1,134 @@
+{
+  "boundary_touch": null,
+  "bpe_values_used_for_selection_or_geometry": false,
+  "classification": "BPE_SOURCE_NOT_RELIABLY_AUDITABLE",
+  "classification_code": "D",
+  "clinical_treatment_fields_read": [],
+  "context_candidate": null,
+  "contralateral_breast_coverage": null,
+  "coverage": {
+    "F0_LOCAL": null,
+    "F1_FULL_C1B_H": null,
+    "F2_ACQUISITION": null
+  },
+  "decision_sha256": "6d44d5e83249f5286229bfc4d51096fa4bf31ee8e6c083a9abb0216ca49c23ce",
+  "delivery": {
+    "audit_commit_sha": "PENDING",
+    "branch": "feature/bpe-source-observability-context-fov-audit",
+    "push_status": "PENDING"
+  },
+  "experiment": "bpe_source_observability_context_fov_audit",
+  "f2_geometry_evidence": {
+    "extent_statistics_are_separate_marginals": true,
+    "raw_to_reconstructed_full_series_footprint_equivalence_recomputed": false,
+    "reconstructed_source_affine_available_visits": 1500,
+    "selected_raw_dicom_series_available_visits": 1500
+  },
+  "fov_gates": {
+    "F0_LOCAL": {
+      "reason": "SOURCE_ROI_NOT_AVAILABLE",
+      "status": "NOT_EVALUABLE"
+    },
+    "F1_FULL_C1B_H": {
+      "reason": "SOURCE_ROI_NOT_AVAILABLE",
+      "status": "NOT_EVALUABLE"
+    },
+    "F2_ACQUISITION": {
+      "reason": "SOURCE_ROI_NOT_AVAILABLE",
+      "status": "NOT_EVALUABLE"
+    }
+  },
+  "local_context_phenotype_representation_pilot_authorized": false,
+  "longitudinal_source_geometry": null,
+  "multiscale_context_recommended": false,
+  "next_action": "recover_authoritative_source_ROI_and_hash_bound_lesion_to_contralateral_mapping_then_rerun_same_geometry_gates",
+  "next_stage_input": "PAUSE_BPE",
+  "outcome_blind": true,
+  "outcome_fields_read": [],
+  "physical_margin": null,
+  "population": {
+    "bpe_complete_workbook_patients": 384,
+    "c1b_cache_available_patients": 375,
+    "matched_primary_patients": 375,
+    "matched_primary_visits": 1500,
+    "raw_dicom_selected_series_available": 1500,
+    "reconstructed_dce_available_visits": 1500,
+    "source_workbook_patients": 384,
+    "workbook_only_excluded_patients": 9
+  },
+  "prohibitions": [
+    "do_not_call_LOCAL_or_C1B_disjoint",
+    "do_not_call_representation_failure",
+    "do_not_infer_acquisition_completeness_from_image_support",
+    "do_not_create_proxy_FGT_ROI_and_label_it_as_source",
+    "do_not_design_BPE_architecture_from_current_run"
+  ],
+  "provenance": {
+    "configuration_sha256": "e1298dd1e460196e8a20c05e7e71d0bab6233854bd17b8180efe9309fa3e4f4e",
+    "experiment_branch": "feature/bpe-source-observability-context-fov-audit",
+    "goal6_source_commit_sha": "f49cf17237a95e9f8b99ad5f13c73f90e1a94a28",
+    "parent_branch": "feature/nonftv-phenotype-decodability-audit",
+    "parent_commit_sha": "745282e77bb051dc0f8d9d41779691dcf8b307ce",
+    "source_verification": {
+      "c1b_cache_inventory": {
+        "path_scope": "repository",
+        "sha256": "e4fa537a1878a748d21ceab54f7c453f8fbc5c9a03d40bc568a65d70ddd62b29",
+        "status": "VERIFIED"
+      },
+      "c1b_visit_inventory": {
+        "path_scope": "repository",
+        "sha256": "8fe0f4303245e44f027b36c175bb5f28a2cd3d027a32527ce066bc9b14f5823e",
+        "status": "VERIFIED"
+      },
+      "frozen_c1b_grids": {
+        "path_scope": "repository",
+        "sha256": "c864e9f49a7d0a7ac964e0dc9ff0e837cfac37b3b272dc990850aea5bb572aff",
+        "status": "VERIFIED"
+      },
+      "goal6_feature_inventory": {
+        "path_scope": "external",
+        "sha256": "744257465c637641195085e650a8fc5336a4a3823afcefe88a0d48a7df61d6a2",
+        "status": "VERIFIED"
+      },
+      "matched_transition_table": {
+        "path_scope": "repository",
+        "sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d",
+        "status": "VERIFIED"
+      },
+      "orientation_gate": {
+        "path_scope": "repository",
+        "sha256": "c95ef76eb137c77ae4cb5e7e25931afd6eed4f43ca91bb9e8c62f0bb0b4275ce",
+        "status": "VERIFIED"
+      },
+      "orientation_inventory": {
+        "path_scope": "repository",
+        "sha256": "0f8a735194d02062bb9e94d09dc6858da7ff6c6ce15002428eb9238fb6c535dc",
+        "status": "VERIFIED"
+      },
+      "prior_bpe_fov_firewall": {
+        "path_scope": "repository",
+        "sha256": "d8c2cf5815174da5630432de05f89e7a87f1433547a3d1d6dd3cec8575d93656",
+        "status": "VERIFIED"
+      },
+      "raw_source_inventory": {
+        "path_scope": "repository",
+        "sha256": "40f7d1db7af108b2cb0c07863db208ee4db2124ffaf660771feaa7270809df0a",
+        "status": "VERIFIED"
+      },
+      "repair_record_set": {
+        "record_count": 146,
+        "sha256": "26fc29ed0e9d11e6192b1b9cf3ddc5e739249fdae86eaee2d4140bd11b9ebfc5",
+        "status": "VERIFIED"
+      },
+      "source_workbook": {
+        "path_scope": "external",
+        "sha256": "f714c7784b1e57daa74d7cfb20db71cd432b4e4596b9b4eacdd5a76b7f8a58dc",
+        "status": "VERIFIED"
+      }
+    },
+    "start_timestamp": "2026-08-12T09:19:09-04:00"
+  },
+  "schema_version": 1,
+  "source_roi_available": false,
+  "source_roi_status": "SOURCE_ROI_NOT_AVAILABLE"
+}

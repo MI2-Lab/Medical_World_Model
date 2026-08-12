@@ -1,0 +1,27 @@
+# Patient-level audit sidecars are never public artifacts.
+manifests/*.private.csv
+manifests/*.private.json
+metrics/*.private.csv
+metrics/*.private.json
+reports/*.private.md
+
+# Runtime logs may contain local paths. Keep only the directory sentinel.
+logs/*
+!logs/.gitkeep
+
+# The source workbook, source masks, DICOM, reconstructed volumes, model
+# tensors, and caches must never be copied into this experiment directory.
+**/*.dcm
+**/*.nii
+**/*.nii.gz
+**/*.npy
+**/*.npz
+**/*.pt
+**/*.pth
+**/*.ckpt
+**/*.xlsx
+**/*.xls
+
+**/__pycache__/
+**/*.py[cod]
+.pytest_cache/

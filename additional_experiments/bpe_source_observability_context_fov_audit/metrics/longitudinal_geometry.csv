@@ -1,0 +1,4 @@
+interval,eligible_patients,evaluable_patients,centroid_displacement_q50_mm,centroid_displacement_q95_mm,source_volume_ratio_q50,source_volume_variation_q95_percent,laterality_consistent_patients,roi_temporal_anchor,status
+T0->T1,375,0,,,,,,NOT_DOCUMENTED,NOT_EVALUABLE_SOURCE_ROI_NOT_AVAILABLE
+T1->T2,375,0,,,,,,NOT_DOCUMENTED,NOT_EVALUABLE_SOURCE_ROI_NOT_AVAILABLE
+T2->T3,375,0,,,,,,NOT_DOCUMENTED,NOT_EVALUABLE_SOURCE_ROI_NOT_AVAILABLE

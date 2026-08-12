@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "experiment": "bpe_source_observability_context_fov_audit",
+  "experiment_title": "BPE Source Observability & Context-FOV Audit",
+  "provenance": {
+    "parent_branch": "feature/nonftv-phenotype-decodability-audit",
+    "parent_commit_sha": "745282e77bb051dc0f8d9d41779691dcf8b307ce",
+    "start_timestamp": "2026-08-12T09:19:09-04:00",
+    "experiment_branch": "feature/bpe-source-observability-context-fov-audit",
+    "goal6_source_commit_sha": "f49cf17237a95e9f8b99ad5f13c73f90e1a94a28"
+  },
+  "outcome_firewall": {
+    "forbidden_fields": [
+      "pCR",
+      "HR",
+      "HER2",
+      "treatment",
+      "Arm",
+      "BPE magnitude",
+      "model performance"
+    ],
+    "fields_actually_read_for_population": [
+      "CLINICAL-TRIAL-SUBJECT-ID",
+      "BPE_5slice_mean_T0 finite/missing status",
+      "BPE_5slice_mean_T1 finite/missing status",
+      "BPE_5slice_mean_T2 finite/missing status",
+      "BPE_5slice_mean_T3 finite/missing status",
+      "patient_id",
+      "trial_id",
+      "bpe_valid"
+    ],
+    "case_sampling": "sha256('bpe-fov-audit-v1|' + patient_id), first 20"
+  },
+  "source_contract": {
+    "target": "BPE",
+    "full_name": "background parenchymal enhancement",
+    "workbook_fields": [
+      "BPE_5slice_mean_T0",
+      "BPE_5slice_mean_T1",
+      "BPE_5slice_mean_T2",
+      "BPE_5slice_mean_T3"
+    ],
+    "breast_side": "contralateral_to_primary_tumor",
+    "slices": "five_contiguous_axial_slices_geometrically_centered_superior_inferior",
+    "tissue": "fibroglandular_tissue",
+    "measurement": "mean_early_percent_enhancement",
+    "intensity_phases": "early_postcontrast_relative_to_precontrast",
+    "lesion_mask_required_for_measurement": false,
+    "lesion_laterality_required_to_select_side": true,
+    "fibroglandular_roi_required": true,
+    "roi_generation": "automated_breast_boundary_segmentation_plus_fuzzy_c_means_fgt_classification",
+    "temporal_anchor": "visit_specific_scalar_ROI_temporal_anchor_not_documented",
+    "authoritative_source_roi_manifest": null,
+    "source_roi_status": "SOURCE_ROI_NOT_AVAILABLE",
+    "method_paper": "https://doi.org/10.1038/s41523-020-00203-7",
+    "method_paper_open_access": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7695723/"
+  },
+  "paths": {
+    "source_workbook": "/data/data/Breast_Cancer/I-SPY2/Multi-feature-MRI-NACT-Data.xlsx",
+    "source_workbook_sha256": "f714c7784b1e57daa74d7cfb20db71cd432b4e4596b9b4eacdd5a76b7f8a58dc",
+    "source_workbook_sheet": "datawith4visits",
+    "matched_transition_table": "additional_experiments/radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv",
+    "matched_transition_table_sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d",
+    "c1b_visit_inventory": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/manifests/eligible_model_input_inventory.private.csv",
+    "c1b_visit_inventory_sha256": "8fe0f4303245e44f027b36c175bb5f28a2cd3d027a32527ce066bc9b14f5823e",
+    "frozen_c1b_grids": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/manifests/frozen_c1b_grids.private.csv",
+    "frozen_c1b_grids_sha256": "c864e9f49a7d0a7ac964e0dc9ff0e837cfac37b3b272dc990850aea5bb572aff",
+    "c1b_cache_inventory": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/manifests/model_input_cache_inventory.private.csv",
+    "c1b_cache_inventory_sha256": "e4fa537a1878a748d21ceab54f7c453f8fbc5c9a03d40bc568a65d70ddd62b29",
+    "orientation_inventory": "additional_experiments/c1b_model_ready_ftv_sanity/metrics/orientation_resampling_patient_visit.private.csv",
+    "orientation_inventory_sha256": "0f8a735194d02062bb9e94d09dc6858da7ff6c6ce15002428eb9238fb6c535dc",
+    "orientation_gate": "additional_experiments/c1b_model_ready_ftv_sanity/metrics/orientation_validation_gate.json",
+    "orientation_gate_sha256": "c95ef76eb137c77ae4cb5e7e25931afd6eed4f43ca91bb9e8c62f0bb0b4275ce",
+    "prior_bpe_fov_firewall": "additional_experiments/nonftv_phenotype_decodability_audit/metrics/bpe_fov_observability_audit.csv",
+    "prior_bpe_fov_firewall_sha256": "d8c2cf5815174da5630432de05f89e7a87f1433547a3d1d6dd3cec8575d93656",
+    "goal6_feature_inventory": "/data/mi2-interns/bowen/Medical_World_Model_classical_dce/additional_experiments/classical_dce_phenotype_complementarity/features/radiomics_feature_inventory.csv",
+    "goal6_feature_inventory_sha256": "744257465c637641195085e650a8fc5336a4a3823afcefe88a0d48a7df61d6a2",
+    "raw_source_inventory": "additional_experiments/c1b_model_ready_ftv_sanity/manifests/model_input_inventory.private.csv",
+    "raw_source_inventory_sha256": "40f7d1db7af108b2cb0c07863db208ee4db2124ffaf660771feaa7270809df0a",
+    "repair_record_directory": "additional_experiments/c1b_model_ready_ftv_sanity/manifests/repair_private",
+    "repair_record_set_sha256": "26fc29ed0e9d11e6192b1b9cf3ddc5e739249fdae86eaee2d4140bd11b9ebfc5",
+    "raw_dicom_roots": {
+      "ACRIN-6698": "/data/data/Breast_Cancer/I-SPY2/acrin_6698",
+      "ISPY2": "/data/data/Breast_Cancer/I-SPY2/ispy2"
+    }
+  },
+  "population": {
+    "workbook_expected_patients": 384,
+    "primary_expected_patients": 375,
+    "visits": ["T0", "T1", "T2", "T3"],
+    "expected_primary_visits": 1500,
+    "exclusion_allowlist": [
+      "BPE_SOURCE_VALUE_UNAVAILABLE",
+      "NO_COMPLETE_FOUR_VISIT_C1B_MATCH",
+      "RAW_DCE_UNAVAILABLE",
+      "C1B_CACHE_UNAVAILABLE"
+    ]
+  },
+  "fov_contracts": {
+    "F0": {
+      "name": "Current LOCAL support",
+      "support_xyz_mm": [64.0, 64.0, 64.0],
+      "is_model_input": false,
+      "center": "frozen_LOCAL_readout_center_no_recrop"
+    },
+    "F1": {
+      "name": "Full C1B-H tensor support",
+      "shape_zyx": [112, 176, 160],
+      "spacing_xyz_mm": [0.9, 0.9, 2.0],
+      "extent_xyz_mm": [144.0, 158.4, 224.0],
+      "orientation": "RAS+",
+      "center": "frozen_T0_anchor_no_recenter",
+      "channels": 7,
+      "dtype_bytes": 4
+    },
+    "F2": {
+      "name": "Reconstructed source-image physical support linked to selected acquisition",
+      "is_model_input": false,
+      "support_definition": "affine_mapped_reconstructed_source_voxel_footprint_parallelepiped",
+      "raw_dicom_series_status": "selected_series_exists_and_first_instance_geometry_tags_audited",
+      "raw_to_reconstructed_full_series_footprint_equivalence": "NOT_INDEPENDENTLY_RECOMPUTED_IN_THIS_AUDIT",
+      "reported_extent_summary": "separate_marginal_RAS_axis_aligned_bounding_box_statistics_not_the_support_itself_or_one_realizable_geometry"
+    }
+  },
+  "gates": {
+    "occupancy_threshold": 0.99,
+    "required_visit_fraction": 0.99,
+    "required_no_boundary_touch_fraction": 0.99,
+    "allowed_zero_valid_source_overlap_visits": 0,
+    "c1b_margin_q05_mm": 5.0
+  },
+  "laterality_audit_sample_size": 20,
+  "delivery": {
+    "branch": "feature/bpe-source-observability-context-fov-audit",
+    "audit_commit_sha": "PENDING",
+    "push_status": "PENDING"
+  }
+}

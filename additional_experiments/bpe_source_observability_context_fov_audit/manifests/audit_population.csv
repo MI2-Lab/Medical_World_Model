@@ -1,0 +1,9 @@
+stage,patients,visits,included,reason
+SOURCE_WORKBOOK,384,1536,True,source inventory
+BPE_COMPLETE_WORKBOOK,384,1536,True,finite source scalar availability only
+WORKBOOK_ONLY_EXCLUDED,9,0,False,NO_COMPLETE_FOUR_VISIT_C1B_MATCH
+PRIMARY_MATCHED_COHORT,375,1500,True,BPE-complete exact MRI/C1B match
+RECONSTRUCTED_DCE_AVAILABLE,375,1500,True,technical source availability
+C1B_CACHE_AVAILABLE,375,1500,True,technical cache availability
+RAW_DICOM_SELECTED_SERIES_AVAILABLE,375,1500,True,selected raw series availability; extent geometry audited on reconstructed source image
+AUTHORITATIVE_BPE_SOURCE_ROI_AVAILABLE,0,0,False,SOURCE_ROI_NOT_AVAILABLE

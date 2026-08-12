@@ -1,0 +1,4 @@
+fov_contract,metric,n,minimum_mm,q05_mm,q50_mm,q95_mm,maximum_mm,status
+F0,source_roi_to_nearest_fov_boundary_mm,0,,,,,,NOT_EVALUABLE_SOURCE_ROI_NOT_AVAILABLE
+F1,source_roi_to_nearest_fov_boundary_mm,0,,,,,,NOT_EVALUABLE_SOURCE_ROI_NOT_AVAILABLE
+F2,source_roi_to_nearest_fov_boundary_mm,0,,,,,,NOT_EVALUABLE_SOURCE_ROI_NOT_AVAILABLE
