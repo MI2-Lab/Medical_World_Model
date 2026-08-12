@@ -1,0 +1,178 @@
+{
+  "artifact": "fold_static_sph_residualizer",
+  "dynamic_sph_supervision": false,
+  "fit_scope": "outer_train_only_per_fold_and_visit",
+  "fold": 0,
+  "n_patients": 375,
+  "residualizers": [
+    {
+      "alpha": 1.0,
+      "coefficient": [
+        -0.5616992156997066
+      ],
+      "fit_intercept": true,
+      "fit_scope": "outer_train_only",
+      "fold": 0,
+      "ftv_transform": {
+        "family_transform": "log1p",
+        "train_mean_after_family_transform": 2.828492365199791,
+        "train_population_scale": 0.947205072646635,
+        "winsor_lower": 1.557474736,
+        "winsor_upper": 193.36984299999963
+      },
+      "intercept": 3.393733122479742e-16,
+      "model": "sklearn.linear_model.Ridge",
+      "n_train": 247,
+      "predictor": "FTV_train_winsorized_log1p_population_z",
+      "residual_definition": "epsilon=SPH_z-Ridge(FTV_z)",
+      "residual_train_mean": 1.4383456189475712e-17,
+      "residual_train_population_scale": 0.8257961531496048,
+      "residualizer_id": "05cfe87359dc3d4a5e433af6c2231f563f07b82ab206abf06ca84b68db097165",
+      "response": "SPH_train_winsorized_identity_population_z",
+      "s1_target": "SPH_z",
+      "s2_target": "population_z(epsilon)_using_outer_train_only",
+      "sph_transform": {
+        "family_transform": "identity",
+        "train_mean_after_family_transform": 0.21759958655230766,
+        "train_population_scale": 0.09041462086282087,
+        "winsor_lower": 0.07284266994000001,
+        "winsor_upper": 0.4641958682
+      },
+      "visit": "T0",
+      "winsor_quantiles": [
+        0.01,
+        0.99
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "coefficient": [
+        -0.5395563624947627
+      ],
+      "fit_intercept": true,
+      "fit_scope": "outer_train_only",
+      "fold": 0,
+      "ftv_transform": {
+        "family_transform": "log1p",
+        "train_mean_after_family_transform": 2.20699844065959,
+        "train_population_scale": 1.057968996555547,
+        "winsor_lower": 0.322966987,
+        "winsor_upper": 154.25478479999998
+      },
+      "intercept": -9.398672977407741e-17,
+      "model": "sklearn.linear_model.Ridge",
+      "n_train": 247,
+      "predictor": "FTV_train_winsorized_log1p_population_z",
+      "residual_definition": "epsilon=SPH_z-Ridge(FTV_z)",
+      "residual_train_mean": 5.393796071053392e-18,
+      "residual_train_population_scale": 0.840548437674823,
+      "residualizer_id": "e12d7d2ea05624475d1398189e5b0d7965d02049c0b5b1db4399fe54a29066f8",
+      "response": "SPH_train_winsorized_identity_population_z",
+      "s1_target": "SPH_z",
+      "s2_target": "population_z(epsilon)_using_outer_train_only",
+      "sph_transform": {
+        "family_transform": "identity",
+        "train_mean_after_family_transform": 0.2113105326448583,
+        "train_population_scale": 0.08356360393116574,
+        "winsor_lower": 0.07203260596,
+        "winsor_upper": 0.4429840367999997
+      },
+      "visit": "T1",
+      "winsor_quantiles": [
+        0.01,
+        0.99
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "coefficient": [
+        -0.5963045134898133
+      ],
+      "fit_intercept": true,
+      "fit_scope": "outer_train_only",
+      "fold": 0,
+      "ftv_transform": {
+        "family_transform": "log1p",
+        "train_mean_after_family_transform": 1.2918468198066593,
+        "train_population_scale": 1.0392468678831281,
+        "winsor_lower": 0.03233276358,
+        "winsor_upper": 98.25881593999995
+      },
+      "intercept": 6.420810043012946e-17,
+      "model": "sklearn.linear_model.Ridge",
+      "n_train": 247,
+      "predictor": "FTV_train_winsorized_log1p_population_z",
+      "residual_definition": "epsilon=SPH_z-Ridge(FTV_z)",
+      "residual_train_mean": -1.797932023684464e-18,
+      "residual_train_population_scale": 0.8009630106415035,
+      "residualizer_id": "92d93f35082f143ef53b68c26c25a910eabbc254d136677e70ac414f6c19a3a2",
+      "response": "SPH_train_winsorized_identity_population_z",
+      "s1_target": "SPH_z",
+      "s2_target": "population_z(epsilon)_using_outer_train_only",
+      "sph_transform": {
+        "family_transform": "identity",
+        "train_mean_after_family_transform": 0.25135741782380566,
+        "train_population_scale": 0.11917514284552436,
+        "winsor_lower": 0.07474888696,
+        "winsor_upper": 0.6870451081999986
+      },
+      "visit": "T2",
+      "winsor_quantiles": [
+        0.01,
+        0.99
+      ]
+    },
+    {
+      "alpha": 1.0,
+      "coefficient": [
+        -0.6004024589963645
+      ],
+      "fit_intercept": true,
+      "fit_scope": "outer_train_only",
+      "fold": 0,
+      "ftv_transform": {
+        "family_transform": "log1p",
+        "train_mean_after_family_transform": 0.8051703869366744,
+        "train_population_scale": 0.806425564173936,
+        "winsor_lower": 0.02917118362,
+        "winsor_upper": 62.222804819999894
+      },
+      "intercept": 4.754942186453577e-18,
+      "model": "sklearn.linear_model.Ridge",
+      "n_train": 247,
+      "predictor": "FTV_train_winsorized_log1p_population_z",
+      "residual_definition": "epsilon=SPH_z-Ridge(FTV_z)",
+      "residual_train_mean": 7.191728094737856e-18,
+      "residual_train_population_scale": 0.7978709141394686,
+      "residualizer_id": "6169e715dadf2401ce8d186afdec12f533e0c01f933623392e3e39997272e736",
+      "response": "SPH_train_winsorized_identity_population_z",
+      "s1_target": "SPH_z",
+      "s2_target": "population_z(epsilon)_using_outer_train_only",
+      "sph_transform": {
+        "family_transform": "identity",
+        "train_mean_after_family_transform": 0.29250577020963564,
+        "train_population_scale": 0.13568346032730896,
+        "winsor_lower": 0.08716385886,
+        "winsor_upper": 0.7250184873999999
+      },
+      "visit": "T3",
+      "winsor_quantiles": [
+        0.01,
+        0.99
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "source_target_table_sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d",
+  "split_counts": {
+    "test": 69,
+    "train": 247,
+    "val": 59
+  },
+  "visits": [
+    "T0",
+    "T1",
+    "T2",
+    "T3"
+  ]
+}

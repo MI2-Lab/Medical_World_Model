@@ -1,0 +1,61 @@
+{
+  "experiment": "residual_sph_grounding_pilot",
+  "fold_artifacts": [
+    {
+      "artifact_sha256": "769887a761fc5e9f4b0a31d0feba902d12d5ea55ad52dfe1e642a4ad4ed9d694",
+      "file": "manifests/residualizers/fold_0.json",
+      "fold": 0,
+      "split_counts": {
+        "test": 69,
+        "train": 247,
+        "val": 59
+      }
+    },
+    {
+      "artifact_sha256": "26d62af876015f5fb1ec25fee498241cfbec666cebe9839633b6c6684f80645d",
+      "file": "manifests/residualizers/fold_1.json",
+      "fold": 1,
+      "split_counts": {
+        "test": 67,
+        "train": 239,
+        "val": 69
+      }
+    },
+    {
+      "artifact_sha256": "269718514ab4a33fdf7dc5aeebac9943153ef8a53d1d2bba3d0cc3355f05602a",
+      "file": "manifests/residualizers/fold_2.json",
+      "fold": 2,
+      "split_counts": {
+        "test": 83,
+        "train": 240,
+        "val": 52
+      }
+    },
+    {
+      "artifact_sha256": "4095d55841b840b47d62a8ac021a322b2b12f3cae0ac3f955497b067c2f9909b",
+      "file": "manifests/residualizers/fold_3.json",
+      "fold": 3,
+      "split_counts": {
+        "test": 72,
+        "train": 242,
+        "val": 61
+      }
+    },
+    {
+      "artifact_sha256": "c93e68d7949eafb1282e0f800f8dbe13ae9f3bc660e54e6efb23387f86bbfc08",
+      "file": "manifests/residualizers/fold_4.json",
+      "fold": 4,
+      "split_counts": {
+        "test": 84,
+        "train": 225,
+        "val": 66
+      }
+    }
+  ],
+  "outer_fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+  "patient_level_values_persisted": false,
+  "preregistration_lock_sha256": "740d2382e4c96dfacf0cf331b195ceceb91d20391e1e85dc72b274603e32a37b",
+  "schema_version": 1,
+  "source_target_table_sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d",
+  "status": "FOLD_SAFE_RESIDUALIZERS_FITTED"
+}

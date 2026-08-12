@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "experiment": "residual_sph_grounding_pilot",
+  "status": "SCIENTIFIC_PROTOCOL_FROZEN_BEFORE_FORMAL_RESULTS",
+  "frozen_at_utc": "2026-08-12T17:22:40Z",
+  "formal_result_file_count_before_lock": 0,
+  "git": {
+    "branch": "feature/residual-sph-grounding-pilot",
+    "starting_head": "7644e3835af6b12899c57819bedd1876572c434f",
+    "required_commit_message": "Add residual SPH grounding pilot",
+    "required_push": "git push -u origin feature/residual-sph-grounding-pilot",
+    "force_push_forbidden": true
+  },
+  "scientific_protocol_sha256": {
+    "additional_experiments/residual_sph_grounding_pilot/configs/pilot.json": "94ab790c9976fc024d8a85f75f4045267f39124a513c42043a9e4182cca4b88a",
+    "additional_experiments/residual_sph_grounding_pilot/EXPERIMENT_PLAN.md": "89dfeae1e4c1639d1f226573b1528815843841b99af4a975a05e87fc76bda571",
+    "additional_experiments/residual_sph_grounding_pilot/manifests/prior_evidence_summary.md": "5db00d79277d05c7461467571146086c97e03fe88127f24cf3bf169daaf291aa",
+    "additional_experiments/residual_sph_grounding_pilot/manifests/privacy_contract.json": "d772be6698645aa5b7690e7c23d7049fc31ef5b54d69f817174602290f3bd9cb",
+    "additional_experiments/residual_sph_grounding_pilot/reports/README.md": "d0f27aafdb8534e4140853953ac1dcaa7193e86414e019338bc1c324d3ba95df"
+  },
+  "implementation_hash_lock": {
+    "status": "PENDING_IMPLEMENTATION_MANIFEST_BEFORE_FIRST_FORMAL_CELL",
+    "required_manifest": "manifests/implementation_lock.json",
+    "amendment_policy": "implementation file hashes and test attestations may be appended before the first formal cell; scientific targets, arms, selector, endpoints, gates, and classification rules in this lock may not change",
+    "formal_execution_allowed_without_manifest": false
+  },
+  "upstream_inputs_sha256": {
+    "stage_a_sentinel": "0b2c9e0af63ce8806525fb15ac9a27f6ab525b0259ccf16001981ca5091afbdb",
+    "stage_b_data_contract": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27",
+    "outer_fold_manifest": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+    "ftv_sph_transition_table": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d",
+    "technical_eligibility_manifest": "041f11877bb55d70a611e14a811f5610a3572c4437470bbde54cbdf19121f2c7",
+    "external_train_only_candidate_manifest": "d9029507607dcdb327db8066f7fd7a712d10e157e4d2b8f79ab3c9f0daad6513",
+    "c1b_cache_manifest": "672ad7436b19f30a89640a2b36504f1e7fbaaff83fd07bc058c008b204d2a3c9",
+    "observability_manifest": "0203da10f2efee626ae948fe0f7190771b67503639694dcd49c03762f4bde39c",
+    "clinical_labels_post_freeze_only": "b3355f8ac80cf8f0fa95722b8d8a8b73d96790e9ded5c491ddb5b2e6a7793436"
+  },
+  "prior_evidence_sha256": {
+    "local_confirmation_report": "6f495ea2412b3fe6d6e24fa9c9f067f89685fa7e69c40758582f11d2855835da",
+    "local_confirmation_decision": "40906f527381fd67e2fb8c9190a894fde8a63a6cf1c72ffc4b4c8f64fc693a1a",
+    "local_confirmation_static_ftv": "cff3301e931759ea993c269ea613c22cc1df74a05a1f8d58f3565ce6f21469e0",
+    "local_confirmation_delta_ftv": "a49b3675cd1e614ba367685ba3476a945070f45ce8b7d387fd021cacc7a89f68",
+    "classical_complementarity_report": "c9b1d5a6b4e7ea1cb9b8eb5002fcfe281b5fec36ae79fea7cf259356b69dfd0b",
+    "nonftv_report": "96a879f0655beca4a280a499e3ca78404f338b93b5e9fd7e9298d698052de915",
+    "nonftv_primary_gates": "11907a98261048a0629ce2ff041ad3b6e95c5d8b3b489808d3a1c3d663084811",
+    "nonftv_gate_candidates": "f3d6d238fc4e40a192ccb0f7b7ca594e39d86178696decf5ea134c8076c284ba",
+    "nonftv_residualizer_fits": "40640d2bd71fa21d377497e53ecb0ffaa579f921f61eaed6c8a3fdc66e2af020",
+    "nonftv_target_transform_fits": "22cd2b652ae6a943935e02c4426e1a7594403a4bcdeadce1dd49886bcde9a0f8",
+    "mri_clinical_report": "0236fd20d4d1170720b4bdc9e3af913a139be38bfcd711df316b9d21de142f3f"
+  },
+  "s0_confirmation_ancestry": {
+    "required_classification": "LOCAL_MULTISEED_CONFIRMED",
+    "source_branch": "feature/local-response-state-multiseed-confirmation",
+    "source_head_recorded_by_source_lock": "78ba693ad34dbb2b5a28f0476185966714bb63c5",
+    "tracked_in_this_branch_starting_head": false,
+    "workspace_presence_is_provenance": false,
+    "required_before_use": "cell-level SHA-256 and metadata manifest proving arm LOCAL3, seed, fold, selected epoch, paired initialization, data hashes, state-loss value, and feature-export ancestry",
+    "mismatch_action": "fail_closed"
+  },
+  "frozen_population": {
+    "cohort": "C1B-H",
+    "input": "DCE7",
+    "technical_eligibility_universe": 947,
+    "primary_complete_case_patients": 375,
+    "external_train_only_patient_union": 139,
+    "folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "fold_movement_or_refill": false,
+    "broader_JEPA_training_contract_preserved": true,
+    "SPH_endpoint_masked_to_complete_case_valid_visits": true
+  },
+  "frozen_model": {
+    "input": "C1B-H DCE7 float32 [B,4,7,112,176,160]",
+    "encoder": "confirmed 3D encoder",
+    "local_support_mm_xyz": [
+      64,
+      64,
+      64
+    ],
+    "pooling": "fixed fractional-overlap LOCAL",
+    "response_state": "current online pre-projector LOCAL response [B,4,192]",
+    "transition_conditioning": "image_only",
+    "treatment_or_clinical_model_input": false,
+    "lesion_mask_readout": false,
+    "geometry_redesign": false,
+    "encoder_replacement": false,
+    "SPH_head": "one shared Linear(192,1)",
+    "SPH_head_deep_MLP": false
+  },
+  "frozen_target": {
+    "fields": [
+      "SPHERICITY_T0",
+      "SPHERICITY_T1",
+      "SPHERICITY_T2",
+      "SPHERICITY_T3"
+    ],
+    "definition": "equal-volume-sphere surface area divided by 3D FTV tumor-mask surface area",
+    "supervision": "same-visit static only at all four visits when valid",
+    "all_four_visit_status": "new_exploratory_extrapolation",
+    "primary_gate_timing": "T0",
+    "dynamic_SPH_supervision": false,
+    "future_SPH_supervision": false,
+    "loss": "Huber delta=1.0 after train-fold target standardization"
+  },
+  "frozen_residualization": {
+    "fit_scope": "outer_train_only_separately_by_fold_and_visit",
+    "winsor_quantiles": [
+      0.01,
+      0.99
+    ],
+    "FTV_transform": "log1p_then_train_mean_population_SD",
+    "SPH_transform": "identity_then_train_mean_population_SD",
+    "model": "Ridge(alpha=1.0, fit_intercept=True)",
+    "residual_formula": "SPH_standardized - Ridge_train(FTV_standardized)",
+    "residual_grounding_transform": "train residual mean and population SD",
+    "raw_natural_unit_residualization": false,
+    "validation_or_test_used_for_fit": false,
+    "pCR_HR_HER2_used_for_fit": false,
+    "coefficients_stored_separately_per_fold_and_visit": true
+  },
+  "matrix": {
+    "seed_bases": [
+      2026,
+      3026
+    ],
+    "folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "arms": {
+      "S0": {
+        "target": "none_beyond_confirmed_FTV",
+        "lambda_sph": 0.0,
+        "role": "confirmed_LOCAL3_reference"
+      },
+      "S1": {
+        "target": "train_standardized_raw_SPH",
+        "lambda_sph": 0.05,
+        "role": "raw_control"
+      },
+      "S2": {
+        "target": "train_standardized_FTV_residual_SPH",
+        "lambda_sph": 0.05,
+        "role": "primary"
+      },
+      "S2_L10": {
+        "target": "train_standardized_FTV_residual_SPH",
+        "lambda_sph": 0.1,
+        "role": "single_descriptive_sensitivity"
+      }
+    },
+    "new_training_cells": 30,
+    "primary_scientific_lambda": 0.05,
+    "pCR_lambda_sweep": false
+  },
+  "training": {
+    "lambda_ftv": 0.25,
+    "sigreg_weight": 0.09,
+    "step_weights": [
+      2.0,
+      1.0,
+      0.5
+    ],
+    "optimizer": "AdamW",
+    "learning_rate": 0.00005,
+    "weight_decay": 0.0001,
+    "physical_batch_size": 4,
+    "accumulation_steps": 8,
+    "logical_batch_size": 32,
+    "epochs": 12,
+    "patience": 4,
+    "ema_momentum": 0.996,
+    "max_grad_norm": 5.0,
+    "min_representation_std": 0.05,
+    "paired_initialization_patient_order_and_randomness": true
+  },
+  "checkpoint_selection": {
+    "eligible_epoch": "finite AND noncollapsed AND validation_state_loss <= 1.05 * paired_selected_S0_validation_state_loss",
+    "primary_order": [
+      "minimum_validation_FTV_loss",
+      "minimum_validation_state_loss",
+      "earliest_epoch"
+    ],
+    "fallback_order": [
+      "minimum_positive_state_gate_violation",
+      "minimum_validation_FTV_loss",
+      "minimum_validation_state_loss",
+      "earliest_epoch"
+    ],
+    "fallback_marks_cell_failed": true,
+    "validation_SPH_used_for_selection": false,
+    "pCR_or_test_used_for_selection": false,
+    "delta_FTV_or_delta_SPH_used_for_selection": false
+  },
+  "primary_endpoints": {
+    "static_FTV": "Spearman, Pearson, natural R2, RMSE, MAE, prediction/target variance ratio at T0-T3 and macro",
+    "observed_delta_FTV": "same metrics for literal adjacent natural-unit differences and macro",
+    "raw_SPH": "Spearman, Pearson, residual/natural space R2 as applicable, reconstructed R2, RMSE, MAE, seed consistency",
+    "SPH_res": "same metrics; primary phenotype endpoint is T0 Spearman",
+    "redundancy": "FTV/SPH/SPH_res state decodability and partial correlation controlling FTV"
+  },
+  "comparisons": {
+    "E1": "S2-S0 static FTV macro Spearman",
+    "E2": "S2-S0 observed delta FTV macro Spearman",
+    "E3": "S2-S0 T0 SPH_res Spearman",
+    "E4": "S2-S1 T0 SPH_res Spearman",
+    "E5": "S2-S0 MRI-only pCR AUROC",
+    "E6": "C+F+M_S2-(C+F), compared with C+F+M_S0-(C+F)"
+  },
+  "gates": {
+    "A_RESPONSE_SAFETY": {
+      "E1_each_seed_gte": -0.03,
+      "delta_systematic_degradation": "fails_delta_condition_only_when_both_seed_E2_effects_are_strictly_negative",
+      "safe_S2_primary_fold_units_required": 9,
+      "safe_S2_primary_fold_units_total": 10,
+      "pass_label": "RESPONSE_STATE_PRESERVED"
+    },
+    "B_RESIDUAL_SPH_ORGANIZATION": {
+      "timing": "T0",
+      "E3_each_seed_strictly_gt": 0.0,
+      "E3_mean_gte": 0.05,
+      "strong_E3_mean_gte": 0.1,
+      "pass_label": "RESIDUAL_SPH_GROUNDING_WORKS"
+    },
+    "C_RESIDUAL_BENEFIT_OVER_RAW": {
+      "E4_each_seed_strictly_gt": 0.0,
+      "pass_label": "RESIDUAL_TARGET_IS_PREFERABLE"
+    },
+    "D_DOWNSTREAM_COMPLEMENTARITY": {
+      "eligible_timings": [
+        "T0",
+        "T0_to_T1",
+        "T0_to_T2"
+      ],
+      "same_timing_E6_each_seed_strictly_gt": 0.0,
+      "strong_same_timing_E6_mean_gte": 0.03,
+      "retroactive_selection_effect": false,
+      "pass_label": "SPH_GROUNDED_STATE_ADDS_BEYOND_FTV"
+    }
+  },
+  "classification_precedence": [
+    "A_or_B_fail => SPH_GROUNDING_NOT_USEFUL",
+    "A_and_B_pass_and_C_fail => RAW_SPH_SUFFICIENT",
+    "A_and_B_and_C_pass => RESIDUAL_SPH_GROUNDING_VALIDATED",
+    "A_and_B_and_C_and_D_pass => also RESIDUAL_SPH_COMPLEMENTARITY_SUPPORTED",
+    "A_and_B_and_C_pass_and_D_fail => MORPHOLOGY_ORGANIZED_BUT_NO_PCR_COMPLEMENTARITY"
+  ],
+  "pcr_firewall": {
+    "representation_training_reads_pCR": false,
+    "checkpoint_selection_reads_pCR": false,
+    "representation_training_reads_clinical_or_treatment": false,
+    "post_freeze_models": [
+      "M",
+      "C",
+      "C+M",
+      "C+F",
+      "C+F+M"
+    ],
+    "post_freeze_logistic": "outer-train preprocessing, L2 liblinear C grid 1e-4 through 100, validation AUROC selection, smaller-C tie, no refit, outer-test once",
+    "paired_patient_bootstrap": "2000 resamples stratified by outer fold, seed 260811",
+    "pCR_can_change_arm_epoch_lambda_or_classification_inputs_A_to_C": false
+  },
+  "privacy": {
+    "raw_MRI_committed": false,
+    "source_workbook_committed": false,
+    "patient_identifiers_committed": false,
+    "patient_level_predictions_committed": false,
+    "feature_tensors_committed": false,
+    "checkpoints_committed": false,
+    "private_absolute_paths_in_public_JSON": false,
+    "precommit_privacy_audit_required": true
+  }
+}

@@ -1,0 +1,15 @@
+# Patient-level and model artifacts are private and must never be committed.
+checkpoints/
+features/
+predictions/
+*.private.*
+
+# Runtime logs may reveal private absolute paths.
+logs/*
+!logs/.gitkeep
+
+# Python/test caches.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
