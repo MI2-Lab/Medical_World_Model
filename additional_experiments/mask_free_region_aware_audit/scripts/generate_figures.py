@@ -78,6 +78,32 @@ FIGURE_MANIFEST_COLUMNS: tuple[str, ...] = (
 )
 
 PRIMARY_REGIONS = ("R0", "R1", "R2", "R3", "R4", "R5")
+EXPECTED_MODEL_SEEDS = (2026, 3026)
+EXPECTED_BOOTSTRAP_SEED = 260811
+EXPECTED_BOOTSTRAP_CONTEXTS = ("MRI_ONLY", "C_PLUS_F", "GOAL5_ORACLE")
+EXPECTED_BOOTSTRAP_AUROC_COUNTS = {
+    "MRI_ONLY": 36,
+    "C_PLUS_F": 36,
+    "GOAL5_ORACLE": 2,
+}
+EXPECTED_MRI_POPULATIONS = ("full_808", "ftv_complete_375")
+EXPECTED_TIMING_FACETS = (
+    ("MRI_ONLY", "full_808"),
+    ("MRI_ONLY", "ftv_complete_375"),
+    ("C_PLUS_F", "ftv_complete_375"),
+)
+BOOTSTRAP_SCIENTIFIC_KEY = (
+    "seed",
+    "arm",
+    "context",
+    "view",
+    "target",
+    "population",
+    "candidate",
+    "reference_model",
+    "comparison_model",
+    "metric",
+)
 REGION_COLORS = {
     "R0": "#777777",
     "R1": "#4c78a8",
@@ -286,6 +312,178 @@ def _filter_primary(frame: pd.DataFrame) -> pd.DataFrame:
     result["_region"] = _region_series(result)
     selected = result["_region"].isin(PRIMARY_REGIONS)
     return result.loc[selected].copy() if selected.any() else result
+
+
+def _integer_values(frame: pd.DataFrame, column: str, *, name: str) -> pd.Series:
+    values = pd.to_numeric(frame[column], errors="coerce")
+    finite = values.to_numpy(dtype=float)
+    if (
+        not np.isfinite(finite).all()
+        or not np.equal(finite, np.floor(finite)).all()
+    ):
+        raise ValueError(f"{name} must contain finite integers")
+    return values.astype(np.int64)
+
+
+def mri_population_display_frame(frame: pd.DataFrame) -> pd.DataFrame:
+    """Canonical MRI-only plot rows, retaining both registered populations."""
+
+    work = _filter_primary(frame)
+    target = resolve_column(work, ("target", "endpoint", "outcome"))
+    work = work.loc[work[target].astype(str).str.lower().eq("pcr")].copy()
+    population = resolve_column(work, ("population", "cohort"))
+    work["_population"] = work[population].astype(str)
+    observed = set(work["_population"])
+    if observed != set(EXPECTED_MRI_POPULATIONS):
+        raise ValueError(
+            "MRI-only figure requires exactly full_808 and ftv_complete_375; "
+            f"observed={sorted(observed)}"
+        )
+    population_counts = work["_population"].value_counts().to_dict()
+    if population_counts != {"full_808": 96, "ftv_complete_375": 96}:
+        raise ValueError(
+            "MRI-only primary figure row coverage drifted; "
+            f"observed={population_counts}"
+        )
+    work["_timing"] = _timing_series(work)
+    _, values = _metric_series(work)
+    work["_value"] = values
+    if not np.isfinite(work["_value"].to_numpy(dtype=float)).all():
+        raise ValueError("MRI-only figure contains a non-finite AUROC")
+    return work
+
+
+def bootstrap_display_frame(frame: pd.DataFrame) -> pd.DataFrame:
+    """Return every AUROC bootstrap row with a collision-free display identity."""
+
+    missing = sorted(set(BOOTSTRAP_SCIENTIFIC_KEY) - set(frame.columns))
+    if missing:
+        raise ValueError(f"bootstrap table lacks scientific identity columns: {missing}")
+    work = frame.copy()
+    work["seed"] = _integer_values(work, "seed", name="bootstrap model seed")
+    bootstrap_seed = _integer_values(
+        work, "bootstrap_seed", name="bootstrap RNG seed"
+    )
+    if set(work["seed"]) != set(EXPECTED_MODEL_SEEDS):
+        raise ValueError(
+            "bootstrap model-seed domain drifted; "
+            f"observed={sorted(set(work['seed']))}"
+        )
+    if set(bootstrap_seed) != {EXPECTED_BOOTSTRAP_SEED}:
+        raise ValueError(
+            "bootstrap RNG-seed domain drifted; "
+            f"observed={sorted(set(bootstrap_seed))}"
+        )
+    if work.duplicated(list(BOOTSTRAP_SCIENTIFIC_KEY)).any():
+        raise ValueError("bootstrap scientific-cell identity repeats")
+    if not work["view"].astype(str).equals(work["timing"].astype(str)):
+        raise ValueError("bootstrap timing alias differs from view")
+    work = work.loc[work["metric"].astype(str).str.lower().eq("auroc")].copy()
+    observed_contexts = set(work["context"].astype(str))
+    if observed_contexts != set(EXPECTED_BOOTSTRAP_CONTEXTS):
+        raise ValueError(
+            "bootstrap AUROC figure context coverage drifted; "
+            f"observed={sorted(observed_contexts)}"
+        )
+    observed_counts = work["context"].astype(str).value_counts().to_dict()
+    if observed_counts != EXPECTED_BOOTSTRAP_AUROC_COUNTS:
+        raise ValueError(
+            "bootstrap AUROC figure row coverage drifted; "
+            f"observed={observed_counts}"
+        )
+    work["_region"] = _region_series(work)
+    work["_timing"] = _timing_series(work)
+    work["_display_label"] = (
+        "seed="
+        + work["seed"].astype(str)
+        + " | arm="
+        + work["arm"].astype(str)
+        + " | context="
+        + work["context"].astype(str)
+        + " | timing="
+        + work["_timing"].astype(str)
+        + " | region="
+        + work["_region"].astype(str)
+    )
+    if work["_display_label"].duplicated().any():
+        raise ValueError("bootstrap displayed scientific identity is not unique")
+    timing_order = {value: index for index, value in enumerate(("T0", "T0-T1", "T0-T2"))}
+    region_order = {
+        value: index for index, value in enumerate((*PRIMARY_REGIONS, "PERI20"))
+    }
+    context_order = {
+        value: index for index, value in enumerate(EXPECTED_BOOTSTRAP_CONTEXTS)
+    }
+    work["_context_order"] = work["context"].map(context_order).fillna(len(context_order))
+    work["_timing_order"] = work["_timing"].map(timing_order).fillna(len(timing_order))
+    work["_region_order"] = work["_region"].map(region_order).fillna(len(region_order))
+    return work.sort_values(
+        ["_context_order", "arm", "seed", "_timing_order", "_region_order"],
+        kind="mergesort",
+    ).reset_index(drop=True)
+
+
+def seed_consistency_display_frame(frame: pd.DataFrame) -> pd.DataFrame:
+    """Canonical seed-pair rows with context/arm-aware unique labels."""
+
+    work = frame.copy()
+    work["_region"] = _region_series(work)
+    work["_timing"] = _timing_series(work)
+    context = resolve_column(work, ("context", "probe_context"))
+    arm = resolve_column(work, ("arm", "checkpoint"))
+    _, x = numeric_column(
+        work,
+        ("seed_2026_delta_auroc", "delta_seed_2026", "gain_seed_2026"),
+    )
+    _, y = numeric_column(
+        work,
+        ("seed_3026_delta_auroc", "delta_seed_3026", "gain_seed_3026"),
+    )
+    assert x is not None and y is not None
+    work["_x"] = x
+    work["_y"] = y
+    work["_display_label"] = (
+        "context="
+        + work[context].astype(str)
+        + " | arm="
+        + work[arm].astype(str)
+        + " | timing="
+        + work["_timing"].astype(str)
+        + " | region="
+        + work["_region"].astype(str)
+    )
+    if work["_display_label"].duplicated().any():
+        raise ValueError("seed-consistency displayed scientific identity is not unique")
+    if set(work[context].astype(str)) != {"MRI_ONLY", "C_PLUS_F"}:
+        raise ValueError("seed-consistency figure context coverage drifted")
+    if len(work) != 36:
+        raise ValueError(
+            f"seed-consistency figure requires 36 registered rows; observed={len(work)}"
+        )
+    return work.sort_values(
+        [context, arm, "_timing", "_region"], kind="mergesort"
+    ).reset_index(drop=True)
+
+
+def timing_facet_frame(frame: pd.DataFrame) -> pd.DataFrame:
+    """Canonical timing rows with context and population kept as facets."""
+
+    work = region_delta_frame(frame)
+    context = resolve_column(work, ("context", "probe_context"))
+    population = resolve_column(work, ("population", "cohort"))
+    work["_context"] = work[context].astype(str)
+    work["_population"] = work[population].astype(str)
+    observed = set(zip(work["_context"], work["_population"], strict=True))
+    if observed != set(EXPECTED_TIMING_FACETS):
+        raise ValueError(
+            "timing-sensitivity context/population coverage drifted; "
+            f"observed={sorted(observed)}"
+        )
+    if len(work) != 288:
+        raise ValueError(
+            f"timing-sensitivity figure requires 288 registered rows; observed={len(work)}"
+        )
+    return work
 
 
 def _metric_series(
@@ -563,24 +761,55 @@ def _line_by_region(
 
 
 def mri_only_figure(frame: pd.DataFrame) -> plt.Figure:
-    work = frame.copy()
-    target = resolve_column(work, ("target", "endpoint", "outcome"), required=False)
-    if target is not None:
-        selected = work[target].astype(str).str.lower().eq("pcr")
-        if selected.any():
-            work = work.loc[selected].copy()
-    population = resolve_column(work, ("population", "cohort"), required=False)
-    if population is not None:
-        full = work[population].astype(str).str.lower().isin(
-            {"full_808", "full", "eligible_808"}
-        )
-        if full.any():
-            work = work.loc[full].copy()
-    return _line_by_region(
-        work,
-        title="MRI-only pCR OOF performance",
-        ylabel="AUROC (mean over arm/seed)",
+    work = mri_population_display_frame(frame)
+    figure, axes = plt.subplots(
+        1,
+        len(EXPECTED_MRI_POPULATIONS),
+        figsize=(12.0, 4.4),
+        sharey=True,
+        constrained_layout=True,
     )
+    for axis, population in zip(axes, EXPECTED_MRI_POPULATIONS, strict=True):
+        selected = work.loc[work["_population"].eq(population)]
+        summary = selected.groupby(
+            ["_timing", "_region"], sort=False
+        )["_value"].mean()
+        timings = [
+            value
+            for value in ("T0", "T0-T1", "T0-T2", "T0-T3")
+            if value in summary.index.get_level_values(0)
+        ]
+        regions = [
+            value
+            for value in PRIMARY_REGIONS
+            if value in summary.index.get_level_values(1)
+        ]
+        if not timings or not regions:
+            raise ValueError(f"MRI-only figure has no rows for {population}")
+        x = np.arange(len(timings))
+        for region in regions:
+            axis.plot(
+                x,
+                [summary.get((timing, region), np.nan) for timing in timings],
+                marker="o",
+                linewidth=1.35,
+                label=region,
+                color=REGION_COLORS.get(region, "#999999"),
+            )
+        axis.axhline(0.5, color="#999999", linestyle="--", linewidth=0.8)
+        axis.set_xticks(
+            x,
+            ["T0-T3\nlate/pre-surgery" if value == "T0-T3" else value for value in timings],
+        )
+        title = population
+        if population == "ftv_complete_375":
+            title += " (Gate-A population)"
+        axis.set_title(title, weight="bold")
+        axis.grid(axis="y", alpha=0.2)
+    axes[0].set_ylabel("AUROC (mean over arm/seed)")
+    axes[-1].legend(frameon=False, ncol=3)
+    figure.suptitle("MRI-only pCR OOF performance by population", weight="bold")
+    return figure
 
 
 def phenotype_figure(frame: pd.DataFrame) -> plt.Figure:
@@ -600,7 +829,7 @@ def phenotype_figure(frame: pd.DataFrame) -> plt.Figure:
     axis.set_xticks(np.arange(len(columns)), columns)
     axis.set_yticks(np.arange(len(pivot.index)), pivot.index)
     axis.set_xlabel("mask-free region")
-    axis.set_title("Phenotype probe AUROC", weight="bold")
+    axis.set_title("Phenotype probe AUROC (mean over arm/seed/visit)", weight="bold")
     for row in range(len(pivot.index)):
         for column in range(len(columns)):
             value = pivot.iloc[row, column]
@@ -614,7 +843,7 @@ def incremental_figure(frame: pd.DataFrame) -> plt.Figure:
     return _line_by_region(
         frame,
         title="Increment beyond Clinical + FTV + R0",
-        ylabel="AUROC delta vs C+F+R0",
+        ylabel="AUROC delta vs C+F+R0 (mean over arm/seed)",
         delta=True,
     )
 
@@ -659,7 +888,7 @@ def ftv_figure(frame: pd.DataFrame) -> plt.Figure:
             color=REGION_COLORS.get(region, "#999999"),
         )
     axis.set_yticks(y, summary.index)
-    axis.set_xlabel(metric.replace("_", " "))
+    axis.set_xlabel(metric.replace("_", " ") + " (primary scope; mean over arm/seed)")
     axis.set_title("FTV / delta-FTV response controls", weight="bold")
     axis.grid(axis="x", alpha=0.2)
     axis.legend(frameon=False, ncol=3)
@@ -707,7 +936,7 @@ def oracle_figure(frame: pd.DataFrame) -> plt.Figure:
     axis.axhline(0.30, color="#222222", linestyle="--", linewidth=1.0, label="Gate C: 30%")
     axis.axhline(0.0, color="#999999", linewidth=0.8)
     axis.set_xticks(x, order)
-    axis.set_ylabel("recovery ratio")
+    axis.set_ylabel("recovery ratio (mean; seed range)")
     axis.set_title("PERI20 Oracle uplift recovery (matched T0-T1)", weight="bold")
     axis.legend(frameon=False)
     axis.grid(axis="y", alpha=0.2)
@@ -715,14 +944,7 @@ def oracle_figure(frame: pd.DataFrame) -> plt.Figure:
 
 
 def bootstrap_figure(frame: pd.DataFrame) -> plt.Figure:
-    work = frame.copy()
-    metric_column = resolve_column(work, ("metric", "measure"), required=False)
-    if metric_column is not None:
-        auroc_rows = work[metric_column].astype(str).str.lower().eq("auroc")
-        if auroc_rows.any():
-            work = work.loc[auroc_rows].copy()
-    work["_region"] = _region_series(work)
-    work["_timing"] = _timing_series(work)
+    work = bootstrap_display_frame(frame)
     estimate_col, estimate = numeric_column(
         work,
         ("estimate", "observed_delta", "delta_auroc", "mean_delta", "point_estimate"),
@@ -736,112 +958,175 @@ def bootstrap_figure(frame: pd.DataFrame) -> plt.Figure:
     assert estimate_col is not None and estimate is not None and lower is not None and upper is not None
     if ((lower > estimate) | (estimate > upper)).any():
         raise ValueError("bootstrap interval does not contain its point estimate")
-    context = resolve_column(work, ("context", "probe_context", "comparison_type"), required=False)
-    work["_context"] = work[context].astype(str) if context else "registered"
     work["_estimate"] = estimate
     work["_lower"] = lower
     work["_upper"] = upper
-    work["_label"] = (
-        work["_context"].astype(str)
-        + " · "
-        + work["_timing"].astype(str)
-        + " · "
-        + work["_region"].astype(str)
+    counts = [int(work["context"].eq(context).sum()) for context in EXPECTED_BOOTSTRAP_CONTEXTS]
+    if any(count == 0 for count in counts):
+        raise ValueError("bootstrap figure has an empty registered context")
+    figure, axes = plt.subplots(
+        len(EXPECTED_BOOTSTRAP_CONTEXTS),
+        1,
+        figsize=(13.0, max(9.0, 0.255 * len(work) + 2.0)),
+        sharex=True,
+        gridspec_kw={"height_ratios": counts},
+        constrained_layout=True,
     )
-    # Preserve every preregistered comparison up to a readable bound.  Formal
-    # tables remain the authoritative full inventory.
-    work = work.sort_values(["_context", "_timing", "_region"]).head(36)
-    y = np.arange(len(work))
-    figure, axis = plt.subplots(figsize=(8.4, max(4.0, 0.27 * len(work) + 1.2)))
-    axis.errorbar(
-        work["_estimate"],
-        y,
-        xerr=np.vstack(
-            [work["_estimate"] - work["_lower"], work["_upper"] - work["_estimate"]]
-        ),
-        fmt="o",
-        markersize=4,
-        color="#4c78a8",
-        ecolor="#777777",
-        capsize=2,
-    )
-    axis.axvline(0.0, color="#333333", linestyle="--", linewidth=0.9)
-    axis.set_yticks(y, work["_label"])
-    axis.set_xlabel(estimate_col.replace("_", " ") + " (95% percentile CI)")
-    axis.set_title("Paired patient-level bootstrap within outer fold", weight="bold")
-    axis.grid(axis="x", alpha=0.2)
+    for axis, context in zip(axes, EXPECTED_BOOTSTRAP_CONTEXTS, strict=True):
+        selected = work.loc[work["context"].eq(context)].copy()
+        y = np.arange(len(selected))
+        axis.errorbar(
+            selected["_estimate"],
+            y,
+            xerr=np.vstack(
+                [
+                    selected["_estimate"] - selected["_lower"],
+                    selected["_upper"] - selected["_estimate"],
+                ]
+            ),
+            fmt="o",
+            markersize=3.5,
+            color="#4c78a8",
+            ecolor="#777777",
+            capsize=1.8,
+        )
+        axis.axvline(0.0, color="#333333", linestyle="--", linewidth=0.9)
+        axis.set_yticks(y, selected["_display_label"], fontsize=5.4)
+        axis.invert_yaxis()
+        axis.set_title(f"{context} ({len(selected)} AUROC comparisons)", weight="bold")
+        axis.grid(axis="x", alpha=0.2)
+    axes[-1].set_xlabel(estimate_col.replace("_", " ") + " (95% percentile CI)")
+    figure.suptitle("Paired patient-level bootstrap within outer fold", weight="bold")
     return figure
 
 
 def seed_consistency_figure(frame: pd.DataFrame) -> plt.Figure:
-    work = frame.copy()
-    work["_region"] = _region_series(work)
-    work["_timing"] = _timing_series(work)
-    x_col, x = numeric_column(
-        work,
-        ("seed_2026_delta_auroc", "delta_seed_2026", "gain_seed_2026", "seed1_gain"),
-        required=False,
-    )
-    y_col, y = numeric_column(
-        work,
-        ("seed_3026_delta_auroc", "delta_seed_3026", "gain_seed_3026", "seed2_gain"),
-        required=False,
-    )
-    if x_col is None or y_col is None or x is None or y is None:
-        seed = resolve_column(work, ("seed", "seed_base"))
-        delta_col, delta = numeric_column(
-            work,
-            ("delta_auroc", "gain", "delta_vs_r0", "delta_auroc_vs_r0"),
-        )
-        assert delta_col is not None and delta is not None
-        work["_delta"] = delta
-        other_keys = ["_region", "_timing"]
-        for aliases in (("arm",), ("context", "probe_context"), ("target", "endpoint")):
-            column = resolve_column(work, aliases, required=False)
-            if column is not None:
-                other_keys.append(column)
-        pivot = work.pivot_table(index=other_keys, columns=seed, values="_delta", aggfunc="first")
-        seed_columns = {_normal_name(value): value for value in pivot.columns}
-        if "2026" not in seed_columns or "3026" not in seed_columns:
-            raise ValueError("seed-consistency table must contain seeds 2026 and 3026")
-        plot = pivot.reset_index()
-        x = pd.to_numeric(plot[seed_columns["2026"]], errors="coerce")
-        y = pd.to_numeric(plot[seed_columns["3026"]], errors="coerce")
-        labels = plot["_timing"].astype(str) + " · " + plot["_region"].astype(str)
-        x_col, y_col = "seed 2026 delta AUROC", "seed 3026 delta AUROC"
-    else:
-        plot = work
-        labels = plot["_timing"].astype(str) + " · " + plot["_region"].astype(str)
-    valid = np.isfinite(x) & np.isfinite(y)
+    plot = seed_consistency_display_frame(frame)
+    x_col, y_col = "seed 2026 delta AUROC", "seed 3026 delta AUROC"
+    valid = np.isfinite(plot["_x"]) & np.isfinite(plot["_y"])
     if valid.sum() == 0:
         raise ValueError("seed-consistency table has no paired finite values")
-    x = x.loc[valid]
-    y = y.loc[valid]
-    labels = labels.loc[valid]
-    figure, axis = plt.subplots(figsize=(6.2, 5.4))
-    axis.scatter(x, y, c=[REGION_COLORS.get(str(region), "#777777") for region in plot.loc[valid, "_region"]], s=34, alpha=0.85)
-    extent = max(0.03, float(np.nanmax(np.abs(np.concatenate([x.to_numpy(), y.to_numpy()])))) * 1.15)
-    axis.plot([-extent, extent], [-extent, extent], color="#999999", linestyle=":", linewidth=0.8)
-    axis.axhline(0.0, color="#333333", linestyle="--", linewidth=0.8)
-    axis.axvline(0.0, color="#333333", linestyle="--", linewidth=0.8)
-    for xv, yv, label in zip(x, y, labels, strict=True):
-        axis.annotate(str(label), (xv, yv), xytext=(3, 3), textcoords="offset points", fontsize=6)
-    axis.set_xlim(-extent, extent)
-    axis.set_ylim(-extent, extent)
-    axis.set_xlabel(x_col.replace("_", " "))
-    axis.set_ylabel(y_col.replace("_", " "))
-    axis.set_title("Seed consistency of registered gains", weight="bold")
-    axis.grid(alpha=0.15)
+    finite_x = plot.loc[valid, "_x"].to_numpy()
+    finite_y = plot.loc[valid, "_y"].to_numpy()
+    extent = max(
+        0.03,
+        float(np.nanmax(np.abs(np.concatenate([finite_x, finite_y])))) * 1.15,
+    )
+    contexts = ("MRI_ONLY", "C_PLUS_F")
+    arms = ("LOCAL0", "LOCAL3")
+    figure, axes = plt.subplots(
+        len(contexts),
+        len(arms),
+        figsize=(12.6, 9.0),
+        sharex=True,
+        sharey=True,
+        constrained_layout=True,
+    )
+    for row, context in enumerate(contexts):
+        for column, arm in enumerate(arms):
+            axis = axes[row, column]
+            selected = plot.loc[
+                valid & plot["context"].eq(context) & plot["arm"].eq(arm)
+            ]
+            if len(selected) != 9:
+                raise ValueError(
+                    f"seed-consistency facet requires 9 rows: {context}/{arm}"
+                )
+            axis.scatter(
+                selected["_x"],
+                selected["_y"],
+                c=[
+                    REGION_COLORS.get(str(region), "#777777")
+                    for region in selected["_region"]
+                ],
+                s=34,
+                alpha=0.85,
+            )
+            axis.plot(
+                [-extent, extent],
+                [-extent, extent],
+                color="#999999",
+                linestyle=":",
+                linewidth=0.8,
+            )
+            axis.axhline(0.0, color="#333333", linestyle="--", linewidth=0.8)
+            axis.axvline(0.0, color="#333333", linestyle="--", linewidth=0.8)
+            for xv, yv, label in zip(
+                selected["_x"],
+                selected["_y"],
+                selected["_display_label"],
+                strict=True,
+            ):
+                axis.annotate(
+                    str(label),
+                    (xv, yv),
+                    xytext=(3, 3),
+                    textcoords="offset points",
+                    fontsize=4.8,
+                )
+            axis.set_xlim(-extent, extent)
+            axis.set_ylim(-extent, extent)
+            axis.set_title(f"{context} · {arm}", weight="bold")
+            axis.grid(alpha=0.15)
+    for axis in axes[-1, :]:
+        axis.set_xlabel(x_col)
+    for axis in axes[:, 0]:
+        axis.set_ylabel(y_col)
+    figure.suptitle("Seed consistency of registered gains", weight="bold")
     return figure
 
 
 def timing_figure(frame: pd.DataFrame) -> plt.Figure:
-    return _line_by_region(
-        frame,
-        title="Timing sensitivity (T3 is late/pre-surgery)",
-        ylabel="AUROC delta vs R0",
-        delta=True,
+    work = timing_facet_frame(frame)
+    figure, axes = plt.subplots(
+        1,
+        len(EXPECTED_TIMING_FACETS),
+        figsize=(15.0, 4.4),
+        sharey=True,
+        constrained_layout=True,
     )
+    for axis, (context, population) in zip(
+        axes, EXPECTED_TIMING_FACETS, strict=True
+    ):
+        selected = work.loc[
+            work["_context"].eq(context) & work["_population"].eq(population)
+        ]
+        summary = selected.groupby(
+            ["_timing", "_region"], sort=False
+        )["_delta"].mean()
+        timings = [
+            value
+            for value in ("T0", "T0-T1", "T0-T2", "T0-T3")
+            if value in summary.index.get_level_values(0)
+        ]
+        regions = [
+            value
+            for value in PRIMARY_REGIONS
+            if value in summary.index.get_level_values(1)
+        ]
+        if not timings or not regions:
+            raise ValueError(f"timing-sensitivity facet is empty: {context}/{population}")
+        x = np.arange(len(timings))
+        for region in regions:
+            axis.plot(
+                x,
+                [summary.get((timing, region), np.nan) for timing in timings],
+                marker="o",
+                linewidth=1.25,
+                label=region,
+                color=REGION_COLORS.get(region, "#999999"),
+            )
+        axis.axhline(0.0, color="#333333", linestyle="--", linewidth=0.9)
+        axis.set_xticks(
+            x,
+            ["T0-T3\nlate/pre-surgery" if value == "T0-T3" else value for value in timings],
+        )
+        axis.set_title(f"{context}\n{population}", weight="bold")
+        axis.grid(axis="y", alpha=0.2)
+    axes[0].set_ylabel("AUROC delta vs R0 (mean over arm/seed)")
+    axes[-1].legend(frameon=False, ncol=3)
+    figure.suptitle("Timing sensitivity by context/population", weight="bold")
+    return figure
 
 
 def build_figures(

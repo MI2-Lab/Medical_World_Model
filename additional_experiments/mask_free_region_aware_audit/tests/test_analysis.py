@@ -419,6 +419,95 @@ def test_oracle_recovery_uses_exact_matched_population_and_positive_denominator(
         audit.build_oracle_recovery_table(config, new_predictions, new_metrics, corrupted, goal5_mri)
 
 
+def test_bootstrap_preserves_model_seed_and_numeric_pair_association() -> None:
+    patient_ids = np.asarray([f"bootstrap-{index:02d}" for index in range(20)])
+    labels = np.asarray([0, 1] * 10)
+    baseline = np.linspace(0.05, 0.95, len(patient_ids))
+
+    def probabilities(seed: int, context: str, comparison: bool) -> np.ndarray:
+        seed_shift = 0.015 if seed == 3026 else -0.01
+        context_shift = {"MRI_ONLY": 0.0, "C_PLUS_F": 0.025, "GOAL5_ORACLE": -0.02}[context]
+        signal = (0.035 if comparison else 0.0) * (2 * labels - 1)
+        return np.clip(baseline + seed_shift + context_shift + signal, 0.001, 0.999)
+
+    mri_parts = []
+    incremental_parts = []
+    oracle_parts = []
+    for seed in (2026, 3026):
+        for context, destination, analysis, population, models in (
+            (
+                "MRI_ONLY", mri_parts, "mri_only_pcr", "full_808",
+                (("R0", "R0", False), ("R2", "R2", True)),
+            ),
+            (
+                "C_PLUS_F", incremental_parts, "clinical_ftv_pcr", "ftv_complete_375",
+                (("R0", "C+F+R0", False), ("R2", "C+F+R2", True)),
+            ),
+        ):
+            for variant, model, comparison in models:
+                frame = _probability_rows(
+                    patient_ids, labels, probabilities(seed, context, comparison),
+                    seed=seed, variant=variant, population=population, analysis=analysis,
+                )
+                frame["context"] = context
+                frame["model"] = model
+                destination.append(frame.reindex(columns=audit.PREDICTION_COLUMNS))
+        for variant, comparison in (("FIXED_P3", False), ("PERI20", True)):
+            oracle_parts.append(_probability_rows(
+                patient_ids, labels, probabilities(seed, "GOAL5_ORACLE", comparison),
+                seed=seed, variant=variant, population="oracle_pair_PERI20",
+            ))
+
+    mri = pd.concat(mri_parts, ignore_index=True)
+    incremental = pd.concat(incremental_parts, ignore_index=True)
+    oracle = pd.concat(oracle_parts, ignore_index=True)
+    config = {
+        "frozen_cells": {"seed_bases": [2026, 3026], "arms": ["LOCAL0"]},
+        "bootstrap": {
+            "replicates": 7, "confidence_level": 0.95, "seed": 260811,
+            "timings": ["T0-T1"], "candidate_variants": ["R2"],
+        },
+        "oracle": {
+            "primary_arm": "LOCAL0", "view": "T0-T1",
+            "population": "oracle_pair_PERI20",
+        },
+    }
+    summary, draws = audit.run_preregistered_bootstrap(config, mri, incremental, oracle)
+
+    assert len(summary) == 2 * 3 * 3
+    assert len(draws) == 2 * 3 * 7
+    assert set(summary["seed"]) == {2026, 3026}
+    assert set(draws["seed"]) == {2026, 3026}
+    assert set(summary["bootstrap_seed"]) == {260811}
+    summary_identity = [
+        "seed", "arm", "context", "view", "population", "candidate",
+        "reference_model", "comparison_model", "metric",
+    ]
+    assert not summary.duplicated(summary_identity).any()
+
+    for seed in (2026, 3026):
+        for context, source, reference_model, comparison_model in (
+            ("MRI_ONLY", mri, "R0", "R2"),
+            ("C_PLUS_F", incremental, "C+F+R0", "C+F+R2"),
+        ):
+            reference = source.loc[(source["seed"] == seed) & (source["model"] == reference_model)]
+            comparison = source.loc[(source["seed"] == seed) & (source["model"] == comparison_model)]
+            reference_values = audit._binary_oof_values(reference)
+            comparison_values = audit._binary_oof_values(comparison)
+            selected = summary.loc[(summary["seed"] == seed) & (summary["context"] == context)]
+            for metric in ("auroc", "auprc", "brier"):
+                row = selected.loc[selected["metric"] == metric].iloc[0]
+                assert row["reference"] == pytest.approx(reference_values[metric], abs=1e-15)
+                assert row["comparison"] == pytest.approx(comparison_values[metric], abs=1e-15)
+                expected_improvement = (
+                    reference_values[metric] - comparison_values[metric]
+                    if metric == "brier"
+                    else comparison_values[metric] - reference_values[metric]
+                )
+                assert row["improvement"] == pytest.approx(expected_improvement, abs=1e-15)
+                assert row["estimate"] == pytest.approx(expected_improvement, abs=1e-15)
+
+
 def test_region_occupancy_flattens_frozen_contract(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     metric_dir = tmp_path / "metrics"
     metric_dir.mkdir()

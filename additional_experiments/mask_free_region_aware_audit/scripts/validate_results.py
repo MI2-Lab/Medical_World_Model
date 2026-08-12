@@ -27,13 +27,23 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from generate_figures import (  # noqa: E402
+    BOOTSTRAP_SCIENTIFIC_KEY,
+    EXPECTED_BOOTSTRAP_CONTEXTS,
+    EXPECTED_BOOTSTRAP_SEED,
+    EXPECTED_MODEL_SEEDS,
+    EXPECTED_MRI_POPULATIONS,
+    EXPECTED_TIMING_FACETS,
     FIGURES,
     FIGURE_MANIFEST_COLUMNS,
     PUBLIC_TABLES,
+    bootstrap_display_frame,
     file_sha256,
     load_public_tables,
+    mri_population_display_frame,
     numeric_column,
     resolve_column,
+    seed_consistency_display_frame,
+    timing_facet_frame,
 )
 from generate_report import (  # noqa: E402
     GATES_PATH,
@@ -425,6 +435,45 @@ def validate_public_tables(root: Path) -> dict[str, Any]:
         _validate_probability_metrics(frame, PUBLIC_TABLES[logical_name])
         rows[logical_name] = len(frame)
 
+    bootstrap = tables["bootstrap"]
+    model_seed = pd.to_numeric(bootstrap["seed"], errors="coerce")
+    rng_seed = pd.to_numeric(bootstrap["bootstrap_seed"], errors="coerce")
+    if (
+        not np.isfinite(model_seed.to_numpy(float)).all()
+        or not np.equal(model_seed, np.floor(model_seed)).all()
+        or set(model_seed.astype(int)) != set(EXPECTED_MODEL_SEEDS)
+    ):
+        raise ValidationError(
+            "bootstrap model-seed domain must be exactly 2026/3026"
+        )
+    if (
+        not np.isfinite(rng_seed.to_numpy(float)).all()
+        or not np.equal(rng_seed, np.floor(rng_seed)).all()
+        or set(rng_seed.astype(int)) != {EXPECTED_BOOTSTRAP_SEED}
+    ):
+        raise ValidationError("bootstrap RNG seed must be exactly 260811")
+    if bootstrap.duplicated(list(BOOTSTRAP_SCIENTIFIC_KEY)).any():
+        raise ValidationError("bootstrap full scientific key is not unique")
+    if not bootstrap["view"].astype(str).equals(bootstrap["timing"].astype(str)):
+        raise ValidationError("bootstrap timing differs from view")
+    comparison_key = list(BOOTSTRAP_SCIENTIFIC_KEY[:-1])
+    metric_coverage = bootstrap.groupby(comparison_key, dropna=False)["metric"].agg(
+        lambda values: frozenset(values.astype(str).str.lower())
+    )
+    if not metric_coverage.map(
+        lambda values: values == frozenset({"auroc", "auprc", "brier"})
+    ).all():
+        raise ValidationError("bootstrap scientific cells lack exact metric coverage")
+    if (
+        not pd.to_numeric(bootstrap["n_bootstrap"], errors="coerce").eq(2000).all()
+        or not pd.to_numeric(bootstrap["n_valid_bootstrap"], errors="coerce")
+        .between(1, 2000)
+        .all()
+        or not bootstrap["bootstrap_unit"].astype(str).eq("patient_within_outer_fold").all()
+        or not bootstrap["ci_method"].astype(str).eq("percentile").all()
+    ):
+        raise ValidationError("bootstrap execution contract drifted")
+
     oracle = tables["oracle_recovery"]
     ratio = pd.to_numeric(oracle["recovery_ratio"], errors="coerce")
     denominator = pd.to_numeric(
@@ -437,7 +486,7 @@ def validate_public_tables(root: Path) -> dict[str, Any]:
     ratio_present = oracle["recovery_ratio"].notna()
     if ratio_present.any() and not np.isfinite(ratio.loc[ratio_present].to_numpy(float)).all():
         raise ValidationError("Oracle recovery_ratio contains a non-finite value")
-    declared_defined = recovery_defined.fillna(False).astype(bool)
+    declared_defined = recovery_defined.eq(True)
     if (declared_defined & ~ratio_present).any():
         raise ValidationError("Oracle recovery_defined is true without a recovery_ratio")
     requires_denominator = declared_defined | ratio_present
@@ -450,6 +499,42 @@ def validate_public_tables(root: Path) -> dict[str, Any]:
             "Oracle recovery requires a positive finite published_oracle_uplift"
         )
     return {"status": "PASS", "row_counts": rows}
+
+
+def validate_figure_semantics(root: Path) -> dict[str, Any]:
+    """Validate that plotting views preserve registered scientific strata."""
+
+    tables = load_public_tables(root)
+    mri = mri_population_display_frame(tables["mri_only_pcr"])
+    bootstrap = bootstrap_display_frame(tables["bootstrap"])
+    seeds = seed_consistency_display_frame(tables["seed_consistency"])
+    timing = timing_facet_frame(tables["timing_sensitivity"])
+    bootstrap_contexts = tuple(
+        context
+        for context in EXPECTED_BOOTSTRAP_CONTEXTS
+        if context in set(bootstrap["context"].astype(str))
+    )
+    timing_facets = tuple(
+        facet
+        for facet in EXPECTED_TIMING_FACETS
+        if facet
+        in set(zip(timing["_context"], timing["_population"], strict=True))
+    )
+    if bootstrap["_display_label"].duplicated().any():
+        raise ValidationError("bootstrap figure labels collide")
+    if seeds["_display_label"].duplicated().any():
+        raise ValidationError("seed-consistency figure labels collide")
+    return {
+        "status": "PASS",
+        "mri_populations": list(EXPECTED_MRI_POPULATIONS),
+        "bootstrap_contexts": list(bootstrap_contexts),
+        "bootstrap_auroc_rows_displayed": len(bootstrap),
+        "bootstrap_unique_labels": int(bootstrap["_display_label"].nunique()),
+        "seed_consistency_rows_displayed": len(seeds),
+        "seed_consistency_unique_labels": int(seeds["_display_label"].nunique()),
+        "timing_facets": [list(value) for value in timing_facets],
+        "mri_rows_retained": len(mri),
+    }
 
 
 def _strict_optional_bool(value: Any) -> bool | float:
@@ -1148,6 +1233,7 @@ def validate_all(
         "required_outputs": validate_required_outputs(root),
         "feature_completion": validate_feature_completion(root),
         "public_tables": validate_public_tables(root),
+        "figure_semantics": validate_figure_semantics(root),
         "gates_and_run_summary": validate_gates_and_summary(
             root,
             allow_pending_git=allow_pending_git,

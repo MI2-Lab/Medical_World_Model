@@ -261,13 +261,18 @@ def _oracle_summary(frame: pd.DataFrame) -> pd.DataFrame:
     )
 
 
-def _ftv_summary(frame: pd.DataFrame) -> tuple[str, str, float]:
+def _ftv_r5_vs_r0_summary(
+    frame: pd.DataFrame,
+) -> tuple[str, dict[str, tuple[float, float, float]]]:
+    """Compare R5 with R0 separately for primary-scope FTV and delta-FTV."""
+
     work = frame.copy()
     scope = resolve_column(work, ("analysis_scope", "scope"), required=False)
     if scope is not None:
         primary = work[scope].astype(str).eq("primary_measurement_valid")
-        if primary.any():
-            work = work.loc[primary].copy()
+        if not primary.any():
+            raise ValueError("FTV table lacks primary_measurement_valid rows")
+        work = work.loc[primary].copy()
     region = resolve_column(work, ("variant", "region", "feature_variant", "candidate"))
     target = resolve_column(work, ("target", "endpoint", "outcome"), required=False)
     metric, values = numeric_column(
@@ -279,9 +284,26 @@ def _ftv_summary(frame: pd.DataFrame) -> tuple[str, str, float]:
     work["_target"] = work[target].astype(str) if target else "FTV"
     work["_value"] = values
     grouped = work.groupby(["_target", "_region"], sort=False)["_value"].mean()
+    target_names: dict[str, str] = {}
+    for observed in grouped.index.get_level_values(0).unique():
+        normalized = _normal(observed)
+        if normalized == "ftv":
+            target_names["FTV"] = str(observed)
+        elif normalized in {"deltaftv", "ftvdelta"}:
+            target_names["delta_FTV"] = str(observed)
+    if set(target_names) != {"FTV", "delta_FTV"}:
+        raise ValueError("FTV table lacks separate FTV and delta_FTV targets")
+    comparisons: dict[str, tuple[float, float, float]] = {}
     lower_better = _normal(metric) in {"rmse", "mae", "testrmse", "testmae"}
-    index = grouped.idxmin() if lower_better else grouped.idxmax()
-    return str(index[0]), str(index[1]), float(grouped.loc[index])
+    for canonical, observed in target_names.items():
+        try:
+            r0 = float(grouped.loc[(observed, "R0")])
+            r5 = float(grouped.loc[(observed, "R5")])
+        except KeyError as error:
+            raise ValueError(f"FTV table lacks R0/R5 comparison for {canonical}") from error
+        improvement = r0 - r5 if lower_better else r5 - r0
+        comparisons[canonical] = (r5, r0, float(improvement))
+    return metric, comparisons
 
 
 def _markdown_table(frame: pd.DataFrame, *, max_rows: int = 12, max_columns: int = 10) -> str:
@@ -381,7 +403,9 @@ def build_report(
     phenotype_region, phenotype_gain = _best_delta(
         tables["phenotype"], ("R1", "R2", "R3", "R4", "R5")
     )
-    ftv_target, ftv_region, ftv_value = _ftv_summary(tables["ftv"])
+    ftv_metric, ftv_comparisons = _ftv_r5_vs_r0_summary(tables["ftv"])
+    ftv_r5, ftv_r0, ftv_gain = ftv_comparisons["FTV"]
+    delta_ftv_r5, delta_ftv_r0, delta_ftv_gain = ftv_comparisons["delta_FTV"]
     oracle = _oracle_summary(tables["oracle_recovery"])
     oracle_candidates = oracle.loc[
         oracle.index.intersection(["R1", "R2", "R3", "R5"]), "mean"
@@ -483,7 +507,7 @@ C+F+Rk 相对 C+F+R0 的最佳描述性项为 **{incremental_region}**（平均 
 
 ### Q7 — FTV / ΔFTV 是否改善？
 
-FTV response-control 表中所报指标的最佳描述性 cell 为 **{ftv_target} / {ftv_region}**（值 `{_fmt(ftv_value)}`）。这些 Ridge probes 用于判断信号是否主要反映 burden/response；它们不是影像测量替代品，也不证明生物学过程。
+在 `primary_measurement_valid` 汇总和 `{ftv_metric}` 口径下，FTV 的 R5=`{_fmt(ftv_r5)}`、R0=`{_fmt(ftv_r0)}`、改善量=`{_fmt(ftv_gain)}`，因此 **{'改善' if ftv_gain > 0 else '未改善'}**；ΔFTV 的 R5=`{_fmt(delta_ftv_r5)}`、R0=`{_fmt(delta_ftv_r0)}`、改善量=`{_fmt(delta_ftv_gain)}`，因此 **{'改善' if delta_ftv_gain > 0 else '未改善'}**。两项必须分开回答，不能用 FTV 的正结果代替 ΔFTV。它们是 burden/response 的 Ridge-probe diagnostics，不是影像测量替代品，也不证明生物学过程。
 
 ### Q8 — 是否部分恢复 Goal 5 PERI20 Oracle gain？
 

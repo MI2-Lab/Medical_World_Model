@@ -21,15 +21,21 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from common import (  # noqa: E402
     CONFIG_PATH,
     GITIGNORE_PATH,
+    IMPLEMENTATION_ERRATUM_2_PATH,
     IMPLEMENTATION_ERRATUM_PATH,
     LOCK_PATH,
     LOCK_STATUS,
     PLAN_PATH,
+    PRIOR_COMPATIBILITY_REFREEZE_COMMIT,
+    PRIOR_COMPATIBILITY_REFREEZE_LOCK_SHA256,
     PRIOR_PREREGISTRATION_COMMIT,
     PRIOR_PREREGISTRATION_LOCK_SHA256,
     PRIVACY_CONTRACT,
+    REFREEZE_2_LOCK_KEYS,
+    REFREEZE_2_LOCK_STATUS,
     REFREEZE_LOCK_KEYS,
     REFREEZE_LOCK_STATUS,
+    ERRATUM_2_DISCARDED_RECORD_SET_SHA256,
     canonical_sha256,
     cells,
     file_sha256,
@@ -39,7 +45,10 @@ from common import (  # noqa: E402
     load_goal5_lock,
     publish_json_once,
     require_erratum_plan_disclosure,
+    require_erratum_2_plan_disclosure,
     require_implementation_erratum,
+    require_implementation_erratum_2,
+    require_prior_compatibility_refreeze,
     require_prior_preregistration,
 )
 
@@ -142,6 +151,54 @@ def _require_refreeze_git_context(config: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _require_refreeze_2_git_context(config: dict[str, Any]) -> dict[str, Any]:
+    """Require schema 3 to start exactly at the committed schema-2 anchor."""
+
+    branch = _git("branch", "--show-current")
+    head = _git("rev-parse", "HEAD")
+    if branch != config["branch"]:
+        raise ValueError("current branch differs from the second refreeze branch")
+    if head != PRIOR_COMPATIBILITY_REFREEZE_COMMIT:
+        raise ValueError(
+            "schema-3 refreeze must start at the exact schema-2 commit"
+        )
+    tracked, untracked = _dirty_paths()
+    prefix = str(ROOT.relative_to(ROOT.parents[1])) + "/"
+    paths = {*tracked, *untracked}
+    if any(not path.startswith(prefix) for path in paths):
+        raise ValueError("dirty path outside the new experiment during schema-3 refreeze")
+    required_dirty = {
+        prefix + "EXPERIMENT_PLAN.md",
+        prefix + "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json",
+        prefix + "scripts/common.py",
+        prefix + "scripts/freeze_preregistration.py",
+        prefix + "scripts/generate_figures.py",
+        prefix + "scripts/generate_report.py",
+        prefix + "scripts/run_audit.py",
+        prefix + "scripts/validate_results.py",
+        prefix + "tests/test_analysis.py",
+        prefix + "tests/test_extraction_contract.py",
+        prefix + "tests/test_reporting.py",
+    }
+    if not required_dirty.issubset(paths):
+        missing = sorted(required_dirty.difference(paths))
+        raise ValueError(f"required schema-3 implementation paths are not dirty: {missing}")
+    forbidden = {
+        prefix + "configs/audit.json",
+        prefix + ".gitignore",
+        prefix + "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json",
+    }
+    if forbidden.intersection(paths):
+        raise ValueError("schema-3 refreeze may not change config, privacy, or erratum 1")
+    return {
+        "base_head": head,
+        "branch": branch,
+        "all_dirty_paths_confined_to_new_experiment": True,
+        "tracked_paths_before_refreeze": tracked,
+        "untracked_paths_before_refreeze": untracked,
+    }
+
+
 def _pre_freeze_result_inventory() -> dict[str, int]:
     output: dict[str, int] = {}
     for directory in RESULT_DIRECTORIES:
@@ -169,6 +226,19 @@ def _pre_freeze_result_inventory() -> dict[str, int]:
     if any(normalized.values()):
         raise ValueError(f"result artifacts already exist before freeze: {normalized}")
     return normalized
+
+
+def _require_allowed_nonresults_unchanged(commit: str) -> None:
+    """Authenticate every placeholder/start record exempted from zero inventory."""
+
+    for relative_text in sorted(ALLOWED_PREFREEZE_NONRESULTS):
+        source = ROOT / relative_text
+        if not source.is_file():
+            raise FileNotFoundError(f"required frozen non-result is absent: {relative_text}")
+        repository_relative = source.relative_to(ROOT.parents[1])
+        historical = historical_file_bytes(commit, repository_relative)
+        if source.read_bytes() != historical:
+            raise ValueError(f"allowed non-result drifted from Git: {relative_text}")
 
 
 def _selected_cells(config: dict[str, Any]) -> dict[str, Any]:
@@ -249,6 +319,34 @@ def _require_working_prior_lock() -> dict[str, Any]:
     return prior
 
 
+def _prior_compatibility_lock_bytes_from_git() -> bytes:
+    relative = LOCK_PATH.relative_to(ROOT.parents[1])
+    payload = historical_file_bytes(PRIOR_COMPATIBILITY_REFREEZE_COMMIT, relative)
+    if (
+        hashlib.sha256(payload).hexdigest()
+        != PRIOR_COMPATIBILITY_REFREEZE_LOCK_SHA256
+    ):
+        raise ValueError("historical schema-2 lock SHA-256 drifted")
+    return payload
+
+
+def _require_working_prior_compatibility_lock() -> dict[str, Any]:
+    """Authenticate both Git and working copies of the schema-2 lock."""
+
+    if not LOCK_PATH.is_file():
+        raise FileNotFoundError("schema-2 lock is absent before schema-3 refreeze")
+    if file_sha256(LOCK_PATH) != PRIOR_COMPATIBILITY_REFREEZE_LOCK_SHA256:
+        raise ValueError("working lock is not the exact schema-2 lock to supersede")
+    historical = _prior_compatibility_lock_bytes_from_git()
+    working = LOCK_PATH.read_bytes()
+    if working != historical:
+        raise ValueError("working schema-2 lock differs from Git history")
+    prior = require_prior_compatibility_refreeze()
+    if json.loads(working.decode("utf-8")) != prior:
+        raise ValueError("working schema-2 lock JSON differs from Git history")
+    return prior
+
+
 def build_refreeze_lock(config: dict[str, Any]) -> dict[str, Any]:
     """Build schema 2 only after authenticating and emptying the failed run."""
 
@@ -308,6 +406,70 @@ def build_refreeze_lock(config: dict[str, Any]) -> dict[str, Any]:
     return payload
 
 
+def build_refreeze_2_lock(config: dict[str, Any]) -> dict[str, Any]:
+    """Build schema 3 after authenticating and emptying the completed run."""
+
+    git_provenance = _require_refreeze_2_git_context(config)
+    prior = _require_working_prior_compatibility_lock()
+    require_implementation_erratum()
+    require_implementation_erratum_2()
+    require_erratum_2_plan_disclosure(prior)
+    if (
+        file_sha256(CONFIG_PATH) != prior["config_sha256"]
+        or canonical_sha256(config) != prior["config_canonical_sha256"]
+        or file_sha256(GITIGNORE_PATH) != prior["gitignore_sha256"]
+        or file_sha256(IMPLEMENTATION_ERRATUM_PATH)
+        != prior["implementation_erratum_sha256"]
+    ):
+        raise ValueError("schema-3 refreeze changed config, privacy, or erratum 1")
+    selected_cells = _selected_cells(config)
+    if (
+        selected_cells != prior["selected_cells"]
+        or config["paths"]["goal5_lock_sha256"]
+        != prior["goal5_preregistration_lock_sha256"]
+        or config["paths"]["goal5_feature_completion_sha256"]
+        != prior["goal5_feature_completion_sha256"]
+        or prior["privacy_contract"] != PRIVACY_CONTRACT
+        or prior["superseded_artifacts_reused"] is not False
+        or prior["scientific_contract_unchanged"] is not True
+    ):
+        raise ValueError(
+            "schema-3 refreeze changed Goal5 cells, inputs, privacy, or science"
+        )
+    inventory = _pre_freeze_result_inventory()
+    _require_allowed_nonresults_unchanged(PRIOR_COMPATIBILITY_REFREEZE_COMMIT)
+    payload = {
+        **prior,
+        "schema_version": 3,
+        "preregistration_revision": 2,
+        "status": REFREEZE_2_LOCK_STATUS,
+        "created_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "experiment_plan_sha256": file_sha256(PLAN_PATH),
+        "implementation_sha256": implementation_inventory(),
+        "prior_compatibility_refreeze_commit": (
+            PRIOR_COMPATIBILITY_REFREEZE_COMMIT
+        ),
+        "prior_compatibility_refreeze_lock_sha256": (
+            PRIOR_COMPATIBILITY_REFREEZE_LOCK_SHA256
+        ),
+        "implementation_erratum_2_sha256": file_sha256(
+            IMPLEMENTATION_ERRATUM_2_PATH
+        ),
+        "superseded_formal_run_artifact_count": 94,
+        "superseded_formal_run_artifact_record_set_sha256": (
+            ERRATUM_2_DISCARDED_RECORD_SET_SHA256
+        ),
+        "all_twenty_feature_cells_rebuild_required": True,
+        "superseded_artifacts_reused": False,
+        "scientific_contract_unchanged": True,
+        "pre_refreeze_2_result_inventory": inventory,
+        "git_provenance_before_refreeze_2": git_provenance,
+    }
+    if set(payload) != set(REFREEZE_2_LOCK_KEYS):
+        raise AssertionError("internal schema-3 lock key drift")
+    return payload
+
+
 def _replace_prior_lock(payload: dict[str, Any]) -> None:
     """Atomically replace only the authenticated historical schema-1 bytes."""
 
@@ -340,6 +502,39 @@ def _replace_prior_lock(payload: dict[str, Any]) -> None:
         temporary.unlink(missing_ok=True)
 
 
+def _replace_prior_compatibility_lock(payload: dict[str, Any]) -> None:
+    """Atomically replace only the authenticated committed schema-2 bytes."""
+
+    if file_sha256(LOCK_PATH) != PRIOR_COMPATIBILITY_REFREEZE_LOCK_SHA256:
+        raise ValueError("refusing to replace a non-historical schema-2 lock")
+    descriptor, temporary_name = tempfile.mkstemp(
+        prefix=f".{LOCK_PATH.name}.", suffix=".tmp", dir=LOCK_PATH.parent
+    )
+    temporary = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
+            json.dump(payload, stream, indent=2, sort_keys=True, allow_nan=False)
+            stream.write("\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+        temporary.chmod(0o644)
+        if (
+            file_sha256(LOCK_PATH)
+            != PRIOR_COMPATIBILITY_REFREEZE_LOCK_SHA256
+            or LOCK_PATH.read_bytes() != _prior_compatibility_lock_bytes_from_git()
+        ):
+            raise ValueError("schema-2 lock changed during schema-3 refreeze")
+        os.replace(temporary, LOCK_PATH)
+        LOCK_PATH.chmod(0o644)
+        directory_descriptor = os.open(LOCK_PATH.parent, os.O_RDONLY)
+        try:
+            os.fsync(directory_descriptor)
+        finally:
+            os.close(directory_descriptor)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     action = parser.add_mutually_exclusive_group()
@@ -352,8 +547,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--execute-refreeze",
         action="store_true",
         help=(
-            "replace the exact historical schema-1 lock with schema 2 after "
-            "the erratum and zero-result inventory validate"
+            "replace the exact authenticated prior lock with the next schema "
+            "after its append-only erratum and zero-result inventory validate"
         ),
     )
     return parser.parse_args(argv)
@@ -363,18 +558,39 @@ def main(argv: list[str] | None = None) -> None:
     os.umask(0o077)
     args = parse_args(argv)
     config = load_config(CONFIG_PATH, verify_extraction_inputs=True)
-    refreeze = bool(args.execute_refreeze) or (
-        not args.execute
-        and LOCK_PATH.is_file()
-        and file_sha256(LOCK_PATH) == PRIOR_PREREGISTRATION_LOCK_SHA256
+    working_lock_sha256 = file_sha256(LOCK_PATH) if LOCK_PATH.is_file() else None
+    if args.execute:
+        action = "initial"
+        payload = build_lock(config)
+    elif (
+        working_lock_sha256 == PRIOR_COMPATIBILITY_REFREEZE_LOCK_SHA256
+        and IMPLEMENTATION_ERRATUM_2_PATH.is_file()
+    ):
+        action = "schema3"
+        payload = build_refreeze_2_lock(config)
+    elif (
+        working_lock_sha256 == PRIOR_PREREGISTRATION_LOCK_SHA256
         and IMPLEMENTATION_ERRATUM_PATH.is_file()
-    )
-    payload = build_refreeze_lock(config) if refreeze else build_lock(config)
+        and not IMPLEMENTATION_ERRATUM_2_PATH.exists()
+    ):
+        action = "schema2"
+        payload = build_refreeze_lock(config)
+    elif working_lock_sha256 is None and not args.execute_refreeze:
+        action = "initial"
+        payload = build_lock(config)
+    else:
+        raise ValueError("working preregistration lock/erratum chain is not refreezable")
     if not args.execute and not args.execute_refreeze:
+        ready_status = {
+            "initial": "READY_TO_FREEZE",
+            "schema2": "READY_TO_REFREEZE_SCHEMA_2",
+            "schema3": "READY_TO_REFREEZE_SCHEMA_3",
+        }[action]
         print(
             json.dumps(
                 {
-                    "status": "READY_TO_REFREEZE" if refreeze else "READY_TO_FREEZE",
+                    "status": ready_status,
+                    "schema_version": payload["schema_version"],
                     "formal_cell_count": payload["formal_cell_count"],
                     "implementation_file_count": len(payload["implementation_sha256"]),
                     "would_write": str(LOCK_PATH),
@@ -384,8 +600,14 @@ def main(argv: list[str] | None = None) -> None:
         )
         return
     if args.execute_refreeze:
-        _replace_prior_lock(payload)
-        status = "REFROZEN"
+        if action == "schema3":
+            _replace_prior_compatibility_lock(payload)
+            status = "REFROZEN_SCHEMA_3"
+        elif action == "schema2":
+            _replace_prior_lock(payload)
+            status = "REFROZEN_SCHEMA_2"
+        else:
+            raise ValueError("--execute-refreeze requires an authenticated prior lock")
     else:
         publish_json_once(payload, LOCK_PATH)
         status = "FROZEN"

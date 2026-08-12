@@ -213,26 +213,29 @@ def _init_fixture(tmp_path: Path) -> Path:
 
     mri_rows: list[dict[str, object]] = []
     for seed in (2026, 3026):
-        for timing_index, timing in enumerate(("T0", "T0-T1", "T0-T2", "T0-T3")):
-            for region_index, region in enumerate(regions):
-                gain = {"R0": 0.0, "R1": 0.010, "R2": 0.018, "R3": 0.022, "R4": 0.020, "R5": 0.026}[region]
-                mri_rows.append(
-                    {
-                        "seed": seed,
-                        "arm": "LOCAL0",
-                        "timing": timing,
-                        "target": "pCR",
-                        "population": "full_808",
-                        "variant": region,
-                        "n": 808,
-                        "auroc": 0.61 + 0.005 * timing_index + gain,
-                    }
-                )
+        for arm in ("LOCAL0", "LOCAL3"):
+            for population, count in (("full_808", 808), ("ftv_complete_375", 375)):
+                for timing_index, timing in enumerate(("T0", "T0-T1", "T0-T2", "T0-T3")):
+                    for region in regions:
+                        gain = {"R0": 0.0, "R1": 0.010, "R2": 0.018, "R3": 0.022, "R4": 0.020, "R5": 0.026}[region]
+                        mri_rows.append(
+                            {
+                                "seed": seed,
+                                "arm": arm,
+                                "timing": timing,
+                                "target": "pCR",
+                                "population": population,
+                                "variant": region,
+                                "n": count,
+                                "n_positive": 100 if count == 375 else 220,
+                                "n_negative": 275 if count == 375 else 588,
+                                "auroc": 0.61 + 0.005 * timing_index + gain,
+                            }
+                        )
     _write_csv(root, figures.PUBLIC_TABLES["mri_only_pcr"], mri_rows)
     _write_csv(root, figures.PUBLIC_TABLES["clinical_pcr"], mri_rows[:12])
 
     incremental_rows = []
-    timing_rows = []
     for seed in (2026, 3026):
         for timing in ("T0", "T0-T1", "T0-T2", "T0-T3"):
             for region in regions:
@@ -247,16 +250,36 @@ def _init_fixture(tmp_path: Path) -> Path:
                         "delta_auroc_vs_cf_r0": delta,
                     }
                 )
-                timing_rows.append(
-                    {
-                        "seed": seed,
-                        "arm": "LOCAL0",
-                        "timing": timing,
-                        "variant": region,
-                        "delta_auroc_vs_r0": delta + (0.01 if region != "R0" else 0),
-                    }
-                )
     _write_csv(root, figures.PUBLIC_TABLES["clinical_ftv_incremental"], incremental_rows)
+    timing_rows = []
+    for context, population in (
+        ("MRI_ONLY", "full_808"),
+        ("MRI_ONLY", "ftv_complete_375"),
+        ("C_PLUS_F", "ftv_complete_375"),
+    ):
+        for seed in (2026, 3026):
+            for arm in ("LOCAL0", "LOCAL3"):
+                for timing in ("T0", "T0-T1", "T0-T2", "T0-T3"):
+                    for region in regions:
+                        delta = {
+                            "R0": 0.0,
+                            "R1": 0.004,
+                            "R2": 0.007,
+                            "R3": 0.009,
+                            "R4": 0.008,
+                            "R5": 0.011,
+                        }[region]
+                        timing_rows.append(
+                            {
+                                "seed": seed,
+                                "arm": arm,
+                                "context": context,
+                                "timing": timing,
+                                "population": population,
+                                "variant": region,
+                                "delta_auroc_vs_r0": delta,
+                            }
+                        )
     _write_csv(root, figures.PUBLIC_TABLES["timing_sensitivity"], timing_rows)
 
     phenotype_rows = []
@@ -276,17 +299,27 @@ def _init_fixture(tmp_path: Path) -> Path:
     _write_csv(root, figures.PUBLIC_TABLES["phenotype"], phenotype_rows)
 
     ftv_rows = []
-    for endpoint in ("FTV", "delta_FTV"):
-        for timing in ("T0", "T0-T1"):
+    for target, task, timings in (
+        ("FTV", "static", ("T0", "T1")),
+        ("delta_FTV", "delta", ("T0_to_T1", "T1_to_T2")),
+    ):
+        for timing in timings:
             for region in regions:
+                index = regions.index(region)
                 ftv_rows.append(
                     {
                         "seed": 2026,
                         "arm": "LOCAL0",
                         "timing": timing,
-                        "endpoint": endpoint,
+                        "endpoint": timing,
+                        "target": target,
+                        "task": task,
                         "variant": region,
-                        "r2": 0.20 + 0.01 * regions.index(region),
+                        "r2": (
+                            0.20 + 0.01 * index
+                            if target == "FTV"
+                            else 0.20 - 0.005 * index
+                        ),
                     }
                 )
     _write_csv(root, figures.PUBLIC_TABLES["ftv"], ftv_rows)
@@ -310,30 +343,116 @@ def _init_fixture(tmp_path: Path) -> Path:
 
     bootstrap_rows = []
     for context in ("MRI_ONLY", "C_PLUS_F"):
-        for timing in ("T0", "T0-T1", "T0-T2"):
-            for region in ("R2", "R3", "R5"):
-                estimate = 0.01 + 0.003 * ("R2", "R3", "R5").index(region)
-                bootstrap_rows.append(
-                    {
-                        "context": context,
-                        "timing": timing,
-                        "candidate": region,
-                        "estimate": estimate,
-                        "ci_lower": estimate - 0.025,
-                        "ci_upper": estimate + 0.025,
-                    }
-                )
+        for seed in (2026, 3026):
+            for arm in ("LOCAL0", "LOCAL3"):
+                for timing in ("T0", "T0-T1", "T0-T2"):
+                    for region in ("R2", "R3", "R5"):
+                        base_estimate = (
+                            0.01
+                            + 0.003 * ("R2", "R3", "R5").index(region)
+                            + (0.001 if seed == 3026 else 0.0)
+                        )
+                        for metric in ("auroc", "auprc", "brier"):
+                            estimate = base_estimate if metric != "auprc" else base_estimate / 2
+                            reference_value = {"auroc": 0.61, "auprc": 0.36, "brier": 0.21}[metric]
+                            comparison_value = (
+                                reference_value - estimate
+                                if metric == "brier"
+                                else reference_value + estimate
+                            )
+                            bootstrap_rows.append(
+                                {
+                                    "seed": seed,
+                                    "arm": arm,
+                                    "context": context,
+                                    "view": timing,
+                                    "timing": timing,
+                                    "target": "pCR",
+                                    "population": (
+                                        "full_808"
+                                        if context == "MRI_ONLY"
+                                        else "ftv_complete_375"
+                                    ),
+                                    "candidate": region,
+                                    "reference_model": (
+                                        "R0" if context == "MRI_ONLY" else "C+F+R0"
+                                    ),
+                                    "comparison_model": (
+                                        region
+                                        if context == "MRI_ONLY"
+                                        else f"C+F+{region}"
+                                    ),
+                                    "metric": metric,
+                                    "reference": reference_value,
+                                    "comparison": comparison_value,
+                                    "estimate": estimate,
+                                    "improvement": estimate,
+                                    "delta_auroc": estimate if metric == "auroc" else np.nan,
+                                    "ci_lower": estimate - 0.025,
+                                    "ci_upper": estimate + 0.025,
+                                    "orientation": (
+                                        "reference - comparison (lower Brier is better)"
+                                        if metric == "brier"
+                                        else "comparison - reference"
+                                    ),
+                                    "bootstrap_seed": 260811,
+                                }
+                            )
+    for seed, estimate in ((2026, 0.035), (3026, 0.033)):
+        for metric in ("auroc", "auprc", "brier"):
+            metric_estimate = estimate if metric != "auprc" else estimate / 2
+            reference_value = {"auroc": 0.60, "auprc": 0.35, "brier": 0.22}[metric]
+            comparison_value = (
+                reference_value - metric_estimate
+                if metric == "brier"
+                else reference_value + metric_estimate
+            )
+            bootstrap_rows.append(
+                {
+                    "seed": seed,
+                    "arm": "LOCAL0",
+                    "context": "GOAL5_ORACLE",
+                    "view": "T0-T1",
+                    "timing": "T0-T1",
+                    "target": "pCR",
+                    "population": "oracle_pair_PERI20",
+                    "candidate": "PERI20",
+                    "reference_model": "FIXED_P3",
+                    "comparison_model": "PERI20",
+                    "metric": metric,
+                    "reference": reference_value,
+                    "comparison": comparison_value,
+                    "estimate": metric_estimate,
+                    "improvement": metric_estimate,
+                    "delta_auroc": metric_estimate if metric == "auroc" else np.nan,
+                    "ci_lower": metric_estimate - 0.025,
+                    "ci_upper": metric_estimate + 0.025,
+                    "orientation": (
+                        "reference - comparison (lower Brier is better)"
+                        if metric == "brier"
+                        else "comparison - reference"
+                    ),
+                    "bootstrap_seed": 260811,
+                }
+            )
     _write_csv(root, figures.PUBLIC_TABLES["bootstrap"], bootstrap_rows)
     _write_csv(
         root,
         figures.PUBLIC_TABLES["seed_consistency"],
         [
             {
+                "context": context,
+                "arm": arm,
                 "timing": timing,
+                "population": (
+                    "full_808" if context == "MRI_ONLY" else "ftv_complete_375"
+                ),
                 "candidate": region,
                 "seed_2026_delta_auroc": 0.01 + index * 0.004,
                 "seed_3026_delta_auroc": 0.012 + index * 0.003,
             }
+            for context in ("MRI_ONLY", "C_PLUS_F")
+            for arm in ("LOCAL0", "LOCAL3")
             for timing in ("T0", "T0-T1", "T0-T2")
             for index, region in enumerate(("R2", "R3", "R5"))
         ],
@@ -502,6 +621,11 @@ def test_end_to_end_public_reporting_and_validation(tmp_path: Path) -> None:
     text = destination.read_text(encoding="utf-8")
     assert all(marker in text for marker in report.REQUIRED_REPORT_MARKERS)
     assert "### Q12 —" in text
+    assert "FTV 的 R5=" in text
+    assert "ΔFTV 的 R5=" in text
+    assert "改善量=`0.050`，因此 **改善**；ΔFTV" in text
+    assert "改善量=`-0.025`，因此 **未改善**" in text
+    assert "两项必须分开回答" in text
     assert "Push error：`null`" in text
     assert "/data/" not in text
 
@@ -538,6 +662,50 @@ def test_end_to_end_public_reporting_and_validation(tmp_path: Path) -> None:
     )
     assert result["checks"]["public_privacy"]["patient_identifier_findings"] == 0
     assert result["checks"]["tracked_artifact_safety"]["raw_mri_or_checkpoint_files"] == 0
+
+
+def test_figure_semantics_preserve_every_registered_stratum(tmp_path: Path) -> None:
+    root = _init_fixture(tmp_path)
+    result = validator.validate_figure_semantics(root)
+    assert result["mri_populations"] == list(figures.EXPECTED_MRI_POPULATIONS)
+    assert result["bootstrap_contexts"] == list(figures.EXPECTED_BOOTSTRAP_CONTEXTS)
+    assert result["bootstrap_auroc_rows_displayed"] == 74
+    assert result["bootstrap_unique_labels"] == 74
+    assert result["seed_consistency_rows_displayed"] == 36
+    assert result["seed_consistency_unique_labels"] == 36
+    assert result["timing_facets"] == [
+        list(value) for value in figures.EXPECTED_TIMING_FACETS
+    ]
+
+    tables = figures.load_public_tables(root)
+    bootstrap = figures.bootstrap_display_frame(tables["bootstrap"])
+    assert not bootstrap["_display_label"].duplicated().any()
+    assert bootstrap["_display_label"].str.contains(
+        r"seed=\d+ \| arm=.+ \| context=.+ \| timing=.+ \| region=.+",
+        regex=True,
+    ).all()
+    seeds = figures.seed_consistency_display_frame(tables["seed_consistency"])
+    assert not seeds["_display_label"].duplicated().any()
+
+
+def test_bootstrap_validator_rejects_rng_seed_as_model_seed(tmp_path: Path) -> None:
+    root = _init_fixture(tmp_path)
+    path = root / "metrics" / figures.PUBLIC_TABLES["bootstrap"]
+    frame = pd.read_csv(path)
+    frame["seed"] = frame["bootstrap_seed"]
+    frame.to_csv(path, index=False)
+    with pytest.raises(validator.ValidationError, match="model-seed domain"):
+        validator.validate_public_tables(root)
+
+
+def test_bootstrap_validator_rejects_duplicate_full_key(tmp_path: Path) -> None:
+    root = _init_fixture(tmp_path)
+    path = root / "metrics" / figures.PUBLIC_TABLES["bootstrap"]
+    frame = pd.read_csv(path)
+    frame = pd.concat((frame, frame.iloc[[0]]), ignore_index=True)
+    frame.to_csv(path, index=False)
+    with pytest.raises(validator.ValidationError, match="full scientific key"):
+        validator.validate_public_tables(root)
 
 
 def test_pending_git_state_requires_explicit_pre_delivery_mode(tmp_path: Path) -> None:

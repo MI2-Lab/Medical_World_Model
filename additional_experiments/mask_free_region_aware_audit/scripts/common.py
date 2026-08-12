@@ -23,6 +23,9 @@ LOCK_PATH = EXPERIMENT_ROOT / "PREREGISTRATION_LOCK.json"
 IMPLEMENTATION_ERRATUM_PATH = (
     EXPERIMENT_ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json"
 )
+IMPLEMENTATION_ERRATUM_2_PATH = (
+    EXPERIMENT_ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json"
+)
 FEATURE_FILENAME = "regional_features.private.npz"
 METADATA_FILENAME = "regional_features.private.metadata.json"
 COMPLETION_PATH = EXPERIMENT_ROOT / "features" / "feature_matrix_complete.private.json"
@@ -151,9 +154,19 @@ REFREEZE_LOCK_STATUS = (
     "IMPLEMENTATION_COMPATIBILITY_ERRATUM_FIXED_AND_REFROZEN_BEFORE_"
     "FORMAL_ANALYSIS_COMPLETION"
 )
+REFREEZE_2_LOCK_STATUS = (
+    "IMPLEMENTATION_OUTPUT_AND_REPORTING_ERRATUM_FIXED_AND_REFROZEN_BEFORE_"
+    "CORRECTED_FORMAL_RERUN"
+)
 PRIOR_PREREGISTRATION_COMMIT = "673aab146936d3890e79a9df8e8bbad8f9dec81c"
 PRIOR_PREREGISTRATION_LOCK_SHA256 = (
     "d53f8d23a552edce15283c13b433830da7378413ec1e3eb52783cad3087c5d90"
+)
+PRIOR_COMPATIBILITY_REFREEZE_COMMIT = (
+    "c781b8f4c8ff14e0439e15447af9ca21bcd88be1"
+)
+PRIOR_COMPATIBILITY_REFREEZE_LOCK_SHA256 = (
+    "a574c905bd9780ac4260ca5e63a9a89e4db15a3217932409cda0fb00aaadd6ad"
 )
 IMPLEMENTATION_ERRATUM_STATUS = (
     "IMPLEMENTATION_COMPATIBILITY_ERRATUM_BEFORE_FORMAL_OUTPUT_PUBLICATION"
@@ -166,6 +179,30 @@ ERRATUM_PLAN_APPENDIX_SHA256 = (
 )
 ERRATUM_DISCARDED_MAP_CANONICAL_SHA256 = (
     "247bcfabda1c688c9855995a8523b368a59f27faf0d0ae6cb30356ffc6e9ab76"
+)
+IMPLEMENTATION_ERRATUM_2_STATUS = (
+    "IMPLEMENTATION_OUTPUT_AND_REPORTING_ERRATUM_AFTER_FORMAL_OUTPUT_PUBLICATION"
+)
+IMPLEMENTATION_ERRATUM_2_REASON = (
+    "BOOTSTRAP_SUMMARY_MODEL_SEED_OVERWRITTEN_BY_RNG_SEED"
+)
+IMPLEMENTATION_ERRATUM_2_SHA256 = (
+    "91ca3417912ad757f34ea847effd38b00464d873b8ac6936a4ce3e09bd6bf670"
+)
+ERRATUM_2_PLAN_APPENDIX_SHA256 = (
+    "ae8d9e800932e05b30ceedd168eff87fe190c29c5473d72817ff29cc43f59f47"
+)
+ERRATUM_2_PRE_EXECUTION_CANONICAL_SHA256 = (
+    "058960e32f1e10ed54ad5a255ef2cd4c86955d1fa81e7738923087876b9a5b66"
+)
+ERRATUM_2_CONTRACT_SCOPE_CANONICAL_SHA256 = (
+    "d9ef0bf47a72b4549862c5a05f8c7153f6fb1112e59ff01c4e4ecc8ae6d13b6a"
+)
+ERRATUM_2_DISCARDED_MAP_CANONICAL_SHA256 = (
+    "904d9625862b29bb0662b254bbad3b9b05c505a237b4050f5fd6b8f3225f52bb"
+)
+ERRATUM_2_DISCARDED_RECORD_SET_SHA256 = (
+    "fc5a93acb2a0beca572c495fe6a60fecac5bce254dd74b79132911f326778853"
 )
 ZERO_RESULT_INVENTORY = {
     "feature_files": 0,
@@ -214,6 +251,19 @@ REFREEZE_LOCK_KEYS = frozenset(
         "git_provenance_before_refreeze",
     }
 )
+REFREEZE_2_LOCK_KEYS = frozenset(
+    {
+        *REFREEZE_LOCK_KEYS,
+        "prior_compatibility_refreeze_commit",
+        "prior_compatibility_refreeze_lock_sha256",
+        "implementation_erratum_2_sha256",
+        "superseded_formal_run_artifact_count",
+        "superseded_formal_run_artifact_record_set_sha256",
+        "all_twenty_feature_cells_rebuild_required",
+        "pre_refreeze_2_result_inventory",
+        "git_provenance_before_refreeze_2",
+    }
+)
 IMPLEMENTATION_ERRATUM_KEYS = frozenset(
     {
         "schema_version",
@@ -221,6 +271,21 @@ IMPLEMENTATION_ERRATUM_KEYS = frozenset(
         "erratum_number",
         "prior_preregistration_commit",
         "prior_preregistration_lock_sha256",
+        "reason_code",
+        "pre_erratum_execution",
+        "contract_scope",
+        "discarded_artifact_sha256",
+        "contains_patient_identifiers",
+    }
+)
+IMPLEMENTATION_ERRATUM_2_KEYS = frozenset(
+    {
+        "schema_version",
+        "status",
+        "erratum_number",
+        "prior_compatibility_refreeze_commit",
+        "prior_compatibility_refreeze_lock_sha256",
+        "prior_implementation_erratum_sha256",
         "reason_code",
         "pre_erratum_execution",
         "contract_scope",
@@ -708,8 +773,10 @@ def require_implementation_erratum() -> dict[str, Any]:
     return value
 
 
-def require_erratum_plan_disclosure(prior: Mapping[str, Any]) -> None:
-    """Prove the old scientific plan is unchanged and only its erratum is appended."""
+def _require_erratum_1_plan_bytes(
+    prior: Mapping[str, Any], current_bytes: bytes
+) -> None:
+    """Validate the exact first append-only plan disclosure bytes."""
 
     prior_bytes = historical_file_bytes(
         PRIOR_PREREGISTRATION_COMMIT, _experiment_relative(PLAN_PATH)
@@ -718,7 +785,6 @@ def require_erratum_plan_disclosure(prior: Mapping[str, Any]) -> None:
         "experiment_plan_sha256"
     ):
         raise ValueError("historical plan differs from the prior lock")
-    current_bytes = PLAN_PATH.read_bytes()
     if not current_bytes.startswith(prior_bytes):
         raise ValueError("pre-erratum scientific plan text changed")
     appendix = current_bytes[len(prior_bytes) :]
@@ -729,6 +795,210 @@ def require_erratum_plan_disclosure(prior: Mapping[str, Any]) -> None:
         )
     ):
         raise ValueError("implementation erratum plan disclosure drifted")
+
+
+def require_erratum_plan_disclosure(prior: Mapping[str, Any]) -> None:
+    """Prove the old scientific plan is unchanged and only erratum 1 is appended."""
+
+    _require_erratum_1_plan_bytes(prior, PLAN_PATH.read_bytes())
+
+
+def require_prior_compatibility_refreeze() -> dict[str, Any]:
+    """Authenticate the exact committed schema-2 lock superseded by erratum 2."""
+
+    ancestry = subprocess.run(
+        (
+            "git",
+            "merge-base",
+            "--is-ancestor",
+            PRIOR_COMPATIBILITY_REFREEZE_COMMIT,
+            "HEAD",
+        ),
+        cwd=REPO_ROOT,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if ancestry.returncode != 0:
+        raise ValueError("prior compatibility refreeze commit is not an ancestor")
+    lock_bytes = historical_file_bytes(
+        PRIOR_COMPATIBILITY_REFREEZE_COMMIT, _experiment_relative(LOCK_PATH)
+    )
+    if (
+        hashlib.sha256(lock_bytes).hexdigest()
+        != PRIOR_COMPATIBILITY_REFREEZE_LOCK_SHA256
+    ):
+        raise ValueError("historical schema-2 preregistration lock bytes drifted")
+    try:
+        prior = json.loads(lock_bytes.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise ValueError("historical schema-2 lock is not valid UTF-8 JSON") from error
+    original = require_prior_preregistration()
+    preserved_fields = (
+        "branch",
+        "parent_commit_sha",
+        "config_sha256",
+        "config_canonical_sha256",
+        "gitignore_sha256",
+        "goal5_preregistration_lock_sha256",
+        "goal5_feature_completion_sha256",
+        "formal_cell_count",
+        "selected_cells",
+        "pre_freeze_result_inventory",
+        "privacy_contract",
+    )
+    if (
+        not isinstance(prior, dict)
+        or set(prior) != set(REFREEZE_LOCK_KEYS)
+        or prior.get("schema_version") != 2
+        or prior.get("preregistration_revision") != 1
+        or prior.get("status") != REFREEZE_LOCK_STATUS
+        or prior.get("prior_preregistration_commit")
+        != PRIOR_PREREGISTRATION_COMMIT
+        or prior.get("prior_preregistration_lock_sha256")
+        != PRIOR_PREREGISTRATION_LOCK_SHA256
+        or prior.get("implementation_erratum_sha256")
+        != file_sha256(IMPLEMENTATION_ERRATUM_PATH)
+        or prior.get("superseded_artifacts_reused") is not False
+        or prior.get("scientific_contract_unchanged") is not True
+        or prior.get("pre_refreeze_result_inventory") != ZERO_RESULT_INVENTORY
+        or any(prior.get(name) != original.get(name) for name in preserved_fields)
+    ):
+        raise ValueError("historical schema-2 compatibility refreeze contract drifted")
+    require_implementation_erratum()
+    require_refreeze_git_provenance(prior["git_provenance_before_refreeze"])
+    if prior["git_provenance_before_refreeze"]["branch"] != prior["branch"]:
+        raise ValueError("historical schema-2 refreeze branch record drifted")
+    historical_files = {
+        "config_sha256": CONFIG_PATH,
+        "experiment_plan_sha256": PLAN_PATH,
+        "gitignore_sha256": GITIGNORE_PATH,
+        "implementation_erratum_sha256": IMPLEMENTATION_ERRATUM_PATH,
+    }
+    for key, path in historical_files.items():
+        payload = historical_file_bytes(
+            PRIOR_COMPATIBILITY_REFREEZE_COMMIT, _experiment_relative(path)
+        )
+        if hashlib.sha256(payload).hexdigest() != prior.get(key):
+            raise ValueError(f"historical schema-2 lock does not bind {path.name}")
+    plan_bytes = historical_file_bytes(
+        PRIOR_COMPATIBILITY_REFREEZE_COMMIT, _experiment_relative(PLAN_PATH)
+    )
+    _require_erratum_1_plan_bytes(original, plan_bytes)
+    implementation = prior.get("implementation_sha256")
+    if (
+        not isinstance(implementation, Mapping)
+        or not implementation
+        or any(
+            not isinstance(relative, str)
+            or Path(relative).is_absolute()
+            or ".." in Path(relative).parts
+            or len(Path(relative).parts) != 2
+            or Path(relative).parts[0] not in {"scripts", "tests"}
+            or Path(relative).suffix != ".py"
+            or SHA256_PATTERN.fullmatch(str(expected)) is None
+            for relative, expected in implementation.items()
+        )
+    ):
+        raise ValueError("historical schema-2 implementation inventory drifted")
+    for relative, expected in implementation.items():
+        payload = historical_file_bytes(
+            PRIOR_COMPATIBILITY_REFREEZE_COMMIT,
+            _experiment_relative(EXPERIMENT_ROOT / str(relative)),
+        )
+        if hashlib.sha256(payload).hexdigest() != expected:
+            raise ValueError(f"historical schema-2 implementation drifted: {relative}")
+    return prior
+
+
+def require_implementation_erratum_2() -> dict[str, Any]:
+    """Require the exact output/provenance-only second erratum."""
+
+    if file_sha256(IMPLEMENTATION_ERRATUM_2_PATH) != IMPLEMENTATION_ERRATUM_2_SHA256:
+        raise ValueError("second implementation erratum bytes drifted")
+    value = json.loads(IMPLEMENTATION_ERRATUM_2_PATH.read_text(encoding="utf-8"))
+    if not isinstance(value, dict) or set(value) != set(IMPLEMENTATION_ERRATUM_2_KEYS):
+        raise ValueError("second implementation erratum schema drifted")
+    execution = value.get("pre_erratum_execution")
+    scope = value.get("contract_scope")
+    discarded = value.get("discarded_artifact_sha256")
+    roots = ("features", "logs", "metrics", "predictions", "figures", "reports")
+    discarded_counts = {
+        root: sum(str(path).startswith(root + "/") for path in discarded)
+        if isinstance(discarded, Mapping)
+        else -1
+        for root in roots
+    }
+    if (
+        value.get("schema_version") != 1
+        or value.get("status") != IMPLEMENTATION_ERRATUM_2_STATUS
+        or value.get("erratum_number") != 2
+        or value.get("prior_compatibility_refreeze_commit")
+        != PRIOR_COMPATIBILITY_REFREEZE_COMMIT
+        or value.get("prior_compatibility_refreeze_lock_sha256")
+        != PRIOR_COMPATIBILITY_REFREEZE_LOCK_SHA256
+        or value.get("prior_implementation_erratum_sha256")
+        != file_sha256(IMPLEMENTATION_ERRATUM_PATH)
+        or value.get("reason_code") != IMPLEMENTATION_ERRATUM_2_REASON
+        or canonical_sha256(execution)
+        != ERRATUM_2_PRE_EXECUTION_CANONICAL_SHA256
+        or canonical_sha256(scope)
+        != ERRATUM_2_CONTRACT_SCOPE_CANONICAL_SHA256
+        or not isinstance(discarded, Mapping)
+        or len(discarded) != 94
+        or any(
+            not isinstance(path, str)
+            or Path(path).is_absolute()
+            or ".." in Path(path).parts
+            or not isinstance(digest, str)
+            or SHA256_PATTERN.fullmatch(digest) is None
+            for path, digest in discarded.items()
+        )
+        or discarded_counts
+        != execution.get("discarded_artifact_count_by_root")
+        or canonical_sha256(discarded)
+        != ERRATUM_2_DISCARDED_MAP_CANONICAL_SHA256
+        or execution.get("discarded_artifact_record_set_sha256")
+        != ERRATUM_2_DISCARDED_RECORD_SET_SHA256
+        or discarded.get("features/feature_matrix_complete.private.json")
+        != execution.get("superseded_feature_completion_sha256")
+        or discarded.get("metrics/table_bootstrap.csv")
+        != execution.get("superseded_bootstrap_summary_sha256")
+        or discarded.get("predictions/bootstrap_draws.private.csv")
+        != execution.get("superseded_bootstrap_draws_sha256")
+        or discarded.get("metrics/gates.json")
+        != execution.get("superseded_gates_sha256")
+        or discarded.get("metrics/run_summary.json")
+        != execution.get("superseded_run_summary_sha256")
+        or discarded.get("reports/report_manifest.json")
+        != execution.get("superseded_report_manifest_sha256")
+        or value.get("contains_patient_identifiers") is not False
+    ):
+        raise ValueError("second implementation erratum content drifted")
+    return value
+
+
+def require_erratum_2_plan_disclosure(prior: Mapping[str, Any]) -> None:
+    """Prove schema-2 plan bytes are unchanged and only erratum 2 is appended."""
+
+    prior_bytes = historical_file_bytes(
+        PRIOR_COMPATIBILITY_REFREEZE_COMMIT, _experiment_relative(PLAN_PATH)
+    )
+    if hashlib.sha256(prior_bytes).hexdigest() != prior.get(
+        "experiment_plan_sha256"
+    ):
+        raise ValueError("historical schema-2 plan differs from its lock")
+    current_bytes = PLAN_PATH.read_bytes()
+    if not current_bytes.startswith(prior_bytes):
+        raise ValueError("schema-2 scientific plan text changed")
+    appendix = current_bytes[len(prior_bytes) :]
+    if (
+        hashlib.sha256(appendix).hexdigest() != ERRATUM_2_PLAN_APPENDIX_SHA256
+        or not appendix.startswith(
+            b"\n## 11. Implementation output erratum 2 and schema-3 refreeze\n"
+        )
+    ):
+        raise ValueError("second implementation erratum plan disclosure drifted")
 
 
 def require_refreeze_git_provenance(value: Any) -> None:
@@ -770,6 +1040,58 @@ def require_refreeze_git_provenance(value: Any) -> None:
         raise ValueError("schema-2 refreeze changed config or privacy policy")
 
 
+def require_refreeze_2_git_provenance(value: Any) -> None:
+    """Validate the exact Git-context schema captured before schema 3."""
+
+    if not isinstance(value, Mapping) or set(value) != {
+        "base_head",
+        "branch",
+        "all_dirty_paths_confined_to_new_experiment",
+        "tracked_paths_before_refreeze",
+        "untracked_paths_before_refreeze",
+    }:
+        raise ValueError("schema-3 refreeze Git provenance schema drifted")
+    tracked = value.get("tracked_paths_before_refreeze")
+    untracked = value.get("untracked_paths_before_refreeze")
+    if (
+        value.get("base_head") != PRIOR_COMPATIBILITY_REFREEZE_COMMIT
+        or value.get("all_dirty_paths_confined_to_new_experiment") is not True
+        or not isinstance(tracked, list)
+        or not isinstance(untracked, list)
+        or tracked != sorted(set(tracked))
+        or untracked != sorted(set(untracked))
+    ):
+        raise ValueError("schema-3 refreeze Git provenance content drifted")
+    prefix = _experiment_relative(EXPERIMENT_ROOT).as_posix() + "/"
+    paths = [*tracked, *untracked]
+    if not paths or any(
+        not isinstance(path, str) or not path.startswith(prefix) for path in paths
+    ):
+        raise ValueError("schema-3 refreeze dirty paths escaped the experiment")
+    required_dirty = {
+        prefix + "EXPERIMENT_PLAN.md",
+        prefix + "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json",
+        prefix + "scripts/common.py",
+        prefix + "scripts/freeze_preregistration.py",
+        prefix + "scripts/generate_figures.py",
+        prefix + "scripts/generate_report.py",
+        prefix + "scripts/run_audit.py",
+        prefix + "scripts/validate_results.py",
+        prefix + "tests/test_analysis.py",
+        prefix + "tests/test_extraction_contract.py",
+        prefix + "tests/test_reporting.py",
+    }
+    if not required_dirty.issubset(paths):
+        raise ValueError("schema-3 refreeze omits required implementation changes")
+    forbidden = {
+        prefix + "configs/audit.json",
+        prefix + ".gitignore",
+        prefix + "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json",
+    }
+    if forbidden.intersection(paths):
+        raise ValueError("schema-3 refreeze changed config, privacy, or erratum 1")
+
+
 def load_goal5_lock(config: Mapping[str, Any]) -> dict[str, Any]:
     paths = config["paths"]
     source = Path(str(paths["goal5_lock"])).resolve(strict=True)
@@ -804,7 +1126,62 @@ def require_preregistration_lock(
         raise ValueError("preregistration lock is not a JSON object")
 
     prior: dict[str, Any] | None = None
-    if IMPLEMENTATION_ERRATUM_PATH.is_file():
+    if IMPLEMENTATION_ERRATUM_2_PATH.is_file():
+        if set(value) != set(REFREEZE_2_LOCK_KEYS):
+            raise ValueError(
+                "schema-3 preregistration is required after erratum 2"
+            )
+        prior = require_prior_compatibility_refreeze()
+        require_implementation_erratum_2()
+        require_erratum_2_plan_disclosure(prior)
+        if (
+            value["schema_version"] != 3
+            or value["preregistration_revision"] != 2
+            or value["status"] != REFREEZE_2_LOCK_STATUS
+            or value["prior_compatibility_refreeze_commit"]
+            != PRIOR_COMPATIBILITY_REFREEZE_COMMIT
+            or value["prior_compatibility_refreeze_lock_sha256"]
+            != PRIOR_COMPATIBILITY_REFREEZE_LOCK_SHA256
+            or value["implementation_erratum_2_sha256"]
+            != file_sha256(IMPLEMENTATION_ERRATUM_2_PATH)
+            or value["superseded_formal_run_artifact_count"] != 94
+            or value["superseded_formal_run_artifact_record_set_sha256"]
+            != ERRATUM_2_DISCARDED_RECORD_SET_SHA256
+            or value["all_twenty_feature_cells_rebuild_required"] is not True
+            or value["superseded_artifacts_reused"] is not False
+            or value["scientific_contract_unchanged"] is not True
+            or value["pre_refreeze_2_result_inventory"]
+            != ZERO_RESULT_INVENTORY
+        ):
+            raise ValueError("schema-3 output/reporting refreeze is not active")
+        require_refreeze_2_git_provenance(
+            value["git_provenance_before_refreeze_2"]
+        )
+        if value["git_provenance_before_refreeze_2"]["branch"] != value["branch"]:
+            raise ValueError("schema-3 refreeze branch record drifted")
+        preserved_fields = (
+            "branch",
+            "parent_commit_sha",
+            "config_sha256",
+            "config_canonical_sha256",
+            "gitignore_sha256",
+            "goal5_preregistration_lock_sha256",
+            "goal5_feature_completion_sha256",
+            "formal_cell_count",
+            "selected_cells",
+            "pre_freeze_result_inventory",
+            "privacy_contract",
+            "prior_preregistration_commit",
+            "prior_preregistration_lock_sha256",
+            "implementation_erratum_sha256",
+            "superseded_artifacts_reused",
+            "scientific_contract_unchanged",
+            "pre_refreeze_result_inventory",
+            "git_provenance_before_refreeze",
+        )
+        if any(value[name] != prior[name] for name in preserved_fields):
+            raise ValueError("schema-3 refreeze changed a frozen schema-2 field")
+    elif IMPLEMENTATION_ERRATUM_PATH.is_file():
         if set(value) != set(REFREEZE_LOCK_KEYS):
             raise ValueError("schema-2 preregistration lock schema drifted")
         prior = require_prior_preregistration()
@@ -882,7 +1259,7 @@ def require_preregistration_lock(
         or value["config_canonical_sha256"] != prior["config_canonical_sha256"]
         or value["gitignore_sha256"] != prior["gitignore_sha256"]
     ):
-        raise ValueError("schema-2 refreeze changed config or privacy bytes")
+        raise ValueError("refreeze changed config or privacy bytes")
     return value
 
 
@@ -1086,14 +1463,24 @@ __all__ = [
     "COMPLETION_KEYS",
     "COMPLETION_PATH",
     "CONFIG_PATH",
+    "ERRATUM_2_CONTRACT_SCOPE_CANONICAL_SHA256",
+    "ERRATUM_2_DISCARDED_MAP_CANONICAL_SHA256",
+    "ERRATUM_2_DISCARDED_RECORD_SET_SHA256",
+    "ERRATUM_2_PLAN_APPENDIX_SHA256",
+    "ERRATUM_2_PRE_EXECUTION_CANONICAL_SHA256",
+    "ERRATUM_DISCARDED_MAP_CANONICAL_SHA256",
     "EXPERIMENT_ROOT",
     "FEATURE_FILENAME",
     "FEATURE_KEYS",
     "FOLDS",
     "GEOMETRY_CONTRACT_PATH",
     "GITIGNORE_PATH",
+    "IMPLEMENTATION_ERRATUM_2_KEYS",
+    "IMPLEMENTATION_ERRATUM_2_PATH",
+    "IMPLEMENTATION_ERRATUM_2_REASON",
+    "IMPLEMENTATION_ERRATUM_2_SHA256",
+    "IMPLEMENTATION_ERRATUM_2_STATUS",
     "IMPLEMENTATION_ERRATUM_CONTRACT_SCOPE",
-    "ERRATUM_DISCARDED_MAP_CANONICAL_SHA256",
     "IMPLEMENTATION_ERRATUM_KEYS",
     "IMPLEMENTATION_ERRATUM_PATH",
     "IMPLEMENTATION_ERRATUM_PRE_EXECUTION",
@@ -1106,10 +1493,14 @@ __all__ = [
     "METADATA_KEYS",
     "PATIENT_COUNT",
     "PLAN_PATH",
+    "PRIOR_COMPATIBILITY_REFREEZE_COMMIT",
+    "PRIOR_COMPATIBILITY_REFREEZE_LOCK_SHA256",
     "PRIOR_PREREGISTRATION_COMMIT",
     "PRIOR_PREREGISTRATION_LOCK_SHA256",
     "PRIVACY_CONTRACT",
     "REPO_ROOT",
+    "REFREEZE_2_LOCK_KEYS",
+    "REFREEZE_2_LOCK_STATUS",
     "REFREEZE_LOCK_KEYS",
     "REFREEZE_LOCK_STATUS",
     "SEEDS",
@@ -1134,10 +1525,14 @@ __all__ = [
     "private_directory",
     "publish_json_once",
     "require_owner_only",
+    "require_erratum_2_plan_disclosure",
     "require_erratum_plan_disclosure",
     "require_implementation_erratum",
+    "require_implementation_erratum_2",
+    "require_prior_compatibility_refreeze",
     "require_prior_preregistration",
     "require_preregistration_lock",
+    "require_refreeze_2_git_provenance",
     "require_refreeze_git_provenance",
     "validate_feature_cell",
 ]

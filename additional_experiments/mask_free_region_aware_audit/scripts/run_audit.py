@@ -1912,7 +1912,30 @@ def run_preregistered_bootstrap(
             confidence_level=float(bootstrap["confidence_level"]), seed=int(bootstrap["seed"]),
         )
         comparison_name = candidate if context != "C_PLUS_F" else f"C+F+{candidate}"
-        for row in result.summary.to_dict("records"):
+        summary_records = result.summary.to_dict("records")
+        if len(summary_records) != 3 or {str(row.get("metric")) for row in summary_records} != {
+            "auroc", "auprc", "brier",
+        }:
+            raise ValueError("paired bootstrap summary metric coverage drifted")
+        for returned_row in summary_records:
+            row = dict(returned_row)
+            expected_summary_fields = {
+                "metric", "reference", "comparison", "improvement", "ci_lower", "ci_upper",
+                "confidence_level", "n_patients", "n_folds", "n_bootstrap",
+                "n_valid_bootstrap", "bootstrap_unit", "ci_method", "orientation", "seed",
+            }
+            if set(row) != expected_summary_fields:
+                raise ValueError("paired bootstrap summary schema drifted")
+            returned_bootstrap_seed = row.pop("seed", None)
+            if returned_bootstrap_seed != int(bootstrap["seed"]):
+                raise ValueError("paired bootstrap RNG-seed provenance drifted")
+            if (
+                int(row["n_bootstrap"]) != int(bootstrap["replicates"])
+                or float(row["confidence_level"]) != float(bootstrap["confidence_level"])
+                or row["bootstrap_unit"] != "patient_within_outer_fold"
+                or row["ci_method"] != "percentile"
+            ):
+                raise ValueError("paired bootstrap execution provenance drifted")
             metric = str(row["metric"])
             summary_rows.append({
                 "seed": seed, "arm": arm, "context": context, "view": view, "timing": view,
@@ -1920,9 +1943,13 @@ def run_preregistered_bootstrap(
                 "reference_model": reference_name, "comparison_model": comparison_name,
                 **row, "estimate": float(row["improvement"]),
                 "delta_auroc": float(row["improvement"]) if metric == "auroc" else math.nan,
-                "bootstrap_seed": int(bootstrap["seed"]),
+                "bootstrap_seed": int(returned_bootstrap_seed),
             })
         draws = result.draws.copy()
+        if tuple(draws.columns) != (
+            "bootstrap_index", "auroc_improvement", "auprc_improvement", "brier_improvement"
+        ):
+            raise ValueError("paired bootstrap draw schema drifted")
         draws.insert(0, "seed", seed)
         draws.insert(1, "arm", arm)
         draws.insert(2, "context", context)
@@ -1932,10 +1959,41 @@ def run_preregistered_bootstrap(
         draws.insert(6, "reference_model", reference_name)
         draws.insert(7, "comparison_model", comparison_name)
         draw_rows.append(draws)
-    return (
-        pd.DataFrame(summary_rows).reindex(columns=BOOTSTRAP_COLUMNS),
-        pd.concat(draw_rows, ignore_index=True),
+    summary_frame = pd.DataFrame(summary_rows).reindex(columns=BOOTSTRAP_COLUMNS)
+    draw_frame = pd.concat(draw_rows, ignore_index=True)
+    summary_identity = (
+        "seed", "arm", "context", "view", "population", "candidate",
+        "reference_model", "comparison_model", "metric",
     )
+    expected_summary_identities = {
+        (
+            seed, arm, context, view, population, candidate, reference_name,
+            candidate if context != "C_PLUS_F" else f"C+F+{candidate}", metric,
+        )
+        for context, seed, arm, view, population, candidate, reference_name, _, _ in pair_specs
+        for metric in ("auroc", "auprc", "brier")
+    }
+    observed_summary_identities = set(
+        map(tuple, summary_frame.loc[:, summary_identity].to_numpy())
+    )
+    if (
+        summary_frame.duplicated(list(summary_identity)).any()
+        or observed_summary_identities != expected_summary_identities
+    ):
+        raise ValueError("bootstrap summary scientific-cell identity drifted")
+    draw_identity = summary_identity[:-1] + ("bootstrap_index",)
+    expected_draw_identities = {
+        (
+            seed, arm, context, view, population, candidate, reference_name,
+            candidate if context != "C_PLUS_F" else f"C+F+{candidate}", bootstrap_index,
+        )
+        for context, seed, arm, view, population, candidate, reference_name, _, _ in pair_specs
+        for bootstrap_index in range(int(bootstrap["replicates"]))
+    }
+    observed_draw_identities = set(map(tuple, draw_frame.loc[:, draw_identity].to_numpy()))
+    if draw_frame.duplicated(list(draw_identity)).any() or observed_draw_identities != expected_draw_identities:
+        raise ValueError("bootstrap draws scientific-cell identity drifted")
+    return summary_frame, draw_frame
 
 
 SEED_CONSISTENCY_COLUMNS = (
