@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import re
+import subprocess
 import tempfile
 from typing import Any, Iterable, Mapping
 
@@ -19,6 +20,9 @@ CONFIG_PATH = EXPERIMENT_ROOT / "configs" / "audit.json"
 PLAN_PATH = EXPERIMENT_ROOT / "EXPERIMENT_PLAN.md"
 GITIGNORE_PATH = EXPERIMENT_ROOT / ".gitignore"
 LOCK_PATH = EXPERIMENT_ROOT / "PREREGISTRATION_LOCK.json"
+IMPLEMENTATION_ERRATUM_PATH = (
+    EXPERIMENT_ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json"
+)
 FEATURE_FILENAME = "regional_features.private.npz"
 METADATA_FILENAME = "regional_features.private.metadata.json"
 COMPLETION_PATH = EXPERIMENT_ROOT / "features" / "feature_matrix_complete.private.json"
@@ -143,6 +147,200 @@ COMPLETION_CELL_KEYS = frozenset(
     }
 )
 LOCK_STATUS = "FROZEN_BEFORE_FEATURE_EXTRACTION_OR_LABEL_DEPENDENT_ANALYSIS"
+REFREEZE_LOCK_STATUS = (
+    "IMPLEMENTATION_COMPATIBILITY_ERRATUM_FIXED_AND_REFROZEN_BEFORE_"
+    "FORMAL_ANALYSIS_COMPLETION"
+)
+PRIOR_PREREGISTRATION_COMMIT = "673aab146936d3890e79a9df8e8bbad8f9dec81c"
+PRIOR_PREREGISTRATION_LOCK_SHA256 = (
+    "d53f8d23a552edce15283c13b433830da7378413ec1e3eb52783cad3087c5d90"
+)
+IMPLEMENTATION_ERRATUM_STATUS = (
+    "IMPLEMENTATION_COMPATIBILITY_ERRATUM_BEFORE_FORMAL_OUTPUT_PUBLICATION"
+)
+IMPLEMENTATION_ERRATUM_REASON = (
+    "PANDAS_DEFAULT_FLOAT_PARSER_BREAKS_EXACT_GOAL5_P1_PARITY"
+)
+ERRATUM_PLAN_APPENDIX_SHA256 = (
+    "2b550ac5bab32db45d5af807ca6b7316315a73670a506715d3e07689f3670ae9"
+)
+ERRATUM_DISCARDED_MAP_CANONICAL_SHA256 = (
+    "247bcfabda1c688c9855995a8523b368a59f27faf0d0ae6cb30356ffc6e9ab76"
+)
+ZERO_RESULT_INVENTORY = {
+    "feature_files": 0,
+    "prediction_files": 0,
+    "metric_files": 0,
+    "figure_files": 0,
+    "report_files": 0,
+    "log_files": 0,
+    "manifest_files": 0,
+}
+PRIVACY_CONTRACT = {
+    "private_patient_artifacts_owner_only": True,
+    "raw_spatial_maps_persisted": False,
+    "region_definition_reads_masks_labels_ftv_or_clinical": False,
+}
+INITIAL_LOCK_KEYS = frozenset(
+    {
+        "schema_version",
+        "status",
+        "branch",
+        "parent_commit_sha",
+        "created_utc",
+        "config_sha256",
+        "config_canonical_sha256",
+        "experiment_plan_sha256",
+        "gitignore_sha256",
+        "implementation_sha256",
+        "goal5_preregistration_lock_sha256",
+        "goal5_feature_completion_sha256",
+        "formal_cell_count",
+        "selected_cells",
+        "pre_freeze_result_inventory",
+        "privacy_contract",
+    }
+)
+REFREEZE_LOCK_KEYS = frozenset(
+    {
+        *INITIAL_LOCK_KEYS,
+        "preregistration_revision",
+        "prior_preregistration_commit",
+        "prior_preregistration_lock_sha256",
+        "implementation_erratum_sha256",
+        "superseded_artifacts_reused",
+        "scientific_contract_unchanged",
+        "pre_refreeze_result_inventory",
+        "git_provenance_before_refreeze",
+    }
+)
+IMPLEMENTATION_ERRATUM_KEYS = frozenset(
+    {
+        "schema_version",
+        "status",
+        "erratum_number",
+        "prior_preregistration_commit",
+        "prior_preregistration_lock_sha256",
+        "reason_code",
+        "pre_erratum_execution",
+        "contract_scope",
+        "discarded_artifact_sha256",
+        "contains_patient_identifiers",
+    }
+)
+IMPLEMENTATION_ERRATUM_PRE_EXECUTION = {
+    "formal_run_started_utc": "2026-08-12T07:13:20Z",
+    "formal_run_failed_utc": "2026-08-12T07:35:19Z",
+    "failure_wall_time_seconds_approximate": 1320,
+    "feature_matrix_completed": True,
+    "completed_feature_cell_count": 20,
+    "independently_validated_feature_cell_count": 20,
+    "feature_matrix_validated_before_labels": True,
+    "fold_manifest_with_pcr_labels_parsed": True,
+    "clinical_phenotype_label_table_parsed": True,
+    "ftv_table_parsed": True,
+    "registered_probe_families_completed_in_memory": [
+        "mri_only_pcr",
+        "clinical_pcr",
+        "clinical_ftv_pcr",
+        "phenotype",
+        "ftv_and_delta_ftv",
+    ],
+    "goal5_prediction_tables_loaded": True,
+    "oracle_recovery_started": True,
+    "bootstrap_started": False,
+    "gates_evaluated": False,
+    "failure_exception_type": "ValueError",
+    "failure_function": "verify_r0_p1_parity",
+    "failure_identity_without_patient_identifier": (
+        "seed_2026/LOCAL0/T0/pCR/ftv_complete_375"
+    ),
+    "failure_reason": (
+        "default_pandas_csv_float_parser_changed_goal5_p1_probability_last_bits"
+    ),
+    "diagnostic_fold_test_row_count": 69,
+    "default_parser_probability_difference_count": 20,
+    "default_parser_maximum_absolute_probability_difference": (
+        5.551115123125783e-17
+    ),
+    "round_trip_parser_probability_difference_count": 0,
+    "round_trip_parser_maximum_absolute_probability_difference": 0,
+    "round_trip_patient_fold_label_equal": True,
+    "round_trip_probability_label_threshold_bitwise_equal": True,
+    "performance_metric_or_gate_value_inspected_or_printed": False,
+    "patient_level_prediction_artifact_created": False,
+    "private_analysis_artifact_count": 0,
+    "public_label_derived_artifact_count": 0,
+    "public_metric_csv_count": 0,
+    "gate_artifact_created": False,
+    "run_summary_created": False,
+    "figure_artifact_count": 0,
+    "report_artifact_count": 0,
+    "new_encoder_or_jepa_training_performed": False,
+    "in_memory_label_dependent_objects_discarded_at_process_exit": True,
+    "superseded_feature_completion_sha256": (
+        "70ae60c6913f92ae9b9c7bd62482ba496e3ad0850e255645ba721ee0180d2d8f"
+    ),
+    "superseded_geometry_contract_sha256": (
+        "de1070317278599e832cd276ab808671d9f7267b051193df5af8ef8fc13ea700"
+    ),
+    "discarded_artifact_count": 62,
+    "discarded_artifact_total_bytes": 571494370,
+    "discarded_artifact_count_by_root": {
+        "features": 41,
+        "logs": 20,
+        "metrics": 1,
+        "predictions": 0,
+        "figures": 0,
+        "reports": 0,
+    },
+    "discarded_artifact_bytes_by_root": {
+        "features": 571372121,
+        "logs": 120060,
+        "metrics": 2189,
+        "predictions": 0,
+        "figures": 0,
+        "reports": 0,
+    },
+    "discarded_artifact_record_format": (
+        "utf8_lines_sorted_by_audit_relative_path_as_"
+        "path_tab_size_bytes_tab_sha256_newline"
+    ),
+    "discarded_artifact_record_set_sha256": (
+        "6779442afc5d7375a141eea6c07d6740fae80a838bd99d22ec929cb33cc07244"
+    ),
+    "discard_before_refreeze_required": True,
+    "formal_reuse_forbidden": True,
+}
+IMPLEMENTATION_ERRATUM_CONTRACT_SCOPE = {
+    "primary_implementation_change": (
+        "read_goal5_prediction_csv_with_pandas_float_precision_round_trip"
+    ),
+    "regression_requirement": (
+        "exact_r0_p1_probability_label_threshold_parity_after_csv_round_trip"
+    ),
+    "affected_probe_stage": (
+        "goal5_prediction_deserialization_and_exact_bridge_validation_only"
+    ),
+    "static_delivery_validation_changes": [
+        "validate_positive_published_oracle_uplift_for_defined_recovery_ratio",
+        "record_real_git_push_error_when_push_fails",
+        "authenticate_experiment_commit_subject_ancestry_and_push_state",
+    ],
+    "run_summary_delivery_schema_adds_push_error": True,
+    "config_changed": False,
+    "feature_definition_or_extraction_changed": False,
+    "checkpoint_or_fold_changed": False,
+    "probe_estimator_or_hyperparameter_changed": False,
+    "population_or_timing_changed": False,
+    "metric_definition_changed": False,
+    "bootstrap_changed": False,
+    "oracle_denominator_or_numerator_changed": False,
+    "gate_threshold_or_logic_changed": False,
+    "classification_precedence_changed": False,
+    "scientific_contract_changed": False,
+    "all_superseded_feature_artifacts_must_be_rebuilt": True,
+}
 SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
 
 
@@ -384,6 +582,194 @@ def implementation_inventory() -> dict[str, str]:
     }
 
 
+def _git_bytes(*arguments: str) -> bytes:
+    result = subprocess.run(
+        ("git", *arguments),
+        cwd=REPO_ROOT,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if result.returncode != 0:
+        message = result.stderr.decode("utf-8", errors="replace").strip()
+        raise RuntimeError(message or f"git {' '.join(arguments)} failed")
+    return result.stdout
+
+
+def historical_file_bytes(commit: str, relative_path: str | Path) -> bytes:
+    relative = Path(relative_path)
+    if relative.is_absolute() or ".." in relative.parts:
+        raise ValueError("historical path must be repository-relative")
+    return _git_bytes("show", f"{commit}:{relative.as_posix()}")
+
+
+def _experiment_relative(path: Path) -> Path:
+    return path.resolve().relative_to(REPO_ROOT.resolve())
+
+
+def require_prior_preregistration() -> dict[str, Any]:
+    """Authenticate the exact schema-1 lock committed before the failed run."""
+
+    ancestry = subprocess.run(
+        (
+            "git",
+            "merge-base",
+            "--is-ancestor",
+            PRIOR_PREREGISTRATION_COMMIT,
+            "HEAD",
+        ),
+        cwd=REPO_ROOT,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if ancestry.returncode != 0:
+        raise ValueError("prior preregistration commit is not an ancestor of HEAD")
+    lock_bytes = historical_file_bytes(
+        PRIOR_PREREGISTRATION_COMMIT, _experiment_relative(LOCK_PATH)
+    )
+    if hashlib.sha256(lock_bytes).hexdigest() != PRIOR_PREREGISTRATION_LOCK_SHA256:
+        raise ValueError("historical schema-1 preregistration lock bytes drifted")
+    try:
+        prior = json.loads(lock_bytes.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise ValueError("historical schema-1 lock is not valid UTF-8 JSON") from error
+    if (
+        not isinstance(prior, dict)
+        or set(prior) != set(INITIAL_LOCK_KEYS)
+        or prior.get("schema_version") != 1
+        or prior.get("status") != LOCK_STATUS
+        or prior.get("pre_freeze_result_inventory") != ZERO_RESULT_INVENTORY
+        or prior.get("privacy_contract") != PRIVACY_CONTRACT
+    ):
+        raise ValueError("historical schema-1 preregistration contract drifted")
+    historical_paths = {
+        "config_sha256": CONFIG_PATH,
+        "experiment_plan_sha256": PLAN_PATH,
+        "gitignore_sha256": GITIGNORE_PATH,
+    }
+    for key, path in historical_paths.items():
+        payload = historical_file_bytes(
+            PRIOR_PREREGISTRATION_COMMIT, _experiment_relative(path)
+        )
+        if hashlib.sha256(payload).hexdigest() != prior.get(key):
+            raise ValueError(f"historical schema-1 lock does not bind {path.name}")
+    return prior
+
+
+def require_implementation_erratum() -> dict[str, Any]:
+    """Require the exact compatibility-only erratum semantics."""
+
+    value = json.loads(IMPLEMENTATION_ERRATUM_PATH.read_text(encoding="utf-8"))
+    if not isinstance(value, dict) or set(value) != set(IMPLEMENTATION_ERRATUM_KEYS):
+        raise ValueError("implementation erratum schema drifted")
+    discarded = value.get("discarded_artifact_sha256")
+    discarded_counts = {
+        root: sum(str(path).startswith(root + "/") for path in discarded)
+        if isinstance(discarded, Mapping)
+        else -1
+        for root in ("features", "logs", "metrics", "predictions", "figures", "reports")
+    }
+    if (
+        value.get("schema_version") != 1
+        or value.get("status") != IMPLEMENTATION_ERRATUM_STATUS
+        or value.get("erratum_number") != 1
+        or value.get("prior_preregistration_commit")
+        != PRIOR_PREREGISTRATION_COMMIT
+        or value.get("prior_preregistration_lock_sha256")
+        != PRIOR_PREREGISTRATION_LOCK_SHA256
+        or value.get("reason_code") != IMPLEMENTATION_ERRATUM_REASON
+        or value.get("pre_erratum_execution")
+        != IMPLEMENTATION_ERRATUM_PRE_EXECUTION
+        or value.get("contract_scope") != IMPLEMENTATION_ERRATUM_CONTRACT_SCOPE
+        or not isinstance(discarded, Mapping)
+        or len(discarded) != 62
+        or any(
+            not isinstance(path, str)
+            or not isinstance(digest, str)
+            or SHA256_PATTERN.fullmatch(digest) is None
+            for path, digest in discarded.items()
+        )
+        or discarded_counts
+        != IMPLEMENTATION_ERRATUM_PRE_EXECUTION["discarded_artifact_count_by_root"]
+        or canonical_sha256(discarded)
+        != ERRATUM_DISCARDED_MAP_CANONICAL_SHA256
+        or discarded.get("features/feature_matrix_complete.private.json")
+        != IMPLEMENTATION_ERRATUM_PRE_EXECUTION[
+            "superseded_feature_completion_sha256"
+        ]
+        or discarded.get("metrics/region_occupancy_contract.json")
+        != IMPLEMENTATION_ERRATUM_PRE_EXECUTION[
+            "superseded_geometry_contract_sha256"
+        ]
+        or value.get("contains_patient_identifiers") is not False
+    ):
+        raise ValueError("implementation erratum content drifted")
+    return value
+
+
+def require_erratum_plan_disclosure(prior: Mapping[str, Any]) -> None:
+    """Prove the old scientific plan is unchanged and only its erratum is appended."""
+
+    prior_bytes = historical_file_bytes(
+        PRIOR_PREREGISTRATION_COMMIT, _experiment_relative(PLAN_PATH)
+    )
+    if hashlib.sha256(prior_bytes).hexdigest() != prior.get(
+        "experiment_plan_sha256"
+    ):
+        raise ValueError("historical plan differs from the prior lock")
+    current_bytes = PLAN_PATH.read_bytes()
+    if not current_bytes.startswith(prior_bytes):
+        raise ValueError("pre-erratum scientific plan text changed")
+    appendix = current_bytes[len(prior_bytes) :]
+    if (
+        hashlib.sha256(appendix).hexdigest() != ERRATUM_PLAN_APPENDIX_SHA256
+        or not appendix.startswith(
+            b"## 10. Implementation compatibility erratum 1 and refreeze\n"
+        )
+    ):
+        raise ValueError("implementation erratum plan disclosure drifted")
+
+
+def require_refreeze_git_provenance(value: Any) -> None:
+    if not isinstance(value, Mapping) or set(value) != {
+        "base_head",
+        "branch",
+        "all_dirty_paths_confined_to_new_experiment",
+        "tracked_paths_before_refreeze",
+        "untracked_paths_before_refreeze",
+    }:
+        raise ValueError("schema-2 refreeze Git provenance schema drifted")
+    tracked = value.get("tracked_paths_before_refreeze")
+    untracked = value.get("untracked_paths_before_refreeze")
+    if (
+        value.get("base_head") != PRIOR_PREREGISTRATION_COMMIT
+        or value.get("all_dirty_paths_confined_to_new_experiment") is not True
+        or not isinstance(tracked, list)
+        or not isinstance(untracked, list)
+        or tracked != sorted(set(tracked))
+        or untracked != sorted(set(untracked))
+    ):
+        raise ValueError("schema-2 refreeze Git provenance content drifted")
+    prefix = _experiment_relative(EXPERIMENT_ROOT).as_posix() + "/"
+    paths = [*tracked, *untracked]
+    if not paths or any(not isinstance(path, str) or not path.startswith(prefix) for path in paths):
+        raise ValueError("schema-2 refreeze dirty paths escaped the experiment")
+    required_dirty = {
+        prefix + "EXPERIMENT_PLAN.md",
+        prefix + "scripts/common.py",
+        prefix + "scripts/freeze_preregistration.py",
+        prefix + "scripts/run_audit.py",
+        prefix + "tests/test_extraction_contract.py",
+        prefix + "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json",
+    }
+    if not required_dirty.issubset(paths):
+        raise ValueError("schema-2 refreeze omits required implementation changes")
+    forbidden = {prefix + "configs/audit.json", prefix + ".gitignore"}
+    if forbidden.intersection(paths):
+        raise ValueError("schema-2 refreeze changed config or privacy policy")
+
+
 def load_goal5_lock(config: Mapping[str, Any]) -> dict[str, Any]:
     paths = config["paths"]
     source = Path(str(paths["goal5_lock"])).resolve(strict=True)
@@ -414,29 +800,60 @@ def require_preregistration_lock(
         raise ValueError("caller config SHA-256 differs from the frozen config")
     source = Path(path).resolve(strict=True)
     value = json.loads(source.read_text(encoding="utf-8"))
-    required = {
-        "schema_version",
-        "status",
-        "branch",
-        "parent_commit_sha",
-        "created_utc",
-        "config_sha256",
-        "config_canonical_sha256",
-        "experiment_plan_sha256",
-        "gitignore_sha256",
-        "implementation_sha256",
-        "goal5_preregistration_lock_sha256",
-        "goal5_feature_completion_sha256",
-        "formal_cell_count",
-        "selected_cells",
-        "pre_freeze_result_inventory",
-        "privacy_contract",
-    }
-    if not isinstance(value, dict) or set(value) != required:
-        raise ValueError("preregistration lock schema drifted")
-    if value["schema_version"] != 1 or value["status"] != LOCK_STATUS:
-        raise ValueError("preregistration lock is not active")
-    if value["branch"] != frozen_config["branch"] or value["parent_commit_sha"] != frozen_config["start"]["parent_commit_sha"]:
+    if not isinstance(value, dict):
+        raise ValueError("preregistration lock is not a JSON object")
+
+    prior: dict[str, Any] | None = None
+    if IMPLEMENTATION_ERRATUM_PATH.is_file():
+        if set(value) != set(REFREEZE_LOCK_KEYS):
+            raise ValueError("schema-2 preregistration lock schema drifted")
+        prior = require_prior_preregistration()
+        require_implementation_erratum()
+        require_erratum_plan_disclosure(prior)
+        if (
+            value["schema_version"] != 2
+            or value["preregistration_revision"] != 1
+            or value["status"] != REFREEZE_LOCK_STATUS
+            or value["prior_preregistration_commit"]
+            != PRIOR_PREREGISTRATION_COMMIT
+            or value["prior_preregistration_lock_sha256"]
+            != PRIOR_PREREGISTRATION_LOCK_SHA256
+            or value["implementation_erratum_sha256"]
+            != file_sha256(IMPLEMENTATION_ERRATUM_PATH)
+            or value["superseded_artifacts_reused"] is not False
+            or value["scientific_contract_unchanged"] is not True
+            or value["pre_refreeze_result_inventory"] != ZERO_RESULT_INVENTORY
+        ):
+            raise ValueError("schema-2 compatibility refreeze is not active")
+        require_refreeze_git_provenance(value["git_provenance_before_refreeze"])
+        if value["git_provenance_before_refreeze"]["branch"] != value["branch"]:
+            raise ValueError("schema-2 refreeze branch record drifted")
+        preserved_fields = (
+            "branch",
+            "parent_commit_sha",
+            "config_sha256",
+            "config_canonical_sha256",
+            "gitignore_sha256",
+            "goal5_preregistration_lock_sha256",
+            "goal5_feature_completion_sha256",
+            "formal_cell_count",
+            "selected_cells",
+            "pre_freeze_result_inventory",
+            "privacy_contract",
+        )
+        if any(value[name] != prior[name] for name in preserved_fields):
+            raise ValueError("schema-2 refreeze changed a frozen schema-1 field")
+    else:
+        if set(value) != set(INITIAL_LOCK_KEYS):
+            raise ValueError("schema-1 preregistration lock schema drifted")
+        if value["schema_version"] != 1 or value["status"] != LOCK_STATUS:
+            raise ValueError("schema-1 preregistration lock is not active")
+
+    if (
+        value["branch"] != frozen_config["branch"]
+        or value["parent_commit_sha"]
+        != frozen_config["start"]["parent_commit_sha"]
+    ):
         raise ValueError("preregistration git provenance drifted")
     if value["config_sha256"] != file_sha256(CONFIG_PATH) or value[
         "config_canonical_sha256"
@@ -456,23 +873,16 @@ def require_preregistration_lock(
     goal5 = load_goal5_lock(frozen_config)
     if value["formal_cell_count"] != 20 or value["selected_cells"] != goal5["selected_cells"]:
         raise ValueError("selected checkpoints differ from the exact Goal5 lock")
-    if value["pre_freeze_result_inventory"] != {
-        "feature_files": 0,
-        "prediction_files": 0,
-        "metric_files": 0,
-        "figure_files": 0,
-        "report_files": 0,
-        "log_files": 0,
-        "manifest_files": 0,
-    }:
+    if value["pre_freeze_result_inventory"] != ZERO_RESULT_INVENTORY:
         raise ValueError("preregistration lock did not precede result generation")
-    privacy = value["privacy_contract"]
-    if privacy != {
-        "private_patient_artifacts_owner_only": True,
-        "raw_spatial_maps_persisted": False,
-        "region_definition_reads_masks_labels_ftv_or_clinical": False,
-    }:
+    if value["privacy_contract"] != PRIVACY_CONTRACT:
         raise ValueError("preregistration privacy contract drifted")
+    if prior is not None and (
+        value["config_sha256"] != prior["config_sha256"]
+        or value["config_canonical_sha256"] != prior["config_canonical_sha256"]
+        or value["gitignore_sha256"] != prior["gitignore_sha256"]
+    ):
+        raise ValueError("schema-2 refreeze changed config or privacy bytes")
     return value
 
 
@@ -682,17 +1092,31 @@ __all__ = [
     "FOLDS",
     "GEOMETRY_CONTRACT_PATH",
     "GITIGNORE_PATH",
+    "IMPLEMENTATION_ERRATUM_CONTRACT_SCOPE",
+    "ERRATUM_DISCARDED_MAP_CANONICAL_SHA256",
+    "IMPLEMENTATION_ERRATUM_KEYS",
+    "IMPLEMENTATION_ERRATUM_PATH",
+    "IMPLEMENTATION_ERRATUM_PRE_EXECUTION",
+    "IMPLEMENTATION_ERRATUM_REASON",
+    "IMPLEMENTATION_ERRATUM_STATUS",
+    "INITIAL_LOCK_KEYS",
     "LOCK_PATH",
     "LOCK_STATUS",
     "METADATA_FILENAME",
     "METADATA_KEYS",
     "PATIENT_COUNT",
     "PLAN_PATH",
+    "PRIOR_PREREGISTRATION_COMMIT",
+    "PRIOR_PREREGISTRATION_LOCK_SHA256",
+    "PRIVACY_CONTRACT",
     "REPO_ROOT",
+    "REFREEZE_LOCK_KEYS",
+    "REFREEZE_LOCK_STATUS",
     "SEEDS",
     "VARIANT_DIMENSIONS",
     "VARIANT_KEYS",
     "VISITS",
+    "ZERO_RESULT_INVENTORY",
     "array_sha256",
     "atomic_json",
     "atomic_npz",
@@ -702,6 +1126,7 @@ __all__ = [
     "feature_path",
     "file_sha256",
     "implementation_inventory",
+    "historical_file_bytes",
     "load_config",
     "load_goal5_lock",
     "metadata_path",
@@ -709,6 +1134,10 @@ __all__ = [
     "private_directory",
     "publish_json_once",
     "require_owner_only",
+    "require_erratum_plan_disclosure",
+    "require_implementation_erratum",
+    "require_prior_preregistration",
     "require_preregistration_lock",
+    "require_refreeze_git_provenance",
     "validate_feature_cell",
 ]

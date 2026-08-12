@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
+import inspect
 import json
 from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 
@@ -29,6 +32,9 @@ export_features = load_module(
 )
 run_feature_matrix = load_module(
     "mask_free_run_feature_matrix", ROOT / "scripts" / "run_feature_matrix.py"
+)
+freeze_preregistration = load_module(
+    "mask_free_freeze_preregistration", ROOT / "scripts" / "freeze_preregistration.py"
 )
 
 
@@ -153,39 +159,46 @@ class ExtractionContractTests(unittest.TestCase):
 
     def test_lock_auth_accepts_analysis_resolved_config_view(self) -> None:
         config = common.load_config(verify_extraction_inputs=False)
-        goal5 = common.load_goal5_lock(config)
+        prior = common.require_prior_preregistration()
+        prefix = str(ROOT.relative_to(common.REPO_ROOT)) + "/"
         payload = {
-            "schema_version": 1,
-            "status": common.LOCK_STATUS,
-            "branch": config["branch"],
-            "parent_commit_sha": config["start"]["parent_commit_sha"],
+            **prior,
+            "schema_version": 2,
+            "preregistration_revision": 1,
+            "status": common.REFREEZE_LOCK_STATUS,
             "created_utc": "2026-08-12T06:00:00Z",
             "config_sha256": common.file_sha256(common.CONFIG_PATH),
             "config_canonical_sha256": common.canonical_sha256(config),
             "experiment_plan_sha256": common.file_sha256(common.PLAN_PATH),
             "gitignore_sha256": common.file_sha256(common.GITIGNORE_PATH),
             "implementation_sha256": common.implementation_inventory(),
-            "goal5_preregistration_lock_sha256": config["paths"]["goal5_lock_sha256"],
-            "goal5_feature_completion_sha256": config["paths"][
-                "goal5_feature_completion_sha256"
-            ],
-            "formal_cell_count": 20,
-            "selected_cells": goal5["selected_cells"],
-            "pre_freeze_result_inventory": {
-                "feature_files": 0,
-                "prediction_files": 0,
-                "metric_files": 0,
-                "figure_files": 0,
-                "report_files": 0,
-                "log_files": 0,
-                "manifest_files": 0,
-            },
-            "privacy_contract": {
-                "private_patient_artifacts_owner_only": True,
-                "raw_spatial_maps_persisted": False,
-                "region_definition_reads_masks_labels_ftv_or_clinical": False,
+            "prior_preregistration_commit": common.PRIOR_PREREGISTRATION_COMMIT,
+            "prior_preregistration_lock_sha256": (
+                common.PRIOR_PREREGISTRATION_LOCK_SHA256
+            ),
+            "implementation_erratum_sha256": common.file_sha256(
+                common.IMPLEMENTATION_ERRATUM_PATH
+            ),
+            "superseded_artifacts_reused": False,
+            "scientific_contract_unchanged": True,
+            "pre_refreeze_result_inventory": dict(common.ZERO_RESULT_INVENTORY),
+            "git_provenance_before_refreeze": {
+                "base_head": common.PRIOR_PREREGISTRATION_COMMIT,
+                "branch": config["branch"],
+                "all_dirty_paths_confined_to_new_experiment": True,
+                "tracked_paths_before_refreeze": [
+                    prefix + "EXPERIMENT_PLAN.md",
+                    prefix + "scripts/common.py",
+                    prefix + "scripts/freeze_preregistration.py",
+                    prefix + "scripts/run_audit.py",
+                    prefix + "tests/test_extraction_contract.py",
+                ],
+                "untracked_paths_before_refreeze": [
+                    prefix + "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json"
+                ],
             },
         }
+        self.assertEqual(set(payload), set(common.REFREEZE_LOCK_KEYS))
         analysis_view = dict(config)
         analysis_view["paths"] = {
             name: Path(value) if not name.endswith("_sha256") and name.endswith(("root", "lock", "completion", "predictions", "metrics", "sidecar", "contract", "authorization", "manifest", "labels", "table")) else value
@@ -198,6 +211,198 @@ class ExtractionContractTests(unittest.TestCase):
             lock_path.write_text(json.dumps(payload), encoding="utf-8")
             observed = common.require_preregistration_lock(analysis_view, lock_path)
         self.assertEqual(observed["formal_cell_count"], 20)
+        self.assertFalse(observed["superseded_artifacts_reused"])
+
+    def test_schema2_auth_rejects_prior_sha_or_scientific_mutation(self) -> None:
+        config = common.load_config(verify_extraction_inputs=False)
+        prior = common.require_prior_preregistration()
+        prefix = str(ROOT.relative_to(common.REPO_ROOT)) + "/"
+        payload = {
+            **prior,
+            "schema_version": 2,
+            "preregistration_revision": 1,
+            "status": common.REFREEZE_LOCK_STATUS,
+            "created_utc": "2026-08-12T08:00:00Z",
+            "experiment_plan_sha256": common.file_sha256(common.PLAN_PATH),
+            "implementation_sha256": common.implementation_inventory(),
+            "prior_preregistration_commit": common.PRIOR_PREREGISTRATION_COMMIT,
+            "prior_preregistration_lock_sha256": (
+                common.PRIOR_PREREGISTRATION_LOCK_SHA256
+            ),
+            "implementation_erratum_sha256": common.file_sha256(
+                common.IMPLEMENTATION_ERRATUM_PATH
+            ),
+            "superseded_artifacts_reused": False,
+            "scientific_contract_unchanged": True,
+            "pre_refreeze_result_inventory": dict(common.ZERO_RESULT_INVENTORY),
+            "git_provenance_before_refreeze": {
+                "base_head": common.PRIOR_PREREGISTRATION_COMMIT,
+                "branch": config["branch"],
+                "all_dirty_paths_confined_to_new_experiment": True,
+                "tracked_paths_before_refreeze": sorted(
+                    [
+                        prefix + "EXPERIMENT_PLAN.md",
+                        prefix + "scripts/common.py",
+                        prefix + "scripts/freeze_preregistration.py",
+                        prefix + "scripts/run_audit.py",
+                        prefix + "tests/test_extraction_contract.py",
+                    ]
+                ),
+                "untracked_paths_before_refreeze": [
+                    prefix + "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json"
+                ],
+            },
+        }
+        for name, bad_value in (
+            ("prior_preregistration_lock_sha256", "0" * 64),
+            ("superseded_artifacts_reused", True),
+            ("scientific_contract_unchanged", False),
+        ):
+            corrupted = {**payload, name: bad_value}
+            with tempfile.TemporaryDirectory() as temporary:
+                lock_path = Path(temporary) / "PREREGISTRATION_LOCK.json"
+                lock_path.write_text(json.dumps(corrupted), encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "schema-2 compatibility"):
+                    common.require_preregistration_lock(config, lock_path)
+
+    def test_erratum_and_plan_are_exactly_bound_to_historical_lock(self) -> None:
+        prior = common.require_prior_preregistration()
+        erratum = common.require_implementation_erratum()
+        common.require_erratum_plan_disclosure(prior)
+        self.assertEqual(
+            erratum["reason_code"], common.IMPLEMENTATION_ERRATUM_REASON
+        )
+        self.assertFalse(erratum["contract_scope"]["scientific_contract_changed"])
+        historical = common.historical_file_bytes(
+            common.PRIOR_PREREGISTRATION_COMMIT,
+            common.LOCK_PATH.relative_to(common.REPO_ROOT),
+        )
+        self.assertEqual(
+            hashlib.sha256(historical).hexdigest(),
+            common.PRIOR_PREREGISTRATION_LOCK_SHA256,
+        )
+
+    def test_refreeze_requires_explicit_flag_and_atomic_old_lock_match(self) -> None:
+        self.assertTrue(
+            freeze_preregistration.parse_args(["--execute-refreeze"]).execute_refreeze
+        )
+        self.assertFalse(freeze_preregistration.parse_args([]).execute_refreeze)
+        prior_bytes = common.historical_file_bytes(
+            common.PRIOR_PREREGISTRATION_COMMIT,
+            common.LOCK_PATH.relative_to(common.REPO_ROOT),
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            lock_path = Path(temporary) / "PREREGISTRATION_LOCK.json"
+            lock_path.write_bytes(prior_bytes)
+            payload = {"schema_version": 2, "status": common.REFREEZE_LOCK_STATUS}
+            with patch.object(freeze_preregistration, "LOCK_PATH", lock_path), patch.object(
+                freeze_preregistration,
+                "_prior_lock_bytes_from_git",
+                return_value=prior_bytes,
+            ):
+                freeze_preregistration._replace_prior_lock(payload)
+            self.assertEqual(json.loads(lock_path.read_text(encoding="utf-8")), payload)
+            self.assertEqual(lock_path.stat().st_mode & 0o777, 0o644)
+            lock_path.write_text("{}\n", encoding="utf-8")
+            with patch.object(freeze_preregistration, "LOCK_PATH", lock_path):
+                with self.assertRaisesRegex(ValueError, "non-historical"):
+                    freeze_preregistration._replace_prior_lock(payload)
+
+    def test_refreeze_inventory_allows_only_frozen_nonresults(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for directory in freeze_preregistration.RESULT_DIRECTORIES:
+                (root / directory).mkdir(parents=True)
+            for relative in freeze_preregistration.ALLOWED_PREFREEZE_NONRESULTS:
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("placeholder\n", encoding="utf-8")
+            with patch.object(freeze_preregistration, "ROOT", root):
+                self.assertEqual(
+                    freeze_preregistration._pre_freeze_result_inventory(),
+                    common.ZERO_RESULT_INVENTORY,
+                )
+                (root / "predictions" / "leak.private.csv").write_text(
+                    "patient_id\nforbidden\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(ValueError, "result artifacts"):
+                    freeze_preregistration._pre_freeze_result_inventory()
+
+    def test_refreeze_builder_preserves_schema1_science_and_binds_new_code(self) -> None:
+        config = common.load_config(verify_extraction_inputs=False)
+        prior = common.require_prior_preregistration()
+        prefix = str(ROOT.relative_to(common.REPO_ROOT)) + "/"
+        provenance = {
+            "base_head": common.PRIOR_PREREGISTRATION_COMMIT,
+            "branch": config["branch"],
+            "all_dirty_paths_confined_to_new_experiment": True,
+            "tracked_paths_before_refreeze": sorted(
+                [
+                    prefix + "EXPERIMENT_PLAN.md",
+                    prefix + "scripts/common.py",
+                    prefix + "scripts/freeze_preregistration.py",
+                    prefix + "scripts/run_audit.py",
+                    prefix + "tests/test_extraction_contract.py",
+                ]
+            ),
+            "untracked_paths_before_refreeze": [
+                prefix + "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json"
+            ],
+        }
+        with patch.object(
+            freeze_preregistration,
+            "_require_refreeze_git_context",
+            return_value=provenance,
+        ), patch.object(
+            freeze_preregistration, "_require_working_prior_lock", return_value=prior
+        ), patch.object(
+            freeze_preregistration,
+            "_selected_cells",
+            return_value=prior["selected_cells"],
+        ), patch.object(
+            freeze_preregistration,
+            "_pre_freeze_result_inventory",
+            return_value=dict(common.ZERO_RESULT_INVENTORY),
+        ):
+            payload = freeze_preregistration.build_refreeze_lock(config)
+        self.assertEqual(set(payload), set(common.REFREEZE_LOCK_KEYS))
+        self.assertEqual(payload["schema_version"], 2)
+        self.assertEqual(payload["status"], common.REFREEZE_LOCK_STATUS)
+        self.assertEqual(
+            payload["prior_preregistration_lock_sha256"],
+            common.PRIOR_PREREGISTRATION_LOCK_SHA256,
+        )
+        self.assertFalse(payload["superseded_artifacts_reused"])
+        for name in (
+            "config_sha256",
+            "config_canonical_sha256",
+            "gitignore_sha256",
+            "goal5_preregistration_lock_sha256",
+            "goal5_feature_completion_sha256",
+            "formal_cell_count",
+            "selected_cells",
+            "pre_freeze_result_inventory",
+            "privacy_contract",
+        ):
+            self.assertEqual(payload[name], prior[name])
+        self.assertEqual(payload["implementation_sha256"], common.implementation_inventory())
+        self.assertNotEqual(
+            payload["implementation_sha256"]["scripts/common.py"],
+            prior["implementation_sha256"]["scripts/common.py"],
+        )
+
+    def test_old_artifact_lock_binding_has_no_schema2_reuse_bypass(self) -> None:
+        source = inspect.getsource(common.validate_feature_cell)
+        self.assertIn(
+            'metadata["preregistration_lock_sha256"] != file_sha256(LOCK_PATH)',
+            source,
+        )
+        matrix_source = (ROOT / "scripts" / "run_feature_matrix.py").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn(
+            '"preregistration_lock_sha256": file_sha256(LOCK_PATH)', matrix_source
+        )
 
 
 if __name__ == "__main__":

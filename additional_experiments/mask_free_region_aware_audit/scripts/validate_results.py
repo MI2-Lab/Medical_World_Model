@@ -174,6 +174,7 @@ RUN_SUMMARY_KEYS = frozenset(
         "branch",
         "commit_sha",
         "push_status",
+        "push_error",
         "elapsed_seconds",
         "feature_cells_validated_before_labels",
         "formal_bootstrap_replicates",
@@ -223,6 +224,14 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         type=Path,
         default=Path("metrics/final_validation.json"),
         help="Output path relative to --root (default: metrics/final_validation.json).",
+    )
+    parser.add_argument(
+        "--allow-pending-git",
+        action="store_true",
+        help=(
+            "Permit the exact pre-delivery Git state PENDING/PENDING/null. "
+            "Final validation rejects pending provenance by default."
+        ),
     )
     parser.add_argument("--overwrite", action="store_true")
     return parser.parse_args(argv)
@@ -417,26 +426,54 @@ def validate_public_tables(root: Path) -> dict[str, Any]:
         rows[logical_name] = len(frame)
 
     oracle = tables["oracle_recovery"]
-    _, ratio = numeric_column(
-        oracle,
-        ("recovery_ratio", "oracle_recovery_ratio", "mean_recovery_ratio"),
-        required=False,
+    ratio = pd.to_numeric(oracle["recovery_ratio"], errors="coerce")
+    denominator = pd.to_numeric(
+        oracle["published_oracle_uplift"], errors="coerce"
     )
-    _, denominator = numeric_column(
-        oracle,
-        ("denominator", "oracle_uplift", "peri20_uplift", "oracle_denominator"),
-        required=False,
-    )
-    if ratio is not None and denominator is not None:
-        defined = ratio.notna()
-        if (denominator.loc[defined] <= 0).any():
-            raise ValidationError(
-                "Oracle recovery ratio is populated where its denominator is non-positive"
-            )
+    recovery_defined = oracle["recovery_defined"].map(_strict_optional_bool)
+    malformed_defined = oracle["recovery_defined"].notna() & recovery_defined.isna()
+    if malformed_defined.any():
+        raise ValidationError("Oracle recovery_defined contains a non-boolean value")
+    ratio_present = oracle["recovery_ratio"].notna()
+    if ratio_present.any() and not np.isfinite(ratio.loc[ratio_present].to_numpy(float)).all():
+        raise ValidationError("Oracle recovery_ratio contains a non-finite value")
+    declared_defined = recovery_defined.fillna(False).astype(bool)
+    if (declared_defined & ~ratio_present).any():
+        raise ValidationError("Oracle recovery_defined is true without a recovery_ratio")
+    requires_denominator = declared_defined | ratio_present
+    required_values = denominator.loc[requires_denominator].to_numpy(float)
+    if (
+        not np.isfinite(required_values).all()
+        or (required_values <= 0).any()
+    ):
+        raise ValidationError(
+            "Oracle recovery requires a positive finite published_oracle_uplift"
+        )
     return {"status": "PASS", "row_counts": rows}
 
 
-def validate_gates_and_summary(root: Path) -> dict[str, Any]:
+def _strict_optional_bool(value: Any) -> bool | float:
+    """Parse public CSV booleans without treating arbitrary text as truthy."""
+
+    if value is None or (isinstance(value, float) and np.isnan(value)):
+        return np.nan
+    if isinstance(value, (bool, np.bool_)):
+        return bool(value)
+    if isinstance(value, (int, np.integer)) and int(value) in (0, 1):
+        return bool(value)
+    normalized = str(value).strip().lower()
+    if normalized in {"true", "1"}:
+        return True
+    if normalized in {"false", "0"}:
+        return False
+    return np.nan
+
+
+def validate_gates_and_summary(
+    root: Path,
+    *,
+    allow_pending_git: bool = False,
+) -> dict[str, Any]:
     gates_payload = _read_json(root / GATES_PATH)
     expected_gate_top = {
         "schema_version",
@@ -505,6 +542,12 @@ def validate_gates_and_summary(root: Path) -> dict[str, Any]:
     ):
         raise ValidationError("run_summary classification differs from gates.json")
 
+    git_provenance = validate_git_delivery_provenance(
+        root,
+        summary,
+        allow_pending_git=allow_pending_git,
+    )
+
     for key, expected_paths, private in (
         ("public_outputs", RUN_PUBLIC_OUTPUTS, False),
         ("private_outputs", RUN_PRIVATE_OUTPUTS, True),
@@ -524,6 +567,7 @@ def validate_gates_and_summary(root: Path) -> dict[str, Any]:
         "status": "PASS",
         "gates": {letter: bool(gates[letter]) for letter in "ABCD"},
         "run_status": str(summary.get("status", summary.get("run_status", ""))),
+        "git_provenance": git_provenance,
     }
 
 
@@ -704,6 +748,189 @@ def _git_repository(root: Path) -> Path:
     except ValueError as error:
         raise ValidationError("audit root escaped its Git worktree") from error
     return repository
+
+
+def _git_ok(repository: Path, *arguments: str) -> bool:
+    return (
+        subprocess.run(
+            ["git", *arguments],
+            cwd=repository,
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        ).returncode
+        == 0
+    )
+
+
+def _real_push_error(value: Any) -> str | None:
+    if not isinstance(value, str) or not value.strip() or "\x00" in value:
+        return None
+    text = value.strip()
+    placeholder = re.sub(r"[^a-z0-9]+", "_", text.lower()).strip("_")
+    if placeholder in {
+        "pending",
+        "unknown",
+        "unknown_error",
+        "none",
+        "null",
+        "na",
+        "n_a",
+        "not_recorded",
+        "not_yet_recorded",
+        "placeholder",
+        "todo",
+        "tbd",
+    }:
+        return None
+    return text
+
+
+def validate_git_delivery_provenance(
+    root: Path,
+    summary: Mapping[str, Any],
+    *,
+    allow_pending_git: bool = False,
+) -> dict[str, Any]:
+    """Authenticate the non-self-referential experiment delivery commit."""
+
+    commit = summary.get("commit_sha")
+    push_status = summary.get("push_status")
+    push_error = summary.get("push_error")
+    pending = commit == "PENDING" and push_status == "PENDING" and push_error is None
+    any_pending = commit == "PENDING" or push_status == "PENDING"
+    if pending:
+        if not allow_pending_git:
+            raise ValidationError(
+                "final validation requires completed Git provenance; "
+                "PENDING is allowed only with allow_pending_git=True"
+            )
+        return {
+            "status": "PENDING",
+            "commit_sha": "PENDING",
+            "push_status": "PENDING",
+        }
+    if any_pending:
+        raise ValidationError(
+            "pre-delivery Git provenance must be exactly PENDING/PENDING/null"
+        )
+    if not isinstance(commit, str) or re.fullmatch(r"[0-9a-f]{40}", commit) is None:
+        raise ValidationError("final run_summary commit_sha must be a full 40-hex SHA")
+    if push_status == "PUSHED":
+        if push_error is not None:
+            raise ValidationError("PUSHED requires push_error=null")
+    elif push_status == "GITHUB_PUSH_FAILED":
+        if _real_push_error(push_error) is None:
+            raise ValidationError(
+                "GITHUB_PUSH_FAILED requires a nonempty real push_error"
+            )
+    else:
+        raise ValidationError(
+            "final push_status must be PUSHED or GITHUB_PUSH_FAILED"
+        )
+
+    repository = _git_repository(root)
+    if not _git_ok(repository, "cat-file", "-e", f"{commit}^{{commit}}"):
+        raise ValidationError("reported experiment commit does not exist locally")
+    subject = subprocess.check_output(
+        ["git", "show", "-s", "--format=%s", commit],
+        cwd=repository,
+        text=True,
+        stderr=subprocess.PIPE,
+    ).strip()
+    if subject != "Add mask-free region-aware representation audit":
+        raise ValidationError("experiment commit subject differs from the required message")
+    if not _git_ok(repository, "merge-base", "--is-ancestor", commit, "HEAD"):
+        raise ValidationError("experiment commit is not an ancestor of current HEAD")
+
+    parent_row = subprocess.check_output(
+        ["git", "rev-list", "--parents", "-n", "1", commit],
+        cwd=repository,
+        text=True,
+        stderr=subprocess.PIPE,
+    ).strip().split()
+    if len(parent_row) != 2:
+        raise ValidationError("experiment commit must have exactly one parent")
+    changed_paths = subprocess.check_output(
+        ["git", "diff", "--no-renames", "--name-only", parent_row[1], commit, "--"],
+        cwd=repository,
+        text=True,
+        stderr=subprocess.PIPE,
+    ).splitlines()
+    audit_prefix = root.resolve().relative_to(repository).as_posix() + "/"
+    if not changed_paths:
+        raise ValidationError("experiment commit has an empty diff")
+    outside_audit = sorted(
+        path for path in changed_paths if not path.startswith(audit_prefix)
+    )
+    if outside_audit:
+        raise ValidationError(
+            f"experiment commit changes paths outside the audit: {outside_audit[:5]}"
+        )
+
+    remote_tip: str | None = None
+    if push_status == "PUSHED":
+        branch = str(summary.get("branch", ""))
+        if not _git_ok(repository, "check-ref-format", "--branch", branch):
+            raise ValidationError("run_summary branch is not a valid Git branch name")
+        reference = f"refs/heads/{branch}"
+        try:
+            output = subprocess.check_output(
+                ["git", "ls-remote", "--heads", "origin", reference],
+                cwd=repository,
+                text=True,
+                stderr=subprocess.PIPE,
+            ).strip()
+        except (subprocess.CalledProcessError, FileNotFoundError) as error:
+            raise ValidationError("git ls-remote failed for origin experiment branch") from error
+        rows = [line.split() for line in output.splitlines() if line.strip()]
+        if (
+            len(rows) != 1
+            or len(rows[0]) != 2
+            or rows[0][1] != reference
+            or re.fullmatch(r"[0-9a-f]{40}", rows[0][0]) is None
+        ):
+            raise ValidationError("origin does not expose the configured experiment branch")
+        remote_tip = rows[0][0]
+        if not _git_ok(repository, "cat-file", "-e", f"{remote_tip}^{{commit}}"):
+            fetched = subprocess.run(
+                [
+                    "git",
+                    "fetch",
+                    "--quiet",
+                    "--no-tags",
+                    "--no-write-fetch-head",
+                    "origin",
+                    reference,
+                ],
+                cwd=repository,
+                check=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+            if fetched.returncode != 0 or not _git_ok(
+                repository, "cat-file", "-e", f"{remote_tip}^{{commit}}"
+            ):
+                raise ValidationError("origin branch tip could not be authenticated locally")
+        if not _git_ok(
+            repository, "merge-base", "--is-ancestor", commit, remote_tip
+        ):
+            raise ValidationError(
+                "reported experiment commit is not contained in origin branch"
+            )
+
+    result = {
+        "status": "PASS",
+        "commit_sha": commit,
+        "push_status": str(push_status),
+        "commit_subject": subject,
+        "audit_only_changed_path_count": len(changed_paths),
+    }
+    if remote_tip is not None:
+        result["remote_branch_tip"] = remote_tip
+    return result
 
 
 def tracked_delivery_paths(root: Path) -> tuple[Path, list[Path]]:
@@ -914,13 +1141,17 @@ def validate_all(
     root: Path = ROOT,
     *,
     old_tree_manifest: Path | None = None,
+    allow_pending_git: bool = False,
 ) -> dict[str, Any]:
     root = root.resolve()
     checks = {
         "required_outputs": validate_required_outputs(root),
         "feature_completion": validate_feature_completion(root),
         "public_tables": validate_public_tables(root),
-        "gates_and_run_summary": validate_gates_and_summary(root),
+        "gates_and_run_summary": validate_gates_and_summary(
+            root,
+            allow_pending_git=allow_pending_git,
+        ),
         "figure_manifest": validate_figure_manifest(root),
         "final_report": validate_report(root),
         "public_privacy": scan_public_artifacts(root),
@@ -950,7 +1181,11 @@ def main(argv: Sequence[str] | None = None) -> None:
     if output.exists() and not args.overwrite:
         raise SystemExit("validation output exists; pass --overwrite to replace it")
     try:
-        result = validate_all(root, old_tree_manifest=args.old_tree_manifest)
+        result = validate_all(
+            root,
+            old_tree_manifest=args.old_tree_manifest,
+            allow_pending_git=args.allow_pending_git,
+        )
     except Exception as error:
         failure = {
             "schema_version": 1,

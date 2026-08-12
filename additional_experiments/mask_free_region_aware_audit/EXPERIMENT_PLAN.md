@@ -90,3 +90,12 @@ Classification precedence：A（Gate A+C）优先；否则若 Gate A 且 Gate B 
 
 任何 AUROC/FTV 可解码性只是冻结、内部 OOF diagnostic；不得解释成外部泛化、统计显著性、因果机制、peritumoral biology 或 molecular phenotype。粗 Z spacing、大 receptive field、complete-four-visit selection 与上游 T0 localization-centered crop 必须作为限制。
 
+## 10. Implementation compatibility erratum 1 and refreeze
+
+原始 preregistration 已在 commit `673aab146936d3890e79a9df8e8bbad8f9dec81c`、lock SHA-256 `d53f8d23a552edce15283c13b433830da7378413ec1e3eb52783cad3087c5d90` 冻结。第一次正式 analysis 在 20/20 feature cells 全部认证且 label-dependent probes 已在内存运行后，于任何 prediction CSV、公开 metric、gate、bootstrap 或 run summary 发布前 fail-closed。唯一 traceback 是 R0/P1 exact-prediction bridge：已发布 Goal 5 CSV 被 pandas 默认浮点 parser 读取后，某些 IEEE-754 值发生最后一位舍入。
+
+不读取 AUROC 或 Gate 值的单-fold compatibility diagnostic 证明：patient/fold/label、predicted label 与 threshold 全部一致；默认 parser 在 69 个 test rows 中改变 20 个 probability，最大绝对差 `5.551115123125783e-17`；`float_precision="round_trip"` 恢复 probability/label/threshold bitwise equality，最大差为 0。这与既有 Goal 5 validation erratum 使用的 round-trip parser 相同。
+
+因此唯一 probe-path 改动固定为 Goal 5 prediction CSV 的 `pd.read_csv(..., float_precision="round_trip")`。R0/P1 exact parity、所有 feature/probe/population/bootstrap/Gate/classification contract、阈值与 Goal 5 denominator 均不改变。同期、在任何正式输出发布前完成的静态 delivery audit 只允许加强三项非科学闭合检查：验证实际 `published_oracle_uplift` 的正 denominator；为 Git push failure 保存真实 error；认证 experiment commit subject/ancestry 与 push 状态。不得借 erratum 改 region、timing、candidate、probe、metric、Gate 或 scientific classification。
+
+`PREREGISTRATION_IMPLEMENTATION_ERRATUM.json` 精确绑定失败状态与 62 个当时存在的 feature-side artifacts（571,494,370 bytes；canonical record-set SHA-256 `6779442afc5d7375a141eea6c07d6740fae80a838bd99d22ec929cb33cc07244`）。这些 superseded-lock artifacts 必须在 schema-2 refreeze 前移出 active experiment outputs，且禁止正式复用；20 个 feature cells 必须由新 lock 重新生成。第一次失败的所有 label-dependent objects 只存在于已退出进程内存，未写盘、不可恢复、禁止复用。

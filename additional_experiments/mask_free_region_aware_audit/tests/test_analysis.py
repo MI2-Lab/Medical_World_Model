@@ -301,6 +301,62 @@ def _probability_rows(
     }).reindex(columns=audit.GOAL5_PREDICTION_COLUMNS)
 
 
+def test_goal5_loader_round_trips_exact_r0_p1_predictions(tmp_path: Path) -> None:
+    patient_ids = np.asarray(["synthetic-0", "synthetic-1"])
+    labels = np.asarray([0, 1])
+    parser_sensitive = float(
+        np.nextafter(np.float64(0.3), np.float64(1.0))
+    )
+    probabilities = np.asarray([parser_sensitive, 0.7], dtype=np.float64)
+    goal5_p1 = _probability_rows(
+        patient_ids,
+        labels,
+        probabilities,
+        seed=2026,
+        variant="P1",
+        population="ftv_complete_375",
+        analysis="mri_only_pcr",
+    )
+    goal5_p1.loc[0, "threshold"] = parser_sensitive
+    path = tmp_path / "goal5_p1.private.csv"
+    goal5_p1.to_csv(path, index=False)
+
+    default_loaded = pd.read_csv(path)
+    assert default_loaded.loc[0, "predicted_probability"] != parser_sensitive
+    assert default_loaded.loc[0, "threshold"] != parser_sensitive
+
+    new_r0 = goal5_p1.copy()
+    new_r0["variant"] = "R0"
+    with pytest.raises(ValueError, match="predicted_probability"):
+        audit.verify_r0_p1_parity(new_r0, default_loaded)
+
+    round_trip_loaded = audit._load_goal5_predictions(
+        path, audit.file_sha256(path), "synthetic Goal-5 P1 predictions"
+    )
+    assert np.array_equal(
+        round_trip_loaded["predicted_probability"].to_numpy(dtype=np.float64),
+        goal5_p1["predicted_probability"].to_numpy(dtype=np.float64),
+    )
+    assert np.array_equal(
+        round_trip_loaded["threshold"].to_numpy(dtype=np.float64),
+        goal5_p1["threshold"].to_numpy(dtype=np.float64),
+    )
+    parity = audit.verify_r0_p1_parity(new_r0, round_trip_loaded)
+    assert parity == {
+        "status": "PASS",
+        "exact_probability_label_threshold_equality": True,
+        "checked_cells": 1,
+        "checked_rows": 2,
+    }
+
+    truly_corrupted = round_trip_loaded.copy()
+    truly_corrupted.loc[0, "predicted_probability"] = np.nextafter(
+        truly_corrupted.loc[0, "predicted_probability"], np.inf
+    )
+    with pytest.raises(ValueError, match="predicted_probability"):
+        audit.verify_r0_p1_parity(new_r0, truly_corrupted)
+
+
 def test_oracle_recovery_uses_exact_matched_population_and_positive_denominator() -> None:
     n = 20
     patient_ids = np.asarray([f"p{index:02d}" for index in range(n)])

@@ -2,27 +2,47 @@
   "branch": "feature/mask-free-region-aware-audit",
   "config_canonical_sha256": "b3a9beae54db1f63347ee337ef27e85758ec661fda0a93303ba74f9845c46304",
   "config_sha256": "51e5e8671b44d4a43b8a09e9b1760d89a04c7b66ebda4a4c22c3e06bc66a4219",
-  "created_utc": "2026-08-12T06:27:28.794118Z",
-  "experiment_plan_sha256": "2ce52d9f73b4fd1cbacb1f6c8ac718d57a3b1142194485318e6d0cfa0167e7f4",
+  "created_utc": "2026-08-12T07:56:06.959519Z",
+  "experiment_plan_sha256": "2fc57fdfd9bd2569705be42601926939cea26a15f0d932e8ffe841c86b634504",
   "formal_cell_count": 20,
+  "git_provenance_before_refreeze": {
+    "all_dirty_paths_confined_to_new_experiment": true,
+    "base_head": "673aab146936d3890e79a9df8e8bbad8f9dec81c",
+    "branch": "feature/mask-free-region-aware-audit",
+    "tracked_paths_before_refreeze": [
+      "additional_experiments/mask_free_region_aware_audit/EXPERIMENT_PLAN.md",
+      "additional_experiments/mask_free_region_aware_audit/scripts/common.py",
+      "additional_experiments/mask_free_region_aware_audit/scripts/freeze_preregistration.py",
+      "additional_experiments/mask_free_region_aware_audit/scripts/generate_report.py",
+      "additional_experiments/mask_free_region_aware_audit/scripts/run_audit.py",
+      "additional_experiments/mask_free_region_aware_audit/scripts/validate_results.py",
+      "additional_experiments/mask_free_region_aware_audit/tests/test_analysis.py",
+      "additional_experiments/mask_free_region_aware_audit/tests/test_extraction_contract.py",
+      "additional_experiments/mask_free_region_aware_audit/tests/test_reporting.py"
+    ],
+    "untracked_paths_before_refreeze": [
+      "additional_experiments/mask_free_region_aware_audit/PREREGISTRATION_IMPLEMENTATION_ERRATUM.json"
+    ]
+  },
   "gitignore_sha256": "12d12f7515ba779b7a85c2b1a4681c4ff7860c550173fbc321b317d8f9d21612",
   "goal5_feature_completion_sha256": "0dfd9e4beb7ccf1524c6bbaeac5527acf117b24b3f4919575cbfb69ca63e8685",
   "goal5_preregistration_lock_sha256": "bf838056dcdf2286c6365468fec274137f482adb188ad82620cceadcae393a1a",
+  "implementation_erratum_sha256": "ec9cf3ed53681f9c1adfaf20f9ace08f6170e542f5fcd85ee1c38203d2283c9e",
   "implementation_sha256": {
-    "scripts/common.py": "0b1919d8ca61682f3e5adc2dbefeb33310bbf65eea105f9af1303a7507a67608",
+    "scripts/common.py": "3877599637de134ff63ab5e4636171dfa1bcb52c49dcd4b267afb8840fbc0f3c",
     "scripts/export_features.py": "b5917a2aed9069136e26c413edde0a082f1eef1927378031f66b9057ddfaffb9",
-    "scripts/freeze_preregistration.py": "862a433df05aaeba28885c4a3dc562e055222e745dac1239a5b821c11ee6b951",
+    "scripts/freeze_preregistration.py": "a322d5f57aed0636dd9bd9024c05c954a177425865d96602fa9d5f0160134be1",
     "scripts/generate_figures.py": "2287f151c76c76cfb9be4d6b4cd46d0cbdd73641e09b326aaa646e9ffb02ddf1",
-    "scripts/generate_report.py": "47a908a7664987b066637c6a7cc183e4c218c740ea6885cd24f6f062a9354a43",
+    "scripts/generate_report.py": "b63fa05ca62efd813095fe064d897e56b5880575ca12470d3fe69bc7cfa6ca38",
     "scripts/regions.py": "34ee6e94c2a08196b49c553c7b3a926186b4a33f42aa484effc2504cfc094ce3",
-    "scripts/run_audit.py": "c58f973da1a498a9323394053882d7e288941375a82ac4dbd20060870e694fcc",
+    "scripts/run_audit.py": "4506ff5df929367ad7e5d18b679f0bbc0f86e23c7dbe5a7039a8760112f95a1c",
     "scripts/run_feature_matrix.py": "5e3f506897e76acd7a2edd5590574a6d5f75b3a57ced39d167e29f2c8db4d9f3",
-    "scripts/validate_results.py": "2e9395196d6761ca03ad04493c74f686489870f38d706fb22f62eba9ee5010b1",
-    "tests/test_analysis.py": "4139a6e15ce6acd7c47e7e5ab302dfd87fd2d7d78b9f5cb1e5ced64da9faf403",
-    "tests/test_extraction_contract.py": "1c2c99e62e65aa1e43ae02678eb7d7b458059f233ed6a6335dfe3b40b8b722de",
+    "scripts/validate_results.py": "5660645ab82fde247bd55f7c8f3b935a9b57498385f348db6825e5d975985e0b",
+    "tests/test_analysis.py": "6a0a7085155a1835014b0db64f1f9beb26ad015f083fbe57ef6912903abd3dd5",
+    "tests/test_extraction_contract.py": "d1772c54e1f0d178bb76eba4ac0ddcc31dcbaa23151e59b34c7cb8c908b8c6f3",
     "tests/test_gates.py": "8137ea6d4a9ff8aa8f08693d495e79034fe7d6bea5b5050cc4ee8cd855c2a4ca",
     "tests/test_regions.py": "9ee6c387ac85737d00cc7ddb2030a653b50ca7d55b10b6897f8a01569085d30f",
-    "tests/test_reporting.py": "d77884d06631c061ad6511a328f0705bf4e97e76b7b7ebc92aa674ddcf8d9a4c"
+    "tests/test_reporting.py": "e80f314752aa82d7d26a53ce3f06a52a10cda8488ae0c8fd70c6715b9a345b4d"
   },
   "parent_commit_sha": "7742d737d92ed153b5c721cd323528b0a127d5ef",
   "pre_freeze_result_inventory": {
@@ -34,12 +54,25 @@
     "prediction_files": 0,
     "report_files": 0
   },
+  "pre_refreeze_result_inventory": {
+    "feature_files": 0,
+    "figure_files": 0,
+    "log_files": 0,
+    "manifest_files": 0,
+    "metric_files": 0,
+    "prediction_files": 0,
+    "report_files": 0
+  },
+  "preregistration_revision": 1,
+  "prior_preregistration_commit": "673aab146936d3890e79a9df8e8bbad8f9dec81c",
+  "prior_preregistration_lock_sha256": "d53f8d23a552edce15283c13b433830da7378413ec1e3eb52783cad3087c5d90",
   "privacy_contract": {
     "private_patient_artifacts_owner_only": true,
     "raw_spatial_maps_persisted": false,
     "region_definition_reads_masks_labels_ftv_or_clinical": false
   },
-  "schema_version": 1,
+  "schema_version": 2,
+  "scientific_contract_unchanged": true,
   "selected_cells": {
     "seed_2026/LOCAL0/fold_0": {
       "checkpoint_path": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_0/selected.pt",
@@ -322,5 +355,6 @@
       "selection_sha256": "335f43cdf08e29be44e002684c5804125811f077f1f3458368c5421a6bb547aa"
     }
   },
-  "status": "FROZEN_BEFORE_FEATURE_EXTRACTION_OR_LABEL_DEPENDENT_ANALYSIS"
+  "status": "IMPLEMENTATION_COMPATIBILITY_ERRATUM_FIXED_AND_REFROZEN_BEFORE_FORMAL_ANALYSIS_COMPLETION",
+  "superseded_artifacts_reused": false
 }

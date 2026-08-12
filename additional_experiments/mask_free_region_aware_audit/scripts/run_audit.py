@@ -1611,7 +1611,7 @@ ORACLE_TABLE_COLUMNS = (
 def _load_goal5_predictions(path: Path, expected_sha256: str, label: str) -> pd.DataFrame:
     if file_sha256(path) != _require_sha256(expected_sha256, f"{label} SHA-256"):
         raise ValueError(f"{label} SHA-256 mismatch")
-    frame = pd.read_csv(path)
+    frame = pd.read_csv(path, float_precision="round_trip")
     if tuple(frame.columns) != GOAL5_PREDICTION_COLUMNS:
         raise ValueError(f"{label} schema/order drifted")
     if frame.empty or frame["patient_id"].isna().any():
@@ -2305,8 +2305,8 @@ def main(argv: Sequence[str] | None = None) -> None:
     summary = {
         "schema_version": 1, "experiment": "mask_free_region_aware_audit",
         "status": "COMPLETED", "branch": _git_value(("branch", "--show-current"), config["branch"]),
-        "commit_sha": _git_value(("rev-parse", "HEAD"), "not-yet-recorded"),
-        "push_status": "not-yet-recorded", "elapsed_seconds": elapsed,
+        "commit_sha": "PENDING",
+        "push_status": "PENDING", "push_error": None, "elapsed_seconds": elapsed,
         "feature_cells_validated_before_labels": 20,
         "formal_bootstrap_replicates": int(config["bootstrap"]["replicates"]),
         "outer_test_predicted_once_per_model": True,

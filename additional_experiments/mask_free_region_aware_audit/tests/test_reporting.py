@@ -19,6 +19,36 @@ import generate_report as report  # noqa: E402
 import validate_results as validator  # noqa: E402
 
 
+BRANCH = "feature/mask-free-region-aware-audit"
+EXPERIMENT_COMMIT_SUBJECT = "Add mask-free region-aware representation audit"
+
+
+def _git_output(repository: Path, *arguments: str) -> str:
+    return subprocess.check_output(
+        ["git", *arguments], cwd=repository, text=True
+    ).strip()
+
+
+def _commit(repository: Path, subject: str) -> str:
+    subprocess.run(
+        [
+            "git",
+            "-c",
+            "user.name=Reporting Fixture",
+            "-c",
+            "user.email=reporting-fixture@example.invalid",
+            "commit",
+            "-q",
+            "--allow-empty",
+            "-m",
+            subject,
+        ],
+        cwd=repository,
+        check=True,
+    )
+    return _git_output(repository, "rev-parse", "HEAD")
+
+
 def _write_csv(root: Path, name: str, rows: list[dict[str, object]]) -> None:
     path = root / "metrics" / name
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -138,13 +168,18 @@ def _write_csv(root: Path, name: str, rows: list[dict[str, object]]) -> None:
 
 def _init_fixture(tmp_path: Path) -> Path:
     repository = tmp_path / "repository"
+    repository.mkdir()
+    subprocess.run(["git", "init", "-q"], cwd=repository, check=True)
+    subprocess.run(["git", "checkout", "-q", "-b", BRANCH], cwd=repository, check=True)
+    baseline_commit = _commit(repository, "Synthetic parent baseline")
     root = repository / "additional_experiments" / "mask_free_region_aware_audit"
     for directory in ("configs", "metrics", "figures", "reports", "features"):
         (root / directory).mkdir(parents=True, exist_ok=True)
     (root / "configs" / "audit.json").write_text(
         json.dumps(
             {
-                "branch": "feature/mask-free-region-aware-audit",
+                "branch": BRANCH,
+                "start": {"parent_commit_sha": baseline_commit},
                 "feature_contract": {"primary_boundaries_mm": [32.0, 48.0, 64.0]},
             }
         ),
@@ -266,8 +301,9 @@ def _init_fixture(tmp_path: Path) -> Path:
                     "timing": "T0-T1",
                     "variant": region,
                     "numerator": ratio * denominator,
-                    "denominator": denominator,
+                    "published_oracle_uplift": denominator,
                     "recovery_ratio": ratio,
+                    "recovery_defined": True,
                 }
             )
     _write_csv(root, figures.PUBLIC_TABLES["oracle_recovery"], oracle_rows)
@@ -347,9 +383,10 @@ def _init_fixture(tmp_path: Path) -> Path:
                 "schema_version": 1,
                 "experiment": "mask_free_region_aware_audit",
                 "status": "COMPLETED",
-                "branch": "feature/mask-free-region-aware-audit",
-                "commit_sha": "not-yet-recorded",
-                "push_status": "not-yet-recorded",
+                "branch": BRANCH,
+                "commit_sha": "PENDING",
+                "push_status": "PENDING",
+                "push_error": None,
                 "elapsed_seconds": 12.3,
                 "feature_cells_validated_before_labels": 20,
                 "formal_bootstrap_replicates": 2000,
@@ -413,38 +450,155 @@ def _init_fixture(tmp_path: Path) -> Path:
         encoding="utf-8",
     )
     completion.chmod(0o600)
-    subprocess.run(["git", "init", "-q"], cwd=repository, check=True)
     return root
+
+
+def _generate_reporting(root: Path) -> Path:
+    manifest = figures.generate_all(root)
+    assert tuple(manifest["figure"]) == figures.FIGURES
+    return report.generate_report(root)
+
+
+def _commit_experiment(root: Path) -> str:
+    repository = root.parents[1]
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    return _commit(repository, EXPERIMENT_COMMIT_SUBJECT)
+
+
+def _set_delivery(
+    root: Path,
+    *,
+    commit_sha: str,
+    push_status: str,
+    push_error: str | None,
+) -> None:
+    summary_path = root / validator.RUN_SUMMARY_PATH
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    summary.update(
+        {
+            "commit_sha": commit_sha,
+            "push_status": push_status,
+            "push_error": push_error,
+        }
+    )
+    summary_path.write_text(json.dumps(summary), encoding="utf-8")
+    report.generate_report(root, overwrite=True)
+
+
+def _commit_provenance(root: Path, subject: str = "Record synthetic delivery provenance") -> str:
+    repository = root.parents[1]
+    subprocess.run(
+        ["git", "add", "metrics/run_summary.json", "reports"],
+        cwd=root,
+        check=True,
+    )
+    return _commit(repository, subject)
 
 
 def test_end_to_end_public_reporting_and_validation(tmp_path: Path) -> None:
     root = _init_fixture(tmp_path)
-    manifest = figures.generate_all(root)
-    assert tuple(manifest["figure"]) == figures.FIGURES
+    destination = _generate_reporting(root)
     assert all((root / "figures" / name).stat().st_size > 1000 for name in figures.FIGURES)
-
-    destination = report.generate_report(root)
     text = destination.read_text(encoding="utf-8")
     assert all(marker in text for marker in report.REQUIRED_REPORT_MARKERS)
     assert "### Q12 —" in text
+    assert "Push error：`null`" in text
     assert "/data/" not in text
 
+    experiment_commit = _commit_experiment(root)
+    remote = tmp_path / "origin.git"
+    subprocess.run(["git", "init", "--bare", "-q", str(remote)], check=True)
     subprocess.run(
-        [
-            "git",
-            "add",
-            "configs",
-            "metrics",
-            "figures",
-            "reports",
-        ],
-        cwd=root,
+        ["git", "remote", "add", "origin", str(remote)],
+        cwd=root.parents[1],
+        check=True,
+    )
+    subprocess.run(
+        ["git", "push", "-q", "-u", "origin", BRANCH],
+        cwd=root.parents[1],
+        check=True,
+    )
+    _set_delivery(
+        root,
+        commit_sha=experiment_commit,
+        push_status="PUSHED",
+        push_error=None,
+    )
+    _commit_provenance(root)
+    subprocess.run(
+        ["git", "push", "-q", "origin", BRANCH],
+        cwd=root.parents[1],
         check=True,
     )
     result = validator.validate_all(root)
     assert result["status"] == "PASS"
+    assert (
+        result["checks"]["gates_and_run_summary"]["git_provenance"]["push_status"]
+        == "PUSHED"
+    )
     assert result["checks"]["public_privacy"]["patient_identifier_findings"] == 0
     assert result["checks"]["tracked_artifact_safety"]["raw_mri_or_checkpoint_files"] == 0
+
+
+def test_pending_git_state_requires_explicit_pre_delivery_mode(tmp_path: Path) -> None:
+    root = _init_fixture(tmp_path)
+    pending = validator.validate_gates_and_summary(root, allow_pending_git=True)
+    assert pending["git_provenance"] == {
+        "status": "PENDING",
+        "commit_sha": "PENDING",
+        "push_status": "PENDING",
+    }
+    with pytest.raises(validator.ValidationError, match="allow_pending_git=True"):
+        validator.validate_gates_and_summary(root)
+
+    summary_path = root / validator.RUN_SUMMARY_PATH
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    summary["push_error"] = "mixed pending state"
+    summary_path.write_text(json.dumps(summary), encoding="utf-8")
+    with pytest.raises(validator.ValidationError, match="exactly PENDING/PENDING/null"):
+        validator.validate_gates_and_summary(root, allow_pending_git=True)
+
+
+def test_github_push_failure_requires_and_renders_real_error(tmp_path: Path) -> None:
+    root = _init_fixture(tmp_path)
+    _generate_reporting(root)
+    experiment_commit = _commit_experiment(root)
+    error = "fatal: synthetic origin rejected the branch update"
+    _set_delivery(
+        root,
+        commit_sha=experiment_commit,
+        push_status="GITHUB_PUSH_FAILED",
+        push_error=error,
+    )
+    _commit_provenance(root)
+    result = validator.validate_all(root)
+    provenance = result["checks"]["gates_and_run_summary"]["git_provenance"]
+    assert provenance["push_status"] == "GITHUB_PUSH_FAILED"
+    assert f"Push error：`{error}`" in (root / report.REPORT_PATH).read_text(
+        encoding="utf-8"
+    )
+
+    _set_delivery(
+        root,
+        commit_sha=experiment_commit,
+        push_status="GITHUB_PUSH_FAILED",
+        push_error="",
+    )
+    with pytest.raises(validator.ValidationError, match="nonempty real push_error"):
+        validator.validate_gates_and_summary(root)
+
+
+def test_oracle_recovery_uses_published_denominator(tmp_path: Path) -> None:
+    root = _init_fixture(tmp_path)
+    path = root / "metrics" / figures.PUBLIC_TABLES["oracle_recovery"]
+    frame = pd.read_csv(path)
+    frame.loc[0, "published_oracle_uplift"] = 0.0
+    frame.to_csv(path, index=False)
+    with pytest.raises(
+        validator.ValidationError,
+        match="positive finite published_oracle_uplift",
+    ):
+        validator.validate_public_tables(root)
 
 
 def test_public_reader_rejects_patient_identifier_column(tmp_path: Path) -> None:

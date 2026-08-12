@@ -50,6 +50,7 @@ REQUIRED_REPORT_MARKERS: tuple[str, ...] = (
     "Oracle denominator representation mismatch",
     "diagnostic/non-biological boundary",
     "T3 late/pre-surgery",
+    "Push error：",
 )
 
 CLASSIFICATION_LABELS = {
@@ -332,6 +333,8 @@ def _validate_run_summary(payload: Mapping[str, Any]) -> None:
     status = _safe_scalar(payload, ("status", "run_status"), default="")
     if _normal(status) not in {"complete", "completed", "pass", "passed", "success"}:
         raise ValueError(f"formal run_summary status is not complete: {status!r}")
+    if "push_error" not in payload:
+        raise ValueError("run_summary lacks required push_error")
     for key in (
         "public_outputs_contain_patient_level_data",
         "contains_patient_level_data",
@@ -410,6 +413,12 @@ def build_report(
     branch = _safe_scalar(run_summary, ("branch", "experiment_branch"), str(config.get("branch", "未记录")))
     commit = _safe_scalar(run_summary, ("commit_sha", "commit", "git_commit"))
     push = _safe_scalar(run_summary, ("push_status", "github_push_status"))
+    push_error = (
+        "null"
+        if run_summary.get("push_error") is None
+        else _safe_scalar(run_summary, ("push_error",), default="未记录")
+    )
+    push_error = " ".join(push_error.split()).replace("`", "'")
     elapsed = _safe_scalar(run_summary, ("elapsed_seconds", "runtime_seconds"))
 
     gate_lines = "\n".join(
@@ -525,6 +534,7 @@ FTV response-control 表中所报指标的最佳描述性 cell 为 **{ftv_target
 - Branch：`{branch}`
 - Commit SHA：`{commit}`
 - Push status：`{push}`
+- Push error：`{push_error}`
 - Formal elapsed seconds：`{elapsed}`
 - Run status：`{_safe_scalar(run_summary, ('status', 'run_status'))}`
 
