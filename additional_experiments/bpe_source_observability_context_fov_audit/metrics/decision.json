@@ -11,11 +11,11 @@
     "F1_FULL_C1B_H": null,
     "F2_ACQUISITION": null
   },
-  "decision_sha256": "6d44d5e83249f5286229bfc4d51096fa4bf31ee8e6c083a9abb0216ca49c23ce",
+  "decision_sha256": "49badcfc51f81a365559711b0839ced9079e76f7d695f824f1500646241c8325",
   "delivery": {
-    "audit_commit_sha": "PENDING",
+    "audit_commit_sha": "d2883ec571a66f05be73c67e45aa40020856220f",
     "branch": "feature/bpe-source-observability-context-fov-audit",
-    "push_status": "PENDING"
+    "push_status": "PUSHED"
   },
   "experiment": "bpe_source_observability_context_fov_audit",
   "f2_geometry_evidence": {
@@ -64,7 +64,7 @@
     "do_not_design_BPE_architecture_from_current_run"
   ],
   "provenance": {
-    "configuration_sha256": "e1298dd1e460196e8a20c05e7e71d0bab6233854bd17b8180efe9309fa3e4f4e",
+    "configuration_sha256": "b69a58ca5dc3e0af50011e896994ab13bcf6a80da22047e1882addc4b7727241",
     "experiment_branch": "feature/bpe-source-observability-context-fov-audit",
     "goal6_source_commit_sha": "f49cf17237a95e9f8b99ad5f13c73f90e1a94a28",
     "parent_branch": "feature/nonftv-phenotype-decodability-audit",

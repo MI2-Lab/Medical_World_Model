@@ -214,8 +214,8 @@ already observable。
 - Parent commit：`745282e77bb051dc0f8d9d41779691dcf8b307ce`
 - Start timestamp：`2026-08-12T09:19:09-04:00`
 - Experiment branch：`feature/bpe-source-observability-context-fov-audit`
-- Audit commit SHA：`PENDING`
-- Push status：`PENDING`
+- Audit commit SHA：`d2883ec571a66f05be73c67e45aa40020856220f`
+- Push status：`PUSHED`
 
 ## 主要公开 artifacts
 

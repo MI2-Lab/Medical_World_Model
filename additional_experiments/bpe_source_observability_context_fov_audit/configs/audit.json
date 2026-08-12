@@ -132,7 +132,7 @@
   "laterality_audit_sample_size": 20,
   "delivery": {
     "branch": "feature/bpe-source-observability-context-fov-audit",
-    "audit_commit_sha": "PENDING",
-    "push_status": "PENDING"
+    "audit_commit_sha": "d2883ec571a66f05be73c67e45aa40020856220f",
+    "push_status": "PUSHED"
   }
 }
