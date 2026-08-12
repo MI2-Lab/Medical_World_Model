@@ -1,0 +1,18 @@
+# Large/private reproducible assets remain local to the authorized workspace.
+checkpoints/**
+features/**
+predictions/**
+logs/**
+metrics/*private*
+metrics/**/*private*
+reports/*private*
+reports/**/*private*
+
+!checkpoints/.gitkeep
+!features/.gitkeep
+!predictions/.gitkeep
+!logs/.gitkeep
+
+__pycache__/
+*.py[cod]
+.pytest_cache/

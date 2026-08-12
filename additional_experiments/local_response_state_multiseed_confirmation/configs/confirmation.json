@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "experiment": "local_response_state_multiseed_confirmation",
+  "status_before_formal_results": "PREREGISTERED_PENDING_LOCK",
+  "scope": {
+    "only_changed_segment": "encoder final spatial feature map -> response state",
+    "input": "C1B-H DCE7",
+    "grounding_target": "FTV_t only",
+    "forbidden": [
+      "new_crop",
+      "new_encoder",
+      "LD",
+      "SPH",
+      "BPE",
+      "delta_FTV_supervision",
+      "pCR_supervision",
+      "clinical_or_treatment_supervision",
+      "attention_or_learned_spatial_pooling",
+      "LOCAL_GLOBAL_or_global_branch",
+      "window_size_sweep",
+      "lesion_mask_recentering",
+      "visit_adaptive_crop",
+      "PCGrad_or_optimization_stabilization"
+    ]
+  },
+  "upstream": {
+    "stage_a_sentinel": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/STAGE_A_GO.json",
+    "stage_a_sentinel_sha256": "0b2c9e0af63ce8806525fb15ac9a27f6ab525b0259ccf16001981ca5091afbdb",
+    "data_contract": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/manifests/stage_b_data_contract.private.json",
+    "data_contract_sha256": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27",
+    "g3_config_sha256": "4460ce3413e2cb936a6fd3cbb7f16224af3af286b6784933688cd12d0ec47516",
+    "g3_data_sha256": "15b4b68ad45c935e313b893b0ce849877311c98d6c5c0c45495e8e9200240943",
+    "g3_model_sha256": "ce39878a0fef5af1f92a86811faabbe73b39f57cdaf6d7580bbd65bd855d4ed9",
+    "g3_package_init_sha256": "c18fa03739e604a77018975ec1d2e7ed00339d8b6a529562446c845e9200b9b8",
+    "g3_objective_sha256": "76f9108df0ca8c0ff69e514cff3bab1d5e316d946da60c5f530dd7b9706d3815",
+    "g3_ftv_transform_sha256": "28fbf66f93c8541dfa5ecc7ebcf65d4143a9a605b3ce98be48355d5ab679ffac",
+    "stage_b_logical_training_sha256": "2edf546628e447bdd1b9715f60f105d1a5952763bd782aabddbae298fae62f52",
+    "stage_b_package_init_sha256": "2976c6d040c506b4f1b1db5374718d1c3edf341805d0e6a9d176f0c02fa37a47",
+    "stage_b_contracts_sha256": "48d7738b6764780ba2e784f826be44ac718fdbb0beb526ec31c3c5525cba4bf9",
+    "stage_b_data_sha256": "948a25aa00eeaf68a11f5a0bcf7c4d0c7592786a36ebb9bce472361745eebb59",
+    "stage_b_gate_sha256": "babb748a71eba0c36d802a8e15c861387d506de67cf754ec58ae96f1d3341555",
+    "stage_b_inputs_sha256": "40965e509afa059ce2674c7a7fde18cd9097e1eb00d05021738d8cf9f6346177",
+    "stage_b_targets_adapter_sha256": "06434db46cf76e6f39ff6eb1c476933885e90ed0a4c952dcc0a3477a25996c7b",
+    "stage_b_upstream_sha256": "dfc03ab80590d1b57240a8ce210c75245bce4dd3bad9a4d655d8d63a1f96d54f",
+    "audited_pooling_package_init_sha256": "55dbb7a79f6248075464cb983617296bc71cd391b0c08d956c077f3ce0c75584",
+    "audited_pooling_sha256": "630a717a98a7e80d69d3a462dd3086c2de81449c91910312cbc0bfce0fd58d54"
+  },
+  "population": {
+    "technical_eligibility_patients": 947,
+    "formal_primary_patients": 375,
+    "formal_primary_visits": 1500,
+    "grounding_observable_visits": 1486,
+    "fold_manifest": "reuse_exact_stage_b_seed2026_patient_folds_without_refill_or_movement",
+    "fold_external_train_only_patients": 139
+  },
+  "input_contract": {
+    "tensor": "float32 [B,4,7,112,176,160]",
+    "shape_zyx": [112, 176, 160],
+    "spacing_xyz_mm": [0.9, 0.9, 2.0],
+    "model_fields": ["image"],
+    "loss_side_fields": ["ftv_target", "ftv_mask"],
+    "geometry_or_mask_is_model_input": false
+  },
+  "spatial_state": {
+    "source_module": "encoder.features[3] full residual-block output",
+    "channels": 128,
+    "feature_shape_policy": "derive_and_validate_at_runtime; never hard-code 14x22x20",
+    "global": "exact mean over final D,H,W",
+    "local_window_mm_xyz": [64.0, 64.0, 64.0],
+    "local_center": "frozen C1B-H crop center",
+    "local_weighting": "fractional overlap between final feature sampling cells and the fixed physical cube",
+    "local_forbidden_adaptation": ["visit_lesion_mask", "FTV", "outcome", "performance", "window_sweep"],
+    "valid_source_pooling": false
+  },
+  "arms": {
+    "GAP0": {"pooling": "GAP", "projection": "Linear(128,192)+LayerNorm(192)", "grounded": false},
+    "GAP3": {"pooling": "GAP", "projection": "Linear(128,192)+LayerNorm(192)", "grounded": true},
+    "LOCAL0": {"pooling": "fixed_64mm_LOCAL", "projection": "Linear(128,192)+LayerNorm(192)", "grounded": false},
+    "LOCAL3": {"pooling": "fixed_64mm_LOCAL", "projection": "Linear(128,192)+LayerNorm(192)", "grounded": true}
+  },
+  "paired_initialization": {
+    "gap_and_local": "identical baseline Linear W,b and LayerNorm initialization",
+    "paired_shared_modules": ["encoder", "projector", "transition", "target copies"],
+    "paired_randomness": ["patient order", "dropout", "SIGReg directions"]
+  },
+  "objective": {
+    "formula": "L_JEPA + 0.25 * L_FTV for grounded arms; L_JEPA otherwise",
+    "lambda_ftv": 0.25,
+    "sigreg_weight": 0.09,
+    "step_weights": [2.0, 1.0, 0.5],
+    "grounding_mask": "measurement_valid AND frozen grounding_observable_mask; loss-side only",
+    "ftv_transform": "outer-train observable log(FTV+epsilon), 1/99 winsorization, median/IQR",
+    "delta_supervision": false
+  },
+  "training": {
+    "seed_bases": [2026, 3026, 4026, 5026, 6026],
+    "folds": [0, 1, 2, 3, 4],
+    "formal_cells": 100,
+    "physical_batch_size": 4,
+    "accumulation_steps": 8,
+    "logical_batch_size": 32,
+    "sigreg": "one exact nonlinear B32 reduction with exact surrogate gradient",
+    "per_logical_batch": ["one_gradient_clip", "one_AdamW_step", "one_EMA_update"],
+    "epochs": 12,
+    "patience": 4,
+    "learning_rate": 0.00005,
+    "weight_decay": 0.0001,
+    "ema_momentum": 0.996,
+    "max_grad_norm": 5.0,
+    "min_representation_std": 0.05,
+    "workers": 2,
+    "global_oom_fallback": "not_authorized; stop and require a new preregistration and code revision"
+  },
+  "checkpoint_selection": {
+    "no_grounding": "minimum finite validation state loss among non-collapsed epochs",
+    "grounded": "minimum validation FTV loss among finite non-collapsed epochs whose validation state loss is <=1.05 times paired no-grounding selection",
+    "fallback": "minimum state-gate violation then validation FTV; marks cell failed",
+    "forbidden_selection_inputs": ["test_FTV", "delta_FTV", "pCR"]
+  },
+  "probes": {
+    "feature": "selected frozen online pre-projector r_t [N,4,192]",
+    "ridge_alphas": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0],
+    "selection": "outer train fit and validation analysis-space MSE; smallest-alpha tie break",
+    "static_endpoints": ["T0", "T1", "T2", "T3", "macro"],
+    "delta_endpoints": ["T0_to_T1", "T1_to_T2", "T2_to_T3", "macro"],
+    "delta_definition": "literal natural FTV_(t+1)-FTV_t from delta r",
+    "natural_aggregation": "pool five outer-test folds before each endpoint metric; macro is unweighted endpoint mean",
+    "transformed_aggregation": "fold summaries only; never pool incompatible fold transforms",
+    "primary_scope": "measurement_valid",
+    "sensitivity_scope": "measurement_valid AND grounding_observable"
+  },
+  "gate_operationalization": {
+    "independent_unit": "training_seed",
+    "seed_result": "five-fold pooled OOF result",
+    "strictly_greater_thresholds_are_not_greater_or_equal": true,
+    "positive_direction": "effect is strictly greater than zero",
+    "natural_r2_systematic_worsening": "at least 4 of 5 seed effects are strictly negative",
+    "thresholds_are_descriptive_not_statistical_significance": true,
+    "folds_are_paired_sensitivity_not_independent_replicates": true
+  },
+  "gates": {
+    "LOCAL_CONFIRMATION": {
+      "local0_gap0_static_macro_spearman_seed_effect_strictly_gt": 0.10,
+      "local0_gap0_static_macro_spearman_seeds_required": 4,
+      "local0_gap0_static_macro_spearman_seed_mean_strictly_gt": 0.10,
+      "local0_gap0_delta_macro_spearman_positive_seeds_required": 4,
+      "local0_gap0_static_natural_r2_systematic_worsening_forbidden": true,
+      "local3_local0_static_macro_spearman_positive_seeds_required": 4,
+      "local3_local0_delta_macro_spearman_positive_seeds_required": 4,
+      "local3_local0_optimization_safety_pass_fraction_min": 0.90,
+      "local3_local0_optimization_safety_paired_folds_total": 25,
+      "local3_local0_optimization_safety_paired_folds_required": 23,
+      "maximum_state_loss_degradation_fraction": 0.05
+    }
+  },
+  "statistics": {
+    "seed_summary": ["mean", "median", "sample_SD", "bootstrap_95pct_CI", "min", "max", "direction_count"],
+    "bootstrap_unit": "training_seed",
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 20260811,
+    "bootstrap_interval": "percentile_2.5_97.5",
+    "fold_analysis": "paired sensitivity only"
+  },
+  "selection_rule": {
+    "all_confirmation_criteria_pass": "LOCAL_MULTISEED_CONFIRMED",
+    "otherwise": "LOCAL_MULTISEED_NOT_CONFIRMED"
+  },
+  "next_stage_policy": {
+    "lock_local_as_image_state_architecture_if_confirmed": true,
+    "ftv_plus_ld_condition": "only after LOCAL_MULTISEED_CONFIRMED",
+    "confirmation_scope_limit": "FTV grounding addresses tumor burden/response information only; confirmation does not establish full MRI utilization or complementary tumor phenotype beyond Patient Profile"
+  }
+}

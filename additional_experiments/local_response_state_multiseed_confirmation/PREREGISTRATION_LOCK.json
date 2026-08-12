@@ -1,0 +1,130 @@
+{
+  "code_and_plan_sha256": {
+    "additional_experiments/local_response_state_multiseed_confirmation/.gitignore": "f22046088d24eb00d9b4f09560448fdfbcf27e6e1c2143d55ca1742499decc24",
+    "additional_experiments/local_response_state_multiseed_confirmation/EXPERIMENT_PLAN.md": "b6c759a73252310aa33987fa8e168d31bacd8307983aac861d9f015b48ffabef",
+    "additional_experiments/local_response_state_multiseed_confirmation/configs/confirmation.json": "97394658c6834c98c9ccdfa017e75ab733654c99f5f37271339421fdecbf9eb3",
+    "additional_experiments/local_response_state_multiseed_confirmation/scripts/aggregate_results.py": "cd9a414f4891b48bf49ba881eef295fbfa4eb835779ec77da4f3a8ca2da2390b",
+    "additional_experiments/local_response_state_multiseed_confirmation/scripts/audit_public_artifacts.py": "bda6a20e59d3896be47e3d159a593f30a832fff1ed95e4d194fda6a44b57e292",
+    "additional_experiments/local_response_state_multiseed_confirmation/scripts/export_features.py": "3f3b5a695b564a9dde1f7cf880663d033ba336654ddb4e2c372e95f61d586a55",
+    "additional_experiments/local_response_state_multiseed_confirmation/scripts/freeze_preregistration.py": "d549f98b1250aa5c58a07af4cc2e1769d16882857299d3b0902569fd4aafeb92",
+    "additional_experiments/local_response_state_multiseed_confirmation/scripts/generate_figures.py": "0c2e49a5a4abcc734bf57e62f3a5c76505f211fd5eee09962059c6448ec8a04a",
+    "additional_experiments/local_response_state_multiseed_confirmation/scripts/run_matrix.py": "b4a17e895f744bd9458ca908abc869bf779ad6cd37fd95472a9e55ae842052b7",
+    "additional_experiments/local_response_state_multiseed_confirmation/scripts/run_postprocessing.py": "cdef61393d3e3dae2493837500f98d0dfb932948a9438d4d9af22702bb0e5dd0",
+    "additional_experiments/local_response_state_multiseed_confirmation/scripts/run_probes.py": "49520ebcf66029bd3f37622b5c76a0911f80198b1d0e089245c514c1c0b35c32",
+    "additional_experiments/local_response_state_multiseed_confirmation/scripts/train_cell.py": "123101b8a0de8826219201f39c10a4e16f98ef653773146073954277adcb8a33",
+    "additional_experiments/local_response_state_multiseed_confirmation/src/lg_response_pilot/__init__.py": "0958d0c6530e249d2da6fa27ff1866ba717ccab31eea8c1402acac686d11504b",
+    "additional_experiments/local_response_state_multiseed_confirmation/src/lg_response_pilot/analysis.py": "9fa64a87ac4e21626ccce5fa8f8a043a37341068818ca0ba4d112b1839dcfef7",
+    "additional_experiments/local_response_state_multiseed_confirmation/src/lg_response_pilot/contracts.py": "489694ce63b3c699578250f117764712a219ae45371dbd1beb67c2a06087437a",
+    "additional_experiments/local_response_state_multiseed_confirmation/src/lg_response_pilot/features.py": "11c62224a58c4efb061c706d2708680aaa521ffb73adf92be1a397270b75b341",
+    "additional_experiments/local_response_state_multiseed_confirmation/src/lg_response_pilot/figures.py": "b83f6b306bbda50da9b6e68a513c3a326c386dbbc966f6a5b02970443c3bdad1",
+    "additional_experiments/local_response_state_multiseed_confirmation/src/lg_response_pilot/matrix.py": "0284acd49ff359d598db288ba7b8ee6e4a6b460a5f6ac38e0f53e0688cf2b4c2",
+    "additional_experiments/local_response_state_multiseed_confirmation/src/lg_response_pilot/model.py": "976b3c0121dbbb5cf00af679d0cff79c5b2a48b71a118ddb6183c3fcb7194984",
+    "additional_experiments/local_response_state_multiseed_confirmation/src/lg_response_pilot/pooling.py": "52ef08c85ed256a46c686c7f1afd1b66219735508f4a29cc0922fdb6096bb25c",
+    "additional_experiments/local_response_state_multiseed_confirmation/src/lg_response_pilot/probes.py": "290e5e4f07f1d1b37c3eb0a464f820db2fa37efa0b05c5084839f386d710d17c",
+    "additional_experiments/local_response_state_multiseed_confirmation/src/lg_response_pilot/security.py": "88268975e13fb02c07a8da30017b08b7b3747974b90bf57bbfc27be343c9b460",
+    "additional_experiments/local_response_state_multiseed_confirmation/src/lg_response_pilot/training.py": "e8d08a8c41b664344bad17d36673082cee61d1018618a59c228de46f98ed16df",
+    "additional_experiments/local_response_state_multiseed_confirmation/src/lg_response_pilot/upstream.py": "8e537d514eabdd7f7c1d7c2234d6fc221610ea0ab5791e9e628e58c6f0e7a4de",
+    "additional_experiments/local_response_state_multiseed_confirmation/tests/test_confirmation_analysis.py": "c55cb0cfc14b5b1ca918a2d26444ea829319e7ab3afec24e267bc9dfd29b8d62",
+    "additional_experiments/local_response_state_multiseed_confirmation/tests/test_confirmation_postprocessing.py": "9a864a2f9ac415002f1c07b1c1b7e76562d41ea3e8c3ec3d2c3018b57d8e74c0",
+    "additional_experiments/local_response_state_multiseed_confirmation/tests/test_hardening.py": "c672229fc4d12d16dde42e506c1f48c9ae0c0774984f656e588b578139975513",
+    "additional_experiments/local_response_state_multiseed_confirmation/tests/test_model_contract.py": "b2383149138e0240f323a6b58be60b69f2d08fae70806b037d3a5ef0569f80ed",
+    "additional_experiments/local_response_state_multiseed_confirmation/tests/test_preregistration.py": "a40a86b2aff8ef9d695be432228417fdfeeef8facdd4ac17fdf6cc114ab9e33d",
+    "additional_experiments/local_response_state_multiseed_confirmation/tests/test_security_gates.py": "166de8271d269ff01cfa7276d2975e1d5f072920bb000f0ef8d670cfd17d7945",
+    "additional_experiments/local_response_state_multiseed_confirmation/tests/test_training_orchestration.py": "3bbd6302d54a26bd9b9d927ab9f756cba92886f9a2c87669f5cd11fbba68af87"
+  },
+  "config_sha256": "97394658c6834c98c9ccdfa017e75ab733654c99f5f37271339421fdecbf9eb3",
+  "decision_rules": {
+    "LOCAL_CONFIRMATION": {
+      "local0_gap0_delta_macro_spearman_positive_seeds_required": 4,
+      "local0_gap0_static_macro_spearman_seed_effect_strictly_gt": 0.1,
+      "local0_gap0_static_macro_spearman_seed_mean_strictly_gt": 0.1,
+      "local0_gap0_static_macro_spearman_seeds_required": 4,
+      "local0_gap0_static_natural_r2_systematic_worsening_forbidden": true,
+      "local3_local0_delta_macro_spearman_positive_seeds_required": 4,
+      "local3_local0_optimization_safety_paired_folds_required": 23,
+      "local3_local0_optimization_safety_paired_folds_total": 25,
+      "local3_local0_optimization_safety_pass_fraction_min": 0.9,
+      "local3_local0_static_macro_spearman_positive_seeds_required": 4,
+      "maximum_state_loss_degradation_fraction": 0.05
+    }
+  },
+  "experiment": "local_response_state_multiseed_confirmation",
+  "formal_result_file_count_before_lock": 0,
+  "frozen_at_utc": "2026-08-11T05:10:58.324799+00:00",
+  "ftv_plus_ld_authorized_by_this_lock": false,
+  "gate_operationalization": {
+    "folds_are_paired_sensitivity_not_independent_replicates": true,
+    "independent_unit": "training_seed",
+    "natural_r2_systematic_worsening": "at least 4 of 5 seed effects are strictly negative",
+    "positive_direction": "effect is strictly greater than zero",
+    "seed_result": "five-fold pooled OOF result",
+    "strictly_greater_thresholds_are_not_greater_or_equal": true,
+    "thresholds_are_descriptive_not_statistical_significance": true
+  },
+  "git": {
+    "branch": "feature/local-response-state-multiseed-confirmation",
+    "head": "78ba693ad34dbb2b5a28f0476185966714bb63c5"
+  },
+  "matrix": {
+    "arms": [
+      "GAP0",
+      "GAP3",
+      "LOCAL0",
+      "LOCAL3"
+    ],
+    "cells": 100,
+    "folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "seeds": [
+      2026,
+      3026,
+      4026,
+      5026,
+      6026
+    ]
+  },
+  "schema_version": 1,
+  "statistics": {
+    "bootstrap_interval": "percentile_2.5_97.5",
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 20260811,
+    "bootstrap_unit": "training_seed",
+    "fold_analysis": "paired sensitivity only",
+    "seed_summary": [
+      "mean",
+      "median",
+      "sample_SD",
+      "bootstrap_95pct_CI",
+      "min",
+      "max",
+      "direction_count"
+    ]
+  },
+  "status": "FROZEN_BEFORE_FORMAL_RESULTS",
+  "thresholds_are_not_statistical_significance": true,
+  "upstream_sha256": {
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/STAGE_A_GO.json": "0b2c9e0af63ce8806525fb15ac9a27f6ab525b0259ccf16001981ca5091afbdb",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/manifests/stage_b_data_contract.private.json": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/__init__.py": "2976c6d040c506b4f1b1db5374718d1c3edf341805d0e6a9d176f0c02fa37a47",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/contracts.py": "48d7738b6764780ba2e784f826be44ac718fdbb0beb526ec31c3c5525cba4bf9",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/data.py": "948a25aa00eeaf68a11f5a0bcf7c4d0c7592786a36ebb9bce472361745eebb59",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/gate.py": "babb748a71eba0c36d802a8e15c861387d506de67cf754ec58ae96f1d3341555",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/inputs.py": "40965e509afa059ce2674c7a7fde18cd9097e1eb00d05021738d8cf9f6346177",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/targets.py": "06434db46cf76e6f39ff6eb1c476933885e90ed0a4c952dcc0a3477a25996c7b",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/training.py": "2edf546628e447bdd1b9715f60f105d1a5952763bd782aabddbae298fae62f52",
+    "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/upstream.py": "dfc03ab80590d1b57240a8ce210c75245bce4dd3bad9a4d655d8d63a1f96d54f",
+    "additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/__init__.py": "55dbb7a79f6248075464cb983617296bc71cd391b0c08d956c077f3ce0c75584",
+    "additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/pooling.py": "630a717a98a7e80d69d3a462dd3086c2de81449c91910312cbc0bfce0fd58d54",
+    "additional_experiments/g3_multiseed_generalization/src/dgrs/__init__.py": "c18fa03739e604a77018975ec1d2e7ed00339d8b6a529562446c845e9200b9b8",
+    "additional_experiments/g3_multiseed_generalization/src/dgrs/config.py": "4460ce3413e2cb936a6fd3cbb7f16224af3af286b6784933688cd12d0ec47516",
+    "additional_experiments/g3_multiseed_generalization/src/dgrs/data.py": "15b4b68ad45c935e313b893b0ce849877311c98d6c5c0c45495e8e9200240943",
+    "additional_experiments/g3_multiseed_generalization/src/dgrs/model.py": "ce39878a0fef5af1f92a86811faabbe73b39f57cdaf6d7580bbd65bd855d4ed9",
+    "additional_experiments/g3_multiseed_generalization/src/dgrs/targets.py": "28fbf66f93c8541dfa5ecc7ebcf65d4143a9a605b3ce98be48355d5ab679ffac",
+    "additional_experiments/g3_multiseed_generalization/src/dgrs/training.py": "76f9108df0ca8c0ff69e514cff3bab1d5e316d946da60c5f530dd7b9706d3815"
+  }
+}
