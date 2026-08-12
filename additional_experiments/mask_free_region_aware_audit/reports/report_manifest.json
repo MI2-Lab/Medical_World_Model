@@ -1,9 +1,9 @@
 {
   "experiment": "mask_free_region_aware_audit",
-  "generated_utc": "2026-08-12T10:04:10.329105+00:00",
+  "generated_utc": "2026-08-12T10:09:23.467291+00:00",
   "public_outputs_contain_patient_level_data": false,
   "report": "reports/final_report.md",
-  "report_sha256": "bfd633c87fc24cb8113aa0b440d837f84952ab850638cc1dbb51d45d016c8f32",
+  "report_sha256": "53c476f94a17613742b6d15d1167046972843898b1e4687d7b1bfc355b395a20",
   "schema_version": 1,
   "source_artifacts": [
     {
@@ -21,8 +21,8 @@
     {
       "path": "metrics/run_summary.json",
       "patient_level_private": false,
-      "sha256": "67dd6bf33a095b2d07951cd7231239f10766485d8f1db767beae240245f3c943",
-      "size_bytes": 2850
+      "sha256": "314113ef28ec9c7fa9384510bcf2033b2e31032f0a9dd20ea22e1742f216e182",
+      "size_bytes": 2882
     },
     {
       "path": "metrics/region_occupancy.csv",

@@ -1,7 +1,7 @@
 {
   "architecture_intervention_started": false,
   "branch": "feature/mask-free-region-aware-audit",
-  "commit_sha": "PENDING",
+  "commit_sha": "177c976e511bce7684fa1f5b0c744656fb3675f8",
   "elapsed_seconds": 1344.6029386520386,
   "experiment": "mask_free_region_aware_audit",
   "feature_cells_validated_before_labels": 20,
@@ -38,7 +38,7 @@
   },
   "public_outputs_contain_patient_level_data": false,
   "push_error": null,
-  "push_status": "PENDING",
+  "push_status": "PUSHED",
   "r0_goal5_p1_prediction_parity": {
     "checked_cells": 32,
     "checked_rows": 18928,
