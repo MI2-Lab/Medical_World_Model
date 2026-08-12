@@ -1,0 +1,343 @@
+{
+  "correction_scope": {
+    "classifications_changed": false,
+    "descriptive_summary_sentences_restored": 10,
+    "figures_changed": false,
+    "gates_changed": false,
+    "literal_missing_summary_count_after": 0,
+    "literal_missing_summary_count_before": 10,
+    "metrics_changed": false,
+    "model_refit": false,
+    "model_rerun": false,
+    "private_oof_parsed": false,
+    "public_artifact_manifest_bullet_reordered_by_locked_report_only_path": true,
+    "recommendation_changed": false,
+    "thresholds_changed": false,
+    "transparent_erratum_notice_appended": true
+  },
+  "created_utc": "2026-08-12T07:44:50.852588+00:00",
+  "erratum_wrapper": {
+    "in_memory_patch_only": true,
+    "path": "errata/apply_report_presentation_erratum.py",
+    "sha256": "1be164a6bbcc5126f723c0b8577d7e2d399c56e2f68b0ed2ae678829ebecd714"
+  },
+  "git": {
+    "branch": "feature/nonftv-phenotype-decodability-audit",
+    "head": "7742d737d92ed153b5c721cd323528b0a127d5ef",
+    "locked_parent": "7742d737d92ed153b5c721cd323528b0a127d5ef",
+    "push_error": "",
+    "push_status": "NOT_ATTEMPTED",
+    "reported_experiment_commit_sha": "PENDING_LOCAL_COMMIT"
+  },
+  "invocation": [
+    "--report-only",
+    "--commit-sha",
+    "PENDING_LOCAL_COMMIT",
+    "--push-status",
+    "NOT_ATTEMPTED"
+  ],
+  "locked_analyzer": {
+    "known_bug": "_metric_sentence computes the R2 label but omits its return; the intended return block is unreachable after _interval_sentence",
+    "modified_on_disk": false,
+    "path": "scripts/analyze_results.py",
+    "sha256": "1326e48a0e03f276f98ac2ad3fb76f713d356724eb9fa226f6236e1b8b058750"
+  },
+  "not_preregistered_analysis_code": true,
+  "post_lock_unbound_presentation_only": true,
+  "preregistration_lock": {
+    "binding_count": 133,
+    "mode": "0444",
+    "path": "PREREGISTRATION_LOCK.json",
+    "sha256": "b3e9809f47a13b2db2c958cee4bec112b18273de75606c05538bc2fc04f706ee",
+    "verification": "PASS"
+  },
+  "previous_manifest": null,
+  "private_oof": {
+    "mode": "0600",
+    "parsed": false,
+    "path": "predictions/oof_predictions.private.csv.gz",
+    "sha256": "a3268f12d7b2ebe2a723d4fbed94ae39f3615c546f632af29f0dd7e9c3fcdf8d"
+  },
+  "report": {
+    "after_mode": "0644",
+    "after_sha256": "748e21e25e556198ac3b2affcdbe6090350b5005fc558ed7c3c1e18c443ec690",
+    "before_mode": "0644",
+    "before_sha256": "3f4f325cc5c12b782b6c626ff09410362698f307c7d4028492de8aaf6655f61a",
+    "delivery_fields_excluded_from_normalization": [
+      "Reported experiment commit SHA",
+      "Push status"
+    ],
+    "normalized_corrected_sha256": "b439faab886036a7c9a55dc12d2a4dae9880b99072f51bc0b974c6779f8b0889",
+    "path": "reports/final_report.md"
+  },
+  "schema_version": "post_lock_report_presentation_erratum/v1",
+  "scientific_conclusions": {
+    "primary_gates": {
+      "A": false,
+      "B": false,
+      "C": true,
+      "D": true,
+      "E": false
+    },
+    "recommendation": "Need broader-context phenotype branch",
+    "scientific_classifications": {
+      "BPE": "FOV-BLOCKED — A/D CLASSIFICATION NOT AUTHORIZED",
+      "LD": "Class D — CURRENTLY NOT IMAGE-OBSERVABLE",
+      "SPH": "MIXED OR UNRESOLVED"
+    }
+  },
+  "scientific_invariant_snapshot": {
+    ".gitignore": {
+      "mode": "0644",
+      "sha256": "c923cc9b47bec3c522079bed584629b4ab6d97f995c6c31a2b692a9919e89b1b",
+      "size_bytes": 423
+    },
+    "EXPERIMENT_PLAN.md": {
+      "mode": "0644",
+      "sha256": "f80460c46b4e3462e91c6f499636b785150d2b76dced18184649ecedb2ea4453",
+      "size_bytes": 32033
+    },
+    "PREREGISTRATION_LOCK.json": {
+      "mode": "0444",
+      "sha256": "b3e9809f47a13b2db2c958cee4bec112b18273de75606c05538bc2fc04f706ee",
+      "size_bytes": 72590
+    },
+    "configs/audit.json": {
+      "mode": "0644",
+      "sha256": "8f400caaeeeb0929206924c6217fac2313bcd9a8968b7a33cbabb8bd11f3bedb",
+      "size_bytes": 5952
+    },
+    "features/.gitkeep": {
+      "mode": "0644",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    "figures/.gitkeep": {
+      "mode": "0644",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    "figures/bottleneck_maximum_two_seed_gain.png": {
+      "mode": "0644",
+      "sha256": "5eab5685da41d509a49083d4f7d5a0a8be9efb313e779d01ecfda8574165c6ed",
+      "size_bytes": 104505
+    },
+    "figures/dynamic_ftv_residual_difference_decodability.png": {
+      "mode": "0644",
+      "sha256": "aca1707862a7208710a5e6e1124646ef380dedf1b8f887c8dab6b389bf8f96ec",
+      "size_bytes": 187420
+    },
+    "figures/static_ftv_residual_decodability.png": {
+      "mode": "0644",
+      "sha256": "56dff484fcbe4f600e430f02515c8dbd0df8c79208ed33ec8796dc9f4363f430",
+      "size_bytes": 196682
+    },
+    "figures/static_raw_decodability.png": {
+      "mode": "0644",
+      "sha256": "7c711066263d3919172bcb97c87a31c5db1ccacceec439b9694c86a0dcb82c99",
+      "size_bytes": 233615
+    },
+    "logs/.gitkeep": {
+      "mode": "0644",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    "manifests/.gitkeep": {
+      "mode": "0644",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    "manifests/frozen_cell_manifest.csv": {
+      "mode": "0644",
+      "sha256": "34f5314432818a952b95b3a4d7925fa044ab7ae039aae18a6b60fbdc8cd4437f",
+      "size_bytes": 12896
+    },
+    "manifests/input_provenance.json": {
+      "mode": "0644",
+      "sha256": "8417bbc6631d887956a5c3769a22452dd77fc5c6d24173d5a287549b25320266",
+      "size_bytes": 1576
+    },
+    "manifests/public_analysis_artifacts.csv": {
+      "mode": "0644",
+      "sha256": "f8b7d9761ece560d7d022d989084ef3dbb4e86fc6edd42654e3c67f20940d1d4",
+      "size_bytes": 1781
+    },
+    "manifests/representation_contract.csv": {
+      "mode": "0644",
+      "sha256": "7647acec6e66d83ba3620064700044efd48bd435285ef52a7ce0c54b23c122d6",
+      "size_bytes": 925
+    },
+    "manifests/target_contract.csv": {
+      "mode": "0644",
+      "sha256": "c932f2e6262942c931b66ea64d197f1675a9cac59ee0dc9b3c41f9ba8c10b5d4",
+      "size_bytes": 4188
+    },
+    "metrics/.gitkeep": {
+      "mode": "0644",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    "metrics/bottleneck_diagnostics.csv": {
+      "mode": "0644",
+      "sha256": "129fcd8daee76d44aff954ff98427b3f29227df320304e19a528688fdc0704dc",
+      "size_bytes": 142298
+    },
+    "metrics/bpe_fov_observability_audit.csv": {
+      "mode": "0644",
+      "sha256": "d8c2cf5815174da5630432de05f89e7a87f1433547a3d1d6dd3cec8575d93656",
+      "size_bytes": 1406
+    },
+    "metrics/coverage.csv": {
+      "mode": "0644",
+      "sha256": "694b57d4eec74ad0dec851be1ea55322896e82e44a9178e4506732665eb5c997",
+      "size_bytes": 2354698
+    },
+    "metrics/descriptive_best_cells.csv": {
+      "mode": "0644",
+      "sha256": "b9f3f4d72cdd8cdc1489d4584b0f4c956f5014bdd7b73ef5b1333094dead2e97",
+      "size_bytes": 5521
+    },
+    "metrics/dynamic_interval_best_cells.csv": {
+      "mode": "0644",
+      "sha256": "c0a8980d122c0d5b182f40eb4c6008eca539679aa758ec4398b94e23732d87e9",
+      "size_bytes": 8820
+    },
+    "metrics/dynamic_macro.csv": {
+      "mode": "0644",
+      "sha256": "a863bb4d364e169b0b9f644c2202239933700be9182dd248bf7e12732fe1eff5",
+      "size_bytes": 623452
+    },
+    "metrics/dynamic_target_matrix.csv": {
+      "mode": "0644",
+      "sha256": "90d1f12a96b05f2458167711487c0df06d260733a3e2ae62f2e50bc906e5e163",
+      "size_bytes": 1064377
+    },
+    "metrics/final_target_recommendation.csv": {
+      "mode": "0644",
+      "sha256": "f9ee6df833b16b642deeb8a2af5bfb733fb67b804b03cdcdf668e963fee939c0",
+      "size_bytes": 611
+    },
+    "metrics/fold_metrics.csv": {
+      "mode": "0644",
+      "sha256": "4b9c27472c02dac4c0087b10f8bd6a800b2a34d9f54132af0d0f3b35392567f5",
+      "size_bytes": 8176207
+    },
+    "metrics/gate_candidate_matrix.csv": {
+      "mode": "0644",
+      "sha256": "f3d6d238fc4e40a192ccb0f7b7ca594e39d86178696decf5ea134c8076c284ba",
+      "size_bytes": 110753
+    },
+    "metrics/grounding_candidate_scorecard.csv": {
+      "mode": "0644",
+      "sha256": "45cce63c01c26ffd4977628672114b256b9963a0f5cf2cbc800d26f623d7fb47",
+      "size_bytes": 2192
+    },
+    "metrics/hyperparameter_selections.csv": {
+      "mode": "0644",
+      "sha256": "6248d003c1b9450348f9e76d6721a339f683bb9b56fe9f9555c135b1f8228646",
+      "size_bytes": 8772462
+    },
+    "metrics/oof_metrics.csv": {
+      "mode": "0644",
+      "sha256": "c8352950fd573b333fe8800f5766af9fc210ef1489681b55231f4247f1fc3d4e",
+      "size_bytes": 2281267
+    },
+    "metrics/oracle_localization_comparison.csv": {
+      "mode": "0644",
+      "sha256": "bf2ad0b1c52a2aee54561572a4819429045488acb406bcfa9ffe4ad0c2dcd61b",
+      "size_bytes": 527000
+    },
+    "metrics/oracle_validity_summary.csv": {
+      "mode": "0644",
+      "sha256": "5182dc89350306605fc2efa2dc74d4e48b4e42e32af7d17b42276092edc4c36f",
+      "size_bytes": 2936
+    },
+    "metrics/primary_gates.json": {
+      "mode": "0644",
+      "sha256": "11907a98261048a0629ce2ff041ad3b6e95c5d8b3b489808d3a1c3d663084811",
+      "size_bytes": 28688
+    },
+    "metrics/probe_integrity_summary.csv": {
+      "mode": "0644",
+      "sha256": "5f029c29940fbe39d83a5b08917d480239b036415f1f43b2334a42bac786feb0",
+      "size_bytes": 15081
+    },
+    "metrics/representation_location_comparison.csv": {
+      "mode": "0644",
+      "sha256": "6efa587dff4c39a85d4b9e900a2e86e0ff2754b93c77515db49e9f72479a0da8",
+      "size_bytes": 772608
+    },
+    "metrics/residual_target_matrix.csv": {
+      "mode": "0644",
+      "sha256": "887ae54acf0132d905da80332453a4a2e2ffcfc92156b474d269a8b7806d63b0",
+      "size_bytes": 437960
+    },
+    "metrics/residualizer_fits.csv": {
+      "mode": "0644",
+      "sha256": "40640d2bd71fa21d377497e53ecb0ffaa579f921f61eaed6c8a3fdc66e2af020",
+      "size_bytes": 50325
+    },
+    "metrics/run_summary.json": {
+      "mode": "0644",
+      "sha256": "c2ebba4733c5ed7b41b13d62fadef75f9624cd04ee8d7208278b3128109fb81b",
+      "size_bytes": 2661
+    },
+    "metrics/static_target_matrix.csv": {
+      "mode": "0644",
+      "sha256": "64852b6f9c30691097c655581f5394be654d150ac942f03c6ffe28c1d44febba",
+      "size_bytes": 248607
+    },
+    "metrics/target_transform_fits.csv": {
+      "mode": "0644",
+      "sha256": "22cd2b652ae6a943935e02c4426e1a7594403a4bcdeadce1dd49886bcde9a0f8",
+      "size_bytes": 78848
+    },
+    "predictions/.gitkeep": {
+      "mode": "0644",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    "predictions/oof_predictions.private.csv.gz": {
+      "mode": "0600",
+      "sha256": "a3268f12d7b2ebe2a723d4fbed94ae39f3615c546f632af29f0dd7e9c3fcdf8d",
+      "size_bytes": 45488726
+    },
+    "reports/.gitkeep": {
+      "mode": "0644",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "size_bytes": 1
+    },
+    "scripts/analyze_results.py": {
+      "mode": "0644",
+      "sha256": "1326e48a0e03f276f98ac2ad3fb76f713d356724eb9fa226f6236e1b8b058750",
+      "size_bytes": 96400
+    },
+    "scripts/audit_core.py": {
+      "mode": "0644",
+      "sha256": "8da22976e8a309008b09793bb78f7a7f58508c76607d43d0b4e0ddfb0daaa2dc",
+      "size_bytes": 75428
+    },
+    "scripts/freeze_preregistration.py": {
+      "mode": "0644",
+      "sha256": "e94677d5137e34ff7eb0a10fc1b837393ddcf5e458fb703fc947fd362e074b62",
+      "size_bytes": 26175
+    },
+    "scripts/run_audit.py": {
+      "mode": "0644",
+      "sha256": "3c4ef1c2631c154ae679f32c8dd93a3de61f62475d3f838a7172b26d73caa366",
+      "size_bytes": 18053
+    },
+    "scripts/validate_audit.py": {
+      "mode": "0644",
+      "sha256": "3fd8cd6a6cef763e7823f08278d73ddce7584ce3c71050dc01677d0163f8fa81",
+      "size_bytes": 40782
+    },
+    "tests/test_audit_contracts.py": {
+      "mode": "0644",
+      "sha256": "050e40bd78a0f81e315ca495adc08376b5dec104ba587feb0eebd0e86fa7e1b9",
+      "size_bytes": 23887
+    }
+  },
+  "scientific_invariant_snapshot_sha256": "b3e17195f245555a736c1137e3db908b40cc81ef4de04451e05789543dad7b47",
+  "status": "COMPLETE"
+}

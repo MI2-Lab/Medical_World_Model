@@ -1,0 +1,35 @@
+{
+  "branch": "feature/nonftv-phenotype-decodability-audit",
+  "feature_cell_count": 20,
+  "fold_count": 5,
+  "parent_sha": "7742d737d92ed153b5c721cd323528b0a127d5ef",
+  "patient_count": 375,
+  "patient_set_sha256": "64a7599a7903e2e013ae6ae5d50018019eee35ac408d7312f36e0c47536d29b6",
+  "preregistration_lock_sha256": "b3e9809f47a13b2db2c958cee4bec112b18273de75606c05538bc2fc04f706ee",
+  "privacy": {
+    "patient_identifiers_in_public_outputs": false,
+    "pcr_column_parsed": false,
+    "pcr_used_for_target_representation_residualizer_timing_or_alpha_selection": false,
+    "private_prediction_path": "predictions/oof_predictions.private.csv.gz"
+  },
+  "schema_version": 1,
+  "source_commits": {
+    "goal6_classical_dce": "f49cf17237a95e9f8b99ad5f13c73f90e1a94a28",
+    "local_global_state": "78ba693ad34dbb2b5a28f0476185966714bb63c5",
+    "spatial_heterogeneity": "7742d737d92ed153b5c721cd323528b0a127d5ef"
+  },
+  "source_hashes": {
+    "eligible_target_table": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d",
+    "fold_manifest": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+    "goal6_final_report": "c9b1d5a6b4e7ea1cb9b8eb5002fcfe281b5fec36ae79fea7cf259356b69dfd0b",
+    "spatial_completion": "0dfd9e4beb7ccf1524c6bbaeac5527acf117b24b3f4919575cbfb69ca63e8685",
+    "workbook": "f714c7784b1e57daa74d7cfb20db71cd432b4e4596b9b4eacdd5a76b7f8a58dc"
+  },
+  "status": "COMPLETE",
+  "workbook_target_parity_max_abs_difference": {
+    "BPE": 0.0,
+    "FTV": 5.551115123125783e-17,
+    "LD": 0.0,
+    "SPH": 5.551115123125783e-17
+  }
+}

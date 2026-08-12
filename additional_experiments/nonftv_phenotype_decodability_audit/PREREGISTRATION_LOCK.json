@@ -1,0 +1,1974 @@
+{
+  "analysis_contract": {
+    "all_current_python_tests_bound": true,
+    "all_current_scripts_bound": true,
+    "config_canonical_sha256": "7f02a3da559b66969b7d0a198333138e4fb89e51f58abd309fbbfb61bf6ae8ca",
+    "files": [
+      {
+        "path": "additional_experiments/nonftv_phenotype_decodability_audit/EXPERIMENT_PLAN.md",
+        "role": "experiment_plan",
+        "sha256": "f80460c46b4e3462e91c6f499636b785150d2b76dced18184649ecedb2ea4453"
+      },
+      {
+        "path": "additional_experiments/nonftv_phenotype_decodability_audit/configs/audit.json",
+        "role": "audit_config",
+        "sha256": "8f400caaeeeb0929206924c6217fac2313bcd9a8968b7a33cbabb8bd11f3bedb"
+      },
+      {
+        "path": "additional_experiments/nonftv_phenotype_decodability_audit/scripts/analyze_results.py",
+        "role": "script:analyze_results.py",
+        "sha256": "1326e48a0e03f276f98ac2ad3fb76f713d356724eb9fa226f6236e1b8b058750"
+      },
+      {
+        "path": "additional_experiments/nonftv_phenotype_decodability_audit/scripts/audit_core.py",
+        "role": "script:audit_core.py",
+        "sha256": "8da22976e8a309008b09793bb78f7a7f58508c76607d43d0b4e0ddfb0daaa2dc"
+      },
+      {
+        "path": "additional_experiments/nonftv_phenotype_decodability_audit/scripts/freeze_preregistration.py",
+        "role": "script:freeze_preregistration.py",
+        "sha256": "e94677d5137e34ff7eb0a10fc1b837393ddcf5e458fb703fc947fd362e074b62"
+      },
+      {
+        "path": "additional_experiments/nonftv_phenotype_decodability_audit/scripts/run_audit.py",
+        "role": "script:run_audit.py",
+        "sha256": "3c4ef1c2631c154ae679f32c8dd93a3de61f62475d3f838a7172b26d73caa366"
+      },
+      {
+        "path": "additional_experiments/nonftv_phenotype_decodability_audit/scripts/validate_audit.py",
+        "role": "script:validate_audit.py",
+        "sha256": "3fd8cd6a6cef763e7823f08278d73ddce7584ce3c71050dc01677d0163f8fa81"
+      },
+      {
+        "path": "additional_experiments/nonftv_phenotype_decodability_audit/tests/test_audit_contracts.py",
+        "role": "test:test_audit_contracts.py",
+        "sha256": "050e40bd78a0f81e315ca495adc08376b5dec104ba587feb0eebd0e86fa7e1b9"
+      }
+    ]
+  },
+  "diagnostic_disclosure": {
+    "aborted_first_cell_formal_attempt": {
+      "completed_formal_matrix": false,
+      "diagnostic_metrics_exposed": true,
+      "performed": true,
+      "retained_artifacts": false,
+      "scope": "first enumerated cell: seed=2026, arm=LOCAL0, fold=0"
+    },
+    "declaration": "This is a prospective lock after limited diagnostic metric exposure, not a claim of pristine preregistration. No diagnostic artifact was retained and no gate threshold, target, representation, timing, fold, or analysis rule was changed based on the exposed values.",
+    "metric_values_recorded_in_lock": false,
+    "one_cell_smoke": {
+      "diagnostic_metrics_exposed": true,
+      "performed": true,
+      "retained_artifacts": false,
+      "scope": "first enumerated cell: seed=2026, arm=LOCAL0, fold=0"
+    },
+    "preflight": "PASS; no phenotype probe metric was produced by preflight",
+    "prelock_numeric_parity_tolerance_amendment": {
+      "frozen_atol": 5e-06,
+      "frozen_global_max_abs_lte": 5e-06,
+      "frozen_rtol": 1e-05,
+      "observed_global_max_abs_range": [
+        2.0265579223632812e-06,
+        2.6226043701171875e-06
+      ],
+      "performed": true,
+      "retained_formal_outputs_before_amendment": false,
+      "target_or_probe_metric_driven": false,
+      "trigger": "strict CPU recomputation atol=1e-6 failed for two of 20 GPU-exported float32 cells near zero"
+    },
+    "pristine_before_any_target_result_inspection": false,
+    "thresholds_changed_based_on_exposed_values": false
+  },
+  "experiment": "nonftv_phenotype_decodability_audit",
+  "feature_cells": [
+    {
+      "arm": "LOCAL0",
+      "cell": "seed_2026/LOCAL0/fold_0",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_0/selected.pt",
+          "role": "checkpoint",
+          "sha256": "2c16fc0311c075f464352ad69aeeef2f6ad2d086168ea618f6fc95f14e1dcf3c"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_0/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "360cd7b4e642b2a44110cb42d246c4c2b36c8364fdb007c3a30221de2de5b143"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_0/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "d005629794835e9088c516d598b6afcf2486a2645cabd450112e53f7e321a9b4"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_0/selection.json",
+          "role": "selection",
+          "sha256": "cbc6f0e6c62c47f5364d148daafca1a4632dcbc505ddccbde6fcaa7013c10187"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL0/fold_0/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "a5168a8d98f4bdf4c94cd7f1423ad8bcb6391eb1702f44e0fea83f575e632a64"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL0/fold_0/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "e2498dae37920f2f69708345b88742dcfc7c2ecfe5c40aaa4bdd7ea3c0835d6a"
+        }
+      },
+      "fold": 0,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "944eec13b9d3c785c85ff32ccbb05a533f17da21caa7e60ff3abe2c0c78f2078",
+      "pcr_used": false,
+      "seed": 2026,
+      "selected": true,
+      "selected_epoch": 3,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.384185791015625e-06
+    },
+    {
+      "arm": "LOCAL0",
+      "cell": "seed_2026/LOCAL0/fold_1",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_1/selected.pt",
+          "role": "checkpoint",
+          "sha256": "ec315e2d40b72b97cc9813a4fabbd7adff2495189e60c34ccdf2927a2873b386"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_1/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "525db16f5e7071713289a5cec4fc8c8266c2855159886c886904de1348f55a53"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_1/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "df7dc668ec377202b6c28e65e0cd1ee73b7bbf4dd810c8f701a89fd3af3e048c"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_1/selection.json",
+          "role": "selection",
+          "sha256": "c816c7b2e0a35057af8778bbe6af2d9f42c3633df8466ac7b05e1a4ffed706f2"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL0/fold_1/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "c0fd1f07abbe7560085add7c0db210089996703483e3920566ad0581ecc7a737"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL0/fold_1/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "7d1bf1a0d9358abc47d3ca47b557ff5a36a14a74b0f73addfa052ef526a9d39a"
+        }
+      },
+      "fold": 1,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "cbf0d678fc06dcc0c3ca899a53ba9e1fb98b0cd55db4e2e10cbdeaa9f36fdd1a",
+      "pcr_used": false,
+      "seed": 2026,
+      "selected": true,
+      "selected_epoch": 2,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.6226043701171875e-06
+    },
+    {
+      "arm": "LOCAL0",
+      "cell": "seed_2026/LOCAL0/fold_2",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_2/selected.pt",
+          "role": "checkpoint",
+          "sha256": "f9fa38d112f9fa4bbfa39281a399a795a358c117d0e56f57387c1dc3a508d65e"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_2/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "6c1d6c02da00c0e1600e15bf09eed1050146805139bbd87640b7ad9588b93aeb"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_2/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "31d1f9d97e27557f3f04cb62769d7723f7ae5c87f8666b9e45f0212846e996f5"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_2/selection.json",
+          "role": "selection",
+          "sha256": "96b322e3adfe165029a7478bdccceb3fab8817015886ebe3f9a623d672166cf3"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL0/fold_2/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "c7e6cf56d0ae6ced7d881b0f3bf6260549ac39d73f422cf531b294a0ab63e696"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL0/fold_2/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "fefbf4c67cde4ff3123f3f90256ae93a3617337272fc3d47e537d444a9b7a11c"
+        }
+      },
+      "fold": 2,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "96143bcfeb066eac4162054ed61baaddf93d10a1be921d1c87b1fffcd9d4e6bf",
+      "pcr_used": false,
+      "seed": 2026,
+      "selected": true,
+      "selected_epoch": 2,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.384185791015625e-06
+    },
+    {
+      "arm": "LOCAL0",
+      "cell": "seed_2026/LOCAL0/fold_3",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_3/selected.pt",
+          "role": "checkpoint",
+          "sha256": "73a824ef99a5bd579ab3f0460ed312602cfa97e237cc3bf774261b07bafed17c"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_3/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "f6f0210e6dfafffd94fe88a180e2d4618a97b40ea499fb6670c6ddaf6d59f99c"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_3/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "03d46fa11e4d57a5f6cc8f08343b95c90ec4f4173bd8b664b4ce219bf57798db"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_3/selection.json",
+          "role": "selection",
+          "sha256": "b54ec7e10e320fec54cb317da284fe1298be5bde3a80a0c43ea509b610a38588"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL0/fold_3/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "9075a0eba4e39b4bd1d576917989a11367baacf51ed3d18581a01e5f851187f7"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL0/fold_3/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "af14816089f300da81a503893896bffac6c156ba98357a5178e55d2f2ce22117"
+        }
+      },
+      "fold": 3,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "5a5e3292f9cd8a5508353ce49cdbe0749224657063229a221d55ab4dc5aef2b5",
+      "pcr_used": false,
+      "seed": 2026,
+      "selected": true,
+      "selected_epoch": 2,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.384185791015625e-06
+    },
+    {
+      "arm": "LOCAL0",
+      "cell": "seed_2026/LOCAL0/fold_4",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_4/selected.pt",
+          "role": "checkpoint",
+          "sha256": "f2c34863ab7099c9e6090e266ba8083653de291e5f4abb9e0a45858f1a7c9022"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_4/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "a8ad868a5972e287d0922a53c6c4dd99fb13a9e4b5aa7cfed9e1e695fff95cef"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL0/fold_4/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "a6f19835481caa28e54c259bc1b72e421b8bd284984a26ffe0b8f25ce9d10f67"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL0/fold_4/selection.json",
+          "role": "selection",
+          "sha256": "a973d57519a0540c1670d6bbfba18414ab5e3e0a463a312356dc36a6e189a8e2"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL0/fold_4/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "44bf52443f80f8533d05c7535195fe934ab15747059a587983b36a8d5c964d86"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL0/fold_4/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "48c356b428343098e15f87325adf37f9463f1e442bdba5c59080bfdcccd11c06"
+        }
+      },
+      "fold": 4,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "aab713640f75ace30df017b4f375982e0d8bbee17fc2c1cff6428f9cd084d203",
+      "pcr_used": false,
+      "seed": 2026,
+      "selected": true,
+      "selected_epoch": 2,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.384185791015625e-06
+    },
+    {
+      "arm": "LOCAL3",
+      "cell": "seed_2026/LOCAL3/fold_0",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_0/selected.pt",
+          "role": "checkpoint",
+          "sha256": "d712dcf451b4b9b3604d8cd389e5f836c347565ee8fa29b1eb7e817e388ecc80"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_0/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "1c9662d5379cc825ece13a54bdfb209d9b1c7319e98ef40e3ea2f7c0b5a96575"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_0/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "f81364cf7ba20a45b3a3ababe1123050fee515a1ce65d99b10ea2408bf060aab"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_0/selection.json",
+          "role": "selection",
+          "sha256": "569966508c962e40367d0473d573188aa9e6b440ba84b5fe8852fabd603ad8e3"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL3/fold_0/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "b3a6dd578a4b47fa497c632d46fc33d8bbaed21e26e55c6f6ac64c18ce6b428b"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL3/fold_0/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "95f9aa0769d5c6c6e319e6f736ab7bc8b1c8e07450f46c54156022c02acf3352"
+        }
+      },
+      "fold": 0,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "944eec13b9d3c785c85ff32ccbb05a533f17da21caa7e60ff3abe2c0c78f2078",
+      "pcr_used": false,
+      "seed": 2026,
+      "selected": true,
+      "selected_epoch": 3,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.1457672119140625e-06
+    },
+    {
+      "arm": "LOCAL3",
+      "cell": "seed_2026/LOCAL3/fold_1",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_1/selected.pt",
+          "role": "checkpoint",
+          "sha256": "3fb33332085a909545d66ea75aeb0fcadeb1cdc92efb39b44116fbe40d2a0f2d"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_1/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "5142d9400608145c728cfe4777ad00061fecbf4176c16e814ccaa7bd68022c14"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_1/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "3580a313ab4d1b3e0fec25c81d57b35694d5b83a4fd9de230dd9329984616c51"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_1/selection.json",
+          "role": "selection",
+          "sha256": "081266b3ab8d8bb9aa565fa87dac9756efb46a296577c4dfa1245fe4ea234a3b"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL3/fold_1/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "8b8591b0cc2f5afbfa53018bba83b26089d2e6ee7ca70b9dfe0f900f0490bd31"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL3/fold_1/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "7adeeff2ecfefb42095b09550b050fe5e275dae6e5b808b66d66487be8874cb6"
+        }
+      },
+      "fold": 1,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "cbf0d678fc06dcc0c3ca899a53ba9e1fb98b0cd55db4e2e10cbdeaa9f36fdd1a",
+      "pcr_used": false,
+      "seed": 2026,
+      "selected": true,
+      "selected_epoch": 2,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.1457672119140625e-06
+    },
+    {
+      "arm": "LOCAL3",
+      "cell": "seed_2026/LOCAL3/fold_2",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_2/selected.pt",
+          "role": "checkpoint",
+          "sha256": "f513b8564b2d89bb074dd5b20abb66f22549d00418a1b5ba123da850daf50137"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_2/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "c4c3ad0eb753c9d2caf8e0e4383321ecef38ddc4316f1ecfa75526298e73c59e"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_2/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "0898099b75a22e56efa5f67dc4c89136fff67268c2e4e02f2e3cc1d0472f24c4"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_2/selection.json",
+          "role": "selection",
+          "sha256": "a1d2d31023258c7146551bcf08a3da198e5c963023ecba32d861b202cc7495fe"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL3/fold_2/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "e2e924c81e49855f2bfb515fd9a9da78d307954b7ec564d089055a0d74bc9614"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL3/fold_2/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "bd57d05fd856c810b6a315e764b8891467ee3949108e7e24c988f2959dd00870"
+        }
+      },
+      "fold": 2,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "96143bcfeb066eac4162054ed61baaddf93d10a1be921d1c87b1fffcd9d4e6bf",
+      "pcr_used": false,
+      "seed": 2026,
+      "selected": true,
+      "selected_epoch": 2,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.384185791015625e-06
+    },
+    {
+      "arm": "LOCAL3",
+      "cell": "seed_2026/LOCAL3/fold_3",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_3/selected.pt",
+          "role": "checkpoint",
+          "sha256": "f21067a0c0df7237109cfcc7ce79f42b80f2d313a94436449ce34cb1325c0f55"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_3/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "951168ecf002aaa221dd1a3b3084cc3f99b07e43ac82fd37184d44d375d74c0e"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_3/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "9943324fbcc67512b429a10a1f9559b06d99ef0ef8a3d85df02cf0f829c4e4ee"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_3/selection.json",
+          "role": "selection",
+          "sha256": "125b44f2a5907bd5b9a4b9dcf42ab47445f0dbf34ae0acd08b91743786d2cd15"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL3/fold_3/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "8f5377ff72e34cc5929d921038d4b00a42097e4023e98e70da6ec73970168412"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL3/fold_3/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "356992f21f8d84f5bddc31197a04668529de306d492ac91b8494ebd238613fae"
+        }
+      },
+      "fold": 3,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "5a5e3292f9cd8a5508353ce49cdbe0749224657063229a221d55ab4dc5aef2b5",
+      "pcr_used": false,
+      "seed": 2026,
+      "selected": true,
+      "selected_epoch": 3,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.384185791015625e-06
+    },
+    {
+      "arm": "LOCAL3",
+      "cell": "seed_2026/LOCAL3/fold_4",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_4/selected.pt",
+          "role": "checkpoint",
+          "sha256": "cb6291e4611f3d9b3749efd31e126887d99cb5b1d514bd5e517a685e9bd116ea"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_4/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "358806aeeab3aa2c7db3d828ae5f5fd0c3baf2f5c5fee43aefeea9c1f3696ace"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_2026/LOCAL3/fold_4/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "0c7af90f6de529f0b15bdb74bfc5a48c6a42a45d5456f8a41ee4f06b87b22f2f"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_2026/LOCAL3/fold_4/selection.json",
+          "role": "selection",
+          "sha256": "cc09abbcbcc997fba244906e0c7af8e4cbf601a932830be85579102790bab769"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL3/fold_4/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "3a706b4989e5e934be5669bec3421bbc9e713514621191808c12709e1514802a"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_2026/LOCAL3/fold_4/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "43560272fb6d7dbd5f37d79b30a221311cef9494eb7518ae0a74eecfdaea0b40"
+        }
+      },
+      "fold": 4,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "aab713640f75ace30df017b4f375982e0d8bbee17fc2c1cff6428f9cd084d203",
+      "pcr_used": false,
+      "seed": 2026,
+      "selected": true,
+      "selected_epoch": 2,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.384185791015625e-06
+    },
+    {
+      "arm": "LOCAL0",
+      "cell": "seed_3026/LOCAL0/fold_0",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_0/selected.pt",
+          "role": "checkpoint",
+          "sha256": "345c622cad1d292de4aa73308cfc3bb2a74f2c8d4861b42a583b04b465f70c5a"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_0/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "e07d1dcdbcbedf941ca3024f840c6b46980f0049401737a062f331c1ba9fcfe8"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_0/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "892c3e883ec813a81f44d2eb1c1cd2af4cf367c74e88f7345c7a832c73ccbfcf"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_0/selection.json",
+          "role": "selection",
+          "sha256": "03dee13013eadadec418b1a8685aef547a958495a6667855032c28162301837f"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL0/fold_0/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "1e108aaf0edfefdfdf94081f30573da43255de0f2b85b15805675694605c28db"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL0/fold_0/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "ec490a905c87213fd25d9c0c304e7c2055134a9d23385c46f854126bd9bacd87"
+        }
+      },
+      "fold": 0,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "944eec13b9d3c785c85ff32ccbb05a533f17da21caa7e60ff3abe2c0c78f2078",
+      "pcr_used": false,
+      "seed": 3026,
+      "selected": true,
+      "selected_epoch": 2,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.1457672119140625e-06
+    },
+    {
+      "arm": "LOCAL0",
+      "cell": "seed_3026/LOCAL0/fold_1",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_1/selected.pt",
+          "role": "checkpoint",
+          "sha256": "2c03d9f51eb50cabd91b0a78c53e84f0d560a836316f6b27d65af76fbce8ab1d"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_1/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "9f4398006bd99f1698355e7e930351aa214c4752b2af5554f8fa85fa04251198"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_1/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "57f56c122330077609b9709909fd8aa44235539dd62f562c383ccbc24fdcd0ab"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_1/selection.json",
+          "role": "selection",
+          "sha256": "53c3bb064ac6a6d834df69bf0644a24d07f5400bb3c042c210a323f61ccfe5a8"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL0/fold_1/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "4e5b121bf4794af025ca7176cb2d871743b9e11b5101d97596ea680416c6332a"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL0/fold_1/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "943f3bfaa39bd6ebb895839ada2cb229a5a775e8490900ed3fe237e92de05f3e"
+        }
+      },
+      "fold": 1,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "cbf0d678fc06dcc0c3ca899a53ba9e1fb98b0cd55db4e2e10cbdeaa9f36fdd1a",
+      "pcr_used": false,
+      "seed": 3026,
+      "selected": true,
+      "selected_epoch": 2,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.1457672119140625e-06
+    },
+    {
+      "arm": "LOCAL0",
+      "cell": "seed_3026/LOCAL0/fold_2",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_2/selected.pt",
+          "role": "checkpoint",
+          "sha256": "16ca9c9ac30af8d83cab711a9bfedd0a61cf749eabe4165cb5b38f8b2e061774"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_2/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "3da4f7ed5df3ef2a7d36777b5f7099233db74c5c86a0060add35cfe0cdcc53fe"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_2/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "d00f7f61ca6c834f506c0eb713a906e66b195b48d8d035ffeff0ac6927695e7c"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_2/selection.json",
+          "role": "selection",
+          "sha256": "0c3c5fd4d961580d0c91f6cc5a03d88de6da21d24271549f5217c3272869271f"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL0/fold_2/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "9dc950bec9729d8559629fb634c3f58c0dd87b8d1d78ba56e5c408e9f66791f1"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL0/fold_2/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "e4236b69867ad9717ceb6a187b65ddc8b3ad747701f6378256267d15a117b09e"
+        }
+      },
+      "fold": 2,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "96143bcfeb066eac4162054ed61baaddf93d10a1be921d1c87b1fffcd9d4e6bf",
+      "pcr_used": false,
+      "seed": 3026,
+      "selected": true,
+      "selected_epoch": 2,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.384185791015625e-06
+    },
+    {
+      "arm": "LOCAL0",
+      "cell": "seed_3026/LOCAL0/fold_3",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_3/selected.pt",
+          "role": "checkpoint",
+          "sha256": "6166e7682e2661fa99af2b4a381df0d034bb3e0ac51fa7d13e941648d999c443"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_3/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "d704099fda25ef10a05e745ef66aa4b004a74fd8dc644404ccfbbf88a7653bb4"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_3/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "b9a54ab4067f7c41eb2bf0075cb5e42e3c22380ab49adc1ac971c9d2c44e643a"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_3/selection.json",
+          "role": "selection",
+          "sha256": "a3f2d34a7b4ac89f29c8f6b333dae3414a3427a2099779ce1814f0eb939e2600"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL0/fold_3/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "2677453bac5fd363e7f1afc14d1d76bf69433d30f2435feb3233cbc46200ffef"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL0/fold_3/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "a0af72344b018f66934604ddd64a773aeb273100581959aee38168c16889c71d"
+        }
+      },
+      "fold": 3,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "5a5e3292f9cd8a5508353ce49cdbe0749224657063229a221d55ab4dc5aef2b5",
+      "pcr_used": false,
+      "seed": 3026,
+      "selected": true,
+      "selected_epoch": 2,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.384185791015625e-06
+    },
+    {
+      "arm": "LOCAL0",
+      "cell": "seed_3026/LOCAL0/fold_4",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_4/selected.pt",
+          "role": "checkpoint",
+          "sha256": "ac6956eb31ba9f22354af367d626e25f456faaa1f68ea7ebee2952508f118d25"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_4/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "37e86e26d9d3706fceaffaebca1aebec255599dbec0b2d4cc406c20459be608e"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL0/fold_4/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "8381188cc5c542d54da3d1f06780261c8887a6d7d20ce5a9b33ed47c7ccc689a"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL0/fold_4/selection.json",
+          "role": "selection",
+          "sha256": "1e07dfa6733baa0599c80f36e11e81bade92dedf8033bf6174c3d980cee257d8"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL0/fold_4/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "ca68b85e88aea994b26f16703716e3fce36413d879aa83bd79894a4e9da374e2"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL0/fold_4/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "5642480751eeb94d3b6a4567afe4817cdc1693b910056aabbbe9aab7855078d2"
+        }
+      },
+      "fold": 4,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "aab713640f75ace30df017b4f375982e0d8bbee17fc2c1cff6428f9cd084d203",
+      "pcr_used": false,
+      "seed": 3026,
+      "selected": true,
+      "selected_epoch": 3,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.384185791015625e-06
+    },
+    {
+      "arm": "LOCAL3",
+      "cell": "seed_3026/LOCAL3/fold_0",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_0/selected.pt",
+          "role": "checkpoint",
+          "sha256": "90cdf554d553fe677f7854a5e25c6a1bed99a157204a3282f11f78fb1e17f0a5"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_0/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "148032113477327481bca60cc6eabdc1cac59eda4b69fddbdb5071cd6e2afaaa"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_0/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "9749ef7f85ecb58bbe638e71d15997a901e5b49e5f0e8444c219c41f38ace8da"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_0/selection.json",
+          "role": "selection",
+          "sha256": "f90a765130c13f91f2a23df8576de06cf8b050a755788d92e73ac3628a044e61"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL3/fold_0/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "b8c049494ec30ba93a8a086e5dbf0b06dd75186446d1f2b4853b82b4d05a163d"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL3/fold_0/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "7954f912b99bea892a7f379fe21bd7facd8a814078cec2ec12744f0955244506"
+        }
+      },
+      "fold": 0,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "944eec13b9d3c785c85ff32ccbb05a533f17da21caa7e60ff3abe2c0c78f2078",
+      "pcr_used": false,
+      "seed": 3026,
+      "selected": true,
+      "selected_epoch": 2,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.1457672119140625e-06
+    },
+    {
+      "arm": "LOCAL3",
+      "cell": "seed_3026/LOCAL3/fold_1",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_1/selected.pt",
+          "role": "checkpoint",
+          "sha256": "c974d2c2192821c7e3d93ba4acdc0d31fb70d800ef42c7557745c3bf451d70bf"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_1/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "b5277206a01b0455e474cb38209d6a51c2fd6bf28907b5846143e154d0ec090e"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_1/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "16d690e06ddb8926c0a37d12e5efb1e007e2daab8017633feaab1fdb743c49bd"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_1/selection.json",
+          "role": "selection",
+          "sha256": "e6fee71a1d46ab2d479ae2d3cf8f122aaafdfeae2937c7468b40a0ccc0a269b4"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL3/fold_1/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "a508034124669cc028f539fa12f3f50f8c711ffacdbffa93623331eb939b90dc"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL3/fold_1/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "9a2af78397ed1fb8bcc080727b68ad2cd31cf564525a314271b7e29b4c302b1a"
+        }
+      },
+      "fold": 1,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "cbf0d678fc06dcc0c3ca899a53ba9e1fb98b0cd55db4e2e10cbdeaa9f36fdd1a",
+      "pcr_used": false,
+      "seed": 3026,
+      "selected": true,
+      "selected_epoch": 2,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.384185791015625e-06
+    },
+    {
+      "arm": "LOCAL3",
+      "cell": "seed_3026/LOCAL3/fold_2",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_2/selected.pt",
+          "role": "checkpoint",
+          "sha256": "2a6d6e139b5a7816c88933ecfb72e7fc356694d3fecf5c4aaf849925a635a72d"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_2/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "56dbdb0fd1d5fcc360ec2c134f4331c42bbadceecc2e82a7cc9d03e651fa878b"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_2/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "d05b79711c2448881dd2de98d142a6c7ed2f9526c0b8b1b78cb389f7c7df7e0e"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_2/selection.json",
+          "role": "selection",
+          "sha256": "7c1cacad4905db4fc10e055c68c1fb546829f81f6bd76f81f786225351e694e4"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL3/fold_2/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "32f9463ac8d9a822f1b0b7834571a9fe089b7cd5c6988c3b843d7fb9afb1080a"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL3/fold_2/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "cba166744e406924879fec43a31f27b7831c0269ff0dbec318c9f795089e194c"
+        }
+      },
+      "fold": 2,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "96143bcfeb066eac4162054ed61baaddf93d10a1be921d1c87b1fffcd9d4e6bf",
+      "pcr_used": false,
+      "seed": 3026,
+      "selected": true,
+      "selected_epoch": 2,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.1457672119140625e-06
+    },
+    {
+      "arm": "LOCAL3",
+      "cell": "seed_3026/LOCAL3/fold_3",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_3/selected.pt",
+          "role": "checkpoint",
+          "sha256": "34f27dc2caf033d49308f1e353abf1f90ec3582d525f5470b8c9544dd898eb95"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_3/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "a957acd97dc6abe388133a838778e7b70572ced73183ace4c7731eb9962fbcfa"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_3/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "2a0da760e134e54449039fa303cc38e031b48004d73d6995510c421813b8fb8a"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_3/selection.json",
+          "role": "selection",
+          "sha256": "b0e85ecb80794aa5517f10269df190e28022a9dbd29c2b373536eaa1dc4e2637"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL3/fold_3/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "cb12a8d30973340d4d861406bdbf6369bfcbe0ad9c02f098dc7feef05855be4e"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL3/fold_3/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "e9f15667aa39e5cf1ef7f8ad8f5a45addf23e75416809d52da587b5360e6aa0a"
+        }
+      },
+      "fold": 3,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "5a5e3292f9cd8a5508353ce49cdbe0749224657063229a221d55ab4dc5aef2b5",
+      "pcr_used": false,
+      "seed": 3026,
+      "selected": true,
+      "selected_epoch": 2,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.0265579223632812e-06
+    },
+    {
+      "arm": "LOCAL3",
+      "cell": "seed_3026/LOCAL3/fold_4",
+      "delta_ftv_used": false,
+      "encoder_frozen": true,
+      "encoder_training_performed": false,
+      "files": {
+        "checkpoint": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_4/selected.pt",
+          "role": "checkpoint",
+          "sha256": "cf4192bee6de45b046208177fc66802f802124e4c5afdf1d411e790579103799"
+        },
+        "local_feature": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_4/response_state.private.npz",
+          "role": "local_feature",
+          "sha256": "a993a6081e87703bf02db0f9bc0cdf30e1cee330775873d724af5f52aec74cae"
+        },
+        "local_metadata": {
+          "path": "additional_experiments/local_global_response_state_pilot/features/formal_4x8/seed_3026/LOCAL3/fold_4/response_state.private.metadata.json",
+          "role": "local_metadata",
+          "sha256": "96f53959e9b73189ff42d6d7967f68ebccf5a63cfaf68dc3ab8f97f981b9db46"
+        },
+        "selection": {
+          "path": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8/seed_3026/LOCAL3/fold_4/selection.json",
+          "role": "selection",
+          "sha256": "335f43cdf08e29be44e002684c5804125811f077f1f3458368c5421a6bb547aa"
+        },
+        "spatial_feature": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL3/fold_4/spatial_statistics.private.npz",
+          "role": "spatial_feature",
+          "sha256": "55730ed287301620b212548ede781db70bb0a5d80a3fd86f7a152849a3a5d157"
+        },
+        "spatial_metadata": {
+          "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/seed_3026/LOCAL3/fold_4/spatial_statistics.private.metadata.json",
+          "role": "spatial_metadata",
+          "sha256": "6e0b7e3754cf86871924456138643184dfda324c49dc3f5606dc3f40f50dc6e1"
+        }
+      },
+      "fold": 4,
+      "full_feature_patient_count": 808,
+      "local_feature_shape": [
+        808,
+        4,
+        192
+      ],
+      "oracle_mean_shape": [
+        808,
+        4,
+        4,
+        128
+      ],
+      "patient_order_sha256": "aab713640f75ace30df017b4f375982e0d8bbee17fc2c1cff6428f9cd084d203",
+      "pcr_used": false,
+      "seed": 3026,
+      "selected": true,
+      "selected_epoch": 2,
+      "selection_experiment_pass": true,
+      "selection_mode": "primary",
+      "spatial_statistic_shapes": {
+        "mean": [
+          808,
+          4,
+          128
+        ],
+        "q25": [
+          808,
+          4,
+          128
+        ],
+        "q50": [
+          808,
+          4,
+          128
+        ],
+        "q75": [
+          808,
+          4,
+          128
+        ],
+        "std": [
+          808,
+          4,
+          128
+        ]
+      },
+      "test_data_used": false,
+      "z1_derived_from_z2_without_encoder": true,
+      "z3_to_z2_projection_parity_max_abs": 2.5033950805664062e-06
+    }
+  ],
+  "git_contract": {
+    "branch": "feature/nonftv-phenotype-decodability-audit",
+    "head_at_verification": "7742d737d92ed153b5c721cd323528b0a127d5ef",
+    "parent_sha": "7742d737d92ed153b5c721cd323528b0a127d5ef",
+    "source_commits": {
+      "goal6_classical_dce": "f49cf17237a95e9f8b99ad5f13c73f90e1a94a28",
+      "local_global_state": "78ba693ad34dbb2b5a28f0476185966714bb63c5",
+      "spatial_heterogeneity": "7742d737d92ed153b5c721cd323528b0a127d5ef"
+    },
+    "source_worktree_heads": {
+      "goal6_classical_dce": "f49cf17237a95e9f8b99ad5f13c73f90e1a94a28",
+      "spatial_heterogeneity": "7742d737d92ed153b5c721cd323528b0a127d5ef"
+    }
+  },
+  "immutability": {
+    "creation_semantics": "atomic_hard_link_no_replace",
+    "file_mode": "0444",
+    "formal_outputs_present_at_lock": false,
+    "overwrite_refused": true
+  },
+  "preflight": {
+    "feature_cell_count": 20,
+    "fold_count": 5,
+    "patient_count": 375,
+    "patient_set_sha256": "64a7599a7903e2e013ae6ae5d50018019eee35ac408d7312f36e0c47536d29b6",
+    "pcr_parsed": false,
+    "status": "PASS",
+    "workbook_max_abs_difference": {
+      "BPE": 0.0,
+      "FTV": 5.551115123125783e-17,
+      "LD": 0.0,
+      "SPH": 5.551115123125783e-17
+    }
+  },
+  "privacy_and_training_firewall": {
+    "encoder_retrained": false,
+    "patient_or_trial_identifiers_serialized": false,
+    "pcr_parsed": false,
+    "pcr_used_for_any_selection": false,
+    "test_used_for_checkpoint_or_probe_alpha_selection": false
+  },
+  "runtime_environment": {
+    "captured_at_utc": "2026-08-12T06:36:20.683183+00:00",
+    "cpu_count": 48,
+    "git_version": "git version 2.34.1",
+    "implementation": "CPython",
+    "machine": "x86_64",
+    "package_versions": {
+      "matplotlib": "3.10.8",
+      "numpy": "2.2.6",
+      "openpyxl": "3.1.5",
+      "pandas": "2.3.3",
+      "scikit_learn": "1.8.0",
+      "scipy": "1.16.3",
+      "torch": "2.9.1+cu130"
+    },
+    "platform": "Linux-5.15.0-161-generic-x86_64-with-glibc2.35",
+    "processor": "x86_64",
+    "python_executable": "/home/bowen/.conda/envs/bowen/bin/python3.11",
+    "python_version": "3.11.14",
+    "thread_environment": {
+      "MKL_NUM_THREADS": null,
+      "NUMEXPR_NUM_THREADS": null,
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "PYTHONHASHSEED": null
+    },
+    "torch_runtime": {
+      "cuda_available": true,
+      "cuda_build": "13.0",
+      "cuda_device_count": 3,
+      "version": "2.9.1+cu130"
+    }
+  },
+  "schema_version": 1,
+  "source_contract": {
+    "eligible_target_table": {
+      "expected_sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d",
+      "path": "additional_experiments/radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv",
+      "role": "eligible_target_table",
+      "sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d"
+    },
+    "fold_manifest": {
+      "expected_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+      "path": "/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+      "role": "fold_manifest",
+      "sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38"
+    },
+    "goal6_final_report": {
+      "expected_sha256": "c9b1d5a6b4e7ea1cb9b8eb5002fcfe281b5fec36ae79fea7cf259356b69dfd0b",
+      "path": "/data/mi2-interns/bowen/Medical_World_Model_classical_dce/additional_experiments/classical_dce_phenotype_complementarity/reports/final_report.md",
+      "role": "goal6_final_report",
+      "sha256": "c9b1d5a6b4e7ea1cb9b8eb5002fcfe281b5fec36ae79fea7cf259356b69dfd0b"
+    },
+    "spatial_completion": {
+      "expected_sha256": "0dfd9e4beb7ccf1524c6bbaeac5527acf117b24b3f4919575cbfb69ca63e8685",
+      "path": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/feature_matrix_complete.private.json",
+      "role": "spatial_completion",
+      "sha256": "0dfd9e4beb7ccf1524c6bbaeac5527acf117b24b3f4919575cbfb69ca63e8685"
+    },
+    "workbook": {
+      "expected_sha256": "f714c7784b1e57daa74d7cfb20db71cd432b4e4596b9b4eacdd5a76b7f8a58dc",
+      "path": "/data/data/Breast_Cancer/I-SPY2/Multi-feature-MRI-NACT-Data.xlsx",
+      "role": "workbook",
+      "sha256": "f714c7784b1e57daa74d7cfb20db71cd432b4e4596b9b4eacdd5a76b7f8a58dc",
+      "sheet": "datawith4visits"
+    }
+  },
+  "status": "LOCKED_BEFORE_FORMAL_RUN"
+}

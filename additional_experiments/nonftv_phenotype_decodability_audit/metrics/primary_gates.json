@@ -1,0 +1,883 @@
+{
+  "gate_semantics": {
+    "T3_gate_use": false,
+    "candidate_tie_break": [
+      "max_qualifying_endpoint_count",
+      "max_early_minimum_over_seed_spearman_macro",
+      "max_early_minimum_over_seed_natural_r2_macro",
+      "Z1_Z2_Z3_Z4_order",
+      "LOCAL0_LOCAL3_order"
+    ],
+    "dynamic_primary_input": "literal_z_end_minus_z_start",
+    "raw_support_note": "FTV/SPH/BPE raw descriptors adapt Gate A solely for deterministic scorecard classification and are not additional primary gates",
+    "secondary_ftv_ld_residual_gate_use": false,
+    "seed_rule": "same arm/representation/target/endpoint must pass in seeds 2026 and 3026",
+    "undefined_metric_rule": "fail_closed"
+  },
+  "gates": {
+    "A": {
+      "gate_id": "A",
+      "is_primary_gate": true,
+      "name": "LD_IMAGE_OBSERVABLE",
+      "passed": false,
+      "required_endpoint_count": 2,
+      "selected_candidate": {
+        "arm": "LOCAL3",
+        "endpoint_evidence": [
+          {
+            "endpoint": "T0",
+            "mean_seed_natural_r2": 0.1533117129681753,
+            "minimum_seed_natural_r2": 0.127144008021063,
+            "minimum_seed_spearman": 0.4239569010470423,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": true,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": true,
+            "seed_natural_r2": {
+              "2026": 0.127144008021063,
+              "3026": 0.1794794179152876
+            },
+            "seed_spearman": {
+              "2026": 0.4239569010470423,
+              "3026": 0.4531690637897094
+            }
+          },
+          {
+            "endpoint": "T1",
+            "mean_seed_natural_r2": 0.03865894331097445,
+            "minimum_seed_natural_r2": 0.0338208750339795,
+            "minimum_seed_spearman": 0.266650440791031,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.0434970115879694,
+              "3026": 0.0338208750339795
+            },
+            "seed_spearman": {
+              "2026": 0.2827858591136584,
+              "3026": 0.266650440791031
+            }
+          },
+          {
+            "endpoint": "T2",
+            "mean_seed_natural_r2": 0.0292148479838606,
+            "minimum_seed_natural_r2": 0.01813808487796,
+            "minimum_seed_spearman": 0.2647149805020481,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.0402916110897612,
+              "3026": 0.01813808487796
+            },
+            "seed_spearman": {
+              "2026": 0.27177081506749,
+              "3026": 0.2647149805020481
+            }
+          }
+        ],
+        "minimum_seed_natural_r2_macro": 0.059700989311000825,
+        "minimum_seed_spearman_macro": 0.31844077411337385,
+        "qualifying_endpoint_count": 1,
+        "qualifying_endpoints": [
+          "T0"
+        ],
+        "representation": "Z2"
+      },
+      "target": "LD",
+      "target_kind": "raw"
+    },
+    "B": {
+      "gate_id": "B",
+      "is_primary_gate": true,
+      "name": "LD_BEYOND_FTV_DECODABLE",
+      "passed": false,
+      "required_endpoint_count": 1,
+      "selected_candidate": {
+        "arm": "LOCAL3",
+        "endpoint_evidence": [
+          {
+            "endpoint": "T0",
+            "mean_seed_natural_r2": 0.3422405112885383,
+            "minimum_seed_natural_r2": 0.3362733098232666,
+            "minimum_seed_spearman": 0.1202217682996104,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.3362733098232666,
+              "3026": 0.3482077127538099
+            },
+            "seed_spearman": {
+              "2026": 0.1202217682996104,
+              "3026": 0.1296613919496717
+            }
+          },
+          {
+            "endpoint": "T1",
+            "mean_seed_natural_r2": 0.2812277744402525,
+            "minimum_seed_natural_r2": 0.2776061364085882,
+            "minimum_seed_spearman": -0.0167428581027632,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.2776061364085882,
+              "3026": 0.2848494124719167
+            },
+            "seed_spearman": {
+              "2026": 0.0010169655991784,
+              "3026": -0.0167428581027632
+            }
+          },
+          {
+            "endpoint": "T2",
+            "mean_seed_natural_r2": 0.32456661775773143,
+            "minimum_seed_natural_r2": 0.3121202676890855,
+            "minimum_seed_spearman": 0.012885595347007,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.3121202676890855,
+              "3026": 0.3370129678263774
+            },
+            "seed_spearman": {
+              "2026": 0.012885595347007,
+              "3026": 0.0811285070348941
+            }
+          }
+        ],
+        "minimum_seed_natural_r2_macro": 0.3086665713069801,
+        "minimum_seed_spearman_macro": 0.03878816851461806,
+        "qualifying_endpoint_count": 0,
+        "qualifying_endpoints": [],
+        "representation": "Z2"
+      },
+      "target": "LD",
+      "target_kind": "residual_ftv"
+    },
+    "C": {
+      "gate_id": "C",
+      "is_primary_gate": true,
+      "name": "SPH_BEYOND_FTV_DECODABLE",
+      "passed": true,
+      "required_endpoint_count": 1,
+      "selected_candidate": {
+        "arm": "LOCAL3",
+        "endpoint_evidence": [
+          {
+            "endpoint": "T0",
+            "mean_seed_natural_r2": 0.3704241332602123,
+            "minimum_seed_natural_r2": 0.3699355404251214,
+            "minimum_seed_spearman": 0.3118793646551625,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": true,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": true,
+            "seed_natural_r2": {
+              "2026": 0.3699355404251214,
+              "3026": 0.3709127260953031
+            },
+            "seed_spearman": {
+              "2026": 0.3149695360126619,
+              "3026": 0.3118793646551625
+            }
+          },
+          {
+            "endpoint": "T1",
+            "mean_seed_natural_r2": 0.21632687534193284,
+            "minimum_seed_natural_r2": 0.210516911033981,
+            "minimum_seed_spearman": -0.0088174522387171,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.210516911033981,
+              "3026": 0.2221368396498847
+            },
+            "seed_spearman": {
+              "2026": 0.0269925229776988,
+              "3026": -0.0088174522387171
+            }
+          },
+          {
+            "endpoint": "T2",
+            "mean_seed_natural_r2": 0.3151461905439116,
+            "minimum_seed_natural_r2": 0.2986854281500982,
+            "minimum_seed_spearman": 0.126098697770174,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.2986854281500982,
+              "3026": 0.331606952937725
+            },
+            "seed_spearman": {
+              "2026": 0.126098697770174,
+              "3026": 0.1636211786858785
+            }
+          }
+        ],
+        "minimum_seed_natural_r2_macro": 0.29304595986973353,
+        "minimum_seed_spearman_macro": 0.14305353672887314,
+        "qualifying_endpoint_count": 1,
+        "qualifying_endpoints": [
+          "T0"
+        ],
+        "representation": "Z4"
+      },
+      "target": "SPH",
+      "target_kind": "residual_ftv"
+    },
+    "D": {
+      "gate_id": "D",
+      "is_primary_gate": true,
+      "name": "BPE_BEYOND_FTV_DECODABLE",
+      "passed": true,
+      "required_endpoint_count": 1,
+      "selected_candidate": {
+        "arm": "LOCAL3",
+        "endpoint_evidence": [
+          {
+            "endpoint": "T0",
+            "mean_seed_natural_r2": -0.00822801232724055,
+            "minimum_seed_natural_r2": -0.0347296960220995,
+            "minimum_seed_spearman": 0.2051283333118937,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": true,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": true,
+            "seed_natural_r2": {
+              "2026": -0.0347296960220995,
+              "3026": 0.0182736713676184
+            },
+            "seed_spearman": {
+              "2026": 0.2051283333118937,
+              "3026": 0.3008880097926694
+            }
+          },
+          {
+            "endpoint": "T1",
+            "mean_seed_natural_r2": 0.06257866703964425,
+            "minimum_seed_natural_r2": 0.0559219527412545,
+            "minimum_seed_spearman": 0.295640518089672,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": true,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": true,
+            "seed_natural_r2": {
+              "2026": 0.069235381338034,
+              "3026": 0.0559219527412545
+            },
+            "seed_spearman": {
+              "2026": 0.295640518089672,
+              "3026": 0.3127903965801396
+            }
+          },
+          {
+            "endpoint": "T2",
+            "mean_seed_natural_r2": 0.1044614287362568,
+            "minimum_seed_natural_r2": 0.0989410171805139,
+            "minimum_seed_spearman": 0.3522617219900523,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": true,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": true,
+            "seed_natural_r2": {
+              "2026": 0.1099818402919997,
+              "3026": 0.0989410171805139
+            },
+            "seed_spearman": {
+              "2026": 0.3946129048406379,
+              "3026": 0.3522617219900523
+            }
+          }
+        ],
+        "minimum_seed_natural_r2_macro": 0.04004442463322297,
+        "minimum_seed_spearman_macro": 0.2843435244638726,
+        "qualifying_endpoint_count": 3,
+        "qualifying_endpoints": [
+          "T0",
+          "T1",
+          "T2"
+        ],
+        "representation": "Z4"
+      },
+      "target": "BPE",
+      "target_kind": "residual_ftv"
+    },
+    "E": {
+      "eligible_intervals": [
+        "T0->T1",
+        "T1->T2"
+      ],
+      "gate_id": "E",
+      "input_variant": "literal_difference",
+      "is_primary_gate": true,
+      "name": "NONFTV_DYNAMIC_SIGNAL_SUPPORTED",
+      "passed": false,
+      "qualifying_targets": [],
+      "selected_candidate": {
+        "arm": "LOCAL0",
+        "endpoint_evidence": [
+          {
+            "endpoint": "T0->T1",
+            "mean_seed_natural_r2": 0.08245533925173196,
+            "minimum_seed_natural_r2": 0.0662969513571556,
+            "minimum_seed_spearman": 0.0685070699001178,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.0986137271463083,
+              "3026": 0.0662969513571556
+            },
+            "seed_spearman": {
+              "2026": 0.1172139362320424,
+              "3026": 0.0685070699001178
+            }
+          },
+          {
+            "endpoint": "T1->T2",
+            "mean_seed_natural_r2": 0.02463680661031245,
+            "minimum_seed_natural_r2": 0.0026916092834509,
+            "minimum_seed_spearman": 0.1478156988391268,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.046582003937174,
+              "3026": 0.0026916092834509
+            },
+            "seed_spearman": {
+              "2026": 0.1934131313267773,
+              "3026": 0.1478156988391268
+            }
+          }
+        ],
+        "minimum_seed_natural_r2_macro": 0.03449428032030325,
+        "minimum_seed_spearman_macro": 0.1081613843696223,
+        "qualifying_endpoint_count": 0,
+        "qualifying_endpoints": [],
+        "representation": "Z4"
+      },
+      "selected_target": "BPE"
+    }
+  },
+  "per_target_dynamic": {
+    "BPE": {
+      "gate_id": "E_BPE",
+      "is_primary_gate": false,
+      "name": "NONFTV_DYNAMIC_SIGNAL_SUPPORTED_BPE",
+      "passed": false,
+      "required_endpoint_count": 1,
+      "selected_candidate": {
+        "arm": "LOCAL0",
+        "endpoint_evidence": [
+          {
+            "endpoint": "T0->T1",
+            "mean_seed_natural_r2": 0.08245533925173196,
+            "minimum_seed_natural_r2": 0.0662969513571556,
+            "minimum_seed_spearman": 0.0685070699001178,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.0986137271463083,
+              "3026": 0.0662969513571556
+            },
+            "seed_spearman": {
+              "2026": 0.1172139362320424,
+              "3026": 0.0685070699001178
+            }
+          },
+          {
+            "endpoint": "T1->T2",
+            "mean_seed_natural_r2": 0.02463680661031245,
+            "minimum_seed_natural_r2": 0.0026916092834509,
+            "minimum_seed_spearman": 0.1478156988391268,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.046582003937174,
+              "3026": 0.0026916092834509
+            },
+            "seed_spearman": {
+              "2026": 0.1934131313267773,
+              "3026": 0.1478156988391268
+            }
+          }
+        ],
+        "minimum_seed_natural_r2_macro": 0.03449428032030325,
+        "minimum_seed_spearman_macro": 0.1081613843696223,
+        "qualifying_endpoint_count": 0,
+        "qualifying_endpoints": [],
+        "representation": "Z4"
+      },
+      "target": "BPE",
+      "target_kind": "residual_ftv"
+    },
+    "LD": {
+      "gate_id": "E_LD",
+      "is_primary_gate": false,
+      "name": "NONFTV_DYNAMIC_SIGNAL_SUPPORTED_LD",
+      "passed": false,
+      "required_endpoint_count": 1,
+      "selected_candidate": {
+        "arm": "LOCAL3",
+        "endpoint_evidence": [
+          {
+            "endpoint": "T0->T1",
+            "mean_seed_natural_r2": 0.05389751752266745,
+            "minimum_seed_natural_r2": 0.0481892558841272,
+            "minimum_seed_spearman": 0.0673144473976665,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.0481892558841272,
+              "3026": 0.0596057791612077
+            },
+            "seed_spearman": {
+              "2026": 0.0673144473976665,
+              "3026": 0.0919056506459291
+            }
+          },
+          {
+            "endpoint": "T1->T2",
+            "mean_seed_natural_r2": 0.027214242122948352,
+            "minimum_seed_natural_r2": 0.0247041190242945,
+            "minimum_seed_spearman": 0.0114247132749889,
+            "n_max": 370,
+            "n_min": 370,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.0247041190242945,
+              "3026": 0.0297243652216022
+            },
+            "seed_spearman": {
+              "2026": 0.0114247132749889,
+              "3026": 0.0471232527531494
+            }
+          }
+        ],
+        "minimum_seed_natural_r2_macro": 0.036446687454210855,
+        "minimum_seed_spearman_macro": 0.039369580336327696,
+        "qualifying_endpoint_count": 0,
+        "qualifying_endpoints": [],
+        "representation": "Z4"
+      },
+      "target": "LD",
+      "target_kind": "residual_ftv"
+    },
+    "SPH": {
+      "gate_id": "E_SPH",
+      "is_primary_gate": false,
+      "name": "NONFTV_DYNAMIC_SIGNAL_SUPPORTED_SPH",
+      "passed": false,
+      "required_endpoint_count": 1,
+      "selected_candidate": {
+        "arm": "LOCAL0",
+        "endpoint_evidence": [
+          {
+            "endpoint": "T0->T1",
+            "mean_seed_natural_r2": -0.048253772604904197,
+            "minimum_seed_natural_r2": -0.0557882261898592,
+            "minimum_seed_spearman": 0.0281224004137199,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": -0.0407193190199492,
+              "3026": -0.0557882261898592
+            },
+            "seed_spearman": {
+              "2026": 0.0493328936437444,
+              "3026": 0.0281224004137199
+            }
+          },
+          {
+            "endpoint": "T1->T2",
+            "mean_seed_natural_r2": 0.1121539318438629,
+            "minimum_seed_natural_r2": 0.0917117998325149,
+            "minimum_seed_spearman": -0.0131202516027352,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.0917117998325149,
+              "3026": 0.1325960638552109
+            },
+            "seed_spearman": {
+              "2026": -0.0131202516027352,
+              "3026": 0.0271002816523956
+            }
+          }
+        ],
+        "minimum_seed_natural_r2_macro": 0.01796178682132785,
+        "minimum_seed_spearman_macro": 0.007501074405492351,
+        "qualifying_endpoint_count": 0,
+        "qualifying_endpoints": [],
+        "representation": "Z4"
+      },
+      "target": "SPH",
+      "target_kind": "residual_ftv"
+    }
+  },
+  "per_target_raw_support": {
+    "BPE": {
+      "gate_id": "RAW_SUPPORT_BPE",
+      "is_primary_gate": false,
+      "name": "BPE_GATE_A_STYLE_RAW_SUPPORT",
+      "passed": false,
+      "required_endpoint_count": 2,
+      "selected_candidate": {
+        "arm": "LOCAL3",
+        "endpoint_evidence": [
+          {
+            "endpoint": "T0",
+            "mean_seed_natural_r2": 0.0108446061260992,
+            "minimum_seed_natural_r2": -0.0107138796754839,
+            "minimum_seed_spearman": 0.276568665377176,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": false,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": -0.0107138796754839,
+              "3026": 0.0324030919276823
+            },
+            "seed_spearman": {
+              "2026": 0.276568665377176,
+              "3026": 0.3241818181818182
+            }
+          },
+          {
+            "endpoint": "T1",
+            "mean_seed_natural_r2": 0.06729052791661999,
+            "minimum_seed_natural_r2": 0.0532822362402601,
+            "minimum_seed_spearman": 0.3300889748549323,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.0812988195929799,
+              "3026": 0.0532822362402601
+            },
+            "seed_spearman": {
+              "2026": 0.3458791671407442,
+              "3026": 0.3300889748549323
+            }
+          },
+          {
+            "endpoint": "T2",
+            "mean_seed_natural_r2": 0.1122829927960325,
+            "minimum_seed_natural_r2": 0.10362595964578,
+            "minimum_seed_spearman": 0.4098200022755717,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": true,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": true,
+            "seed_natural_r2": {
+              "2026": 0.120940025946285,
+              "3026": 0.10362595964578
+            },
+            "seed_spearman": {
+              "2026": 0.4588501536010923,
+              "3026": 0.4098200022755717
+            }
+          }
+        ],
+        "minimum_seed_natural_r2_macro": 0.04873143873685207,
+        "minimum_seed_spearman_macro": 0.3388258808358933,
+        "qualifying_endpoint_count": 1,
+        "qualifying_endpoints": [
+          "T2"
+        ],
+        "representation": "Z4"
+      },
+      "target": "BPE",
+      "target_kind": "raw"
+    },
+    "FTV": {
+      "gate_id": "RAW_SUPPORT_FTV",
+      "is_primary_gate": false,
+      "name": "FTV_GATE_A_STYLE_RAW_SUPPORT",
+      "passed": true,
+      "required_endpoint_count": 2,
+      "selected_candidate": {
+        "arm": "LOCAL3",
+        "endpoint_evidence": [
+          {
+            "endpoint": "T0",
+            "mean_seed_natural_r2": 0.31970085354434574,
+            "minimum_seed_natural_r2": 0.2815579329822465,
+            "minimum_seed_spearman": 0.7638634656957561,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": true,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": true,
+            "seed_natural_r2": {
+              "2026": 0.2815579329822465,
+              "3026": 0.3578437741064449
+            },
+            "seed_spearman": {
+              "2026": 0.7644947092957105,
+              "3026": 0.7638634656957561
+            }
+          },
+          {
+            "endpoint": "T1",
+            "mean_seed_natural_r2": 0.0897044766259967,
+            "minimum_seed_natural_r2": 0.0822687894612701,
+            "minimum_seed_spearman": 0.5658489020366367,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": true,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": true,
+            "seed_natural_r2": {
+              "2026": 0.0971401637907233,
+              "3026": 0.0822687894612701
+            },
+            "seed_spearman": {
+              "2026": 0.5932827397883719,
+              "3026": 0.5658489020366367
+            }
+          },
+          {
+            "endpoint": "T2",
+            "mean_seed_natural_r2": 0.0246859278191899,
+            "minimum_seed_natural_r2": 0.0228190514118944,
+            "minimum_seed_spearman": 0.4539651837524178,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": true,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": true,
+            "seed_natural_r2": {
+              "2026": 0.0265528042264854,
+              "3026": 0.0228190514118944
+            },
+            "seed_spearman": {
+              "2026": 0.4553020821481397,
+              "3026": 0.4539651837524178
+            }
+          }
+        ],
+        "minimum_seed_natural_r2_macro": 0.12888192461847034,
+        "minimum_seed_spearman_macro": 0.5945591838282702,
+        "qualifying_endpoint_count": 3,
+        "qualifying_endpoints": [
+          "T0",
+          "T1",
+          "T2"
+        ],
+        "representation": "Z2"
+      },
+      "target": "FTV",
+      "target_kind": "raw"
+    },
+    "LD": {
+      "gate_id": "A",
+      "is_primary_gate": true,
+      "name": "LD_IMAGE_OBSERVABLE",
+      "passed": false,
+      "required_endpoint_count": 2,
+      "selected_candidate": {
+        "arm": "LOCAL3",
+        "endpoint_evidence": [
+          {
+            "endpoint": "T0",
+            "mean_seed_natural_r2": 0.1533117129681753,
+            "minimum_seed_natural_r2": 0.127144008021063,
+            "minimum_seed_spearman": 0.4239569010470423,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": true,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": true,
+            "seed_natural_r2": {
+              "2026": 0.127144008021063,
+              "3026": 0.1794794179152876
+            },
+            "seed_spearman": {
+              "2026": 0.4239569010470423,
+              "3026": 0.4531690637897094
+            }
+          },
+          {
+            "endpoint": "T1",
+            "mean_seed_natural_r2": 0.03865894331097445,
+            "minimum_seed_natural_r2": 0.0338208750339795,
+            "minimum_seed_spearman": 0.266650440791031,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.0434970115879694,
+              "3026": 0.0338208750339795
+            },
+            "seed_spearman": {
+              "2026": 0.2827858591136584,
+              "3026": 0.266650440791031
+            }
+          },
+          {
+            "endpoint": "T2",
+            "mean_seed_natural_r2": 0.0292148479838606,
+            "minimum_seed_natural_r2": 0.01813808487796,
+            "minimum_seed_spearman": 0.2647149805020481,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.0402916110897612,
+              "3026": 0.01813808487796
+            },
+            "seed_spearman": {
+              "2026": 0.27177081506749,
+              "3026": 0.2647149805020481
+            }
+          }
+        ],
+        "minimum_seed_natural_r2_macro": 0.059700989311000825,
+        "minimum_seed_spearman_macro": 0.31844077411337385,
+        "qualifying_endpoint_count": 1,
+        "qualifying_endpoints": [
+          "T0"
+        ],
+        "representation": "Z2"
+      },
+      "target": "LD",
+      "target_kind": "raw"
+    },
+    "SPH": {
+      "gate_id": "RAW_SUPPORT_SPH",
+      "is_primary_gate": false,
+      "name": "SPH_GATE_A_STYLE_RAW_SUPPORT",
+      "passed": false,
+      "required_endpoint_count": 2,
+      "selected_candidate": {
+        "arm": "LOCAL3",
+        "endpoint_evidence": [
+          {
+            "endpoint": "T0",
+            "mean_seed_natural_r2": 0.2013064261236001,
+            "minimum_seed_natural_r2": 0.1930089313418691,
+            "minimum_seed_spearman": 0.4759133007168051,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": true,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": true,
+            "seed_natural_r2": {
+              "2026": 0.2096039209053311,
+              "3026": 0.1930089313418691
+            },
+            "seed_spearman": {
+              "2026": 0.484884514734327,
+              "3026": 0.4759133007168051
+            }
+          },
+          {
+            "endpoint": "T1",
+            "mean_seed_natural_r2": 0.01512074284841125,
+            "minimum_seed_natural_r2": 0.0056357283059522,
+            "minimum_seed_spearman": 0.1791951302764819,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": true,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": 0.0246057573908703,
+              "3026": 0.0056357283059522
+            },
+            "seed_spearman": {
+              "2026": 0.2272028672203891,
+              "3026": 0.1791951302764819
+            }
+          },
+          {
+            "endpoint": "T2",
+            "mean_seed_natural_r2": -0.0007628503590890504,
+            "minimum_seed_natural_r2": -0.0062460642671933,
+            "minimum_seed_spearman": 0.1537451359654113,
+            "n_max": 375,
+            "n_min": 375,
+            "qualifies": false,
+            "r2_guard_pass": false,
+            "rank_threshold_pass": false,
+            "seed_natural_r2": {
+              "2026": -0.0062460642671933,
+              "3026": 0.0047203635490152
+            },
+            "seed_spearman": {
+              "2026": 0.1537451359654113,
+              "3026": 0.174167026965525
+            }
+          }
+        ],
+        "minimum_seed_natural_r2_macro": 0.064132865126876,
+        "minimum_seed_spearman_macro": 0.2696178556528994,
+        "qualifying_endpoint_count": 1,
+        "qualifying_endpoints": [
+          "T0"
+        ],
+        "representation": "Z4"
+      },
+      "target": "SPH",
+      "target_kind": "raw"
+    }
+  },
+  "schema_version": 1,
+  "status": "COMPLETE"
+}

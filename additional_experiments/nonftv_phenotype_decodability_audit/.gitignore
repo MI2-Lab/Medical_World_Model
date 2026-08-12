@@ -1,0 +1,27 @@
+# Patient-level and model artifacts remain owner-private.
+features/**
+predictions/**
+logs/**
+manifests/*private*
+metrics/*private*
+reports/*private*
+**/__pycache__/
+**/*.py[cod]
+.pytest_cache/
+
+# Defense in depth: never version images, arrays, workbooks, or checkpoints.
+**/*.dcm
+**/*.nii
+**/*.nii.gz
+**/*.npy
+**/*.npz
+**/*.pt
+**/*.pth
+**/*.ckpt
+**/*.xlsx
+**/*.xls
+
+!features/.gitkeep
+!predictions/.gitkeep
+!logs/.gitkeep
+

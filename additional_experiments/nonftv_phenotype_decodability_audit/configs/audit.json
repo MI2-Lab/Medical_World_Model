@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "experiment": "nonftv_phenotype_decodability_audit",
+  "branch": "feature/nonftv-phenotype-decodability-audit",
+  "parent_sha": "7742d737d92ed153b5c721cd323528b0a127d5ef",
+  "source_commits": {
+    "goal6_classical_dce": "f49cf17237a95e9f8b99ad5f13c73f90e1a94a28",
+    "spatial_heterogeneity": "7742d737d92ed153b5c721cd323528b0a127d5ef",
+    "local_global_state": "78ba693ad34dbb2b5a28f0476185966714bb63c5"
+  },
+  "paths": {
+    "workbook": "/data/data/Breast_Cancer/I-SPY2/Multi-feature-MRI-NACT-Data.xlsx",
+    "workbook_sha256": "f714c7784b1e57daa74d7cfb20db71cd432b4e4596b9b4eacdd5a76b7f8a58dc",
+    "workbook_sheet": "datawith4visits",
+    "fold_manifest": "/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+    "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+    "eligible_target_table": "additional_experiments/radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv",
+    "eligible_target_table_sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d",
+    "local_feature_root": "additional_experiments/local_global_response_state_pilot/features/formal_4x8",
+    "checkpoint_root": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8",
+    "spatial_feature_root": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features",
+    "spatial_completion_sha256": "0dfd9e4beb7ccf1524c6bbaeac5527acf117b24b3f4919575cbfb69ca63e8685",
+    "goal6_root": "/data/mi2-interns/bowen/Medical_World_Model_classical_dce/additional_experiments/classical_dce_phenotype_complementarity",
+    "goal6_final_report_sha256": "c9b1d5a6b4e7ea1cb9b8eb5002fcfe281b5fec36ae79fea7cf259356b69dfd0b"
+  },
+  "frozen": {
+    "cohort": "C1B-H DCE7 eligible FTV-complete matched 375",
+    "patient_count": 375,
+    "full_feature_patient_count": 808,
+    "visits": ["T0", "T1", "T2", "T3"],
+    "intervals": ["T0->T1", "T1->T2", "T2->T3"],
+    "seeds": [2026, 3026],
+    "arms": ["LOCAL0", "LOCAL3"],
+    "folds": [0, 1, 2, 3, 4],
+    "checkpoint_filename": "selected.pt",
+    "local_support_mm_xyz": [64.0, 64.0, 64.0],
+    "encoder_retraining": false,
+    "pcr_read_or_selection": false
+  },
+  "targets": {
+    "FTV": ["VOLUME_TUM_BLU_V10", "VOLUME_TUM_BLU_V20", "VOLUME_TUM_BLU_V30", "VOLUME_TUM_BLU_V40"],
+    "LD": ["LD_T0", "LD_T1", "LD_T2", "LD_T3"],
+    "SPH": ["SPHERICITY_T0", "SPHERICITY_T1", "SPHERICITY_T2", "SPHERICITY_T3"],
+    "BPE": ["BPE_5slice_mean_T0", "BPE_5slice_mean_T1", "BPE_5slice_mean_T2", "BPE_5slice_mean_T3"]
+  },
+  "target_transforms": {
+    "winsor_quantiles": [0.01, 0.99],
+    "log1p_families": ["FTV", "LD", "BPE"],
+    "identity_families": ["SPH"],
+    "scaling": "outer_train StandardScaler, population variance",
+    "change_formula": "100 * (x_end - x_start) / abs(x_start)",
+    "change_zero_denominator": "ineligible_fail_closed",
+    "change_transform": "identity"
+  },
+  "residualization": {
+    "primary_predictors": ["FTV"],
+    "primary_targets": ["LD", "SPH", "BPE"],
+    "secondary_predictors": ["FTV", "LD"],
+    "secondary_targets": ["SPH", "BPE"],
+    "model": "Ridge",
+    "alpha": 1.0,
+    "fit_scope": "outer_train_only",
+    "space": "Goal 6 train-winsorized, family-transformed, standardized units"
+  },
+  "representations": {
+    "Z1": {"label": "projected_response", "dimension": 192, "deployable": true},
+    "Z2": {"label": "preprojector_response", "dimension": 192, "deployable": true},
+    "Z3": {"label": "full_local_mean", "dimension": 128, "deployable": true},
+    "Z4": {"label": "full_local_mean_std", "dimension": 256, "deployable": true},
+    "Z5": {"label": "oracle_core_mean_std", "dimension": 256, "deployable": false},
+    "Z6": {"label": "oracle_peri10_mean_std", "dimension": 256, "deployable": false},
+    "Z7": {"label": "oracle_peri20_mean_std", "dimension": 256, "deployable": false}
+  },
+  "projection_parity": {
+    "direct_cpu_recompute_rtol": 1e-5,
+    "direct_cpu_recompute_atol": 5e-6,
+    "direct_cpu_recompute_max_abs_lte": 5e-6,
+    "rationale": "float32 CPU recomputation of GPU-exported response_projection; source hash and exporter parity remain independently required"
+  },
+  "probe": {
+    "model": "Ridge",
+    "alphas": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0],
+    "solver": "exact_centered_dual_eigendecomposition",
+    "feature_scaler": "outer_train StandardScaler",
+    "target_scaler": "outer_train StandardScaler after frozen family transform",
+    "alpha_selection": "minimum validation transformed-standardized MSE",
+    "alpha_tie_break": "smaller alpha",
+    "refit_after_validation": false,
+    "test_predict_calls": 1,
+    "primary_dynamic_input": "literal z_end - z_start",
+    "secondary_dynamic_input": "concat(z_start,z_end,z_end-z_start)"
+  },
+  "gates": {
+    "ld_observable": {"minimum_early_mid_timings": 2, "spearman_gte": 0.4, "natural_r2_gt": 0.0},
+    "ld_beyond_ftv": {"minimum_early_mid_timings": 1, "spearman_gt": 0.2, "require_both_seeds": true, "systematically_severe_natural_r2_lte": -0.25},
+    "sph_beyond_ftv": {"minimum_early_mid_timings": 1, "spearman_gt": 0.2, "require_both_seeds": true},
+    "bpe_beyond_ftv": {"minimum_early_mid_timings": 1, "spearman_gt": 0.2, "require_both_seeds": true},
+    "dynamic": {"early_intervals": ["T0->T1", "T1->T2"], "spearman_gt": 0.2, "require_both_seeds": true},
+    "localization": {"spearman_gain_gte": 0.1, "require_both_seeds": true},
+    "projection": {"spearman_gain_gte": 0.1, "require_both_seeds": true},
+    "pooling": {"spearman_gain_gte": 0.1, "require_both_seeds": true}
+  },
+  "bpe_observability": {
+    "source": "contralateral breast central five-slice fibroglandular tissue early enhancement",
+    "current_input": "lesion-centered fixed 64-mm LOCAL support",
+    "a_priori_fov_mismatch": true
+  }
+}
