@@ -46,4 +46,4 @@ LOCAL3–LOCAL0 的优化安全性为 25/25 个严格配对 fold 通过（100%�
 
 ## 可复核性与交付状态
 
-本次正式矩阵为 100/100 完成单元，四个架构、五个种子、五个 fold 的笛卡尔积完整。所有选择均为 primary 且通过；公开结果不含患者级 artifacts。冻结锁为 `PREREGISTRATION_LOCK.json`，其 SHA-256 为 `a4e1cd2d8b61a7130da2b2eb6dc04e9a5355f44d0a37f4ceccf2fba48b35a9ee`。提交与 GitHub 推送状态将在完成终检和上传后另行记录；本报告不以未经验证的 SHA 或推送结果替代实际 Git 记录。
+本次正式矩阵为 100/100 完成单元，四个架构、五个种子、五个 fold 的笛卡尔积完整。所有选择均为 primary 且通过；公开结果不含患者级 artifacts。冻结锁为 `PREREGISTRATION_LOCK.json`，其 SHA-256 为 `a4e1cd2d8b61a7130da2b2eb6dc04e9a5355f44d0a37f4ceccf2fba48b35a9ee`。正式实现与结果已提交至分支 `feature/local-response-state-multiseed-confirmation`，基线交付提交为 `2d53c51348919a821d1b49c8f5bbb4691b6a641f`，GitHub 推送状态为 `GITHUB_PUSH_SUCCEEDED`。本报告的这条交付状态更新会作为随后独立的文档提交推送，以免在报告中声明尚未存在的自身 commit SHA。
