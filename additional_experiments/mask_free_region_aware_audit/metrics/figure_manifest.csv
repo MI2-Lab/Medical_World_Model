@@ -1,0 +1,11 @@
+figure,source_files,source_sha256,size_bytes,sha256
+01_region_schematic.png,"[""configs/audit.json""]","{""configs/audit.json"":""51e5e8671b44d4a43b8a09e9b1760d89a04c7b66ebda4a4c22c3e06bc66a4219""}",112620,2f71381824acc13643de5a0f81d3fe79f2e9f2fbaf94d091aa674b4b5a437506
+02_region_occupancy.png,"[""region_occupancy.csv""]","{""region_occupancy.csv"":""9e24904c66fb722820657f513ef215963e697efc13532de360de34d51034710d""}",26925,dc19a8638dc4bfb7cb5afa52c6515fa65ed2c8c7fae0a3bb525645c5045069a8
+03_mri_only_pcr.png,"[""table_mri_only_pcr.csv""]","{""table_mri_only_pcr.csv"":""190765cd34826cc0be8afb2924b0e45ee4ab351f4982e78c6685f3e27e577b4d""}",164955,f7a1a29d5d88fc72b3b4247c18911e65ee206e8cc35add9774b180bc1d0dce31
+04_phenotype_probes.png,"[""table_phenotype.csv""]","{""table_phenotype.csv"":""e0d56c803d58bc32c0d9dac6f7b2b2b343b00ad9bd62ea28ae55a5ec48f8b234""}",60677,325e56d4622b728981d8c4642e6f41c841d0dea7ddb6beb579558101711299fe
+05_clinical_ftv_incremental.png,"[""table_clinical_ftv_incremental.csv""]","{""table_clinical_ftv_incremental.csv"":""e463c33c837afd917cdd128e3bbf69aad370cea36e10408af50573c3ed763c9d""}",90010,99d5bd5c4e5766c4500c4ba0ecd2ed2f07eb1735e2adf47ccd691b697f452a95
+06_ftv_response_control.png,"[""table_ftv.csv""]","{""table_ftv.csv"":""1e66fa33a3079029f8305aeeeb7a3e1a3f2231bc3df7c9433950d6790d84f6cd""}",47940,cba4ee1af103c5e76f33c0564d1bfe6ac725ae2a6663825f09f296d75d41c482
+07_oracle_recovery.png,"[""table_oracle_recovery.csv""]","{""table_oracle_recovery.csv"":""1d908e74b9802f2f1968b2ae9ad4ea9f9fe052ea4e1c7152a38fc127842d4ba7""}",40170,5b1bbfddb726639f392618a9af205573fbdb30a87d8575521927d4e522f78b79
+08_patient_bootstrap.png,"[""table_bootstrap.csv""]","{""table_bootstrap.csv"":""d491a8063dd8c41542051b4df9f197d21b1ad8401ff759389a094ef03244ae2b""}",648489,c6deac60edfc0b331e015d82b89c65a488c0ecab638764e75de3501a0aa27075
+09_seed_consistency.png,"[""table_seed_consistency.csv""]","{""table_seed_consistency.csv"":""956f418b12f57d76ea17390a5ac14eef7697c18a64500655916c6e843a162c12""}",336100,e42f00c9bd64bad36762473d2eae1e7440bdb5bb3487bc35764e99e651676651
+10_timing_sensitivity.png,"[""table_timing_sensitivity.csv""]","{""table_timing_sensitivity.csv"":""ba940f4b4453faea9ec5e7fa43b2fb55390194637f5a8e40d0c77b12f055c168""}",186531,551f0828b0867be49439ab433b8130ecb721d5ea2a9fd81cd449a4fc45cafac5

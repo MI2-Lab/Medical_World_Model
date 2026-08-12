@@ -1,0 +1,99 @@
+{
+  "center": "frozen_c1b_crop_physical_center",
+  "contains_patient_data": false,
+  "contract_canonical_sha256": "73008fc696dfa3d53acce9f43d70ea0a9943f3f880aaa8f24194c779e6d79b1f",
+  "expected_physical_volume_mm3": {
+    "R0": 262144.0,
+    "R1": 32768.0,
+    "R2": 77824.0,
+    "R3": 151552.0,
+    "S1": 13824.0,
+    "S2": 50176.0,
+    "S3": 198144.0
+  },
+  "feature_shape_zyx": [
+    14,
+    22,
+    20
+  ],
+  "fractional_cells": {
+    "R0": 308,
+    "R1": 66,
+    "R2": 187,
+    "R3": 405,
+    "S1": 66,
+    "S2": 138,
+    "S3": 430
+  },
+  "input_shape_zyx": [
+    112,
+    176,
+    160
+  ],
+  "maximum_physical_volume_error_mm3": 0.0009810292685870081,
+  "maximum_weight": 1.0,
+  "minimum_weight": 0.0,
+  "nonzero_cells": {
+    "R0": 500,
+    "R1": 75,
+    "R2": 187,
+    "R3": 450,
+    "S1": 75,
+    "S2": 138,
+    "S3": 475
+  },
+  "physical_volume_mm3": {
+    "R0": 262143.99901897073,
+    "R1": 32767.999774475098,
+    "R2": 77823.99945819855,
+    "R3": 151551.99939387917,
+    "S1": 13824.00001899004,
+    "S2": 50176.00021625519,
+    "S3": 198143.99954326273
+  },
+  "primary_boundaries_mm": [
+    32.0,
+    48.0,
+    64.0
+  ],
+  "primary_partition_max_abs": 0.0,
+  "projection": {
+    "input_dim": 384,
+    "matrix_float32_sha256": "4610fc7b8cc4f670919a02905eda21d3ac36c1079498f48fab5672fa15450b70",
+    "method": "fixed_gaussian_reduced_qr_orthonormal_columns",
+    "output_dim": 192,
+    "seed": 260812,
+    "variant": "R5_RP192"
+  },
+  "receptive_field_used_for_region_weight": false,
+  "sampling_cell_stride_zyx": [
+    8,
+    8,
+    8
+  ],
+  "sampling_cell_volume_mm3": 829.44,
+  "schema_version": 1,
+  "secondary_boundaries_mm": [
+    24.0,
+    40.0,
+    64.0
+  ],
+  "secondary_partition_max_abs": 0.0,
+  "spacing_xyz_mm": [
+    0.9,
+    0.9,
+    2.0
+  ],
+  "status": "GEOMETRY_VALID",
+  "uses_mask_bbox_ftv_clinical_treatment_phenotype_or_outcome": false,
+  "weight_definition": "fractional_feature_sampling_cell_physical_volume_overlap",
+  "weight_sum_cells": {
+    "R0": 316.0493815332884,
+    "R1": 39.50617256760597,
+    "R2": 93.8271598406136,
+    "R3": 182.71604865195695,
+    "S1": 16.66666668956168,
+    "S2": 60.49382742121816,
+    "S3": 238.88888833823148
+  }
+}

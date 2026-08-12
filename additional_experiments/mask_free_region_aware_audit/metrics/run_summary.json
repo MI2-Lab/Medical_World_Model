@@ -1,0 +1,51 @@
+{
+  "architecture_intervention_started": false,
+  "branch": "feature/mask-free-region-aware-audit",
+  "commit_sha": "PENDING",
+  "elapsed_seconds": 1344.6029386520386,
+  "experiment": "mask_free_region_aware_audit",
+  "feature_cells_validated_before_labels": 20,
+  "formal_bootstrap_replicates": 2000,
+  "gate_results": {
+    "A": true,
+    "B": false,
+    "C": false,
+    "D": false
+  },
+  "new_encoder_or_jepa_training_performed": false,
+  "outer_test_predicted_once_per_model": true,
+  "private_outputs": {
+    "predictions/bootstrap_draws.private.csv": "1c993d150a3be4f4b151278dcb0b460204a8f85c451f0aa9c98de61f2555f897",
+    "predictions/clinical_ftv_pcr_oof.private.csv": "30453a59f1cc81ae85ec5b6876ab4e3ea8490c349583d7b95f394e028292dffc",
+    "predictions/clinical_pcr_oof.private.csv": "d30f2a30a6255bd4228d68f283be89961dd39c80727598cbb7870df03da55e92",
+    "predictions/ftv_oof.private.csv": "09d236fc5cb773bd6d29783daa94da44ce6138688a026adac7e058aba28c3605",
+    "predictions/hyperparameters.private.csv": "620ff74a63ca5608bd6837d9c367270eefca383955c29c0ac50e89e3fd64b054",
+    "predictions/mri_only_pcr_oof.private.csv": "56c47eed649fd7ad234218cbd1f873b6e63f5585b5599bcdc9db0b762b468b23",
+    "predictions/phenotype_oof.private.csv": "41ecb2799d4296b3df6a9502b9d4c0ee329a7e3d2e9481d4f95293b11cbbd97b"
+  },
+  "private_patient_outputs_mode": "0600",
+  "public_outputs": {
+    "metrics/region_occupancy.csv": "9e24904c66fb722820657f513ef215963e697efc13532de360de34d51034710d",
+    "metrics/table_bootstrap.csv": "d491a8063dd8c41542051b4df9f197d21b1ad8401ff759389a094ef03244ae2b",
+    "metrics/table_clinical_ftv_incremental.csv": "e463c33c837afd917cdd128e3bbf69aad370cea36e10408af50573c3ed763c9d",
+    "metrics/table_clinical_pcr.csv": "089a047de271a3cb8be45eea63311ac4ec7a19ba4a9a63f62f79b08e9ab36a27",
+    "metrics/table_ftv.csv": "1e66fa33a3079029f8305aeeeb7a3e1a3f2231bc3df7c9433950d6790d84f6cd",
+    "metrics/table_mri_only_pcr.csv": "190765cd34826cc0be8afb2924b0e45ee4ab351f4982e78c6685f3e27e577b4d",
+    "metrics/table_oracle_recovery.csv": "1d908e74b9802f2f1968b2ae9ad4ea9f9fe052ea4e1c7152a38fc127842d4ba7",
+    "metrics/table_phenotype.csv": "e0d56c803d58bc32c0d9dac6f7b2b2b343b00ad9bd62ea28ae55a5ec48f8b234",
+    "metrics/table_seed_consistency.csv": "956f418b12f57d76ea17390a5ac14eef7697c18a64500655916c6e843a162c12",
+    "metrics/table_timing_sensitivity.csv": "ba940f4b4453faea9ec5e7fa43b2fb55390194637f5a8e40d0c77b12f055c168"
+  },
+  "public_outputs_contain_patient_level_data": false,
+  "push_error": null,
+  "push_status": "PENDING",
+  "r0_goal5_p1_prediction_parity": {
+    "checked_cells": 32,
+    "checked_rows": 18928,
+    "exact_probability_label_threshold_equality": true,
+    "status": "PASS"
+  },
+  "schema_version": 1,
+  "scientific_classification": "REGION_SIGNAL_EXISTS_BUT_NOT_BEYOND_FTV",
+  "status": "COMPLETED"
+}
