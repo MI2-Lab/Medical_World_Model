@@ -8,6 +8,7 @@
     "additional_experiments/residual_sph_grounding_pilot/configs/pilot.json": "94ab790c9976fc024d8a85f75f4045267f39124a513c42043a9e4182cca4b88a",
     "additional_experiments/residual_sph_grounding_pilot/figures/.gitkeep": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
     "additional_experiments/residual_sph_grounding_pilot/manifests/.gitkeep": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "additional_experiments/residual_sph_grounding_pilot/manifests/delivery.json": "c1c75f3f13716a4dcc5dfba47d2b0e8eb7c832892d1e508dc0f87b233d6af97e",
     "additional_experiments/residual_sph_grounding_pilot/manifests/implementation_lock.json": "8326566de81ded4356b8574df51734d91df97b7e6e0902e2db48b3cd91c7f647",
     "additional_experiments/residual_sph_grounding_pilot/manifests/prior_evidence_summary.md": "5db00d79277d05c7461467571146086c97e03fe88127f24cf3bf169daaf291aa",
     "additional_experiments/residual_sph_grounding_pilot/manifests/privacy_contract.json": "d772be6698645aa5b7690e7c23d7049fc31ef5b54d69f817174602290f3bd9cb",
@@ -77,7 +78,7 @@
   "private_patient_denylist_count": 375,
   "private_patient_identifiers_persisted": false,
   "restricted_extension_findings": [],
-  "scanned_public_artifact_count": 68,
+  "scanned_public_artifact_count": 69,
   "schema_version": 1,
   "status": "PASS",
   "unsupported_binary_findings": []
