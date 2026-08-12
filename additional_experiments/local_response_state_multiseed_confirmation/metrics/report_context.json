@@ -1,0 +1,169 @@
+{
+  "answers": {
+    "10_enter_ftv_plus_ld": true,
+    "1_local0_gap0_stable_across_five_seeds": {
+      "pass": true,
+      "seed_level_summary_table": "seed_level_summary.csv"
+    },
+    "2_static_ftv_improvement": {
+      "effect_by_seed": {
+        "2026": 0.27475811050899335,
+        "3026": 0.2516477999163808,
+        "4026": 0.1618496710630583,
+        "5026": 0.20800682885984295,
+        "6026": 0.14336357993652232
+      },
+      "summary": {
+        "bootstrap_ci_lower": 0.16368666617180083,
+        "bootstrap_ci_upper": 0.2521637299421183,
+        "bootstrap_interval": "percentile_2.5_97.5",
+        "bootstrap_resamples": 10000,
+        "bootstrap_seed": 20260811,
+        "bootstrap_statistic": "mean",
+        "direction_count": 5,
+        "max": 0.27475811050899335,
+        "mean": 0.20792519805695955,
+        "median": 0.20800682885984295,
+        "min": 0.14336357993652232,
+        "n_seeds": 5,
+        "negative_direction_count": 0,
+        "sample_sd": 0.05627936452613327,
+        "zero_direction_count": 0
+      }
+    },
+    "3_observed_delta_ftv_improvement": {
+      "effect_by_seed": {
+        "2026": 0.23206682595668832,
+        "3026": 0.1922620700117571,
+        "4026": 0.17160154738878147,
+        "5026": 0.15849015815223574,
+        "6026": 0.11724223461144617
+      },
+      "summary": {
+        "bootstrap_ci_lower": 0.14049578639966626,
+        "bootstrap_ci_upper": 0.20818397238972958,
+        "bootstrap_interval": "percentile_2.5_97.5",
+        "bootstrap_resamples": 10000,
+        "bootstrap_seed": 20260811,
+        "bootstrap_statistic": "mean",
+        "direction_count": 5,
+        "max": 0.23206682595668832,
+        "mean": 0.17433256722418178,
+        "median": 0.17160154738878147,
+        "min": 0.11724223461144617,
+        "n_seeds": 5,
+        "negative_direction_count": 0,
+        "sample_sd": 0.042345183238411806,
+        "zero_direction_count": 0
+      }
+    },
+    "4_static_natural_r2_stability": {
+      "effect_by_seed": {
+        "2026": 0.09364219456811804,
+        "3026": 0.10857555399888913,
+        "4026": 0.19003497444262551,
+        "5026": 0.08995030167585119,
+        "6026": -0.02557165354094265
+      },
+      "summary": {
+        "bootstrap_ci_lower": 0.024362179010382474,
+        "bootstrap_ci_upper": 0.15073948391436914,
+        "bootstrap_interval": "percentile_2.5_97.5",
+        "bootstrap_resamples": 10000,
+        "bootstrap_seed": 20260811,
+        "bootstrap_statistic": "mean",
+        "direction_count": 4,
+        "max": 0.19003497444262551,
+        "mean": 0.09132627422890824,
+        "median": 0.09364219456811804,
+        "min": -0.02557165354094265,
+        "n_seeds": 5,
+        "negative_direction_count": 1,
+        "sample_sd": 0.0769956613304188,
+        "zero_direction_count": 0
+      },
+      "systematic_worsening_forbidden_check": true
+    },
+    "5_prediction_compression_relief": "table7_prediction_variance_calibration.csv",
+    "6_local3_local0_grounding_stability": {
+      "delta_effect_by_seed": {
+        "2026": 0.03357613683771382,
+        "3026": 0.038418856904463894,
+        "4026": 0.04093245344559482,
+        "5026": -0.010989646148594823,
+        "6026": 0.05928675996510785
+      },
+      "delta_summary": {
+        "bootstrap_ci_lower": 0.008773755072628665,
+        "bootstrap_ci_upper": 0.049971054727500255,
+        "bootstrap_interval": "percentile_2.5_97.5",
+        "bootstrap_resamples": 10000,
+        "bootstrap_seed": 20260811,
+        "bootstrap_statistic": "mean",
+        "direction_count": 4,
+        "max": 0.05928675996510785,
+        "mean": 0.03224491220085711,
+        "median": 0.038418856904463894,
+        "min": -0.010989646148594823,
+        "n_seeds": 5,
+        "negative_direction_count": 1,
+        "sample_sd": 0.026056916986152947,
+        "zero_direction_count": 0
+      },
+      "static_effect_by_seed": {
+        "2026": 0.025562976726550612,
+        "3026": 0.041267010762583545,
+        "4026": 0.022293862221172134,
+        "5026": 0.019177836387845315,
+        "6026": 0.040023098024945414
+      },
+      "static_summary": {
+        "bootstrap_ci_lower": 0.0217012747889171,
+        "bootstrap_ci_upper": 0.03762863886032171,
+        "bootstrap_interval": "percentile_2.5_97.5",
+        "bootstrap_resamples": 10000,
+        "bootstrap_seed": 20260811,
+        "bootstrap_statistic": "mean",
+        "direction_count": 5,
+        "max": 0.041267010762583545,
+        "mean": 0.029664956824619403,
+        "median": 0.025562976726550612,
+        "min": 0.019177836387845315,
+        "n_seeds": 5,
+        "negative_direction_count": 0,
+        "sample_sd": 0.010283940345736247,
+        "zero_direction_count": 0
+      }
+    },
+    "7_optimization_safety": {
+      "gap_reference": {
+        "comparison": "GAP3-GAP0",
+        "maximum_state_loss_degradation_fraction": 0.05,
+        "pass_fraction": 1.0,
+        "safe_folds": 25,
+        "total_folds": 25
+      },
+      "local_gate": {
+        "comparison": "LOCAL3-LOCAL0",
+        "maximum_state_loss_degradation_fraction": 0.05,
+        "pass_fraction": 1.0,
+        "safe_folds": 25,
+        "total_folds": 25
+      },
+      "table": "table6_optimization_safety.csv"
+    },
+    "8_local_multiseed_confirmation": "LOCAL_MULTISEED_CONFIRMED",
+    "9_lock_local_as_image_state_architecture": true
+  },
+  "classification": "LOCAL_MULTISEED_CONFIRMED",
+  "final_report_prose_written": false,
+  "language_for_final_report": "zh-CN",
+  "next_stage": {
+    "ftv_plus_ld_authorized_after_confirmation": true,
+    "lock_local_as_image_state_architecture": true,
+    "scope_limit": "FTV grounding addresses tumor burden/response information only; confirmation does not establish full MRI utilization or complementary tumor phenotype beyond Patient Profile"
+  },
+  "required_scope_statement": "FTV grounding addresses tumor burden/response information only; confirmation does not establish full MRI utilization or complementary tumor phenotype beyond Patient Profile",
+  "schema_version": 1,
+  "winner": "LOCAL"
+}

@@ -1,0 +1,267 @@
+{
+  "artifact_sha256": {
+    "01_gap_local_architecture_schematic.png": "5861b55214c613c92024f536ffb094bcba790d9cc5615c4c94f6201e2665ab6d",
+    "02_static_ftv_spearman_comparison.png": "7fee844c6c11efacd0ef2441327f8b0f9d7e6eedc400d9608ddf1c7ad036b3cd",
+    "03_static_ftv_natural_r2_comparison.png": "0d7b75e53b9971660c999dd2b50bc34e2bb83064d7e9e1095c849a6b03d5c09b",
+    "04_delta_ftv_spearman_comparison.png": "9ad54967bb82a360f427cd61dbe6d170c975755072b9df7358fdae47a88646b0",
+    "05_delta_ftv_natural_r2_comparison.png": "66136b0620ccb135b5e24e0f147772b6255b7becd6e88aab1010b33fa51b1f6b",
+    "06_prediction_target_variance_ratio.png": "0e1e6f629d6bf33455e0bc6a2e49ec3dbe355338e995bf5ffeca42dba2588fd9",
+    "07_descriptive_calibration_slope.png": "6f11182fdf15415783960c19068678318fd74fd5dca730f19768647649e3fe96",
+    "08_paired_fold_effects.png": "b45d93769b020a43b7588a2fd6c6c6a2118486dcd782bfe47c2c39439b863144",
+    "09_optimization_safety_heatmap.png": "f87a53c40890798f6dfec10edc7a7cc7190cebc2b0b53abd89143c78465b0920",
+    "10_representative_training_curves.png": "22d13698275e61df67133b14c7f2c7f67c693282863c7d1b1eabe9e368ceb8bf",
+    "decision_summary.json": "40906f527381fd67e2fb8c9190a894fde8a63a6cf1c72ffc4b4c8f64fc693a1a",
+    "natural_pooled_metrics.csv": "a24d951ff3cf9fcd247ae8e5d74b109992db68320b17f67391df4dd8ffa7dbb6",
+    "paired_fold_effects.csv": "6205ee132ec10020d545b74339837dbcf00049a2391c21e09ecaf3c79ce71ec7",
+    "report_context.json": "8063862e913a0814bd840a11be1dac9b238a44dcf8e7efc2f309f55a70d84c58",
+    "seed_level_summary.csv": "e5bd839f4ad7c4188bb9e8ee7f8476fce89f89af1c81caa6bb76b7fedff75054",
+    "table1_architecture_contract.csv": "8320e7312ffada6472d3fdb7ca499b69e96611a1e384724de5e7fc79867891b8",
+    "table2_static_ftv.csv": "cff3301e931759ea993c269ea613c22cc1df74a05a1f8d58f3565ce6f21469e0",
+    "table3_observed_delta_ftv.csv": "a49b3675cd1e614ba367685ba3476a945070f45ce8b7d387fd021cacc7a89f68",
+    "table4_paired_architecture_effects.csv": "23ab76b88cb89d55cc902b6864236e70d85bacda924fbbc03c3e358420ae45c1",
+    "table5_grounding_effects.csv": "66628c4aad1e64f18be820573d51c6c8baa06d21b9ac05312a836d22ef98fa65",
+    "table6_optimization_safety.csv": "114b0c450c5a89d9e76b50b4365a2ed02c0caed002e852e2e49265e1c6afcbbf",
+    "table7_prediction_variance_calibration.csv": "49dcad91bb4cdcbac3cb4883596b7f3d76cb86668b1eabdaa91c433764a4e89c",
+    "training_trajectories.csv": "15755272740d0d9ecba0819a03e1accc4bf9dba1d8ce785bbf47e94893d029e4",
+    "transformed_fold_summaries.csv": "d85e4a84fdd71756c301b5374cc5e863cb1a3ed89f10246fe4f2353c3fccff15"
+  },
+  "config_sha256": "97394658c6834c98c9ccdfa017e75ab733654c99f5f37271339421fdecbf9eb3",
+  "data_contract_sha256": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27",
+  "data_provenance_sha256": "c14e90aeae2e5e1dc1c4e81ede72b1f782ded416cd8ae9c7ab5268cfbaf17f9c",
+  "decision": {
+    "classification": "LOCAL_MULTISEED_CONFIRMED",
+    "confirmed": true,
+    "folds_are_paired_sensitivity_not_independent_replicates": true,
+    "gap_optimization_safety_reference": {
+      "comparison": "GAP3-GAP0",
+      "maximum_state_loss_degradation_fraction": 0.05,
+      "pass_fraction": 1.0,
+      "safe_folds": 25,
+      "total_folds": 25
+    },
+    "gates": {
+      "LOCAL_CONFIRMATION": {
+        "checks": {
+          "local0_gap0_delta_positive_in_at_least_4_seeds": true,
+          "local0_gap0_static_effect_gt_0_10_in_at_least_4_seeds": true,
+          "local0_gap0_static_natural_r2_not_systematically_worse": true,
+          "local0_gap0_static_seed_mean_gt_0_10": true,
+          "local3_local0_delta_positive_in_at_least_4_seeds": true,
+          "local3_local0_safety_at_least_23_of_25": true,
+          "local3_local0_safety_exact_25_paired_folds": true,
+          "local3_local0_safety_fraction_at_least_0_90": true,
+          "local3_local0_static_positive_in_at_least_4_seeds": true
+        },
+        "effects_by_seed": {
+          "local0_gap0_delta_macro_spearman": {
+            "2026": 0.23206682595668832,
+            "3026": 0.1922620700117571,
+            "4026": 0.17160154738878147,
+            "5026": 0.15849015815223574,
+            "6026": 0.11724223461144617
+          },
+          "local0_gap0_static_macro_natural_r2": {
+            "2026": 0.09364219456811804,
+            "3026": 0.10857555399888913,
+            "4026": 0.19003497444262551,
+            "5026": 0.08995030167585119,
+            "6026": -0.02557165354094265
+          },
+          "local0_gap0_static_macro_spearman": {
+            "2026": 0.27475811050899335,
+            "3026": 0.2516477999163808,
+            "4026": 0.1618496710630583,
+            "5026": 0.20800682885984295,
+            "6026": 0.14336357993652232
+          },
+          "local3_local0_delta_macro_spearman": {
+            "2026": 0.03357613683771382,
+            "3026": 0.038418856904463894,
+            "4026": 0.04093245344559482,
+            "5026": -0.010989646148594823,
+            "6026": 0.05928675996510785
+          },
+          "local3_local0_static_macro_spearman": {
+            "2026": 0.025562976726550612,
+            "3026": 0.041267010762583545,
+            "4026": 0.022293862221172134,
+            "5026": 0.019177836387845315,
+            "6026": 0.040023098024945414
+          }
+        },
+        "optimization_safety": {
+          "comparison": "LOCAL3-LOCAL0",
+          "maximum_state_loss_degradation_fraction": 0.05,
+          "pass_fraction": 1.0,
+          "safe_folds": 25,
+          "total_folds": 25
+        },
+        "pass": true,
+        "seed_summaries": {
+          "local0_gap0_delta_macro_spearman": {
+            "bootstrap_ci_lower": 0.14049578639966626,
+            "bootstrap_ci_upper": 0.20818397238972958,
+            "bootstrap_interval": "percentile_2.5_97.5",
+            "bootstrap_resamples": 10000,
+            "bootstrap_seed": 20260811,
+            "bootstrap_statistic": "mean",
+            "direction_count": 5,
+            "max": 0.23206682595668832,
+            "mean": 0.17433256722418178,
+            "median": 0.17160154738878147,
+            "min": 0.11724223461144617,
+            "n_seeds": 5,
+            "negative_direction_count": 0,
+            "sample_sd": 0.042345183238411806,
+            "zero_direction_count": 0
+          },
+          "local0_gap0_static_macro_natural_r2": {
+            "bootstrap_ci_lower": 0.024362179010382474,
+            "bootstrap_ci_upper": 0.15073948391436914,
+            "bootstrap_interval": "percentile_2.5_97.5",
+            "bootstrap_resamples": 10000,
+            "bootstrap_seed": 20260811,
+            "bootstrap_statistic": "mean",
+            "direction_count": 4,
+            "max": 0.19003497444262551,
+            "mean": 0.09132627422890824,
+            "median": 0.09364219456811804,
+            "min": -0.02557165354094265,
+            "n_seeds": 5,
+            "negative_direction_count": 1,
+            "sample_sd": 0.0769956613304188,
+            "zero_direction_count": 0
+          },
+          "local0_gap0_static_macro_spearman": {
+            "bootstrap_ci_lower": 0.16368666617180083,
+            "bootstrap_ci_upper": 0.2521637299421183,
+            "bootstrap_interval": "percentile_2.5_97.5",
+            "bootstrap_resamples": 10000,
+            "bootstrap_seed": 20260811,
+            "bootstrap_statistic": "mean",
+            "direction_count": 5,
+            "max": 0.27475811050899335,
+            "mean": 0.20792519805695955,
+            "median": 0.20800682885984295,
+            "min": 0.14336357993652232,
+            "n_seeds": 5,
+            "negative_direction_count": 0,
+            "sample_sd": 0.05627936452613327,
+            "zero_direction_count": 0
+          },
+          "local3_local0_delta_macro_spearman": {
+            "bootstrap_ci_lower": 0.008773755072628665,
+            "bootstrap_ci_upper": 0.049971054727500255,
+            "bootstrap_interval": "percentile_2.5_97.5",
+            "bootstrap_resamples": 10000,
+            "bootstrap_seed": 20260811,
+            "bootstrap_statistic": "mean",
+            "direction_count": 4,
+            "max": 0.05928675996510785,
+            "mean": 0.03224491220085711,
+            "median": 0.038418856904463894,
+            "min": -0.010989646148594823,
+            "n_seeds": 5,
+            "negative_direction_count": 1,
+            "sample_sd": 0.026056916986152947,
+            "zero_direction_count": 0
+          },
+          "local3_local0_static_macro_spearman": {
+            "bootstrap_ci_lower": 0.0217012747889171,
+            "bootstrap_ci_upper": 0.03762863886032171,
+            "bootstrap_interval": "percentile_2.5_97.5",
+            "bootstrap_resamples": 10000,
+            "bootstrap_seed": 20260811,
+            "bootstrap_statistic": "mean",
+            "direction_count": 5,
+            "max": 0.041267010762583545,
+            "mean": 0.029664956824619403,
+            "median": 0.025562976726550612,
+            "min": 0.019177836387845315,
+            "n_seeds": 5,
+            "negative_direction_count": 0,
+            "sample_sd": 0.010283940345736247,
+            "zero_direction_count": 0
+          }
+        },
+        "thresholds": {
+          "local0_gap0_delta_macro_spearman_positive_seeds_required": 4,
+          "local0_gap0_static_macro_spearman_seed_effect_strictly_gt": 0.1,
+          "local0_gap0_static_macro_spearman_seed_mean_strictly_gt": 0.1,
+          "local0_gap0_static_macro_spearman_seeds_required": 4,
+          "local0_gap0_static_natural_r2_systematic_worsening_forbidden": true,
+          "local3_local0_delta_macro_spearman_positive_seeds_required": 4,
+          "local3_local0_optimization_safety_paired_folds_required": 23,
+          "local3_local0_optimization_safety_paired_folds_total": 25,
+          "local3_local0_optimization_safety_pass_fraction_min": 0.9,
+          "local3_local0_static_macro_spearman_positive_seeds_required": 4,
+          "maximum_state_loss_degradation_fraction": 0.05
+        }
+      }
+    },
+    "independent_unit": "training_seed",
+    "next_stage": {
+      "ftv_plus_ld_authorized_after_confirmation": true,
+      "lock_local_as_image_state_architecture": true,
+      "scope_limit": "FTV grounding addresses tumor burden/response information only; confirmation does not establish full MRI utilization or complementary tumor phenotype beyond Patient Profile"
+    },
+    "schema_version": 1,
+    "seed_result": "five_fold_pooled_oof",
+    "thresholds_are_descriptive_not_statistical_significance": true,
+    "winner": "LOCAL"
+  },
+  "feature_patient_order_pairing_audit": {
+    "arms_per_pair": 4,
+    "audit": "cross_arm_feature_export_patient_order_sha256",
+    "formal_cells_audited": 100,
+    "paired_seed_folds": 25,
+    "private_hashes_exposed": false,
+    "status": "PASS"
+  },
+  "folds_per_seed": 5,
+  "formal_cells": 100,
+  "independent_unit": "training_seed",
+  "natural_aggregation": "pool_5fold_oof_then_unweighted_endpoint_macro",
+  "patient_level_outputs_private": true,
+  "preregistration_lock": "PREREGISTRATION_LOCK.json",
+  "preregistration_lock_sha256": "a4e1cd2d8b61a7130da2b2eb6dc04e9a5355f44d0a37f4ceccf2fba48b35a9ee",
+  "public_outputs_deidentified": true,
+  "schema_version": 1,
+  "seed_statistics": {
+    "bootstrap_interval": "percentile_2.5_97.5",
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 20260811,
+    "bootstrap_unit": "training_seed",
+    "fold_analysis": "paired sensitivity only",
+    "seed_summary": [
+      "mean",
+      "median",
+      "sample_SD",
+      "bootstrap_95pct_CI",
+      "min",
+      "max",
+      "direction_count"
+    ]
+  },
+  "seeds": [
+    2026,
+    3026,
+    4026,
+    5026,
+    6026
+  ],
+  "stage_a_sentinel_sha256": "0b2c9e0af63ce8806525fb15ac9a27f6ab525b0259ccf16001981ca5091afbdb",
+  "status": "COMPLETE",
+  "training_patient_order_pairing_audit": {
+    "audit": "cross_arm_history_patient_order_sha256_by_epoch",
+    "early_stopping_handling": "all_four_arms_compared_on_common_prefix; available_arms_also_agree_later",
+    "fully_paired_epoch_groups": 152,
+    "minimum_common_epochs_per_seed_fold": 6,
+    "paired_seed_folds": 25,
+    "partially_observed_later_epoch_groups": 20,
+    "private_hashes_exposed": false,
+    "seed_folds_with_different_early_stopping_lengths": 20,
+    "status": "PASS"
+  },
+  "transformed_aggregation": "fold_metric_summaries_only"
+}

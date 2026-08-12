@@ -1,0 +1,182 @@
+{
+  "classification": "LOCAL_MULTISEED_CONFIRMED",
+  "confirmed": true,
+  "folds_are_paired_sensitivity_not_independent_replicates": true,
+  "gap_optimization_safety_reference": {
+    "comparison": "GAP3-GAP0",
+    "maximum_state_loss_degradation_fraction": 0.05,
+    "pass_fraction": 1.0,
+    "safe_folds": 25,
+    "total_folds": 25
+  },
+  "gates": {
+    "LOCAL_CONFIRMATION": {
+      "checks": {
+        "local0_gap0_delta_positive_in_at_least_4_seeds": true,
+        "local0_gap0_static_effect_gt_0_10_in_at_least_4_seeds": true,
+        "local0_gap0_static_natural_r2_not_systematically_worse": true,
+        "local0_gap0_static_seed_mean_gt_0_10": true,
+        "local3_local0_delta_positive_in_at_least_4_seeds": true,
+        "local3_local0_safety_at_least_23_of_25": true,
+        "local3_local0_safety_exact_25_paired_folds": true,
+        "local3_local0_safety_fraction_at_least_0_90": true,
+        "local3_local0_static_positive_in_at_least_4_seeds": true
+      },
+      "effects_by_seed": {
+        "local0_gap0_delta_macro_spearman": {
+          "2026": 0.23206682595668832,
+          "3026": 0.1922620700117571,
+          "4026": 0.17160154738878147,
+          "5026": 0.15849015815223574,
+          "6026": 0.11724223461144617
+        },
+        "local0_gap0_static_macro_natural_r2": {
+          "2026": 0.09364219456811804,
+          "3026": 0.10857555399888913,
+          "4026": 0.19003497444262551,
+          "5026": 0.08995030167585119,
+          "6026": -0.02557165354094265
+        },
+        "local0_gap0_static_macro_spearman": {
+          "2026": 0.27475811050899335,
+          "3026": 0.2516477999163808,
+          "4026": 0.1618496710630583,
+          "5026": 0.20800682885984295,
+          "6026": 0.14336357993652232
+        },
+        "local3_local0_delta_macro_spearman": {
+          "2026": 0.03357613683771382,
+          "3026": 0.038418856904463894,
+          "4026": 0.04093245344559482,
+          "5026": -0.010989646148594823,
+          "6026": 0.05928675996510785
+        },
+        "local3_local0_static_macro_spearman": {
+          "2026": 0.025562976726550612,
+          "3026": 0.041267010762583545,
+          "4026": 0.022293862221172134,
+          "5026": 0.019177836387845315,
+          "6026": 0.040023098024945414
+        }
+      },
+      "optimization_safety": {
+        "comparison": "LOCAL3-LOCAL0",
+        "maximum_state_loss_degradation_fraction": 0.05,
+        "pass_fraction": 1.0,
+        "safe_folds": 25,
+        "total_folds": 25
+      },
+      "pass": true,
+      "seed_summaries": {
+        "local0_gap0_delta_macro_spearman": {
+          "bootstrap_ci_lower": 0.14049578639966626,
+          "bootstrap_ci_upper": 0.20818397238972958,
+          "bootstrap_interval": "percentile_2.5_97.5",
+          "bootstrap_resamples": 10000,
+          "bootstrap_seed": 20260811,
+          "bootstrap_statistic": "mean",
+          "direction_count": 5,
+          "max": 0.23206682595668832,
+          "mean": 0.17433256722418178,
+          "median": 0.17160154738878147,
+          "min": 0.11724223461144617,
+          "n_seeds": 5,
+          "negative_direction_count": 0,
+          "sample_sd": 0.042345183238411806,
+          "zero_direction_count": 0
+        },
+        "local0_gap0_static_macro_natural_r2": {
+          "bootstrap_ci_lower": 0.024362179010382474,
+          "bootstrap_ci_upper": 0.15073948391436914,
+          "bootstrap_interval": "percentile_2.5_97.5",
+          "bootstrap_resamples": 10000,
+          "bootstrap_seed": 20260811,
+          "bootstrap_statistic": "mean",
+          "direction_count": 4,
+          "max": 0.19003497444262551,
+          "mean": 0.09132627422890824,
+          "median": 0.09364219456811804,
+          "min": -0.02557165354094265,
+          "n_seeds": 5,
+          "negative_direction_count": 1,
+          "sample_sd": 0.0769956613304188,
+          "zero_direction_count": 0
+        },
+        "local0_gap0_static_macro_spearman": {
+          "bootstrap_ci_lower": 0.16368666617180083,
+          "bootstrap_ci_upper": 0.2521637299421183,
+          "bootstrap_interval": "percentile_2.5_97.5",
+          "bootstrap_resamples": 10000,
+          "bootstrap_seed": 20260811,
+          "bootstrap_statistic": "mean",
+          "direction_count": 5,
+          "max": 0.27475811050899335,
+          "mean": 0.20792519805695955,
+          "median": 0.20800682885984295,
+          "min": 0.14336357993652232,
+          "n_seeds": 5,
+          "negative_direction_count": 0,
+          "sample_sd": 0.05627936452613327,
+          "zero_direction_count": 0
+        },
+        "local3_local0_delta_macro_spearman": {
+          "bootstrap_ci_lower": 0.008773755072628665,
+          "bootstrap_ci_upper": 0.049971054727500255,
+          "bootstrap_interval": "percentile_2.5_97.5",
+          "bootstrap_resamples": 10000,
+          "bootstrap_seed": 20260811,
+          "bootstrap_statistic": "mean",
+          "direction_count": 4,
+          "max": 0.05928675996510785,
+          "mean": 0.03224491220085711,
+          "median": 0.038418856904463894,
+          "min": -0.010989646148594823,
+          "n_seeds": 5,
+          "negative_direction_count": 1,
+          "sample_sd": 0.026056916986152947,
+          "zero_direction_count": 0
+        },
+        "local3_local0_static_macro_spearman": {
+          "bootstrap_ci_lower": 0.0217012747889171,
+          "bootstrap_ci_upper": 0.03762863886032171,
+          "bootstrap_interval": "percentile_2.5_97.5",
+          "bootstrap_resamples": 10000,
+          "bootstrap_seed": 20260811,
+          "bootstrap_statistic": "mean",
+          "direction_count": 5,
+          "max": 0.041267010762583545,
+          "mean": 0.029664956824619403,
+          "median": 0.025562976726550612,
+          "min": 0.019177836387845315,
+          "n_seeds": 5,
+          "negative_direction_count": 0,
+          "sample_sd": 0.010283940345736247,
+          "zero_direction_count": 0
+        }
+      },
+      "thresholds": {
+        "local0_gap0_delta_macro_spearman_positive_seeds_required": 4,
+        "local0_gap0_static_macro_spearman_seed_effect_strictly_gt": 0.1,
+        "local0_gap0_static_macro_spearman_seed_mean_strictly_gt": 0.1,
+        "local0_gap0_static_macro_spearman_seeds_required": 4,
+        "local0_gap0_static_natural_r2_systematic_worsening_forbidden": true,
+        "local3_local0_delta_macro_spearman_positive_seeds_required": 4,
+        "local3_local0_optimization_safety_paired_folds_required": 23,
+        "local3_local0_optimization_safety_paired_folds_total": 25,
+        "local3_local0_optimization_safety_pass_fraction_min": 0.9,
+        "local3_local0_static_macro_spearman_positive_seeds_required": 4,
+        "maximum_state_loss_degradation_fraction": 0.05
+      }
+    }
+  },
+  "independent_unit": "training_seed",
+  "next_stage": {
+    "ftv_plus_ld_authorized_after_confirmation": true,
+    "lock_local_as_image_state_architecture": true,
+    "scope_limit": "FTV grounding addresses tumor burden/response information only; confirmation does not establish full MRI utilization or complementary tumor phenotype beyond Patient Profile"
+  },
+  "schema_version": 1,
+  "seed_result": "five_fold_pooled_oof",
+  "thresholds_are_descriptive_not_statistical_significance": true,
+  "winner": "LOCAL"
+}
