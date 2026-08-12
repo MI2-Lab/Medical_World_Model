@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "experiment": "mask_free_region_aware_audit",
+  "branch": "feature/mask-free-region-aware-audit",
+  "evidence_status": "preregistered_frozen_feature_diagnostic",
+  "start": {
+    "parent_branch": "feature/spatial-heterogeneity-phenotype-audit",
+    "parent_commit_sha": "7742d737d92ed153b5c721cd323528b0a127d5ef",
+    "started_local": "2026-08-12T01:40:27-04:00",
+    "started_utc": "2026-08-12T05:40:27Z"
+  },
+  "paths": {
+    "source_repo": "/data/mi2-interns/bowen/Medical_World_Model",
+    "goal5_root": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit",
+    "goal5_lock": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/PREREGISTRATION_LOCK.json",
+    "goal5_lock_sha256": "bf838056dcdf2286c6365468fec274137f482adb188ad82620cceadcae393a1a",
+    "goal5_feature_completion": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/features/feature_matrix_complete.private.json",
+    "goal5_feature_completion_sha256": "0dfd9e4beb7ccf1524c6bbaeac5527acf117b24b3f4919575cbfb69ca63e8685",
+    "goal5_oracle_predictions": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/predictions/oracle_oof.private.csv",
+    "goal5_oracle_predictions_sha256": "c61bb4ad2c64eeaec134876adde487889428cba7821b2df5375f75e783ecec87",
+    "goal5_mri_predictions": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/predictions/mri_only_pcr_oof.private.csv",
+    "goal5_mri_predictions_sha256": "341abd3f06819ce12f33ca7a224e2c6a6886cb2f8b545c81d0e06b06191c7ccf",
+    "goal5_oracle_metrics": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/table7_oracle_regions.csv",
+    "goal5_oracle_metrics_sha256": "4c1286d97dc452adc05c7b42d2d901297114b99f333f72eaf2eb7f3771108a83",
+    "goal5_mri_metrics": "/data/mi2-interns/bowen/Medical_World_Model_spatial_heterogeneity/additional_experiments/spatial_heterogeneity_phenotype_audit/metrics/table3_mri_only_pcr.csv",
+    "goal5_mri_metrics_sha256": "faa43062499eb4551445fb8484937580dbfa9a04edaead49078ebca0f201afe0",
+    "checkpoint_root": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8",
+    "local_feature_root": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_global_response_state_pilot/features/formal_4x8",
+    "spatial_sidecar": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_spatial_pooling_bottleneck_audit/manifests/audit_sidecars.private.npz",
+    "spatial_sidecar_sha256": "bfe495b114adc3e90abe527a874340ff278f3295aed72e10b1be6bb122d80545",
+    "stage_b_data_contract": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/manifests/stage_b_data_contract.private.json",
+    "stage_b_data_contract_sha256": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27",
+    "stage_b_authorization": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/c1b_overlap_eligibility_ftv_stageb/STAGE_A_GO.json",
+    "stage_b_authorization_sha256": "0b2c9e0af63ce8806525fb15ac9a27f6ab525b0259ccf16001981ca5091afbdb",
+    "fold_manifest": "/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+    "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+    "clinical_labels": "/data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv",
+    "clinical_labels_sha256": "b3355f8ac80cf8f0fa95722b8d8a8b73d96790e9ded5c491ddb5b2e6a7793436",
+    "ftv_table": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv",
+    "ftv_table_sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d"
+  },
+  "upstream_code_sha256": {
+    "c1b_spatial_pooling": "630a717a98a7e80d69d3a462dd3086c2de81449c91910312cbc0bfce0fd58d54",
+    "c1b_spatial_probes": "1af18705169f5f8708deab76825f26fdacc47c1bc58d1171a74a5a9d576e681f",
+    "complementarity_data_contracts": "8ea6f0f3a5208f3cf95b1cc9be9a07c1945af3ab15cd9139e83baede0af9aea6",
+    "complementarity_modeling": "46f34142d24218ec84c17e7ee499885f0ce7a94a1a55b047f8b78e93121191b7",
+    "local_model": "09cc2959480bec953fe1fa7e92a53dbdf8be6c4d174151e00fef73e70929df76"
+  },
+  "frozen_cells": {
+    "arms": ["LOCAL0", "LOCAL3"],
+    "seed_bases": [2026, 3026],
+    "folds": [0, 1, 2, 3, 4],
+    "visits": ["T0", "T1", "T2", "T3"],
+    "patient_count": 808,
+    "ftv_complete_patient_count": 375
+  },
+  "feature_contract": {
+    "input_shape_zyx": [112, 176, 160],
+    "spacing_xyz_mm": [0.9, 0.9, 2.0],
+    "channels": 128,
+    "shape_policy": "derive_from_runtime_then_validate_frozen_geometry",
+    "anticipated_shape_zyx": [14, 22, 20],
+    "stage_stride_zyx": [8, 8, 8],
+    "stage_center_offset_zyx": [0.0, 0.0, 0.0],
+    "theoretical_receptive_field_zyx": [47, 47, 47],
+    "region_weight": "fractional_feature_sampling_cell_physical_volume_overlap",
+    "center": "frozen_c1b_crop_physical_center",
+    "raw_spatial_map_persisted": false,
+    "primary_boundaries_mm": [32.0, 48.0, 64.0],
+    "secondary_boundaries_mm": [24.0, 40.0, 64.0],
+    "projection_control": {"variant": "R5_RP192", "input_dim": 384, "output_dim": 192, "seed": 260812, "method": "fixed_gaussian_reduced_qr_orthonormal_columns"},
+    "parity": {"rtol": 1e-5, "atol": 1e-6}
+  },
+  "variants": {
+    "primary": ["R0", "R1", "R2", "R3", "R4", "R5"],
+    "controls": ["R5_RP192"],
+    "secondary_geometry": ["S1", "S2", "S3", "S4", "S5"],
+    "dimensions": {"R0": 128, "R1": 128, "R2": 128, "R3": 128, "R4": 256, "R5": 384, "R5_RP192": 192, "S1": 128, "S2": 128, "S3": 128, "S4": 256, "S5": 384}
+  },
+  "analysis": {
+    "pcr_timings": ["T0", "T0-T1", "T0-T2", "T0-T3"],
+    "phenotype_views": ["T0", "T1", "T2", "T3"],
+    "phenotype_targets": ["HR", "HER2", "subtype_4class"],
+    "pcr_populations": ["full_808", "ftv_complete_375"],
+    "clinical_contract": "C2_full_with_treatment",
+    "clinical_fields": ["label_hr", "label_her2", "label_mp", "age_at_screening", "race_simple", "menopausal_status_simple", "ethnicity", "arm"],
+    "primary_variants": ["R0", "R1", "R2", "R3", "R4", "R5"],
+    "all_probe_variants": ["R0", "R1", "R2", "R3", "R4", "R5", "R5_RP192", "S1", "S2", "S3", "S4", "S5"],
+    "late_timing_label": "late/pre-surgery"
+  },
+  "logistic": {
+    "c_grid": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "penalty": "l2",
+    "solver": "liblinear",
+    "max_iter": 10000,
+    "selection_tolerance": 1e-12,
+    "pcr_class_weight": null,
+    "phenotype_class_weight": "balanced",
+    "selection_metric": "validation_auroc",
+    "tie_break": "smaller_C"
+  },
+  "ridge": {
+    "alpha_grid": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0],
+    "solver": "lsqr",
+    "tol": 1e-8,
+    "max_iter": 10000,
+    "selection_metric": "validation_mse",
+    "tie_break": "smaller_alpha"
+  },
+  "bootstrap": {
+    "replicates": 2000,
+    "confidence_level": 0.95,
+    "seed": 260811,
+    "unit": "patient_within_outer_fold",
+    "candidate_variants": ["R2", "R3", "R5"],
+    "timings": ["T0", "T0-T1", "T0-T2"],
+    "contexts": ["MRI_ONLY", "C_PLUS_F"]
+  },
+  "oracle": {
+    "primary_arm": "LOCAL0",
+    "view": "T0-T1",
+    "population": "oracle_pair_PERI20",
+    "patient_count": 375,
+    "positive_count": 110,
+    "sorted_patient_sha256": "64a7599a7903e2e013ae6ae5d50018019eee35ac408d7312f36e0c47536d29b6",
+    "published_reference": "FIXED_P3",
+    "published_comparison": "PERI20",
+    "published_uplift": {"2026": 0.03567753001715257, "3026": 0.033276157804459694},
+    "published_representation": "PERI20_mean_plus_std_vs_full_local_mean_plus_std",
+    "new_numerator": "Rk_raw_region_means_minus_R0_raw_full_local_mean",
+    "minimum_mean_recovery_ratio": 0.30,
+    "reported_goal5_variants": ["FIXED_P3", "PERI10", "PERI20", "CORE", "CORE_PERI"],
+    "new_candidates": ["R1", "R2", "R3", "R5"]
+  },
+  "gates": {
+    "A": {"candidates": ["R2", "R3", "R5"], "timings": ["T0", "T0-T1", "T0-T2"], "require_each_seed_strictly_positive": true, "minimum_two_seed_mean_gain": 0.02},
+    "B": {"candidates": ["R1", "R2", "R3", "R4", "R5"], "timings": ["T0", "T0-T1", "T0-T2"], "require_each_seed_vs_cf_r0_strictly_positive": true, "minimum_two_seed_mean_vs_cf": 0.0, "forbid_both_seeds_negative_vs_cf": true},
+    "C": {"candidates": ["R1", "R2", "R3", "R5"], "require_each_seed_numerator_strictly_positive": true, "minimum_two_seed_mean_recovery_ratio": 0.30},
+    "D": {"candidates": ["R1", "R2", "R3", "R4", "R5"], "minimum_auroc_gain_each_seed": 0.03}
+  },
+  "forbidden": ["lesion_mask_read_by_new_region_code", "tumor_bbox_read_by_new_region_code", "FTV_or_clinical_or_outcome_driven_region", "future_visit_driven_region", "learned_attention", "segmentation_model", "lesion_detector", "gradcam_region", "test_driven_radius", "encoder_or_jepa_retraining", "architecture_training"]
+}
+
