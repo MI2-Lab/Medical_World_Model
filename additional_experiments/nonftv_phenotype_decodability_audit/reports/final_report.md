@@ -129,8 +129,8 @@ SPH classification=`MIXED OR UNRESOLVED`；若 residual Oracle localization 通�
 - Branch：`feature/nonftv-phenotype-decodability-audit`
 - Experiment parent：`7742d737d92ed153b5c721cd323528b0a127d5ef`
 - Preregistration lock SHA-256：`b3e9809f47a13b2db2c958cee4bec112b18273de75606c05538bc2fc04f706ee`；verification=`PASS`；binding count=133。
-- Reported experiment commit SHA：`PENDING_LOCAL_COMMIT`
-- Push status：`NOT_ATTEMPTED`
+- Reported experiment commit SHA：`67c3355bded6cc79098924b9bf5bb99f4819a3ed`
+- Push status：`PUSHED`
 - Formal run status：`COMPLETE`；encoder retrained=`False`；pCR read=`False`；test used for alpha=`False`。
 - Patient set SHA-256：`64a7599a7903e2e013ae6ae5d50018019eee35ac408d7312f36e0c47536d29b6`；公开表不含 patient identifiers，private OOF renderer 从未打开。
 
