@@ -1,0 +1,115 @@
+{
+  "all_token_shapes": [
+    [
+      808,
+      4,
+      500,
+      128
+    ]
+  ],
+  "arm": "A1_PATCH3",
+  "cells": [
+    {
+      "dynamics_sha256": "a6e2ff9b66adf77d90b46556bb1e80ce17cd95e82acc5e548784487121e2f078",
+      "export_metadata_sha256": "dbd1618bc20883df50bb91bc794d3f5251d0b2373492e8017c2250d69dd4928c",
+      "fold": 0,
+      "seed_base": 2026,
+      "test_dynamics_patients": 162,
+      "token_feature_sha256": "36c4e994814252043f28d83a3b8680026a1afc3c326a976d19a2655128372bb1"
+    },
+    {
+      "dynamics_sha256": "6b226b4cd449bee949127351e88bad856885598aa51213038bd21b8c2abeab8b",
+      "export_metadata_sha256": "451424c6dea73714c2162c5ba2fc04068f70c29697a73e49be712b570c9564bd",
+      "fold": 1,
+      "seed_base": 2026,
+      "test_dynamics_patients": 162,
+      "token_feature_sha256": "5f64b7192b959a3ce8f3897f283fb932eb1e893eeedc9dbeced9c44c89d10d14"
+    },
+    {
+      "dynamics_sha256": "1e773f4ed1aea9137917e037a5cbdb53d60b88e05f2100e1ad4c1a9978f00f65",
+      "export_metadata_sha256": "48055c9f63fd637e59c8bbaf717b9fa57488c7988669b7ae849958e8b74ddf0f",
+      "fold": 2,
+      "seed_base": 2026,
+      "test_dynamics_patients": 162,
+      "token_feature_sha256": "f0657432e887deba8eac7c5415055eb76341b3ce6a384d58d9b4a7f8714c9c1b"
+    },
+    {
+      "dynamics_sha256": "34a0d66a87356c74247f526b6e3a7b4675dd9aafe357091a7cf33d340a6ef2b6",
+      "export_metadata_sha256": "67999dfca072de95419255eaee979851a067121ccc6cfea14349b264e1e1c374",
+      "fold": 3,
+      "seed_base": 2026,
+      "test_dynamics_patients": 161,
+      "token_feature_sha256": "beafb06d631556ea740c7664ae489a74c0f9349652c3a4553e140902c8b58dac"
+    },
+    {
+      "dynamics_sha256": "60451bf849b11d2c19edb4dacdec858b5587449a770a285573b54cff9b338fe9",
+      "export_metadata_sha256": "1066e10f9d9bb15998f53cb1734b7dfbbe51fee8f54d777703ba49e771ef4ce3",
+      "fold": 4,
+      "seed_base": 2026,
+      "test_dynamics_patients": 161,
+      "token_feature_sha256": "522a627d56a9cdd7f9b6606aea360ad7d6cb40e4e0d29b865365ac024809a0bf"
+    },
+    {
+      "dynamics_sha256": "b4b1805f380208c4ee07173fb8f1b97c1a61aaee93413a29efe9fd41fc2a3113",
+      "export_metadata_sha256": "7c30224eb67c456194c39983547675097cc359a043fa21ac9312b43b6fde746d",
+      "fold": 0,
+      "seed_base": 3026,
+      "test_dynamics_patients": 162,
+      "token_feature_sha256": "78887f6e4c3e330626657a9943d4691b5d0a424a10527dafc5eec1c6193ab2c2"
+    },
+    {
+      "dynamics_sha256": "d0ea7e4fe20634fde1645dd0ea4d5a9e75c7fadeda1455fa8b10f2364ef3ba0d",
+      "export_metadata_sha256": "38cd58c10b7ef40c8e7c53015e01b74abcbd8832253b6e4dda606fab973cceef",
+      "fold": 1,
+      "seed_base": 3026,
+      "test_dynamics_patients": 162,
+      "token_feature_sha256": "26eea885da560addb5252d7827cc78ace4b28f09ff5ab60485d3a63e06bc7a31"
+    },
+    {
+      "dynamics_sha256": "86375511b5e29915a9e231d2b7515cb14d8d4218825e18fbfae372094c81c896",
+      "export_metadata_sha256": "ac641e6743e6c479f37973749894b6ffbcfea0b79ac979d4615ee44dd57656df",
+      "fold": 2,
+      "seed_base": 3026,
+      "test_dynamics_patients": 162,
+      "token_feature_sha256": "0d514a9dd02dfa164ca37948e8bbd060f321c754ea4d582ed141d2a2998eaba4"
+    },
+    {
+      "dynamics_sha256": "2e0cb415e2e711f79607aad3113bd891dfbe95eacfe11804d4a54ca27cd3e0ea",
+      "export_metadata_sha256": "8e1354c194e0d140aa7e55155281fb03ca75c4ea413e5afca81f4f4e44dcc721",
+      "fold": 3,
+      "seed_base": 3026,
+      "test_dynamics_patients": 161,
+      "token_feature_sha256": "32a23c86b6ada68f7340e1081853b9fe4c809dbb5ef9aef6bf560469673f4932"
+    },
+    {
+      "dynamics_sha256": "99e70a28c9463fa92493b8ac6c3cba0631e4a37572eccf21a4f045271378b183",
+      "export_metadata_sha256": "175dd4e5d43c5dae9951ce9e8c9e9b616abf6ed1a77cb2e8f6edacefc27667f9",
+      "fold": 4,
+      "seed_base": 3026,
+      "test_dynamics_patients": 161,
+      "token_feature_sha256": "dbd142e8697a56d06341fb0a79d9f00727053eb39c1da415fbea04fc0ee753b6"
+    }
+  ],
+  "cuda_allocator_config": "expandable_segments:True",
+  "data_loader": {
+    "batch_size": 4,
+    "multiprocessing_start_method": "spawn",
+    "workers_per_cell": 6
+  },
+  "folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "pcr_loaded": false,
+  "preregistration_lock_sha256": "bd46a5a7f76c54ed30bb76d37e0ea33135bd0d2d74323596a46ee9c502db3eb6",
+  "run_count": 10,
+  "schema_version": 1,
+  "seeds": [
+    2026,
+    3026
+  ],
+  "status": "COMPLETE"
+}

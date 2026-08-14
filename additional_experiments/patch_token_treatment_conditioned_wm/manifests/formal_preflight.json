@@ -1,0 +1,97 @@
+{
+  "assignments": [
+    {
+      "device": "cuda:1",
+      "fold": 0,
+      "seed_base": 2026
+    },
+    {
+      "device": "cuda:2",
+      "fold": 1,
+      "seed_base": 2026
+    },
+    {
+      "device": "cuda:1",
+      "fold": 2,
+      "seed_base": 2026
+    },
+    {
+      "device": "cuda:2",
+      "fold": 3,
+      "seed_base": 2026
+    },
+    {
+      "device": "cuda:1",
+      "fold": 4,
+      "seed_base": 2026
+    },
+    {
+      "device": "cuda:2",
+      "fold": 0,
+      "seed_base": 3026
+    },
+    {
+      "device": "cuda:1",
+      "fold": 1,
+      "seed_base": 3026
+    },
+    {
+      "device": "cuda:2",
+      "fold": 2,
+      "seed_base": 3026
+    },
+    {
+      "device": "cuda:1",
+      "fold": 3,
+      "seed_base": 3026
+    },
+    {
+      "device": "cuda:2",
+      "fold": 4,
+      "seed_base": 3026
+    }
+  ],
+  "batch": {
+    "accumulation": 8,
+    "logical": 32,
+    "physical": 4
+  },
+  "cache_preflight": {
+    "c1b_cache_count": 947,
+    "full_sha256_and_archive_contract_verified": true
+  },
+  "cuda_allocator_config": "expandable_segments:True",
+  "data_contract_sha256": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27",
+  "data_loader": {
+    "multiprocessing_start_method": "spawn",
+    "workers_per_cell": 6
+  },
+  "devices": [
+    "cuda:1",
+    "cuda:2"
+  ],
+  "execution_requested": true,
+  "matrix": {
+    "arm": "A1_PATCH3",
+    "folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "seeds": [
+      2026,
+      3026
+    ]
+  },
+  "population": {
+    "authorized_external_train_only": 139,
+    "primary": 808
+  },
+  "preregistration_lock_sha256": "bd46a5a7f76c54ed30bb76d37e0ea33135bd0d2d74323596a46ee9c502db3eb6",
+  "run_count": 10,
+  "schema_version": 1,
+  "stage_a_sentinel_sha256": "0b2c9e0af63ce8806525fb15ac9a27f6ab525b0259ccf16001981ca5091afbdb",
+  "status": "PASS"
+}

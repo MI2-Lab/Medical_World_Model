@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-08-12T16:04:10Z",
+  "branch": "feature/patch-token-treatment-conditioned-wm",
+  "start_commit": "7644e3835af6b12899c57819bedd1876572c434f",
+  "start_additional_experiments_tree": "a57ff2dc4dc533704e73f5fe3599248bae72ff79",
+  "isolation": {
+    "worktree": "isolated_worktree_recorded_by_branch_and_start_commit",
+    "reason": "the pre-existing checkout contained unrelated untracked work",
+    "previous_experiment_directories_may_be_modified": false
+  },
+  "upstream_private_assets": {
+    "stage_a_sentinel_sha256": "0b2c9e0af63ce8806525fb15ac9a27f6ab525b0259ccf16001981ca5091afbdb",
+    "stage_b_data_contract_sha256": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27",
+    "ispy2_clinical_labels_sha256": "b3355f8ac80cf8f0fa95722b8d8a8b73d96790e9ded5c491ddb5b2e6a7793436",
+    "ispy1_clinical_labels_sha256": "7301e6d43ce2c8aa4f45a56fa43f065c4a5c0a119f1735e3d2a540337940e4fd",
+    "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38"
+  },
+  "privacy": {
+    "contains_patient_identifiers": false,
+    "contains_patient_paths": false,
+    "contains_predictions": false
+  }
+}

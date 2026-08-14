@@ -1,0 +1,17 @@
+# Private, patient-level, and large reproducible artifacts never enter Git.
+checkpoints/**
+features/**
+predictions/**
+logs/**
+manifests/*private*
+metrics/*private*
+reports/*private*
+
+!checkpoints/.gitkeep
+!features/.gitkeep
+!predictions/.gitkeep
+!logs/.gitkeep
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
