@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "experiment": "mask_free_region_aware_audit",
+  "parent_branch": "feature/spatial-heterogeneity-phenotype-audit",
+  "parent_commit_sha": "7742d737d92ed153b5c721cd323528b0a127d5ef",
+  "experiment_branch": "feature/mask-free-region-aware-audit",
+  "start_timestamp_local": "2026-08-12T01:40:27-04:00",
+  "start_timestamp_utc": "2026-08-12T05:40:27Z",
+  "worktree_created_from_exact_parent_commit": true,
+  "preexisting_remote_branch": false,
+  "baseline_commit": "7742d737d92ed153b5c721cd323528b0a127d5ef",
+  "protected_paths": [
+    "additional_experiments/c1b_spatial_pooling_bottleneck_audit",
+    "additional_experiments/local_global_response_state_pilot",
+    "additional_experiments/mri_clinical_complementarity_audit",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit"
+  ],
+  "immutable_parent_tree_sha": {
+    "additional_experiments/c1b_spatial_pooling_bottleneck_audit": "82e364b2a373225b4918e3402109d3de28db81bc",
+    "additional_experiments/local_global_response_state_pilot": "a747d36e75c15b16af625cc1a46f1f7d8806a02b",
+    "additional_experiments/mri_clinical_complementarity_audit": "31d2e1909e942c4675a90addb0134ee5e53cfae0",
+    "additional_experiments/spatial_heterogeneity_phenotype_audit": "b61e260d55cd9bcb90b03d712846c278167b35f4"
+  },
+  "scope": "all experiment changes confined to additional_experiments/mask_free_region_aware_audit"
+}

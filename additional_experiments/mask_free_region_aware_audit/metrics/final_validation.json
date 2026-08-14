@@ -1,0 +1,121 @@
+{
+  "checks": {
+    "feature_completion": {
+      "cell_count": 20,
+      "completion_sha256": "3be44879e8155b8802604ddcaf59a47041cd3602ed17e56e42d8fce8b9316cda",
+      "matrix": "2 seeds x 2 arms x 5 folds",
+      "patient_feature_arrays_opened": false,
+      "status": "PASS"
+    },
+    "figure_manifest": {
+      "figures_authenticated": 10,
+      "status": "PASS"
+    },
+    "figure_semantics": {
+      "bootstrap_auroc_rows_displayed": 74,
+      "bootstrap_contexts": [
+        "MRI_ONLY",
+        "C_PLUS_F",
+        "GOAL5_ORACLE"
+      ],
+      "bootstrap_unique_labels": 74,
+      "mri_populations": [
+        "full_808",
+        "ftv_complete_375"
+      ],
+      "mri_rows_retained": 192,
+      "seed_consistency_rows_displayed": 36,
+      "seed_consistency_unique_labels": 36,
+      "status": "PASS",
+      "timing_facets": [
+        [
+          "MRI_ONLY",
+          "full_808"
+        ],
+        [
+          "MRI_ONLY",
+          "ftv_complete_375"
+        ],
+        [
+          "C_PLUS_F",
+          "ftv_complete_375"
+        ]
+      ]
+    },
+    "final_report": {
+      "questions_answered": 12,
+      "required_boundary_markers": 4,
+      "sources_authenticated": 23,
+      "status": "PASS"
+    },
+    "gates_and_run_summary": {
+      "gates": {
+        "A": true,
+        "B": false,
+        "C": false,
+        "D": false
+      },
+      "git_provenance": {
+        "audit_only_changed_path_count": 26,
+        "commit_sha": "177c976e511bce7684fa1f5b0c744656fb3675f8",
+        "commit_subject": "Add mask-free region-aware representation audit",
+        "push_status": "PUSHED",
+        "remote_branch_tip": "177c976e511bce7684fa1f5b0c744656fb3675f8",
+        "status": "PASS"
+      },
+      "run_status": "COMPLETED",
+      "status": "PASS"
+    },
+    "old_tree_non_modification": {
+      "baseline_commit": "7742d737d92ed153b5c721cd323528b0a127d5ef",
+      "entries_verified": 4,
+      "manifest_sha256": "59638b38764c66bd668b338893bc1a2bd1f15f1557886686251a8b77f55f5634",
+      "mode": "git_baseline",
+      "status": "PASS"
+    },
+    "public_privacy": {
+      "absolute_path_findings": 0,
+      "bytes_scanned": 882173,
+      "credential_findings": 0,
+      "files_scanned": 16,
+      "patient_identifier_findings": 0,
+      "status": "PASS"
+    },
+    "public_tables": {
+      "row_counts": {
+        "bootstrap": 222,
+        "clinical_ftv_incremental": 208,
+        "clinical_pcr": 208,
+        "ftv": 864,
+        "mri_only_pcr": 384,
+        "occupancy": 7,
+        "oracle_recovery": 30,
+        "phenotype": 576,
+        "seed_consistency": 36,
+        "timing_sensitivity": 288
+      },
+      "status": "PASS"
+    },
+    "required_outputs": {
+      "empty": [],
+      "missing": [],
+      "required_output_count": 25,
+      "status": "PASS",
+      "symlinks": []
+    },
+    "tracked_artifact_safety": {
+      "maximum_allowed_bytes": 20971520,
+      "private_patient_level_files": 0,
+      "raw_mri_or_checkpoint_files": 0,
+      "repository": "Medical_World_Model_mask_free_region_aware",
+      "status": "PASS",
+      "tracked_or_candidate_files_scanned": 54
+    }
+  },
+  "experiment": "mask_free_region_aware_audit",
+  "public_outputs_contain_patient_level_data": false,
+  "raw_mri_or_checkpoints_tracked": false,
+  "schema_version": 1,
+  "status": "PASS",
+  "validated_utc": "2026-08-12T10:09:24.465425+00:00"
+}

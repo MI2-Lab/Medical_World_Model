@@ -1,0 +1,148 @@
+{
+  "experiment": "mask_free_region_aware_audit",
+  "generated_utc": "2026-08-12T10:09:23.467291+00:00",
+  "public_outputs_contain_patient_level_data": false,
+  "report": "reports/final_report.md",
+  "report_sha256": "53c476f94a17613742b6d15d1167046972843898b1e4687d7b1bfc355b395a20",
+  "schema_version": 1,
+  "source_artifacts": [
+    {
+      "path": "configs/audit.json",
+      "patient_level_private": false,
+      "sha256": "51e5e8671b44d4a43b8a09e9b1760d89a04c7b66ebda4a4c22c3e06bc66a4219",
+      "size_bytes": 9344
+    },
+    {
+      "path": "metrics/gates.json",
+      "patient_level_private": false,
+      "sha256": "a0c96af9963c778ceb4127477d338636fd144f770558a4045a7b077879f00bbd",
+      "size_bytes": 89707
+    },
+    {
+      "path": "metrics/run_summary.json",
+      "patient_level_private": false,
+      "sha256": "314113ef28ec9c7fa9384510bcf2033b2e31032f0a9dd20ea22e1742f216e182",
+      "size_bytes": 2882
+    },
+    {
+      "path": "metrics/region_occupancy.csv",
+      "patient_level_private": false,
+      "sha256": "9e24904c66fb722820657f513ef215963e697efc13532de360de34d51034710d",
+      "size_bytes": 1033
+    },
+    {
+      "path": "metrics/table_mri_only_pcr.csv",
+      "patient_level_private": false,
+      "sha256": "190765cd34826cc0be8afb2924b0e45ee4ab351f4982e78c6685f3e27e577b4d",
+      "size_bytes": 86196
+    },
+    {
+      "path": "metrics/table_clinical_pcr.csv",
+      "patient_level_private": false,
+      "sha256": "089a047de271a3cb8be45eea63311ac4ec7a19ba4a9a63f62f79b08e9ab36a27",
+      "size_bytes": 64551
+    },
+    {
+      "path": "metrics/table_clinical_ftv_incremental.csv",
+      "patient_level_private": false,
+      "sha256": "e463c33c837afd917cdd128e3bbf69aad370cea36e10408af50573c3ed763c9d",
+      "size_bytes": 75037
+    },
+    {
+      "path": "metrics/table_phenotype.csv",
+      "patient_level_private": false,
+      "sha256": "e0d56c803d58bc32c0d9dac6f7b2b2b343b00ad9bd62ea28ae55a5ec48f8b234",
+      "size_bytes": 111743
+    },
+    {
+      "path": "metrics/table_ftv.csv",
+      "patient_level_private": false,
+      "sha256": "1e66fa33a3079029f8305aeeeb7a3e1a3f2231bc3df7c9433950d6790d84f6cd",
+      "size_bytes": 307209
+    },
+    {
+      "path": "metrics/table_oracle_recovery.csv",
+      "patient_level_private": false,
+      "sha256": "1d908e74b9802f2f1968b2ae9ad4ea9f9fe052ea4e1c7152a38fc127842d4ba7",
+      "size_bytes": 9701
+    },
+    {
+      "path": "metrics/table_bootstrap.csv",
+      "patient_level_private": false,
+      "sha256": "d491a8063dd8c41542051b4df9f197d21b1ad8401ff759389a094ef03244ae2b",
+      "size_bytes": 65734
+    },
+    {
+      "path": "metrics/table_seed_consistency.csv",
+      "patient_level_private": false,
+      "sha256": "956f418b12f57d76ea17390a5ac14eef7697c18a64500655916c6e843a162c12",
+      "size_bytes": 4523
+    },
+    {
+      "path": "metrics/table_timing_sensitivity.csv",
+      "patient_level_private": false,
+      "sha256": "ba940f4b4453faea9ec5e7fa43b2fb55390194637f5a8e40d0c77b12f055c168",
+      "size_bytes": 34229
+    },
+    {
+      "path": "figures/01_region_schematic.png",
+      "patient_level_private": false,
+      "sha256": "2f71381824acc13643de5a0f81d3fe79f2e9f2fbaf94d091aa674b4b5a437506",
+      "size_bytes": 112620
+    },
+    {
+      "path": "figures/02_region_occupancy.png",
+      "patient_level_private": false,
+      "sha256": "dc19a8638dc4bfb7cb5afa52c6515fa65ed2c8c7fae0a3bb525645c5045069a8",
+      "size_bytes": 26925
+    },
+    {
+      "path": "figures/03_mri_only_pcr.png",
+      "patient_level_private": false,
+      "sha256": "f7a1a29d5d88fc72b3b4247c18911e65ee206e8cc35add9774b180bc1d0dce31",
+      "size_bytes": 164955
+    },
+    {
+      "path": "figures/04_phenotype_probes.png",
+      "patient_level_private": false,
+      "sha256": "325e56d4622b728981d8c4642e6f41c841d0dea7ddb6beb579558101711299fe",
+      "size_bytes": 60677
+    },
+    {
+      "path": "figures/05_clinical_ftv_incremental.png",
+      "patient_level_private": false,
+      "sha256": "99d5bd5c4e5766c4500c4ba0ecd2ed2f07eb1735e2adf47ccd691b697f452a95",
+      "size_bytes": 90010
+    },
+    {
+      "path": "figures/06_ftv_response_control.png",
+      "patient_level_private": false,
+      "sha256": "cba4ee1af103c5e76f33c0564d1bfe6ac725ae2a6663825f09f296d75d41c482",
+      "size_bytes": 47940
+    },
+    {
+      "path": "figures/07_oracle_recovery.png",
+      "patient_level_private": false,
+      "sha256": "5b1bbfddb726639f392618a9af205573fbdb30a87d8575521927d4e522f78b79",
+      "size_bytes": 40170
+    },
+    {
+      "path": "figures/08_patient_bootstrap.png",
+      "patient_level_private": false,
+      "sha256": "c6deac60edfc0b331e015d82b89c65a488c0ecab638764e75de3501a0aa27075",
+      "size_bytes": 648489
+    },
+    {
+      "path": "figures/09_seed_consistency.png",
+      "patient_level_private": false,
+      "sha256": "e42f00c9bd64bad36762473d2eae1e7440bdb5bb3487bc35764e99e651676651",
+      "size_bytes": 336100
+    },
+    {
+      "path": "figures/10_timing_sensitivity.png",
+      "patient_level_private": false,
+      "sha256": "551f0828b0867be49439ab433b8130ecb721d5ea2a9fd81cd449a4fc45cafac5",
+      "size_bytes": 186531
+    }
+  ]
+}

@@ -1,0 +1,3069 @@
+{
+  "any_primary_candidate_two_seed_positive": true,
+  "classification_precedence": [
+    "A_if_Gate_A_and_C",
+    "B_if_Gate_A_and_not_B",
+    "C_if_Gate_C_fails_and_any_two_seed_positive",
+    "D_if_Gate_A_fails_and_no_two_seed_positive",
+    "INDETERMINATE"
+  ],
+  "contains_patient_level_data": false,
+  "experiment": "mask_free_region_aware_audit",
+  "gates": {
+    "A": {
+      "evaluated_comparisons": [
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.01178387650085766,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.017461406518010203,
+            "3026": -0.006106346483705116
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.009179600886917993,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.017062937062937045,
+            "3026": -0.0012962647108989422
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.0035506003430531563,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.01989708404802737,
+            "3026": -0.026998284734133682
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": 0.002967763943373669,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.006965717209619582,
+            "3026": -0.0010301893228722436
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.0241852487135506,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.028336192109777003,
+            "3026": -0.020034305317324197
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.0033395872420263206,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.011666382398089703,
+            "3026": 0.004987207914037062
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": true,
+          "candidate": "R2",
+          "mean_delta": 0.009999999999999953,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.006998284734133775,
+            "3026": 0.013001715265866132
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": 0.0031724373187788646,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.002312809142077432,
+            "3026": 0.008657683779635161
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.003087478559176682,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.01588336192109774,
+            "3026": 0.009708404802744375
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.0044516459150606424,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.008896469384274353,
+            "3026": -6.822445846932368e-06
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.0017667238421955056,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.008644939965694598,
+            "3026": 0.005111492281303587
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.009353573256012326,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.0013781340610609094,
+            "3026": -0.017329012450963743
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": true,
+          "candidate": "R3",
+          "mean_delta": 0.0353859348198971,
+          "passed": true,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.02936535162950271,
+            "3026": 0.04140651801029149
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": 0.013999658877707655,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.038389902780146645,
+            "3026": -0.010390585024731336
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.014648370497427121,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.007341337907375678,
+            "3026": -0.021955403087478564
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": 0.01383933140030702,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.031526522258229606,
+            "3026": -0.0038478594576155656
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.05001715265866208,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.0600686106346483,
+            "3026": -0.039965694682675856
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": 0.0032133719938597927,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.027555858775371034,
+            "3026": -0.02112911478765145
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": true,
+          "candidate": "R3",
+          "mean_delta": 0.019348198970840447,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.03663807890222981,
+            "3026": 0.002058319039451084
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": 0.0074091761896640795,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.0268872590823811,
+            "3026": -0.01206890670305294
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": true,
+          "candidate": "R3",
+          "mean_delta": 0.012572898799313947,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.011595197255574674,
+            "3026": 0.01355060034305322
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": 0.00209790209790206,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.017574620501449756,
+            "3026": -0.013378816305645636
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.001389365351629479,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.0171526586620927,
+            "3026": -0.01993138936535166
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": 0.013344704076411307,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.04199897663312291,
+            "3026": -0.015309568480300295
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.017873070325900492,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.009708404802744375,
+            "3026": -0.02603773584905661
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.015746205014497694,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.02818352379327982,
+            "3026": -0.003308886235715569
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.01941680960548886,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.0007547169811321641,
+            "3026": -0.03807890222984556
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.01656148729319462,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.012969469554835356,
+            "3026": -0.020153505031553887
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.04665523156089191,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.04984562607204113,
+            "3026": -0.04346483704974269
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.023059866962305997,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.022589118198874214,
+            "3026": -0.02353061572573778
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.004802744425385974,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.011423670668953667,
+            "3026": -0.021029159519725615
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.020201262152481525,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.02930240491216085,
+            "3026": -0.011100119392802199
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.01768439108061748,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.034579759862778725,
+            "3026": -0.0007890222984562323
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.01568139177895289,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.019853317414293192,
+            "3026": -0.01150946614361259
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.017289879931389363,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.006209262435677543,
+            "3026": -0.028370497427101182
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.014449940303598863,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.00010915913354936357,
+            "3026": -0.02900903974074709
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        }
+      ],
+      "name": "MASK_FREE_REGIONAL_SIGNAL_SUPPORTED",
+      "passed": true,
+      "supporting_comparisons": [
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": true,
+          "candidate": "R3",
+          "mean_delta": 0.0353859348198971,
+          "passed": true,
+          "population": "ftv_complete_375",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.02936535162950271,
+            "3026": 0.04140651801029149
+          },
+          "target": "pCR",
+          "view": "T0"
+        }
+      ]
+    },
+    "B": {
+      "evaluated_comparisons": [
+        {
+          "arm": "LOCAL0",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R1",
+          "mean_delta_vs_cf": -0.06667238421955396,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.07519725557461399,
+              "vs_cf_r0": -0.0532761578044596
+            },
+            "3026": {
+              "vs_cf": -0.05814751286449393,
+              "vs_cf_r0": 0.015334476843910871
+            }
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_seeds_negative_vs_cf": false,
+          "candidate": "R1",
+          "mean_delta_vs_cf": -0.012435677530017064,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": 0.005626072041166497,
+              "vs_cf_r0": 0.008130360205832021
+            },
+            "3026": {
+              "vs_cf": -0.030497427101200625,
+              "vs_cf_r0": -0.007169811320754671
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R1",
+          "mean_delta_vs_cf": -0.020960548885077146,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.007650085763293291,
+              "vs_cf_r0": 0.015986277873070276
+            },
+            "3026": {
+              "vs_cf": -0.034271012006861,
+              "vs_cf_r0": -0.01670668953687815
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R1",
+          "mean_delta_vs_cf": -0.058559176672384194,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.06277873070325901,
+              "vs_cf_r0": 0.010017152658662098
+            },
+            "3026": {
+              "vs_cf": -0.05433962264150938,
+              "vs_cf_r0": -0.01849056603773569
+            }
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R1",
+          "mean_delta_vs_cf": -0.025660377358490416,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.02847341337907361,
+              "vs_cf_r0": -0.027375643224699764
+            },
+            "3026": {
+              "vs_cf": -0.022847341337907223,
+              "vs_cf_r0": -0.02082332761578043
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R1",
+          "mean_delta_vs_cf": -0.01689536878216119,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.02123499142367058,
+              "vs_cf_r0": 0.003979416809605563
+            },
+            "3026": {
+              "vs_cf": -0.012555746140651802,
+              "vs_cf_r0": -0.006174957118353364
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R2",
+          "mean_delta_vs_cf": -0.06514579759862771,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.06662092624356764,
+              "vs_cf_r0": -0.04469982847341325
+            },
+            "3026": {
+              "vs_cf": -0.06367066895368778,
+              "vs_cf_r0": 0.009811320754717023
+            }
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R2",
+          "mean_delta_vs_cf": -0.017238421955402927,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.016500857632932964,
+              "vs_cf_r0": -0.013996569468267439
+            },
+            "3026": {
+              "vs_cf": -0.01797598627787289,
+              "vs_cf_r0": 0.005351629502573063
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R2",
+          "mean_delta_vs_cf": -0.029159519725557415,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.01938250428816468,
+              "vs_cf_r0": 0.004253859348198885
+            },
+            "3026": {
+              "vs_cf": -0.03893653516295015,
+              "vs_cf_r0": -0.021372212692967296
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R2",
+          "mean_delta_vs_cf": -0.039965694682675745,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.04198970840480276,
+              "vs_cf_r0": 0.03080617495711835
+            },
+            "3026": {
+              "vs_cf": -0.03794168096054873,
+              "vs_cf_r0": -0.0020926243567750413
+            }
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R2",
+          "mean_delta_vs_cf": -0.008113207547169765,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.011972555746140645,
+              "vs_cf_r0": -0.0108747855917668
+            },
+            "3026": {
+              "vs_cf": -0.004253859348198885,
+              "vs_cf_r0": -0.002229845626072091
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R2",
+          "mean_delta_vs_cf": -0.022487135506003453,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.025866209262435658,
+              "vs_cf_r0": -0.0006518010291595155
+            },
+            "3026": {
+              "vs_cf": -0.019108061749571248,
+              "vs_cf_r0": -0.01272727272727281
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R3",
+          "mean_delta_vs_cf": -0.028370497427101182,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.010668953687821614,
+              "vs_cf_r0": 0.011252144082332771
+            },
+            "3026": {
+              "vs_cf": -0.04607204116638075,
+              "vs_cf_r0": 0.027409948542024054
+            }
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_seeds_negative_vs_cf": false,
+          "candidate": "R3",
+          "mean_delta_vs_cf": -0.005797598627787115,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": 0.0033962264150945165,
+              "vs_cf_r0": 0.005900514579760041
+            },
+            "3026": {
+              "vs_cf": -0.014991423670668746,
+              "vs_cf_r0": 0.008336192109777207
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R3",
+          "mean_delta_vs_cf": -0.04245283018867918,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.040034305317324215,
+              "vs_cf_r0": -0.016397941680960648
+            },
+            "3026": {
+              "vs_cf": -0.044871355060034146,
+              "vs_cf_r0": -0.027307032590051294
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R3",
+          "mean_delta_vs_cf": -0.023224699828473416,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.020686106346483712,
+              "vs_cf_r0": 0.0521097770154374
+            },
+            "3026": {
+              "vs_cf": -0.02576329331046312,
+              "vs_cf_r0": 0.010085763293310568
+            }
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R3",
+          "mean_delta_vs_cf": -0.013001715265866132,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.008164665523155978,
+              "vs_cf_r0": -0.007066895368782133
+            },
+            "3026": {
+              "vs_cf": -0.017838765008576285,
+              "vs_cf_r0": -0.01581475128644949
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R3",
+          "mean_delta_vs_cf": -0.025420240137221328,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.040000000000000036,
+              "vs_cf_r0": -0.014785591766723893
+            },
+            "3026": {
+              "vs_cf": -0.010840480274442621,
+              "vs_cf_r0": -0.004459691252144182
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R4",
+          "mean_delta_vs_cf": -0.06650085763293312,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.07217838765008577,
+              "vs_cf_r0": -0.05025728987993139
+            },
+            "3026": {
+              "vs_cf": -0.060823327615780465,
+              "vs_cf_r0": 0.01265866209262434
+            }
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R4",
+          "mean_delta_vs_cf": -0.017873070325900353,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.00535162950257273,
+              "vs_cf_r0": -0.0028473413379072054
+            },
+            "3026": {
+              "vs_cf": -0.030394511149227976,
+              "vs_cf_r0": -0.007066895368782022
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R4",
+          "mean_delta_vs_cf": -0.02783876500857635,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.021406518010291586,
+              "vs_cf_r0": 0.00222984562607198
+            },
+            "3026": {
+              "vs_cf": -0.03427101200686111,
+              "vs_cf_r0": -0.01670668953687826
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R4",
+          "mean_delta_vs_cf": -0.06694682675814745,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.07245283018867921,
+              "vs_cf_r0": 0.0003430531732419029
+            },
+            "3026": {
+              "vs_cf": -0.06144082332761569,
+              "vs_cf_r0": -0.025591766723842002
+            }
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R4",
+          "mean_delta_vs_cf": -0.027684391080617377,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.028507718696397788,
+              "vs_cf_r0": -0.027409948542023943
+            },
+            "3026": {
+              "vs_cf": -0.026861063464836965,
+              "vs_cf_r0": -0.02483704974271017
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R4",
+          "mean_delta_vs_cf": -0.033876500857632996,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.034614065180103015,
+              "vs_cf_r0": -0.009399656946826873
+            },
+            "3026": {
+              "vs_cf": -0.03313893653516298,
+              "vs_cf_r0": -0.02675814751286454
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R5",
+          "mean_delta_vs_cf": -0.06682675814751282,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.07132075471698107,
+              "vs_cf_r0": -0.04939965694682669
+            },
+            "3026": {
+              "vs_cf": -0.06233276157804457,
+              "vs_cf_r0": 0.011149228130360234
+            }
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R5",
+          "mean_delta_vs_cf": -0.05548885077186966,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.04518010291595198,
+              "vs_cf_r0": -0.042675814751286456
+            },
+            "3026": {
+              "vs_cf": -0.06579759862778733,
+              "vs_cf_r0": -0.04246998284734138
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R5",
+          "mean_delta_vs_cf": -0.05951972555746138,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.06154373927958823,
+              "vs_cf_r0": -0.03790737564322466
+            },
+            "3026": {
+              "vs_cf": -0.05749571183533453,
+              "vs_cf_r0": -0.03993138936535168
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R5",
+          "mean_delta_vs_cf": -0.04828473413379075,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.059485420240137254,
+              "vs_cf_r0": 0.013310463121783855
+            },
+            "3026": {
+              "vs_cf": -0.03708404802744425,
+              "vs_cf_r0": -0.0012349914236705617
+            }
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R5",
+          "mean_delta_vs_cf": -0.03986277873070321,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.04833619210977702,
+              "vs_cf_r0": -0.047238421955403176
+            },
+            "3026": {
+              "vs_cf": -0.031389365351629395,
+              "vs_cf_r0": -0.0293653516295026
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_seeds_negative_vs_cf": true,
+          "candidate": "R5",
+          "mean_delta_vs_cf": -0.06574614065180101,
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "vs_cf": -0.053962264150943406,
+              "vs_cf_r0": -0.028747855917667264
+            },
+            "3026": {
+              "vs_cf": -0.07753001715265861,
+              "vs_cf_r0": -0.07114922813036018
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        }
+      ],
+      "name": "MASK_FREE_BEYOND_FTV_SUPPORTED",
+      "passed": false,
+      "supporting_comparisons": []
+    },
+    "C": {
+      "evaluated_comparisons": [
+        {
+          "arm": "LOCAL0",
+          "candidate": "R1",
+          "mean_recovery_ratio": -1.0466494845360839,
+          "passed": false,
+          "seed_values": {
+            "2026": {
+              "numerator_auroc_uplift": -0.03746140651801033,
+              "recovery_ratio": -1.0500000000000038
+            },
+            "3026": {
+              "numerator_auroc_uplift": -0.03471698113207544,
+              "recovery_ratio": -1.043298969072164
+            }
+          },
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "candidate": "R2",
+          "mean_recovery_ratio": -0.12682394924662838,
+          "passed": false,
+          "seed_values": {
+            "2026": {
+              "numerator_auroc_uplift": 0.01989708404802737,
+              "recovery_ratio": 0.5576923076923069
+            },
+            "3026": {
+              "numerator_auroc_uplift": -0.026998284734133682,
+              "recovery_ratio": -0.8113402061855637
+            }
+          },
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "candidate": "R3",
+          "mean_recovery_ratio": -0.432781522601111,
+          "passed": false,
+          "seed_values": {
+            "2026": {
+              "numerator_auroc_uplift": -0.007341337907375678,
+              "recovery_ratio": -0.20576923076923226
+            },
+            "3026": {
+              "numerator_auroc_uplift": -0.021955403087478564,
+              "recovery_ratio": -0.6597938144329898
+            }
+          },
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "candidate": "R5",
+          "mean_recovery_ratio": -0.5827418715305316,
+          "passed": false,
+          "seed_values": {
+            "2026": {
+              "numerator_auroc_uplift": -0.0007547169811321641,
+              "recovery_ratio": -0.02115384615384869
+            },
+            "3026": {
+              "numerator_auroc_uplift": -0.03807890222984556,
+              "recovery_ratio": -1.1443298969072144
+            }
+          },
+          "view": "T0-T1"
+        }
+      ],
+      "name": "ORACLE_SIGNAL_PARTIALLY_RECOVERED",
+      "passed": false,
+      "supporting_comparisons": []
+    },
+    "D": {
+      "evaluated_comparisons": [
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": -0.0030735941380413134,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.014958158138467459,
+            "3026": 0.008810969862384832
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": 0.018530609706805923,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.04584771321083225,
+            "3026": -0.008786493797220407
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": -0.005808435713225757,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.012280001804527818,
+            "3026": 0.0006631303780763043
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": -0.010417435065201208,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.02822788856377101,
+            "3026": 0.007393018433368592
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": -0.010726611323570612,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.0024997668127972883,
+            "3026": -0.023952989459938512
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": -0.00339976082957677,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.005910079994038364,
+            "3026": -0.012709601653191904
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": -0.019285778684829558,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.019400526199316537,
+            "3026": -0.01917103117034258
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": true,
+          "candidate": "R1",
+          "mean_delta": 0.010008394739296655,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.009315051456642687,
+            "3026": 0.010701738021950624
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": -0.004030716627037467,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.0072729730772048695,
+            "3026": -0.015334406331279804
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": -0.01883908300343423,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.04397288680157696,
+            "3026": 0.006294720794708497
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": -0.010477878307371763,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.012044896309423958,
+            "3026": -0.033000652924167484
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": true,
+          "candidate": "R1",
+          "mean_delta": 0.014979162515487698,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.0248417579409127,
+            "3026": 0.005116567090062696
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": true,
+          "candidate": "R1",
+          "mean_delta": 0.006331603924364992,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.011851778996287088,
+            "3026": 0.000811428852442897
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": -0.000460156079967744,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.016770823617199726,
+            "3026": -0.017691135777135214
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": -0.0054859348812176245,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.0036872439114948863,
+            "3026": -0.007284625850940363
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": -0.011720638979730746,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.02997369003417849,
+            "3026": 0.006532412074716998
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": 0.006246307869290757,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.04007088890961663,
+            "3026": -0.027578273171035117
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": -0.0010830340430931784,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.007729973651970701,
+            "3026": -0.009896041738157058
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": -0.01762603785028727,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.03440786184399258,
+            "3026": -0.0008442138565819546
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": -0.005723968535273571,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.013238814787177922,
+            "3026": 0.0017908777166307788
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": 0.0062310559128095355,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.02854870721823377,
+            "3026": -0.0160865953926147
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": 0.004360405550501212,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.010343668805888107,
+            "3026": 0.01906447990689053
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R1",
+          "mean_delta": -0.0003357895718683057,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.02816901408450706,
+            "3026": -0.02884059322824367
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": true,
+          "candidate": "R1",
+          "mean_delta": 0.022061559524629903,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.040706841828533236,
+            "3026": 0.0034162772207265713
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": true,
+          "candidate": "R2",
+          "mean_delta": 0.022912619767718245,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.022424942831149042,
+            "3026": 0.02340029670428745
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.010857196157074978,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.006939651151944948,
+            "3026": -0.014774741162205007
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": true,
+          "candidate": "R2",
+          "mean_delta": 0.012953538081682092,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.008463456336049502,
+            "3026": 0.017443619827314683
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.0013441851697033602,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.0013523814207381246,
+            "3026": -0.0013359889186685958
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.017000901657183765,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.023449305102136053,
+            "3026": -0.010552498212231476
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.010126412662330164,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.009478637308802718,
+            "3026": -0.029731462633463046
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.02106026703385877,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.018490742334456356,
+            "3026": -0.023629791733261185
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": 0.014233746851972762,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.02874110002176411,
+            "3026": -0.0002736063178185866
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.010044562742708929,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.01516840256162899,
+            "3026": -0.004920722923788867
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.0029711410001065364,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.01842517232617802,
+            "3026": 0.012482890325964946
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -1.243665080985501e-05,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.013966358859558992,
+            "3026": 0.013941485557939282
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.004972711130848184,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 9.767442220109945e-05,
+            "3026": -0.010043096683897468
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": true,
+          "candidate": "R2",
+          "mean_delta": 0.022006934028375447,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.024613341857434357,
+            "3026": 0.019400526199316537
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.007477536299474674,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.00291017628952539,
+            "3026": -0.012044896309423958
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": 0.0001572985137410221,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.005022801618455808,
+            "3026": 0.005337398645937852
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.018753022367569094,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.03144081896940343,
+            "3026": -0.006065225765734761
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.010163852874420953,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.012343375928862366,
+            "3026": -0.007984329819979541
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.012021015524539547,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.004627229678152767,
+            "3026": -0.019414801370926327
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.018572704844804055,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.013900841754981297,
+            "3026": -0.023244567934626814
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": 0.003143363492211504,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.020420980629916263,
+            "3026": -0.014134253645493255
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": 0.0011144088979050948,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.015423892152459762,
+            "3026": -0.013195074356649572
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": -0.0023605202980156448,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.018998909898612304,
+            "3026": 0.014277869302581014
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R2",
+          "mean_delta": 0.0043714827596928185,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.012194136119143162,
+            "3026": -0.003451170599757525
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": true,
+          "candidate": "R2",
+          "mean_delta": 0.012023164643755135,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.019101537644340305,
+            "3026": 0.004944791643169966
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.006966813379560177,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.01685149212750081,
+            "3026": 0.0029178653683804567
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.017883903864689243,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.0063302552622579444,
+            "3026": -0.029437552467120542
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.018055206732749157,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.00795416194792109,
+            "3026": -0.028156251517577224
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.01685559025301825,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.006278328292638857,
+            "3026": -0.02743285221339764
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": true,
+          "candidate": "R3",
+          "mean_delta": 0.020591984578552935,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.010086123806858804,
+            "3026": 0.031097845350247066
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": 0.00036405452123755566,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.008589939084903131,
+            "3026": -0.00786183004242802
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.009872384371388543,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.012097666527330464,
+            "3026": -0.007647102215446622
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.020103846034263018,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.01626713925939749,
+            "3026": -0.023940552809128546
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.010875837022392032,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.0008972472379238372,
+            "3026": -0.0226489212827079
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": 0.010011720638979704,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.0011802601490078501,
+            "3026": 0.02120370142696726
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": true,
+          "candidate": "R3",
+          "mean_delta": 0.025062960544725343,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.022790162609209408,
+            "3026": 0.02733575848024128
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": true,
+          "candidate": "R3",
+          "mean_delta": 0.01092682213419488,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.00761928671699541,
+            "3026": 0.01423435755139435
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.016359717065414225,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.022539690345635854,
+            "3026": -0.010179743785192596
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.03639585859528033,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.04706028666480122,
+            "3026": -0.025731430525759436
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.02006501588312415,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.016747984400729332,
+            "3026": -0.023382047365518965
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.01490488250674149,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.01717114591785729,
+            "3026": -0.012638619095625692
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": true,
+          "candidate": "R3",
+          "mean_delta": 0.019646799116997793,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.02703727886080276,
+            "3026": 0.012256319373192825
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.0024543576386464316,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.005426527811589477,
+            "3026": 0.0005178125342966133
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.012286180301130267,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.005393133180883081,
+            "3026": -0.019179227421377454
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.028165904921804596,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.01978671143860966,
+            "3026": -0.03654509840499953
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": -0.012174539867574719,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.006188626823629528,
+            "3026": -0.030537706558778965
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": 0.005782455105034945,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.007220897161638207,
+            "3026": 0.018785807371708096
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R3",
+          "mean_delta": 0.002375400304697989,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.012567235643441255,
+            "3026": -0.007816435034045277
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": true,
+          "candidate": "R3",
+          "mean_delta": 0.015593240456920343,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.019222664804623868,
+            "3026": 0.011963816109216818
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.014044276148089868,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.004278443040153457,
+            "3026": -0.03236699533633319
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.006370674377390195,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.007468208811367005,
+            "3026": -0.020209557566147396
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": true,
+          "candidate": "R4",
+          "mean_delta": 0.011527374574821225,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.019015435064157593,
+            "3026": 0.0040393140854848575
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.004368601801535921,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.02498217315399931,
+            "3026": 0.01624496955092747
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.0190374032273109,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.011118365824083543,
+            "3026": -0.02695644063053826
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.007606898038623744,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.0019417409337419977,
+            "3026": -0.017155537010989486
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.06020146385043487,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.08614259837550314,
+            "3026": -0.0342603293253666
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": 0.009324378944750078,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.02070080527313989,
+            "3026": -0.0020520473836397324
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.027802895450396936,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.020005229136882186,
+            "3026": -0.03560056176391169
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.008761792356176246,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.011999311514913069,
+            "3026": -0.005524273197439422
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": true,
+          "candidate": "R4",
+          "mean_delta": 0.010036377203619107,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.007493082112987048,
+            "3026": 0.012579672294251165
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": true,
+          "candidate": "R4",
+          "mean_delta": 0.005343235561945381,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.005664859023359892,
+            "3026": 0.00502161210053087
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.033141541059119484,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.02411337054431295,
+            "3026": -0.042169711573926016
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.006983179429779607,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.003395205671112844,
+            "3026": -0.01057115318844637
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": 0.0017443330095371357,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.013691951625227294,
+            "3026": -0.010203285606153023
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.02079798700074592,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.03961248125107586,
+            "3026": -0.0019834927504159827
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.008002984796194379,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.015042129154618666,
+            "3026": -0.031048098747007424
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.013383340961646117,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.01405844141786794,
+            "3026": -0.012708240505424295
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.03494471628677043,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.05241502536739695,
+            "3026": -0.017474407206143905
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.008890650747753637,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.0037993968224356856,
+            "3026": -0.02158069831794296
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.0036191706349990582,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.007792881817216268,
+            "3026": -0.015031223087214385
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": -0.0019220208676550832,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.013171375412886377,
+            "3026": -0.017015417148196543
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R4",
+          "mean_delta": 0.01772533656686251,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.03955476790100426,
+            "3026": -0.004104094767279243
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": true,
+          "candidate": "R4",
+          "mean_delta": 0.019677068320967606,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.01942845276179095,
+            "3026": 0.019925683880144263
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.006901243371281979,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.011048546394879066,
+            "3026": -0.024851033137443024
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.020579547927743025,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.03194975593072791,
+            "3026": -0.009209339924758142
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.0007444278914806035,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.005358547967738492,
+            "3026": -0.006847403750699699
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.0022949502897374185,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.02323637168359194,
+            "3026": 0.0186464711041171
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.011659360134315844,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.014880452694089441,
+            "3026": -0.008438267574542246
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.010027872546643057,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.005005162272498476,
+            "3026": -0.015050582820787639
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.029330284327948375,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.03976001376970184,
+            "3026": -0.01890055488619491
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.010925597736529624,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.01608680782265337,
+            "3026": -0.005764387650405878
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.004950090677782348,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.0038652189218928434,
+            "3026": -0.006034962433671853
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.01090101387625303,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.029834353766587163,
+            "3026": 0.008032326014081104
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": 0.012741348754780418,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.005167428411528674,
+            "3026": 0.03065012592108951
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": 0.006549842852682508,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.003996515930497324,
+            "3026": 0.01709620163586234
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.0009999426262427558,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.0076225134623423285,
+            "3026": -0.00962239871482784
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.014780959487610046,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.012200354444548145,
+            "3026": -0.017361564530671947
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.00989129154003987,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.006331194877800761,
+            "3026": -0.026113777957880502
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.03070725450179096,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.06519298073061386,
+            "3026": 0.00377847172703194
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.008264154463203055,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.0005223393340173521,
+            "3026": -0.017050648260423462
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.012848831798944027,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.015569193148722071,
+            "3026": -0.010128470449165983
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.019584941847598958,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.02084306638143718,
+            "3026": -0.018326817313760735
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.005291794919628279,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.0027547181544012034,
+            "3026": -0.007828871684855354
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.0022845775941235935,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.008259395419367599,
+            "3026": -0.012828550607614786
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": false,
+          "candidate": "R5",
+          "mean_delta": -0.004704648093961816,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": -0.015802371995049413,
+            "3026": 0.006393075807125781
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": true,
+          "candidate": "R5",
+          "mean_delta": 0.01476541367409756,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.006964524453564658,
+            "3026": 0.022566302894630463
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "both_strictly_positive": true,
+          "candidate": "R5",
+          "mean_delta": 0.008173203865531331,
+          "passed": false,
+          "population": "full_808",
+          "reference": "R0",
+          "seed_deltas": {
+            "2026": 0.004703708246673544,
+            "3026": 0.011642699484389119
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        }
+      ],
+      "name": "PROFILE_ASSOCIATED_REGIONAL_SIGNAL_SUPPORTED",
+      "passed": false,
+      "supporting_comparisons": []
+    }
+  },
+  "schema_version": 1,
+  "scientific_classification": "REGION_SIGNAL_EXISTS_BUT_NOT_BEYOND_FTV",
+  "status": "COMPLETE"
+}
