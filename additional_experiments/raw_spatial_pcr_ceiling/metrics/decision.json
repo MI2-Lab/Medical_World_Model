@@ -1,0 +1,8 @@
+{
+  "decision_class": "NOT_RUN",
+  "experiment": "raw_spatial_pcr_ceiling",
+  "gates": {},
+  "reporting_boundary": "empirical ceiling under the current C1B-H input contract",
+  "schema_version": 1,
+  "status": "NOT_RUN"
+}

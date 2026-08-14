@@ -1,0 +1,1 @@
+population,seed,timing,reference_arm,candidate_arm,draws,delta_auroc,delta_auroc_ci_low,delta_auroc_ci_high,delta_auprc,delta_auprc_ci_low,delta_auprc_ci_high,delta_brier,delta_brier_ci_low,delta_brier_ci_high

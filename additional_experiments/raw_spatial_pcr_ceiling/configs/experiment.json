@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "experiment": "raw_spatial_pcr_ceiling",
+  "branch": "feature/raw-spatial-pcr-ceiling",
+  "seeds": [2026, 3026],
+  "folds": [0, 1, 2, 3, 4],
+  "timings": ["T0", "T0_T1", "T0_T2", "T0_T3"],
+  "primary_timings": ["T0", "T0_T1", "T0_T2"],
+  "supplementary_timing_label": "T0_T3 late/pre-surgery",
+  "input": {
+    "modality": "C1B-H DCE7",
+    "channels": 7,
+    "visits": 4,
+    "shape_zyx": [112, 176, 160],
+    "local_support_mm": 64,
+    "expected_feature_map_chw": [128, 14, 22, 20]
+  },
+  "populations": {
+    "full_808": {"n": 808, "use": ["MRI_ONLY", "C", "C_PLUS_M"]},
+    "ftv_complete_375": {"n": 375, "use": ["F", "C_PLUS_F", "C_PLUS_F_PLUS_M"]}
+  },
+  "arms": ["C0", "C1", "C2", "C3", "C4", "C5"],
+  "arm_contract": {
+    "C0": {"input": "pooled_LOCAL3", "readout": "reused_supervised_reference"},
+    "C1": {"input": "full_feature_map", "readout": "valid_map_GAP"},
+    "C2": {"input": "LOCAL_feature_tokens", "readout": "query_cross_attention"},
+    "C3": {"input": "LOCAL_feature_tokens", "readout": "3_block_patch_transformer"},
+    "C4": {"input": "full_feature_tokens", "readout": "3_block_patch_transformer"},
+    "C5": {"input": "raw_C1B_H", "readout": "C4_matched_spatial_readout"}
+  },
+  "attention": {"query_tokens": 1, "blocks": 2, "heads": 4, "width": 128, "dropout": 0.1},
+  "transformer": {"blocks": 3, "heads": 4, "width": 128, "dropout": 0.1, "positional_encoding": "physical_feature_cell_coordinates"},
+  "optimization": {
+    "loss": "BCEWithLogitsLoss",
+    "class_weight": "train_fold_only",
+    "learning_rate_grid": [0.0001, 0.0005],
+    "weight_decay_grid": [0.0001, 0.001],
+    "patience": 10,
+    "max_epochs": 80,
+    "batch_size": 8,
+    "encoder_policy": ["frozen", "light_finetune_final_stage"],
+    "c5_encoder_policy": "full_supervised_adaptation",
+    "selection_scope": "outer_train_validation_only"
+  },
+  "fusion": {"classifier": "fold_safe_regularized_logistic", "selection": "validation_only", "clinical_inside_mri_branch": false},
+  "bootstrap": {"draws": 5000, "unit": "paired_patient_within_outer_fold", "seed": 260814},
+  "privacy": {"patient_level_predictions_committed": false, "raw_mri_committed": false, "labels_committed": false, "checkpoints_committed": false}
+}

@@ -1,0 +1,18 @@
+# Patient-level, label-bearing, raw-image, feature, checkpoint, and prediction artifacts.
+*.private.*
+*.private
+*.pt
+*.pth
+*.ckpt
+*.npz
+*.npy
+*.parquet
+predictions/**/*.csv
+features/**/*.csv
+features/**/*.npz
+checkpoints/**
+logs/**/*.log
+manifests/**/*.csv
+!**/.gitkeep
+__pycache__/
+.pytest_cache/

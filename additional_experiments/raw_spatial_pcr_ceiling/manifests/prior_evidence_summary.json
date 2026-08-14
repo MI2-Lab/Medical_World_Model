@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "read_before_freeze": true,
+  "evidence": [
+    {
+      "experiment": "conditional_pcr_contrastive_ceiling",
+      "branch": "feature/conditional-pcr-contrastive-ceiling",
+      "reference_commit": "ab083033195a902038ba7eae403a4b7e66de93dd",
+      "summary": "LOCAL pooled supervised adaptation remained low; best supervised MRI-only AUROC was approximately 0.548, with negligible gain over pooled reference and a material train-test gap; full encoder fine-tuning did not materially raise the ceiling."
+    },
+    {
+      "experiment": "local_response_state_multiseed_confirmation",
+      "branch": "feature/local-response-state-multiseed-confirmation",
+      "reference_commit": "b4ec0c1473da513f2b19baa58d54c0fd5382e52f",
+      "summary": "LOCAL0 was stable versus GAP0 across five seeds and LOCAL3 was the confirmed pooled response baseline."
+    },
+    {
+      "experiment": "spatial_heterogeneity_phenotype_audit",
+      "branch": "feature/spatial-heterogeneity-phenotype-audit",
+      "reference_commit": "7742d737d92ed153b5c721cd323528b0a127d5ef",
+      "summary": "The diagnostic oracle suggested spatially localized phenotype information, while fixed pooling variants did not establish a pCR gain or FTV-independent signal."
+    },
+    {
+      "experiment": "mask_free_region_aware_audit",
+      "branch": "feature/mask-free-region-aware-audit",
+      "reference_commit": "71f69bf962ca8f445905261e70b90b445ebf7dd2",
+      "summary": "Fixed central/inner/outer shell readouts did not recover a stable pCR or beyond-FTV gain; conclusions remained mask-free-at-readout diagnostic only."
+    },
+    {
+      "experiment": "mri_clinical_complementarity_audit",
+      "branch": "feature/mri-clinical-complementarity-audit",
+      "reference_commit": "064e0596348f0972decc39774336580f58e8da61",
+      "summary": "Current MRI-only pCR discrimination was weak and no timing established stable clinical or clinical+FTV incremental value."
+    },
+    {
+      "experiment": "foundation_mri_baselines",
+      "branch": "feature/foundation-mri-baselines",
+      "reference_commit": "98dfc5ab30804f288ff85f8d2b8c10905afbbe8b",
+      "summary": "MedicalNet and DINOv1 references were mixed and did not establish consistent beyond-FTV value or justify immediate encoder replacement."
+    },
+    {
+      "experiment": "foundation_mri_dinov3_posthoc",
+      "branch": "feature/foundation-mri-dinov3-posthoc",
+      "reference_commit": "fbc31fff863e1f029ab3ee53dbf1ba0d622a6dd8",
+      "summary": "The DINOv3 post-hoc comparison remained diagnostic rather than clean external validation and did not remove the need for a controlled supervised ceiling test."
+    }
+  ],
+  "synthesis": "The next diagnostic is supervised spatial learning: compare pooled LOCAL, full-map GAP, learned LOCAL aggregation, full-context tokens, and direct raw-image supervision under the unchanged C1B-H DCE7 input contract."
+}
+

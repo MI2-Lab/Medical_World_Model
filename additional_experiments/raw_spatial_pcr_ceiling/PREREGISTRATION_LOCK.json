@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "experiment": "raw_spatial_pcr_ceiling",
+  "branch": "feature/raw-spatial-pcr-ceiling",
+  "parent_branch": "feature/clinical-residual-phenotype-state",
+  "parent_commit": "825e3c600f2b47dd48316fadbfe1dfed601354f2",
+  "started_at_utc": "2026-08-14T09:26:04Z",
+  "scientific_status": "oracle_supervised_spatial_raw_image_ceiling_not_world_model",
+  "input_contract": {
+    "modality": "C1B-H DCE7",
+    "shape_bvcdhw": [4, 7, 112, 176, 160],
+    "feature_map_contract": "dynamic; expected [B,128,14,22,20] before GAP",
+    "local_support_mm": 64,
+    "fov_expansion": false,
+    "bpe_source_proxy": false,
+    "pcr_geometry_adaptation": false
+  },
+  "population_contract": {
+    "full_808": 808,
+    "ftv_complete_375": 375,
+    "folds": [0, 1, 2, 3, 4],
+    "seeds": [2026, 3026],
+    "primary_timings": ["T0", "T0_T1", "T0_T2"],
+    "supplementary_timing": "T0_T3_late_pre_surgery",
+    "fold_source": "conditional_pcr_contrastive_ceiling frozen outer folds"
+  },
+  "arms": {
+    "C0": {"kind": "pooled_supervised_reference", "trainable": false},
+    "C1": {"kind": "full_map_gap", "trainable": ["readout_head"], "light_finetune": "final_encoder_stage"},
+    "C2": {"kind": "local_attention_pool", "trainable": ["attention_pool", "pcr_head"], "light_finetune": "final_encoder_stage"},
+    "C3": {"kind": "local_patch_token_transformer", "trainable": ["token_transformer", "pcr_head"], "light_finetune": "final_encoder_stage"},
+    "C4": {"kind": "full_map_token_transformer", "trainable": ["token_transformer", "pcr_head"], "light_finetune": "final_encoder_stage"},
+    "C5": {"kind": "raw_image_supervised", "trainable": ["existing_3d_encoder", "spatial_readout", "pcr_head"]},
+    "C6": {"kind": "dinov3_local_secondary", "enabled": false}
+  },
+  "training_contract": {
+    "loss": "BCEWithLogitsLoss",
+    "contrastive_loss": false,
+    "clinical_in_mri_branch": false,
+    "treatment_matching": false,
+    "max_attention_blocks": 2,
+    "token_transformer_blocks": 3,
+    "hidden_dim": 128,
+    "heads": 4,
+    "dropout": 0.10,
+    "weight_decay": [0.0001, 0.001],
+    "learning_rate": [0.0001, 0.0005],
+    "early_stopping_patience": 10,
+    "selection_scope": "outer_train_validation_only"
+  },
+  "metrics_contract": {
+    "metrics": ["auroc", "auprc", "brier", "calibration_slope", "ece10", "train_auroc", "validation_auroc", "oof_auroc"],
+    "bootstrap_draws": 5000,
+    "bootstrap_unit": "patient_within_outer_fold",
+    "confidence_level": 0.95
+  },
+  "gates": {
+    "A_spatial_vs_C0_delta_auroc": 0.05,
+    "B_C5_vs_C0_delta_auroc": 0.08,
+    "C_C4_vs_C3_delta_auroc": 0.03,
+    "D_clinical_positive_both_seeds": true,
+    "E_ftv_positive_both_seeds": true,
+    "overfit_train_auroc": 0.80,
+    "overfit_oof_auroc": 0.55
+  },
+  "reporting_boundary": "All conclusions are empirical ceilings under the current C1B-H input contract; never information-theoretic ceilings."
+}
+
