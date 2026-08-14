@@ -1,0 +1,23 @@
+{
+  "eligibility_candidate_count": 948,
+  "eligibility_excluded_count": 1,
+  "eligibility_manifest_sha256": "041f11877bb55d70a611e14a811f5610a3572c4437470bbde54cbdf19121f2c7",
+  "eligibility_selected_count": 947,
+  "private_manifest_sha256": "915cb55ec19448db26d38fea08949d5fa58da0ebdd80d62e31f5b594be39febf",
+  "projected_patient_count": 947,
+  "projected_patient_order_sha256": "127b31c8331bf7ea41b8c41612a3b49bba168f813cfdf6fe872e6595925f069b",
+  "projected_source_counts": {
+    "ispy1": 139,
+    "ispy2": 808
+  },
+  "schema_version": 1,
+  "source_file_count": 2,
+  "source_row_counts": {
+    "ispy1": 215,
+    "ispy2": 808
+  },
+  "source_sha256": {
+    "ispy1": "7301e6d43ce2c8aa4f45a56fa43f065c4a5c0a119f1735e3d2a540337940e4fd",
+    "ispy2": "b3355f8ac80cf8f0fa95722b8d8a8b73d96790e9ded5c491ddb5b2e6a7793436"
+  }
+}

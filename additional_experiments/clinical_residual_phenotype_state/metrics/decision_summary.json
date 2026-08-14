@@ -1,0 +1,189 @@
+{
+  "bootstrap": {
+    "confidence_level": 0.95,
+    "replicates": 2000,
+    "stratification": "outer_fold_x_outcome",
+    "unit": "patient"
+  },
+  "classification": {
+    "code": "D",
+    "label": "FACTORIZATION NOT SUPPORTED"
+  },
+  "evaluation_lock": {
+    "outcome_access_permitted_only_after_verification": true,
+    "path": "EVALUATION_LOCK.json",
+    "payload_sha256": "aafc4965b562fb750fc27acc41276a05f3a9726882378eb6b614f4b62664e430",
+    "stage_b_response_adapter": "exact_usecols_split_ftv_observability_only"
+  },
+  "experiment": "clinical_residual_phenotype_state",
+  "feature_cells": {
+    "F0": 10,
+    "factorized": 20
+  },
+  "gates": {
+    "A_RESPONSE_PRESERVED": {
+      "all_response_effects_finite": true,
+      "delta_effects": {
+        "F1": {
+          "2026": {
+            "delta_spearman_delta": -0.0020275344180225585
+          },
+          "3026": {
+            "delta_spearman_delta": 0.031552926005992354
+          }
+        },
+        "F2": {
+          "2026": {
+            "delta_spearman_delta": -0.0014861759016953635
+          },
+          "3026": {
+            "delta_spearman_delta": 0.03868767777904203
+          }
+        }
+      },
+      "delta_systematic_degradation": false,
+      "label": "RESPONSE_STATE_NOT_PRESERVED",
+      "pass": false,
+      "static_effects": {
+        "F1": {
+          "2026": {
+            "static_spearman_delta": -0.012084651658765377
+          },
+          "3026": {
+            "static_spearman_delta": -0.014044630466372499
+          }
+        },
+        "F2": {
+          "2026": {
+            "static_spearman_delta": -0.032090710810314504
+          },
+          "3026": {
+            "static_spearman_delta": -0.010798840299552248
+          }
+        }
+      },
+      "static_floor": -0.03
+    },
+    "B_FACTORIZATION_WORKS": {
+      "F1_future_prediction_beats_persistence_every_fold": false,
+      "F1_nearest_neighbor_mean_jaccard": 0.1985926955029699,
+      "F1_noncollapsed": true,
+      "crosscov_aggregation": "within_seed_unweighted_mean_of_5_fold_outer_test_standardized_crosscov_rms; both_seeds_strictly_lower",
+      "crosscov_by_seed": {
+        "2026": {
+          "F0_unseparated_halves": 0.4808124630587243,
+          "F1": 0.2550328004198359,
+          "delta": -0.22577966263888843
+        },
+        "3026": {
+          "F0_unseparated_halves": 0.5217244648320162,
+          "F1": 0.25478341709822827,
+          "delta": -0.2669410477337879
+        }
+      },
+      "crosscov_lower_than_F0_unseparated_control": true,
+      "image_information_retained": false,
+      "image_information_safeguard": false,
+      "label": "FACTORISED_STATE_NOT_VALID",
+      "pass": false
+    },
+    "C_CLINICAL_REDUNDANCY_REDUCED": {
+      "F2_future_prediction_beats_persistence_every_fold": false,
+      "F2_image_information_retained": false,
+      "F2_image_information_safeguard": false,
+      "F2_noncollapsed": true,
+      "label": "CLINICAL_REDUNDANCY_NOT_REDUCED",
+      "pass": false,
+      "profile_auroc": {
+        "label_her2": {
+          "2026": {
+            "F1_flip_invariant_decodability": 0.5281363637605492,
+            "F1_raw_auroc": 0.5281363637605492,
+            "F2_flip_invariant_decodability": 0.5257485226257509,
+            "F2_minus_F1_decodability": -0.0023878411347982853,
+            "F2_raw_auroc": 0.5257485226257509,
+            "decreased": true
+          },
+          "3026": {
+            "F1_flip_invariant_decodability": 0.5173036519762527,
+            "F1_raw_auroc": 0.5106810811401532,
+            "F2_flip_invariant_decodability": 0.5212378524729454,
+            "F2_minus_F1_decodability": 0.003934200496692686,
+            "F2_raw_auroc": 0.5184210742006606,
+            "decreased": false
+          }
+        },
+        "label_hr": {
+          "2026": {
+            "F1_flip_invariant_decodability": 0.5481370933474282,
+            "F1_raw_auroc": 0.5481370933474282,
+            "F2_flip_invariant_decodability": 0.5295443003865725,
+            "F2_minus_F1_decodability": -0.018592792960855697,
+            "F2_raw_auroc": 0.5246256049912424,
+            "decreased": true
+          },
+          "3026": {
+            "F1_flip_invariant_decodability": 0.526491102612733,
+            "F1_raw_auroc": 0.526491102612733,
+            "F2_flip_invariant_decodability": 0.5278114603737214,
+            "F2_minus_F1_decodability": 0.0013203577609883776,
+            "F2_raw_auroc": 0.5278114603737214,
+            "decreased": false
+          }
+        }
+      },
+      "targets_decreased_in_both_seeds": []
+    },
+    "D_PHENOTYPE_COMPLEMENTARITY": {
+      "critical_comparison": "C+F+z_R+z_P minus C+F+z_R",
+      "effects_by_timing_seed": {
+        "T0-T1": {
+          "2026": -0.03262435677530007,
+          "3026": -0.010257289879931353
+        },
+        "T0-T2": {
+          "2026": -0.009331046312178404,
+          "3026": 0.0007204116638078739
+        }
+      },
+      "label": "CLINICAL_RESIDUAL_PHENOTYPE_VALUE_NOT_SUPPORTED",
+      "pass": false,
+      "positive_both_seed_timings": [],
+      "strong_mean_ge_0_03_timings": []
+    }
+  },
+  "interpretation_scope": "two-seed internal OOF pilot; no external validation",
+  "patient_level_outputs_committed": false,
+  "phase": "post_export_evaluation",
+  "representation_frozen_before_pcr_access": true,
+  "schema_version": 1,
+  "supporting_effects": {
+    "MRI_full_minus_zR_T0_T2": {
+      "F1": {
+        "2026": -0.008575814429473083,
+        "3026": 0.010861333788163008
+      },
+      "F2": {
+        "2026": -0.0006685996929898241,
+        "3026": -0.013167320484393508
+      }
+    },
+    "clinical_full_minus_zR_T0_T2": {
+      "F1": {
+        "2026": -0.06811529933481153,
+        "3026": -0.0347262493603957
+      },
+      "F2": {
+        "2026": -0.06629370629370612,
+        "3026": -0.034473818864062644
+      }
+    },
+    "factorization_arm_ranking_T0_T1_T0_T2": {
+      "F0_mean_auroc": 0.661483704974271,
+      "F1_mean_auroc": 0.6417753001715266,
+      "F1_phenotype_positive_both_seed_timings": [],
+      "F1_strictly_best": false,
+      "F2_mean_auroc": 0.6512435677530017
+    }
+  }
+}

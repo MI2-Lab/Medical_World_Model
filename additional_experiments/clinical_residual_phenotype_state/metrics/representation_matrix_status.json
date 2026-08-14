@@ -1,0 +1,29 @@
+{
+  "PCR_LABEL_ACCESS": "FORBIDDEN",
+  "already_complete_cells": 20,
+  "arms": [
+    "F1",
+    "F2"
+  ],
+  "completed_cells": 20,
+  "experiment": "clinical_residual_phenotype_state",
+  "folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "launched_cells": 0,
+  "pcr_labels_used": false,
+  "phase": "representation_training",
+  "preregistration_lock_sha256": "8825a24f80bf07ba12783bd2e21be038317c842af4bae5797d9566e5df113310",
+  "preregistration_payload_sha256": "802a16595d24c27450db0494d12d83ec6f0f201e2d8e59b2abc96a0dc93dbf71",
+  "required_cells": 20,
+  "schema_version": 1,
+  "seed_bases": [
+    2026,
+    3026
+  ],
+  "status": "COMPLETE"
+}

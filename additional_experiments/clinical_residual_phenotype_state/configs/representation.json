@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "experiment": "clinical_residual_phenotype_state",
+  "phase": "representation_training",
+  "PCR_LABEL_ACCESS": "FORBIDDEN",
+  "input": {
+    "kind": "C1B-H",
+    "channels": "DCE7",
+    "tensor_shape": [
+      4,
+      7,
+      112,
+      176,
+      160
+    ],
+    "spacing_xyz_mm": [
+      0.9,
+      0.9,
+      2.0
+    ],
+    "local_window_mm_xyz": [
+      64.0,
+      64.0,
+      64.0
+    ],
+    "bpe_target": false,
+    "broader_context": false,
+    "lesion_mask": false
+  },
+  "state": {
+    "response_dim": 96,
+    "phenotype_dim": 96,
+    "total_dim": 192,
+    "phenotype_queries": 1,
+    "query_heads": 4,
+    "query_mlp_dim": 256,
+    "response_pooling": "fixed_64mm_LOCAL_fractional_mean",
+    "phenotype_pooling": "single_mask_free_latent_query_over_fixed_64mm_LOCAL_tokens"
+  },
+  "arms": {
+    "F1": {
+      "factorized": true,
+      "adversarial_weight": 0.0,
+      "primary": true
+    },
+    "F2": {
+      "factorized": true,
+      "adversarial_weight": 0.05,
+      "primary": true
+    },
+    "F2S": {
+      "factorized": true,
+      "adversarial_weight": 0.01,
+      "primary": false
+    }
+  },
+  "loss": {
+    "lambda_ftv": 0.25,
+    "lambda_phenotype_future": 0.5,
+    "lambda_phenotype_consistency": 0.1,
+    "lambda_crosscov": 0.05,
+    "crosscov_normalization": "squared_frobenius_over_response_dim_vicreg_scale",
+    "sigreg_weight": 0.09,
+    "sigreg_projections": 256,
+    "step_weights": [
+      2.0,
+      1.0,
+      0.5
+    ],
+    "consistency_invariance": 1.0,
+    "consistency_variance": 0.1,
+    "consistency_covariance": 0.01,
+    "variance_target": 1.0,
+    "gradient_reversal_scale": 1.0
+  },
+  "augmentation": {
+    "view_1": "identity",
+    "view_2": "weak_channelwise_photometric",
+    "scale_half_width": 0.05,
+    "shift_half_width": 0.05,
+    "gaussian_noise_std": 0.02,
+    "clip": [
+      -5.0,
+      5.0
+    ],
+    "geometric_transform": false
+  },
+  "transition_condition": {
+    "temporal_features": [
+      "forecast_T1",
+      "forecast_T2",
+      "forecast_T3",
+      "exposed_through_T0",
+      "exposed_through_T1",
+      "exposed_through_T2"
+    ],
+    "clinical_features": [
+      "label_hr",
+      "label_her2",
+      "label_mp"
+    ],
+    "treatment_feature": "arm_one_hot",
+    "query_receives_condition": false,
+    "treatment_adversarially_removed": false
+  },
+  "profiles": {
+    "ispy2_path": "/data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv",
+    "ispy2_sha256": "b3355f8ac80cf8f0fa95722b8d8a8b73d96790e9ded5c491ddb5b2e6a7793436",
+    "ispy1_path": "/data/data/Preprocessed/I-SPY1/clinical_labels_complete4visits.csv",
+    "ispy1_sha256": "7301e6d43ce2c8aa4f45a56fa43f065c4a5c0a119f1735e3d2a540337940e4fd",
+    "technical_eligibility_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/manifests/technical_eligibility_patients.private.csv",
+    "technical_eligibility_sha256": "041f11877bb55d70a611e14a811f5610a3572c4437470bbde54cbdf19121f2c7",
+    "expected_patient_count": 947,
+    "training_manifest_path": "additional_experiments/clinical_residual_phenotype_state/manifests/training_profiles.private.csv",
+    "training_manifest_sha256": "915cb55ec19448db26d38fea08949d5fa58da0ebdd80d62e31f5b594be39febf",
+    "public_provenance_path": "additional_experiments/clinical_residual_phenotype_state/manifests/training_profiles_provenance.json",
+    "allowed_columns": [
+      "patient_id",
+      "label_hr",
+      "label_her2",
+      "label_mp",
+      "arm"
+    ],
+    "forbidden_column_tokens": [
+      "pcr",
+      "rcb",
+      "outcome",
+      "response"
+    ]
+  },
+  "training": {
+    "seed_bases": [
+      2026,
+      3026
+    ],
+    "folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "physical_batch_size": 4,
+    "accumulation_steps": 8,
+    "logical_batch_size": 32,
+    "workers": 2,
+    "epochs": 12,
+    "patience": 4,
+    "learning_rate": 5e-05,
+    "weight_decay": 0.0001,
+    "ema_momentum": 0.996,
+    "max_grad_norm": 5.0,
+    "min_response_std": 0.05,
+    "min_phenotype_std": 0.05,
+    "min_phenotype_effective_rank": 10.0,
+    "min_augmentation_cosine": 0.5,
+    "optimizer": "AdamW",
+    "checkpoint_selection": "minimum_validation_pcr_free_shared_representation_loss_excluding_minimax_adversary_ce_among_finite_zR_zP_noncollapsed_epochs"
+  },
+  "upstream": {
+    "stage_a_sentinel": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/STAGE_A_GO.json",
+    "stage_a_sentinel_sha256": "0b2c9e0af63ce8806525fb15ac9a27f6ab525b0259ccf16001981ca5091afbdb",
+    "stage_b_data_contract": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/manifests/stage_b_data_contract.private.json",
+    "stage_b_data_contract_sha256": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27",
+    "f0_feature_root": "additional_experiments/local_global_response_state_pilot/features/formal_4x8",
+    "f0_checkpoint_root": "additional_experiments/local_global_response_state_pilot/checkpoints/formal_4x8",
+    "f0_arm": "LOCAL3"
+  }
+}

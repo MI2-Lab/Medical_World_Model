@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "experiment": "clinical_residual_phenotype_state",
+  "phase": "post_export_evaluation",
+  "representation_must_be_frozen": true,
+  "required_primary_feature_cells": 20,
+  "timings": {
+    "T0": [0],
+    "T0-T1": [0, 1],
+    "T0-T2": [0, 1, 2]
+  },
+  "states": ["z_R", "z_P", "full"],
+  "profile_targets": ["HR", "HER2", "subtype"],
+  "clinical_features": ["label_hr", "label_her2", "label_mp", "age_at_screening", "arm"],
+  "ridge_alphas": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0],
+  "logistic_c_grid": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+  "bootstrap": {
+    "replicates": 2000,
+    "confidence_level": 0.95,
+    "unit": "patient",
+    "stratify_by": "outer_fold_x_outcome",
+    "random_seed": 260812
+  },
+  "diagnostics": {
+    "effective_rank_floor": 10.0,
+    "phenotype_mean_std_floor": 0.05,
+    "augmentation_cosine_floor": 0.5,
+    "nearest_neighbors_k": 10,
+    "cca_components": 10,
+    "future_prediction_baseline": "ema_target_projected_persistence_T1_to_T2_and_T2_to_T3",
+    "future_prediction_must_beat_baseline": true
+  },
+  "gates": {
+    "response_static_ftv_spearman_degradation_floor": -0.03,
+    "response_delta_systematic_degradation_forbidden": true,
+    "clinical_redundancy_targets": ["HR", "HER2"],
+    "clinical_redundancy_primary_view": "static_T0_T1_T2_macro",
+    "clinical_redundancy_decodability": "0.5_plus_absolute_AUROC_minus_0.5",
+    "phenotype_complementarity_timings": ["T0-T1", "T0-T2"],
+    "phenotype_complementarity_each_seed_strictly_gt": 0.0,
+    "phenotype_complementarity_strong_mean": 0.03
+  },
+  "labels": {
+    "ispy2_path": "/data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv",
+    "ispy2_sha256": "b3355f8ac80cf8f0fa95722b8d8a8b73d96790e9ded5c491ddb5b2e6a7793436",
+    "pcr_column": "label_pcr"
+  },
+  "frozen_inputs": {
+    "representation_preregistration_lock": "additional_experiments/clinical_residual_phenotype_state/PREREGISTRATION_LOCK.json",
+    "representation_preregistration_lock_sha256": "8825a24f80bf07ba12783bd2e21be038317c842af4bae5797d9566e5df113310",
+    "fold_manifest_path": "/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+    "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+    "stage_a_sentinel_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/STAGE_A_GO.json",
+    "stage_a_sentinel_sha256": "0b2c9e0af63ce8806525fb15ac9a27f6ab525b0259ccf16001981ca5091afbdb",
+    "stage_b_data_contract_path": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/manifests/stage_b_data_contract.private.json",
+    "stage_b_data_contract_sha256": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27",
+    "ftv_transition_path": "additional_experiments/radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv",
+    "ftv_transition_sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d",
+    "f0_feature_root": "additional_experiments/local_response_state_multiseed_confirmation/features/formal_4x8",
+    "f0_preregistration_lock": "additional_experiments/local_response_state_multiseed_confirmation/PREREGISTRATION_LOCK.json",
+    "f0_preregistration_lock_sha256": "a4e1cd2d8b61a7130da2b2eb6dc04e9a5355f44d0a37f4ceccf2fba48b35a9ee",
+    "factorized_feature_root": "additional_experiments/clinical_residual_phenotype_state/features/formal_primary",
+    "factorized_checkpoint_root": "additional_experiments/clinical_residual_phenotype_state/checkpoints/formal_primary",
+    "factorized_export_status_path": "additional_experiments/clinical_residual_phenotype_state/metrics/feature_export_status.json",
+    "expected_primary_patient_count": 808,
+    "expected_ftv_patient_count": 375
+  },
+  "model_selection": {
+    "outer_train_fit": true,
+    "outer_validation_hyperparameter_selection": true,
+    "outer_test_single_prediction": true,
+    "logistic_penalty": "l2",
+    "binary_logistic_solver": "liblinear",
+    "multiclass_logistic_solver": "lbfgs",
+    "multiclass_training": "balanced_multinomial",
+    "logistic_max_iter": 10000,
+    "tie_break": "smaller_regularization_parameter"
+  },
+  "optional_f3_linear_residualization": false
+}
