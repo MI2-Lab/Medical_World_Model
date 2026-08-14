@@ -1,0 +1,52 @@
+{
+  "PCR_LABEL_ACCESS": "FORBIDDEN",
+  "code_sha256": {
+    "scripts/build_training_profiles.py": "771c550c86b918cd4ae94059bd5ff1d66d2218cbc21fe505736f047f2e860bba",
+    "scripts/export_features.py": "892907ab7c681ea96381ac1a80f0eee111d7caa81b3120134de5586a64dbc6fa",
+    "scripts/run_matrix.py": "32f8d3d619d9f3ac21c559a20716b8e095baf927b3d8b0a615097ecb291b2aa8",
+    "scripts/train_cell.py": "84473767bd1ba8f2f06ab59c61419a928896819766a32c33b83a89fbcaeb56ab",
+    "src/crps/contracts.py": "69d3a07fbcfedac96ac8fa7fe94d3a4b9b226d2293a2a6b21f16d374e0a56f81",
+    "src/crps/data.py": "ab001d1f27d547eeeaff8340201527178e092b5cec83e4d2ad027f13ef00ea13",
+    "src/crps/losses.py": "ee727b14e7a9d32d18f0a189ab3f7b213d7864c6e51462e4a89bbb2e2b9eb136",
+    "src/crps/model.py": "ce4568aa0dafa8c3e2d8b59595fed0cee4b98d6a0a048c110786f4550f3dc6e3",
+    "src/crps/preregistration.py": "b47c59bd0f213f19d617f836beb16780906e777e469d58fc85fdeb8e84004da7",
+    "src/crps/stageb.py": "7d564d1c518165c019e1def3f417d2924528341a427d7068d13638c2c3d3348b",
+    "src/crps/training.py": "e9a379dee5d317183c03abbfd1855889d4a1dc511ed16527b30d69aa142446b6",
+    "src/crps/upstream.py": "e810edb77a6b8265acfed56399d5447fc1d91f12473ad9c642e39428d710851d"
+  },
+  "config_path": "configs/representation.json",
+  "config_sha256": "1e54f8b5514f8623d23a3be492d459e4c28535279c68c1637c2cc0ab18c23f8d",
+  "experiment": "clinical_residual_phenotype_state",
+  "lock_sha256": "802a16595d24c27450db0494d12d83ec6f0f201e2d8e59b2abc96a0dc93dbf71",
+  "pcr_used_for_checkpoint_selection": false,
+  "pcr_used_for_hyperparameter_selection": false,
+  "pcr_used_for_representation_training": false,
+  "phase": "representation_training",
+  "schema_version": 1,
+  "status": "PASS",
+  "training_profile_manifest_sha256": "915cb55ec19448db26d38fea08949d5fa58da0ebdd80d62e31f5b594be39febf",
+  "upstream_source_sha256": {
+    "model": {
+      "conditioned_transition": "a4d7741460938f41e090255045717b3b072e9d555e15eaa6357aa3a6839b531e",
+      "g3": {
+        "dgrs/__init__.py": "c18fa03739e604a77018975ec1d2e7ed00339d8b6a529562446c845e9200b9b8",
+        "dgrs/model.py": "ce39878a0fef5af1f92a86811faabbe73b39f57cdaf6d7580bbd65bd855d4ed9",
+        "dgrs/training.py": "76f9108df0ca8c0ff69e514cff3bab1d5e316d946da60c5f530dd7b9706d3815"
+      },
+      "pooling": {
+        "c1b_spatial_audit/__init__.py": "55dbb7a79f6248075464cb983617296bc71cd391b0c08d956c077f3ce0c75584",
+        "c1b_spatial_audit/pooling.py": "630a717a98a7e80d69d3a462dd3086c2de81449c91910312cbc0bfce0fd58d54"
+      }
+    },
+    "stage_b": {
+      "__init__.py": "2976c6d040c506b4f1b1db5374718d1c3edf341805d0e6a9d176f0c02fa37a47",
+      "contracts.py": "48d7738b6764780ba2e784f826be44ac718fdbb0beb526ec31c3c5525cba4bf9",
+      "data.py": "948a25aa00eeaf68a11f5a0bcf7c4d0c7592786a36ebb9bce472361745eebb59",
+      "gate.py": "babb748a71eba0c36d802a8e15c861387d506de67cf754ec58ae96f1d3341555",
+      "inputs.py": "40965e509afa059ce2674c7a7fde18cd9097e1eb00d05021738d8cf9f6346177",
+      "targets.py": "06434db46cf76e6f39ff6eb1c476933885e90ed0a4c952dcc0a3477a25996c7b",
+      "training.py": "2edf546628e447bdd1b9715f60f105d1a5952763bd782aabddbae298fae62f52",
+      "upstream.py": "dfc03ab80590d1b57240a8ce210c75245bce4dd3bad9a4d655d8d63a1f96d54f"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+checkpoints/**
+!checkpoints/.gitkeep
+features/**
+!features/.gitkeep
+logs/**
+!logs/.gitkeep
+predictions/**
+!predictions/.gitkeep
+manifests/*.private.*
+metrics/*.private.*
+reports/*.private.*
+**/__pycache__/
+**/.pytest_cache/
+*.pyc

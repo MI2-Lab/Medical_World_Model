@@ -1,0 +1,13 @@
+arm,state,timing,fold,aggregation,top_k,metric,n_patients,mean_jaccard,median_jaccard,valid_patient_comparisons,ambiguous_patient_comparisons,seed_pairs,pcr_labels_used
+F1,z_P,T0-T2,0,within_fold_across_seed_pair,10,cosine,162,0.2206495758697341,0.25,162,0,1,False
+F1,z_P,T0-T2,1,within_fold_across_seed_pair,10,cosine,162,0.17479465170383643,0.17647058823529413,162,0,1,False
+F1,z_P,T0-T2,2,within_fold_across_seed_pair,10,cosine,162,0.21643504955338458,0.17647058823529413,162,0,1,False
+F1,z_P,T0-T2,3,within_fold_across_seed_pair,10,cosine,161,0.16790156184518049,0.17647058823529413,161,0,1,False
+F1,z_P,T0-T2,4,within_fold_across_seed_pair,10,cosine,161,0.21318263854271388,0.17647058823529413,161,0,1,False
+F1,z_P,T0-T2,-1,unweighted_mean_of_5_within_fold_seed_comparisons,10,cosine,808,0.1985926955029699,0.19117647058823534,808,0,5,False
+F2,z_P,T0-T2,0,within_fold_across_seed_pair,10,cosine,162,0.2409993512074695,0.25,162,0,1,False
+F2,z_P,T0-T2,1,within_fold_across_seed_pair,10,cosine,162,0.20080571589859517,0.17647058823529413,162,0,1,False
+F2,z_P,T0-T2,2,within_fold_across_seed_pair,10,cosine,162,0.2280934924410443,0.17647058823529413,162,0,1,False
+F2,z_P,T0-T2,3,within_fold_across_seed_pair,10,cosine,161,0.1698935573760103,0.17647058823529413,161,0,1,False
+F2,z_P,T0-T2,4,within_fold_across_seed_pair,10,cosine,161,0.22225880905668605,0.17647058823529413,161,0,1,False
+F2,z_P,T0-T2,-1,unweighted_mean_of_5_within_fold_seed_comparisons,10,cosine,808,0.21241018519596108,0.19117647058823534,808,0,5,False
