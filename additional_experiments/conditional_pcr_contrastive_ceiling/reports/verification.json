@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "branch": "feature/conditional-pcr-contrastive-ceiling",
+  "base_commit": "7644e38",
+  "reporting_boundary": "This experiment intentionally uses pCR supervision and estimates a supervised representation ceiling. It is not evidence that the pCR-free World Model learned this information.",
+  "config_sha256": "21371b958a31a7f84813ad8c08664126c1664a5f8bf7200a9bcbcefdbcbfc554",
+  "input_contracts_resolved": true,
+  "confirmed_local_root": "local_response_state_multiseed_confirmation",
+  "public_results": {
+    "cache_audit_rows": 1,
+    "aggregate_rows": 192,
+    "bootstrap_rows": 54,
+    "matching_rows": 5,
+    "probe_rows": 55,
+    "subgroup_rows": 72,
+    "gap_rows": 192,
+    "diagnostic_rows": 2880,
+    "training_rows": 30,
+    "interpretation": "LOW_CONDITIONAL_MRI_CEILING"
+  },
+  "public_files": {
+    "public_files": 59,
+    "figures": 7,
+    "outside_folder_changes": 0
+  },
+  "private_results": {
+    "validated_supervised_cells": 30,
+    "private_prediction_rows": 567840,
+    "private_held_out_rows": 113568,
+    "private_predictions_mode": "0600",
+    "private_directory_mode": "0700",
+    "private_predictions_sha256": "d06403ddfc329083189c3b3df6aae98b7ebdf07ffd75334071d6a91db96c90b3",
+    "public_outputs_recomputed_from_private": true
+  },
+  "patient_level_artifacts_tracked": false,
+  "folds_treated_as_biological_replicates": false,
+  "private_predictions_sha256": "d06403ddfc329083189c3b3df6aae98b7ebdf07ffd75334071d6a91db96c90b3"
+}

@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "experiment": "conditional_pcr_contrastive_ceiling",
+  "branch": "feature/conditional-pcr-contrastive-ceiling",
+  "parent_commit": "7644e38",
+  "scientific_status": "oracle_supervised_representation_ceiling_not_world_model",
+  "input": {
+    "modality": "C1B-H DCE7",
+    "shape_bvcdhw": [4, 7, 112, 176, 160],
+    "base_architecture": "confirmed LOCAL",
+    "base_arm": "LOCAL3",
+    "base_state_dim": 192,
+    "projection_dim": 64
+  },
+  "paths": {
+    "private_input_repo_root_env": "MWM_PRIVATE_INPUT_REPO_ROOT",
+    "private_input_repo_root_default": "/data/mi2-interns/bowen/Medical_World_Model",
+    "stage_b_data_contract": "additional_experiments/c1b_overlap_eligibility_ftv_stageb/manifests/stage_b_data_contract.private.json",
+    "stage_b_data_contract_sha256": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27",
+    "clinical_labels": "/data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv",
+    "clinical_labels_sha256": "b3355f8ac80cf8f0fa95722b8d8a8b73d96790e9ded5c491ddb5b2e6a7793436",
+    "fold_manifest": "/data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv",
+    "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+    "ftv_table": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv",
+    "ftv_table_sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d",
+    "local_confirmation_root": "/data/mi2-interns/bowen/Medical_World_Model/additional_experiments/local_response_state_multiseed_confirmation",
+    "local_checkpoint_pattern": "checkpoints/formal_4x8/seed_{seed}/LOCAL3/fold_{fold}/selected.pt",
+    "local_feature_pattern": "features/formal_4x8/seed_{seed}/LOCAL3/fold_{fold}/response_state.private.npz",
+    "local_feature_metadata_pattern": "features/formal_4x8/seed_{seed}/LOCAL3/fold_{fold}/response_state.private.metadata.json"
+  },
+  "populations": {
+    "full_808": 808,
+    "ftv_complete_375": 375
+  },
+  "folds": [0, 1, 2, 3, 4],
+  "seeds": [2026, 3026],
+  "optional_seed": 4026,
+  "timings": ["T0", "T0_T1", "T0_T2", "T0_T3"],
+  "primary_timings": ["T0", "T0_T1", "T0_T2"],
+  "supplementary_timing": "T0_T3",
+  "matching": {
+    "fields": ["label_hr", "label_her2", "arm"],
+    "scope": "outer_train_only",
+    "positive": "same_pcr_within_exact_stratum",
+    "negative": "opposite_pcr_within_exact_stratum",
+    "unmatched_fallback": false,
+    "test_patients_allowed": false
+  },
+  "arms": {
+    "B0": {
+      "description": "Frozen confirmed LOCAL3 reference",
+      "pcr_training": false,
+      "trainable": []
+    },
+    "B1": {
+      "description": "Frozen LOCAL3 plus nonlinear supervised-contrastive projection",
+      "pcr_training": true,
+      "trainable": ["contrastive_projection_head"],
+      "bce_weight": 0.0
+    },
+    "B2": {
+      "description": "Light adaptation",
+      "pcr_training": true,
+      "trainable": ["encoder.features.3", "response_projection", "contrastive_projection_head", "training_only_pcr_heads"],
+      "bce_weight": 0.25
+    },
+    "B3": {
+      "description": "Full supervised diagnostic ceiling",
+      "pcr_training": true,
+      "trainable": ["encoder", "response_projection", "contrastive_projection_head", "training_only_pcr_heads"],
+      "bce_weight": 0.25
+    }
+  },
+  "projection_head": {
+    "architecture": "Linear(192,128)-GELU-LayerNorm(128)-Linear(128,64)",
+    "temperature": 0.1,
+    "longitudinal_training": "concatenate projected observed visits within each prefix",
+    "classifier": "one timing-specific linear logit per prefix; training and validation selection only"
+  },
+  "training": {
+    "B1": {
+      "epochs": 80,
+      "patience": 12,
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "full_train_contrastive_batch": true
+    },
+    "B2": {
+      "epochs": 10,
+      "patience": 3,
+      "encoder_learning_rate": 0.00005,
+      "head_learning_rate": 0.0005,
+      "weight_decay": 0.0001
+    },
+    "B3": {
+      "epochs": 10,
+      "patience": 3,
+      "encoder_learning_rate": 0.00001,
+      "head_learning_rate": 0.0005,
+      "weight_decay": 0.0001
+    },
+    "physical_patient_batch_max": 4,
+    "anchors_per_epoch_strategy": "all_eligible_anchors_exactly_once_per_epoch",
+    "workers": 3,
+    "max_grad_norm": 5.0,
+    "precision": "bfloat16_mixed_if_cuda",
+    "checkpoint_selection": "maximum mean validation AUROC across T0/T0-T1/T0-T2; earlier epoch tie-break",
+    "test_labels_forbidden": true
+  },
+  "downstream": {
+    "mri_prefix": "literal observed-state concatenation",
+    "pca_dimensions": [8, 16, 32, 64],
+    "pca_fit_scope": "outer_train_only",
+    "pca_whiten": false,
+    "dimension_selection": "outer_validation_AUROC; smaller_dimension_then_smaller_C_tie_break",
+    "classifier": "fold_isolated_L2_logistic_regression",
+    "c_grid": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "solver": "liblinear",
+    "max_iter": 10000,
+    "clinical_contract": ["label_hr", "label_her2", "label_mp", "age_at_screening", "race_simple", "menopausal_status_simple", "ethnicity", "arm"],
+    "clinical_matching_fields_are_not_mri_inputs": true
+  },
+  "metrics": ["auroc", "auprc", "brier", "calibration_slope", "ece"],
+  "calibration": {
+    "ece_bins": 10,
+    "ece_binning": "equal_width",
+    "probability_clip": 1e-6
+  },
+  "bootstrap": {
+    "draws": 5000,
+    "unit": "patient",
+    "stratify_by": "outer_fold",
+    "confidence_level": 0.95,
+    "seed": 260812
+  },
+  "success_gates": {
+    "A_mean_mri_auroc_delta": 0.08,
+    "B_positive_both_seeds_and_one_ci_above_zero": true,
+    "C_mean_beyond_ftv_auroc_delta": 0.03
+  },
+  "reporting_boundary": "This experiment intentionally uses pCR supervision and estimates a supervised representation ceiling. It is not evidence that the pCR-free World Model learned this information."
+}

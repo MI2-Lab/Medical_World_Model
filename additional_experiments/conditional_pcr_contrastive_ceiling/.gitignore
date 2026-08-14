@@ -1,0 +1,12 @@
+# Restricted and regenerable artifacts. Public delivery contains aggregate metrics only.
+checkpoints/**
+!checkpoints/.gitkeep
+features/**
+!features/.gitkeep
+predictions/**
+!predictions/.gitkeep
+logs/*.private.*
+manifests/*.private.*
+metrics/*.private.*
+**/__pycache__/
+.pytest_cache/

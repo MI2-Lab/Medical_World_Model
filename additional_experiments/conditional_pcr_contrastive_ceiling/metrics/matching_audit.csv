@@ -1,0 +1,6 @@
+fold,scope,training_patients,total_strata,usable_strata,bidirectionally_usable_strata,usable_patients,dropped_anchors,dropped_no_same_class_partner,dropped_no_opposite_class,unmatched_fallback_used,test_patients_used,pcr_negative,pcr_positive,usable_pcr_negative,usable_pcr_positive,natural_batch_size_3,natural_batch_size_4,max_unique_patients_per_logical_batch
+0,outer_train_only,525,28,26,24,506,19,2,17,False,False,347,178,347,159,2,504,4
+1,outer_train_only,525,28,26,22,513,12,6,6,False,False,346,179,344,169,0,513,4
+2,outer_train_only,525,28,27,24,520,5,5,0,False,False,347,178,345,175,0,520,4
+3,outer_train_only,526,28,27,24,515,11,3,8,False,False,347,179,346,169,2,513,4
+4,outer_train_only,526,28,27,26,524,2,2,1,False,False,347,179,345,179,0,524,4

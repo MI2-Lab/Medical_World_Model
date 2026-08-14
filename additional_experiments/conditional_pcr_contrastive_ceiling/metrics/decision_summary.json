@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "reporting_boundary": "This experiment intentionally uses pCR supervision and estimates a supervised representation ceiling. It is not evidence that the pCR-free World Model learned this information.",
+  "primary_seeds": [
+    2026,
+    3026
+  ],
+  "folds_are_biological_replicates": false,
+  "headline_bootstrap_draws": 5000,
+  "private_predictions_sha256": "d06403ddfc329083189c3b3df6aae98b7ebdf07ffd75334071d6a91db96c90b3",
+  "decision": {
+    "gate_a": {
+      "gate": "A",
+      "passed": false,
+      "pass_code": null,
+      "threshold": 0.08,
+      "best_arm": "B2",
+      "best_timing": "T0_T2",
+      "mean_delta_auroc": 0.004096878731024989,
+      "seed_deltas": {
+        "2026": -0.016407982261640863,
+        "3026": 0.02460173972369084
+      },
+      "positive_in_both_seeds": false,
+      "ci_excludes_zero": null,
+      "criterion": "B2_or_B3_M_minus_B0_mean_delta_at_T0_T1_or_T0_T2_ge_0.08"
+    },
+    "gate_b": {
+      "gate": "B",
+      "passed": false,
+      "pass_code": null,
+      "threshold": 0.0,
+      "best_arm": "B1",
+      "best_timing": "T0_T2",
+      "mean_delta_auroc": 0.005713798396725145,
+      "seed_deltas": {
+        "2026": 0.008783899027801412,
+        "3026": 0.002643697765648878
+      },
+      "positive_in_both_seeds": true,
+      "ci_excludes_zero": false,
+      "criterion": "C_plus_M_minus_C_positive_both_seeds_and_at_least_one_CI_lower_gt_0"
+    },
+    "gate_c": {
+      "gate": "C",
+      "passed": false,
+      "pass_code": null,
+      "threshold": 0.03,
+      "best_arm": "B2",
+      "best_timing": "T0_T1",
+      "mean_delta_auroc": -0.004168096054888382,
+      "seed_deltas": {
+        "2026": 0.0063464837049743705,
+        "3026": -0.014682675814751134
+      },
+      "positive_in_both_seeds": false,
+      "ci_excludes_zero": false,
+      "criterion": "C_plus_F_plus_M_minus_C_plus_F_positive_both_seeds_and_mean_ge_0.03"
+    },
+    "interpretation_class": "D",
+    "interpretation_code": "LOW_CONDITIONAL_MRI_CEILING",
+    "passed_codes": []
+  }
+}
