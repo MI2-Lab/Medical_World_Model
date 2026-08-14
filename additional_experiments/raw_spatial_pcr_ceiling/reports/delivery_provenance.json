@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "experiment": "raw_spatial_pcr_ceiling",
+  "branch": "feature/raw-spatial-pcr-ceiling",
+  "parent_branch": "feature/clinical-residual-phenotype-state",
+  "parent_commit": "825e3c600f2b47dd48316fadbfe1dfed601354f2",
+  "experiment_commit": "a8a0d493bb5a39af36a749c998e49758332b8bb2",
+  "push_status": "PUSH_SUCCEEDED",
+  "remote": "origin",
+  "remote_ref": "refs/heads/feature/raw-spatial-pcr-ceiling",
+  "formal_pcr_matrix_status": "NOT_RUN",
+  "old_experiment_directories_modified": false
+}
+

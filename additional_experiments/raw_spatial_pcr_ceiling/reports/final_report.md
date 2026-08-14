@@ -41,3 +41,14 @@
 - `metrics/decision.json`
 
 患者级预测、原始 MRI、pCR 标签、临床表、特征与 checkpoint 必须留在私有 gitignored 路径。
+
+## Git 交付
+
+- 分支：`feature/raw-spatial-pcr-ceiling`
+- 父分支：`feature/clinical-residual-phenotype-state`
+- 父 commit：`825e3c600f2b47dd48316fadbfe1dfed601354f2`
+- 实验 commit：`a8a0d493bb5a39af36a749c998e49758332b8bb2`
+- 推送状态：`PUSH_SUCCEEDED`
+- 远程：`origin` / `https://github.com/MI2-Lab/Medical_World_Model.git`
+
+本次交付只提交了 `additional_experiments/raw_spatial_pcr_ceiling/`；旧实验目录未纳入提交。正式 C1–C5 结果仍必须在运行后更新，当前报告不把前置证据写成新实验结果。
