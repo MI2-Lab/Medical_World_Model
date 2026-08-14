@@ -1,0 +1,18 @@
+{
+  "array_reordering_implemented_and_unit_tested": true,
+  "formal_patients": 375,
+  "formal_visits": 1500,
+  "left_right_consistent_upstream": true,
+  "maximum_dce_mask_footprint_corner_error_mm": 0.0018356442451477,
+  "maximum_roundtrip_corner_error_mm": 8.03887338846093e-14,
+  "orientation_after": {
+    "RAS": 1500
+  },
+  "orientation_before": {
+    "LAS": 396,
+    "LPS": 72,
+    "RPS": 1032
+  },
+  "source_laterality_mapping_status": "NOT_AUDITABLE",
+  "status": "RAS_GEOMETRY_PASS_BPE_LATERALITY_UNRESOLVED"
+}

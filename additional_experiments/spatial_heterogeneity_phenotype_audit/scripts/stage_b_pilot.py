@@ -52,6 +52,7 @@ from common import (  # noqa: E402
     file_sha256,
     load_config,
     ordered_sha256,
+    preregistration_chain,
     private_directory,
     require_preregistration_lock,
 )
@@ -233,6 +234,16 @@ TABLE8_COLUMNS = (
     "delta_balanced_accuracy",
     "brier_improvement",
 )
+PREREGISTRATION_CHAIN_KEYS = frozenset(
+    {
+        "preregistration_revision",
+        "active_preregistration_lock_sha256",
+        "preregistration_amendment_sha256",
+        "original_preregistration_lock_sha256",
+        "original_preregistration_commit",
+        "active_preregistration_commit",
+    }
+)
 
 
 def validate_stage_b_config(config: Mapping[str, Any]) -> None:
@@ -273,6 +284,8 @@ class StageBAuthorization:
     sha256: str
     gates_sha256: str
     run_summary_sha256: str
+    config_sha256: str
+    preregistration_chain: Mapping[str, Any]
     authorized: bool
     gate_a_passed: bool
     gate_c_passed: bool
@@ -678,6 +691,56 @@ def _is_sha256(value: Any) -> bool:
     )
 
 
+def _is_git_commit(value: Any) -> bool:
+    text = str(value)
+    return len(text) == 40 and all(
+        character in "0123456789abcdef" for character in text
+    )
+
+
+def _exact_preregistration_chain(value: Mapping[str, Any]) -> dict[str, Any]:
+    """Validate and copy the exact common amendment-chain mapping."""
+
+    if not isinstance(value, Mapping) or set(value) != set(PREREGISTRATION_CHAIN_KEYS):
+        raise ValueError("Stage-B preregistration chain schema drifted")
+    chain = dict(value)
+    if (
+        type(chain["preregistration_revision"]) is not int
+        or chain["preregistration_revision"] != 2
+    ):
+        raise ValueError("Stage-B preregistration revision drifted")
+    for name in (
+        "active_preregistration_lock_sha256",
+        "preregistration_amendment_sha256",
+        "original_preregistration_lock_sha256",
+    ):
+        if not _is_sha256(chain[name]):
+            raise ValueError(f"Stage-B preregistration chain has invalid {name}")
+    for name in ("original_preregistration_commit", "active_preregistration_commit"):
+        if not _is_git_commit(chain[name]):
+            raise ValueError(f"Stage-B preregistration chain has invalid {name}")
+    if (
+        chain["original_preregistration_commit"]
+        == chain["active_preregistration_commit"]
+    ):
+        raise ValueError("Stage-B active and original preregistration commits coincide")
+    return chain
+
+
+def _preregistration_provenance(
+    chain: Mapping[str, Any], lock_sha256: str
+) -> dict[str, Any]:
+    """Return the mandatory active-lock alias plus its full immutable chain."""
+
+    exact = _exact_preregistration_chain(chain)
+    if lock_sha256 != exact["active_preregistration_lock_sha256"]:
+        raise ValueError("Stage-B active preregistration lock alias drifted")
+    return {
+        "preregistration_lock_sha256": lock_sha256,
+        "preregistration_chain": exact,
+    }
+
+
 def _run_summary_root(summary_path: Path) -> Path:
     return (
         summary_path.parent.parent
@@ -720,6 +783,8 @@ def validate_stage_b_authorization(
     config: Mapping[str, Any],
     authorization_path: str | Path,
     gates_path: str | Path,
+    *,
+    expected_preregistration_chain: Mapping[str, Any],
     run_summary_path: str | Path | None = None,
 ) -> StageBAuthorization:
     """Authenticate the completed Stage-A artifact closure and A-or-C rule."""
@@ -741,12 +806,19 @@ def validate_stage_b_authorization(
         ) from error
     if not all(isinstance(value, dict) for value in (authorization, gates, summary)):
         raise ValueError("Stage-B authorization/gates/run summary must be JSON objects")
+    chain = _exact_preregistration_chain(expected_preregistration_chain)
+    lock_sha256 = str(chain["active_preregistration_lock_sha256"])
+    config_sha256 = file_sha256(ROOT / "configs" / "audit.json")
     summary_checks = {
-        "schema_version": summary.get("schema_version") == 1,
+        "schema_version": summary.get("schema_version") == 2,
         "experiment": summary.get("experiment")
         == "spatial_heterogeneity_phenotype_audit",
         "stage": summary.get("stage") == "A",
         "status": summary.get("status") == "COMPLETE",
+        "config_sha256": summary.get("config_sha256") == config_sha256,
+        "preregistration_lock_sha256": summary.get("preregistration_lock_sha256")
+        == lock_sha256,
+        "preregistration_chain": summary.get("preregistration_chain") == chain,
     }
     failed_summary = sorted(
         name for name, passed in summary_checks.items() if not passed
@@ -794,6 +866,9 @@ def validate_stage_b_authorization(
         "gate_a_passed",
         "gate_c_passed",
         "stage_b_contract",
+        "config_sha256",
+        "preregistration_lock_sha256",
+        "preregistration_chain",
         "stage_a_gates_sha256",
         "contains_patient_level_data",
     }
@@ -806,7 +881,7 @@ def validate_stage_b_authorization(
         else "NOT_RUN_NOT_AUTHORIZED"
     )
     checks = {
-        "schema_version": authorization["schema_version"] == 1,
+        "schema_version": authorization["schema_version"] == 2,
         "experiment": authorization["experiment"]
         == "spatial_heterogeneity_phenotype_audit",
         "authorization_rule": authorization["authorization_rule"] == "Gate A OR Gate C",
@@ -815,6 +890,10 @@ def validate_stage_b_authorization(
         "gate_a": authorization["gate_a_passed"] is gate_a,
         "gate_c": authorization["gate_c_passed"] is gate_c,
         "contract": authorization["stage_b_contract"] == config["stage_b"],
+        "config_sha256": authorization["config_sha256"] == config_sha256,
+        "preregistration_lock_sha256": authorization["preregistration_lock_sha256"]
+        == lock_sha256,
+        "preregistration_chain": authorization["preregistration_chain"] == chain,
         "privacy": authorization["contains_patient_level_data"] is False,
         "gate_hash": authorization["stage_a_gates_sha256"] == gates_digest,
         "gate_summary": gates.get("stage_b_authorized") is expected_authorized,
@@ -825,6 +904,8 @@ def validate_stage_b_authorization(
         raise ValueError(f"Stage-B authorization closure failed: {failed}")
     if not _is_sha256(authorization["stage_a_gates_sha256"]):
         raise ValueError("authorization Stage-A gate hash is not lowercase SHA-256")
+    if not _is_sha256(authorization["config_sha256"]):
+        raise ValueError("authorization config hash is not lowercase SHA-256")
     return StageBAuthorization(
         path=authorization_source,
         gates_path=gates_source,
@@ -832,6 +913,8 @@ def validate_stage_b_authorization(
         sha256=file_sha256(authorization_source),
         gates_sha256=gates_digest,
         run_summary_sha256=file_sha256(summary_source),
+        config_sha256=config_sha256,
+        preregistration_chain=chain,
         authorized=expected_authorized,
         gate_a_passed=gate_a,
         gate_c_passed=gate_c,
@@ -1414,6 +1497,7 @@ def train_fold(
     *,
     config: Mapping[str, Any],
     lock_sha256: str,
+    preregistration_context: Mapping[str, Any],
     authorization: StageBAuthorization,
     cache_evidence: Mapping[str, Any],
     dependencies: SimpleNamespace,
@@ -1430,6 +1514,9 @@ def train_fold(
         raise ValueError("Stage B fold must be 0..4")
     if device.type != "cuda" or not torch.cuda.is_available():
         raise RuntimeError("formal Stage B training requires CUDA")
+    preregistration_fields = _preregistration_provenance(
+        preregistration_context, lock_sha256
+    )
     effective_seed = SEED_BASE + int(fold)
     splits = dependencies.make_splits(
         data_bundle.folds, fold, data_bundle.train_only_ids
@@ -1575,7 +1662,7 @@ def train_fold(
             "authorization_sha256": authorization.sha256,
             "stage_a_gates_sha256": authorization.gates_sha256,
             "stage_a_run_summary_sha256": authorization.run_summary_sha256,
-            "preregistration_lock_sha256": lock_sha256,
+            **preregistration_fields,
             "cache_integrity_public_contract_sha256": cache_evidence[
                 "public_contract_sha256"
             ],
@@ -1630,7 +1717,7 @@ def train_fold(
             "authorization_sha256": authorization.sha256,
             "stage_a_gates_sha256": authorization.gates_sha256,
             "stage_a_run_summary_sha256": authorization.run_summary_sha256,
-            "preregistration_lock_sha256": lock_sha256,
+            **preregistration_fields,
             "cache_integrity_public_contract_sha256": cache_evidence[
                 "public_contract_sha256"
             ],
@@ -1676,7 +1763,7 @@ def train_fold(
         "authorization_sha256": authorization.sha256,
         "stage_a_gates_sha256": authorization.gates_sha256,
         "stage_a_run_summary_sha256": authorization.run_summary_sha256,
-        "preregistration_lock_sha256": lock_sha256,
+        **preregistration_fields,
         "cache_integrity_public_contract_sha256": cache_evidence[
             "public_contract_sha256"
         ],
@@ -1695,8 +1782,12 @@ def _validate_selected_checkpoint(
     fold: int,
     authorization: StageBAuthorization,
     lock_sha256: str,
+    preregistration_context: Mapping[str, Any],
     cache_evidence: Mapping[str, Any],
 ) -> None:
+    preregistration_fields = _preregistration_provenance(
+        preregistration_context, lock_sha256
+    )
     expected = {
         "schema_version": 1,
         "experiment": "spatial_heterogeneity_phenotype_audit",
@@ -1709,7 +1800,7 @@ def _validate_selected_checkpoint(
         "authorization_sha256": authorization.sha256,
         "stage_a_gates_sha256": authorization.gates_sha256,
         "stage_a_run_summary_sha256": authorization.run_summary_sha256,
-        "preregistration_lock_sha256": lock_sha256,
+        **preregistration_fields,
         "cache_integrity_public_contract_sha256": cache_evidence[
             "public_contract_sha256"
         ],
@@ -1735,7 +1826,7 @@ def _validate_selected_checkpoint(
         "authorization_sha256": authorization.sha256,
         "stage_a_gates_sha256": authorization.gates_sha256,
         "stage_a_run_summary_sha256": authorization.run_summary_sha256,
-        "preregistration_lock_sha256": lock_sha256,
+        **preregistration_fields,
         "cache_integrity_public_contract_sha256": cache_evidence[
             "public_contract_sha256"
         ],
@@ -1761,6 +1852,7 @@ def validate_completed_training_fold(
     fold: int,
     authorization: StageBAuthorization,
     lock_sha256: str,
+    preregistration_context: Mapping[str, Any],
     cache_evidence: Mapping[str, Any],
     output_root: Path,
 ) -> dict[str, Any]:
@@ -1794,6 +1886,9 @@ def validate_completed_training_fold(
     ):
         raise PermissionError("Stage-B training artifacts must remain owner-only")
     completion = json.loads(completion_path.read_text(encoding="utf-8"))
+    preregistration_fields = _preregistration_provenance(
+        preregistration_context, lock_sha256
+    )
     expected = {
         "schema_version": 1,
         "status": "COMPLETE",
@@ -1807,7 +1902,7 @@ def validate_completed_training_fold(
         "authorization_sha256": authorization.sha256,
         "stage_a_gates_sha256": authorization.gates_sha256,
         "stage_a_run_summary_sha256": authorization.run_summary_sha256,
-        "preregistration_lock_sha256": lock_sha256,
+        **preregistration_fields,
         "cache_integrity_public_contract_sha256": cache_evidence[
             "public_contract_sha256"
         ],
@@ -1832,6 +1927,7 @@ def validate_completed_training_fold(
         fold=fold,
         authorization=authorization,
         lock_sha256=lock_sha256,
+        preregistration_context=preregistration_context,
         cache_evidence=cache_evidence,
     )
     return completion
@@ -1845,6 +1941,7 @@ def export_fold_features(
     fold: int,
     authorization: StageBAuthorization,
     lock_sha256: str,
+    preregistration_context: Mapping[str, Any],
     cache_evidence: Mapping[str, Any],
     device: torch.device,
     output_root: Path,
@@ -1865,7 +1962,17 @@ def export_fold_features(
         fold=fold,
         authorization=authorization,
         lock_sha256=lock_sha256,
+        preregistration_context=preregistration_context,
         cache_evidence=cache_evidence,
+    )
+    preregistration_fields = _preregistration_provenance(
+        preregistration_context, lock_sha256
+    )
+    preregistration_chain_json = json.dumps(
+        preregistration_fields["preregistration_chain"],
+        sort_keys=True,
+        separators=(",", ":"),
+        allow_nan=False,
     )
     effective_seed = SEED_BASE + int(fold)
     dependencies.seed_everything(effective_seed)
@@ -1942,6 +2049,8 @@ def export_fold_features(
             "seed_base": np.asarray(SEED_BASE, dtype=np.int64),
             "fold": np.asarray(int(fold), dtype=np.int64),
             "stage_a_run_summary_sha256": np.asarray(authorization.run_summary_sha256),
+            "preregistration_lock_sha256": np.asarray(lock_sha256),
+            "preregistration_chain_json": np.asarray(preregistration_chain_json),
         },
     )
     metadata = {
@@ -1966,7 +2075,7 @@ def export_fold_features(
         "authorization_sha256": authorization.sha256,
         "stage_a_gates_sha256": authorization.gates_sha256,
         "stage_a_run_summary_sha256": authorization.run_summary_sha256,
-        "preregistration_lock_sha256": lock_sha256,
+        **preregistration_fields,
         "cache_integrity_public_contract_sha256": cache_evidence[
             "public_contract_sha256"
         ],
@@ -1987,6 +2096,7 @@ def load_exported_feature(
     fold: int,
     authorization: StageBAuthorization,
     lock_sha256: str,
+    preregistration_context: Mapping[str, Any],
     cache_evidence: Mapping[str, Any],
 ) -> dict[str, np.ndarray]:
     source = path.resolve(strict=True)
@@ -2004,6 +2114,9 @@ def load_exported_feature(
         / f"fold_{fold}"
         / "selected.pt"
     ).resolve(strict=True)
+    preregistration_fields = _preregistration_provenance(
+        preregistration_context, lock_sha256
+    )
     expected_metadata = {
         "schema_version": 1,
         "status": "COMPLETE",
@@ -2016,7 +2129,7 @@ def load_exported_feature(
         "authorization_sha256": authorization.sha256,
         "stage_a_gates_sha256": authorization.gates_sha256,
         "stage_a_run_summary_sha256": authorization.run_summary_sha256,
-        "preregistration_lock_sha256": lock_sha256,
+        **preregistration_fields,
         "cache_integrity_public_contract_sha256": cache_evidence[
             "public_contract_sha256"
         ],
@@ -2042,6 +2155,8 @@ def load_exported_feature(
             "seed_base",
             "fold",
             "stage_a_run_summary_sha256",
+            "preregistration_lock_sha256",
+            "preregistration_chain_json",
         }
         if set(archive.files) != required:
             raise ValueError("Stage-B feature NPZ schema drifted")
@@ -2073,6 +2188,18 @@ def load_exported_feature(
         != authorization.run_summary_sha256
     ):
         raise ValueError("Stage-B feature run-summary binding drifted")
+    if str(np.asarray(arrays["preregistration_lock_sha256"]).item()) != lock_sha256:
+        raise ValueError("Stage-B feature active-lock binding drifted")
+    try:
+        feature_chain = json.loads(
+            str(np.asarray(arrays["preregistration_chain_json"]).item())
+        )
+    except json.JSONDecodeError as error:
+        raise ValueError(
+            "Stage-B feature preregistration chain is unreadable"
+        ) from error
+    if feature_chain != preregistration_fields["preregistration_chain"]:
+        raise ValueError("Stage-B feature preregistration chain drifted")
     if metadata.get("patient_order_sha256") != ordered_sha256(
         arrays["patient_id"].astype(str)
     ) or metadata.get("split_order_sha256") != ordered_sha256(
@@ -2086,6 +2213,7 @@ def ensure_fold_artifacts(
     *,
     config: Mapping[str, Any],
     lock_sha256: str,
+    preregistration_context: Mapping[str, Any],
     authorization: StageBAuthorization,
     cache_evidence: Mapping[str, Any],
     dependencies: SimpleNamespace,
@@ -2121,6 +2249,7 @@ def ensure_fold_artifacts(
             fold=fold,
             authorization=authorization,
             lock_sha256=lock_sha256,
+            preregistration_context=preregistration_context,
             cache_evidence=cache_evidence,
             output_root=output_root,
         )
@@ -2132,6 +2261,7 @@ def ensure_fold_artifacts(
         completion = train_fold(
             config=config,
             lock_sha256=lock_sha256,
+            preregistration_context=preregistration_context,
             authorization=authorization,
             cache_evidence=cache_evidence,
             dependencies=dependencies,
@@ -2145,6 +2275,7 @@ def ensure_fold_artifacts(
             fold=fold,
             authorization=authorization,
             lock_sha256=lock_sha256,
+            preregistration_context=preregistration_context,
             cache_evidence=cache_evidence,
             output_root=output_root,
         )
@@ -2155,6 +2286,7 @@ def ensure_fold_artifacts(
             fold=fold,
             authorization=authorization,
             lock_sha256=lock_sha256,
+            preregistration_context=preregistration_context,
             cache_evidence=cache_evidence,
         )
         feature = json.loads(metadata_path.read_text(encoding="utf-8"))
@@ -2167,6 +2299,7 @@ def ensure_fold_artifacts(
             fold=fold,
             authorization=authorization,
             lock_sha256=lock_sha256,
+            preregistration_context=preregistration_context,
             cache_evidence=cache_evidence,
             device=device,
             output_root=output_root,
@@ -2176,6 +2309,7 @@ def ensure_fold_artifacts(
             fold=fold,
             authorization=authorization,
             lock_sha256=lock_sha256,
+            preregistration_context=preregistration_context,
             cache_evidence=cache_evidence,
         )
     return {"training": completion, "feature": feature, "reused": training_exists}
@@ -2198,6 +2332,11 @@ def load_authenticated_stage_a_baselines(
         not isinstance(summary, Mapping)
         or summary.get("stage") != "A"
         or summary.get("status") != "COMPLETE"
+        or summary.get("config_sha256") != authorization.config_sha256
+        or summary.get("preregistration_lock_sha256")
+        != authorization.preregistration_chain["active_preregistration_lock_sha256"]
+        or summary.get("preregistration_chain")
+        != dict(authorization.preregistration_chain)
     ):
         raise ValueError("Stage-A run summary is no longer a complete Stage-A closure")
     table2_path = _authenticated_summary_artifact(
@@ -2369,20 +2508,17 @@ def pair_stage_b_with_stage_a_baseline(
     return paired.drop(columns=["baseline_n"])
 
 
-def run_stage_b_probes(
-    *,
+def _load_stage_b_probe_dependencies(
     config: Mapping[str, Any],
-    authorization: StageBAuthorization,
-    lock_sha256: str,
-    cache_evidence: Mapping[str, Any],
-    output_root: Path,
-) -> pd.DataFrame:
-    """Repeat fold-isolated phenotype and pCR probes on selected states."""
+) -> tuple[Any, Any, Path, Path, Path]:
+    """Import the exact local audit with complementarity helpers second."""
 
     complementarity = (
         ROOT.parent / "mri_clinical_complementarity_audit" / "scripts"
     ).resolve(strict=True)
-    for dependency_root in (SCRIPTS_ROOT, complementarity):
+    # Each insert is at index zero, so insert the lower-priority dependency
+    # first and leave this experiment's scripts as the final import root.
+    for dependency_root in (complementarity, SCRIPTS_ROOT):
         value = str(dependency_root)
         while value in sys.path:
             sys.path.remove(value)
@@ -2407,6 +2543,23 @@ def run_stage_b_probes(
     modeling_path = complementarity / "modeling.py"
     if file_sha256(modeling_path) != upstream["complementarity_modeling_sha256"]:
         raise ValueError("Stage-B probe modeling hash drifted")
+    return audit, data_contracts, expected_audit, expected_contracts, modeling_path
+
+
+def run_stage_b_probes(
+    *,
+    config: Mapping[str, Any],
+    authorization: StageBAuthorization,
+    lock_sha256: str,
+    preregistration_context: Mapping[str, Any],
+    cache_evidence: Mapping[str, Any],
+    output_root: Path,
+) -> pd.DataFrame:
+    """Repeat fold-isolated phenotype and pCR probes on selected states."""
+
+    audit, data_contracts, expected_audit, expected_contracts, modeling_path = (
+        _load_stage_b_probe_dependencies(config)
+    )
 
     folds = data_contracts.load_fold_manifest(
         config["paths"]["fold_manifest"], config["paths"]["fold_manifest_sha256"]
@@ -2441,6 +2594,7 @@ def run_stage_b_probes(
             fold=fold,
             authorization=authorization,
             lock_sha256=lock_sha256,
+            preregistration_context=preregistration_context,
             cache_evidence=cache_evidence,
         )
         patient_ids = arrays["patient_id"].astype(str)
@@ -2583,6 +2737,9 @@ def run_stage_b_probes(
     if "patient_id" in table.columns:
         raise ValueError("public Stage-B table contains patient identity")
     atomic_csv(table, table_path)
+    preregistration_fields = _preregistration_provenance(
+        preregistration_context, lock_sha256
+    )
     provenance = {
         "schema_version": 1,
         "status": "COMPLETE",
@@ -2591,7 +2748,7 @@ def run_stage_b_probes(
         "authorization_sha256": authorization.sha256,
         "stage_a_gates_sha256": authorization.gates_sha256,
         "stage_a_run_summary_sha256": authorization.run_summary_sha256,
-        "preregistration_lock_sha256": lock_sha256,
+        **preregistration_fields,
         "cache_integrity": dict(cache_evidence),
         "upstream_data_authorization": {
             "path": str(config["paths"]["stage_b_upstream_authorization"]),
@@ -2680,9 +2837,13 @@ def unauthorized_table() -> pd.DataFrame:
 def preflight_payload(
     authorization: StageBAuthorization,
     lock_sha256: str,
+    preregistration_context: Mapping[str, Any],
     config: Mapping[str, Any],
     cache_evidence: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
+    preregistration_fields = _preregistration_provenance(
+        preregistration_context, lock_sha256
+    )
     return {
         "schema_version": 1,
         "experiment": "spatial_heterogeneity_phenotype_audit",
@@ -2694,7 +2855,7 @@ def preflight_payload(
         "authorization_sha256": authorization.sha256,
         "stage_a_gates_sha256": authorization.gates_sha256,
         "stage_a_run_summary_sha256": authorization.run_summary_sha256,
-        "preregistration_lock_sha256": lock_sha256,
+        **preregistration_fields,
         "formal_seed_bases": list(config["stage_b"]["seed_bases"]),
         "formal_folds": list(config["stage_b"]["folds"]),
         "effective_seeds": [SEED_BASE + fold for fold in FOLDS],
@@ -2735,10 +2896,13 @@ def main() -> None:
     validate_stage_b_config(config)
     lock = require_preregistration_lock(config)
     lock_sha256 = require_stage_b_preregistration(config, lock)
+    preregistration_context = preregistration_chain(lock)
+    _preregistration_provenance(preregistration_context, lock_sha256)
     authorization = validate_stage_b_authorization(
         config,
         ROOT / "metrics" / "stage_b_authorization.json",
         ROOT / "metrics" / "gates.json",
+        expected_preregistration_chain=preregistration_context,
     )
     cache_closure = (
         authenticated_cache_evidence(config, lock) if authorization.authorized else None
@@ -2757,7 +2921,13 @@ def main() -> None:
     if args.preflight:
         print(
             json.dumps(
-                preflight_payload(authorization, lock_sha256, config, cache_evidence),
+                preflight_payload(
+                    authorization,
+                    lock_sha256,
+                    preregistration_context,
+                    config,
+                    cache_evidence,
+                ),
                 indent=2,
                 sort_keys=True,
             )
@@ -2821,6 +2991,7 @@ def main() -> None:
         result = ensure_fold_artifacts(
             config=config,
             lock_sha256=lock_sha256,
+            preregistration_context=preregistration_context,
             authorization=authorization,
             cache_evidence=cache_evidence,
             dependencies=dependencies,
@@ -2837,6 +3008,7 @@ def main() -> None:
         ensure_fold_artifacts(
             config=config,
             lock_sha256=lock_sha256,
+            preregistration_context=preregistration_context,
             authorization=authorization,
             cache_evidence=cache_evidence,
             dependencies=dependencies,
@@ -2850,6 +3022,7 @@ def main() -> None:
         config=config,
         authorization=authorization,
         lock_sha256=lock_sha256,
+        preregistration_context=preregistration_context,
         cache_evidence=cache_evidence,
         output_root=output_root,
     )

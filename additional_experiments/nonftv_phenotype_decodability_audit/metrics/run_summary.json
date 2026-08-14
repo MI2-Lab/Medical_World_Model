@@ -1,0 +1,54 @@
+{
+  "arms": [
+    "LOCAL0",
+    "LOCAL3"
+  ],
+  "branch": "feature/nonftv-phenotype-decodability-audit",
+  "core_output_sha256": {
+    "manifests/frozen_cell_manifest.csv": "34f5314432818a952b95b3a4d7925fa044ab7ae039aae18a6b60fbdc8cd4437f",
+    "manifests/input_provenance.json": "8417bbc6631d887956a5c3769a22452dd77fc5c6d24173d5a287549b25320266",
+    "manifests/representation_contract.csv": "7647acec6e66d83ba3620064700044efd48bd435285ef52a7ce0c54b23c122d6",
+    "manifests/target_contract.csv": "c932f2e6262942c931b66ea64d197f1675a9cac59ee0dc9b3c41f9ba8c10b5d4",
+    "metrics/coverage.csv": "694b57d4eec74ad0dec851be1ea55322896e82e44a9178e4506732665eb5c997",
+    "metrics/dynamic_target_matrix.csv": "90d1f12a96b05f2458167711487c0df06d260733a3e2ae62f2e50bc906e5e163",
+    "metrics/fold_metrics.csv": "4b9c27472c02dac4c0087b10f8bd6a800b2a34d9f54132af0d0f3b35392567f5",
+    "metrics/hyperparameter_selections.csv": "6248d003c1b9450348f9e76d6721a339f683bb9b56fe9f9555c135b1f8228646",
+    "metrics/oof_metrics.csv": "c8352950fd573b333fe8800f5766af9fc210ef1489681b55231f4247f1fc3d4e",
+    "metrics/oracle_localization_comparison.csv": "bf2ad0b1c52a2aee54561572a4819429045488acb406bcfa9ffe4ad0c2dcd61b",
+    "metrics/representation_location_comparison.csv": "6efa587dff4c39a85d4b9e900a2e86e0ff2754b93c77515db49e9f72479a0da8",
+    "metrics/residual_target_matrix.csv": "887ae54acf0132d905da80332453a4a2e2ffcfc92156b474d269a8b7806d63b0",
+    "metrics/residualizer_fits.csv": "40640d2bd71fa21d377497e53ecb0ffaa579f921f61eaed6c8a3fdc66e2af020",
+    "metrics/static_target_matrix.csv": "64852b6f9c30691097c655581f5394be654d150ac942f03c6ffe28c1d44febba",
+    "metrics/target_transform_fits.csv": "22cd2b652ae6a943935e02c4426e1a7594403a4bcdeadce1dd49886bcde9a0f8"
+  },
+  "elapsed_seconds": 2796.0725359916687,
+  "encoder_retrained": false,
+  "expected_private_prediction_rows_from_oof_n_sum": 1209520,
+  "experiment": "nonftv_phenotype_decodability_audit",
+  "feature_cells": 20,
+  "fold_metric_rows": 16380,
+  "folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "oof_metric_rows": 3276,
+  "parent_sha": "7742d737d92ed153b5c721cd323528b0a127d5ef",
+  "patient_count": 375,
+  "pcr_read": false,
+  "pcr_used_for_selection": false,
+  "preregistration_lock_sha256": "b3e9809f47a13b2db2c958cee4bec112b18273de75606c05538bc2fc04f706ee",
+  "private_prediction_committed": false,
+  "private_prediction_rows": 1209520,
+  "private_prediction_sha256": "a3268f12d7b2ebe2a723d4fbed94ae39f3615c546f632af29f0dd7e9c3fcdf8d",
+  "schema_version": 1,
+  "seeds": [
+    2026,
+    3026
+  ],
+  "status": "COMPLETE",
+  "test_predict_calls_per_probe": 1,
+  "test_used_for_alpha_selection": false
+}

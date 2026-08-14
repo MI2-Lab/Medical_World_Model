@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "status": "AMENDED_BEFORE_LABEL_DEPENDENT_ANALYSIS",
+  "amendment_number": 1,
+  "original_preregistration_commit": "116b34f0eeec7485ead4d076517dcdfdf10960e8",
+  "original_preregistration_lock_sha256": "7ef5eb028d6dbc1e2c01d01cc86787d89a7156ffb9c6e7b5b61b9fe22591ca21",
+  "reason_code": "REPRESENTATIVE_POST_LOCAL_CORE_VALIDITY_COUNT_CORRECTION",
+  "geometry_qc": {
+    "source_authorized_by_visit": [808, 375, 375, 375],
+    "post_local_core_valid_by_visit": [808, 375, 374, 374],
+    "all_four_source_authorized_patient_count": 375,
+    "all_four_upstream_core_parity_patient_count": 375,
+    "all_four_post_local_core_valid_patient_count": 373,
+    "post_local_empty_authorized_core_visit_count": 2,
+    "affected_patient_count": 2,
+    "representative_candidate_count_before": 375,
+    "representative_candidate_count_after": 373,
+    "amendment_scope": "deidentified_figure8_representative_selection_only",
+    "probe_population_or_gate_contract_changed": false
+  },
+  "pre_amendment_execution": {
+    "cache_integrity_completed": true,
+    "oracle_sidecar_completed": true,
+    "completed_feature_cells": [
+      "seed_2026/LOCAL0/fold_0",
+      "seed_2026/LOCAL0/fold_1",
+      "seed_2026/LOCAL0/fold_2"
+    ],
+    "interrupted_feature_cells": [
+      "seed_2026/LOCAL0/fold_3",
+      "seed_2026/LOCAL0/fold_4"
+    ],
+    "failed_feature_cell": "seed_2026/LOCAL3/fold_0",
+    "representative_asset_created": false,
+    "clinical_label_table_parsed": false,
+    "stage_a_probe_fit": false,
+    "stage_a_result_artifacts_created": false,
+    "stage_b_started": false,
+    "discard_before_refreeze_required": true,
+    "reuse_forbidden": true
+  },
+  "discarded_artifact_sha256": {
+    "features/seed_2026/LOCAL0/fold_0/spatial_statistics.private.metadata.json": "ce10673a0c18fd33bf4881a7325de3f6aacf4819a83bfe65ebe300d4e8a39a4f",
+    "features/seed_2026/LOCAL0/fold_0/spatial_statistics.private.npz": "a5168a8d98f4bdf4c94cd7f1423ad8bcb6391eb1702f44e0fea83f575e632a64",
+    "features/seed_2026/LOCAL0/fold_1/spatial_statistics.private.metadata.json": "3a759cf36713c44ba550bbf36447c2adb7ae5a185d28ae2015865d40c7334479",
+    "features/seed_2026/LOCAL0/fold_1/spatial_statistics.private.npz": "c0fd1f07abbe7560085add7c0db210089996703483e3920566ad0581ecc7a737",
+    "features/seed_2026/LOCAL0/fold_2/spatial_statistics.private.metadata.json": "5614ea271f17023093281cf7189e14254b280a7f2acd8182887ad90e8d179374",
+    "features/seed_2026/LOCAL0/fold_2/spatial_statistics.private.npz": "c7e6cf56d0ae6ced7d881b0f3bf6260549ac39d73f422cf531b294a0ab63e696",
+    "logs/export_seed2026_LOCAL0_fold3.private.log": "e3e6b14a24054de8528be1f5775c72b0af256f94b9f5f3850ff38be9471b7ecf",
+    "logs/export_seed2026_LOCAL0_fold4.private.log": "c79b03d6cb493c0f5f9567b5af61639716d5e3ae4eb70db208eb0de3242d7a53",
+    "logs/export_seed2026_LOCAL3_fold0.private.log": "02a2b9f95580708dc551df83fd1fcb3d04d5ff242084b95516d0b6a0e4a2d670",
+    "manifests/cache_integrity.private.json": "a67252e37b0e5c6ed24c1aaeaeedb37ede6a8b92ad9e875f32d475a94c13b0ec",
+    "manifests/oracle_regions.private.npz": "884447b44f6dcb4e519f2d236ecb65afbfe49f24bd0220e75e037630733dbc61",
+    "metrics/cache_integrity_contract.json": "0faec070956abc50e0e3f0f073609518b36d5abbd58b58eb92507c9a5eb7c20d",
+    "metrics/oracle_region_contract.json": "da3a5485fa5b1de99d4019806075cf76cfab94dca3ca0eb46a50faef8929bd58"
+  },
+  "contains_patient_identifiers": false
+}

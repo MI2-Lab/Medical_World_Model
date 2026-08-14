@@ -1,0 +1,158 @@
+{
+  "authorization_rule": "Gate A OR Gate C",
+  "authorized": true,
+  "config_sha256": "9419a8b376aac48bbcb2b0d9888b08bba2139f6a25abb5904d42fb05c9526425",
+  "contains_patient_level_data": false,
+  "experiment": "spatial_heterogeneity_phenotype_audit",
+  "gate_a_passed": false,
+  "gate_c_passed": true,
+  "preregistration_chain": {
+    "active_preregistration_commit": "7de344f0b7ac3393d07616e538fdcafd487944c3",
+    "active_preregistration_lock_sha256": "bf838056dcdf2286c6365468fec274137f482adb188ad82620cceadcae393a1a",
+    "original_preregistration_commit": "116b34f0eeec7485ead4d076517dcdfdf10960e8",
+    "original_preregistration_lock_sha256": "7ef5eb028d6dbc1e2c01d01cc86787d89a7156ffb9c6e7b5b61b9fe22591ca21",
+    "preregistration_amendment_sha256": "a8af41acc6d89bab956430fe35123a8520898d1443dfe1431b75905e13559690",
+    "preregistration_revision": 2
+  },
+  "preregistration_lock_sha256": "bf838056dcdf2286c6365468fec274137f482adb188ad82620cceadcae393a1a",
+  "reason": "At least one preregistered Stage-A authorization gate passed.",
+  "schema_version": 2,
+  "stage_a_gates_sha256": "725a49ca6b2b92448e28933a3af3ca567d749f20b6e1ce6a24681b616adabff3",
+  "stage_a_scientific_classification": "PHENOTYPE SPATIALLY LOCALIZED",
+  "stage_b_contract": {
+    "architecture": {
+      "concatenation_order": [
+        "mean_96",
+        "std_96"
+      ],
+      "mean": "weighted_mean_128_then_Linear_128x96",
+      "normalization": "joint_LayerNorm_192_after_concatenation",
+      "state": "online_preprojector_192",
+      "std": "weighted_population_ddof0_128_then_Linear_128x96",
+      "std_zero_variance_backward": "exact_forward_with_subgradient_0_and_finite_gradients",
+      "support": "exact_fixed_64mm_fractional_LOCAL"
+    },
+    "authorization": "gate_A_or_gate_C",
+    "authorization_evidence": {
+      "require_authorization_hash_from_run_summary_artifacts": true,
+      "require_gates_hash_from_run_summary_artifacts": true,
+      "require_stage_a_run_summary_complete": true
+    },
+    "checkpoint_selection": {
+      "eligible": "finite_and_validation_representation_std_at_least_0.05",
+      "metric": "minimum_validation_total_objective",
+      "refit_after_selection": false,
+      "test_data_used": false,
+      "tie_break": "earliest_epoch"
+    },
+    "cohort": {
+      "authenticated_cache_patient_count": 947,
+      "external_train_only_patient_count": 139,
+      "primary_patient_count": 808,
+      "require_all_cache_content_proof_before_data_access": true,
+      "test_split": "outer_fold_primary_test_only",
+      "train_split": "outer_fold_primary_train_plus_exact_external_train_only",
+      "validation_split": "outer_fold_primary_validation_only"
+    },
+    "effective_seed": "seed_base_plus_fold",
+    "ema_only": [
+      "target_encoder",
+      "target_mean_projection",
+      "target_std_projection",
+      "target_joint_layer_norm",
+      "target_projector"
+    ],
+    "folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "forbidden": [
+      "attention_pooling",
+      "transformer_pooling",
+      "new_transformer_module",
+      "mask_input",
+      "oracle_region_input",
+      "HR_supervision",
+      "HER2_supervision",
+      "pCR_supervision",
+      "delta_supervision"
+    ],
+    "initialization": {
+      "equivalence_condition": "dual_state_equals_baseline_state_when_std_equals_mean",
+      "joint_norm": "exact_copy_of_baseline_LayerNorm_192",
+      "mean_branch": "rows_0_through_95_of_baseline_Linear_128x192",
+      "shared_modules": "bitwise_unchanged_from_fresh_baseline",
+      "source": "fresh_canonical_grounded_LOCAL3_at_effective_seed",
+      "std_branch": "rows_96_through_191_of_baseline_Linear_128x192"
+    },
+    "objective": {
+      "formula": "L_JEPA_plus_0.25_L_FTV",
+      "grounding": "FTV_only",
+      "lambda_ftv": 0.25,
+      "sigreg_projections": 256,
+      "sigreg_weight": 0.09,
+      "temporal_step_weights": [
+        2.0,
+        1.0,
+        0.5
+      ]
+    },
+    "post_selection_probes": {
+      "feature": "selected_online_preprojector_192",
+      "paired_metrics": [
+        "auroc",
+        "auprc",
+        "balanced_accuracy",
+        "pcr_brier_improvement_baseline_minus_dual"
+      ],
+      "paired_stage_a_baseline": "seed2026_LOCAL3_P1_same_view_target_population_n",
+      "pcr_populations": [
+        "full_808",
+        "ftv_complete_375"
+      ],
+      "pcr_views": [
+        "T0",
+        "T0-T1",
+        "T0-T2",
+        "T0-T3"
+      ],
+      "phenotype": [
+        "HR",
+        "HER2",
+        "subtype_4class"
+      ],
+      "reuse_stage_a_outer_fold_logistic_contract": true
+    },
+    "seed_bases": [
+      2026
+    ],
+    "trainable": [
+      "online_encoder",
+      "mean_projection",
+      "std_projection",
+      "joint_layer_norm",
+      "projector",
+      "transition",
+      "FTV_head"
+    ],
+    "training": {
+      "accumulation_steps": 8,
+      "augmentation": "none",
+      "early_stopping_patience": 4,
+      "ema_momentum": 0.996,
+      "epochs_max": 12,
+      "learning_rate": 5e-05,
+      "logical_batch_size": 32,
+      "max_grad_norm": 5.0,
+      "minimum_validation_representation_std": 0.05,
+      "optimizer": "AdamW",
+      "physical_batch_size": 4,
+      "weight_decay": 0.0001,
+      "workers": 2
+    }
+  },
+  "status": "AUTHORIZED_PENDING_EXECUTION"
+}

@@ -16,7 +16,7 @@ SCRIPTS = ROOT / "scripts"
 if str(SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SCRIPTS))
 
-from common import file_sha256, load_config  # noqa: E402
+from common import canonical_sha256, file_sha256, load_config  # noqa: E402
 import stage_b_pilot as stage_b  # noqa: E402
 from stage_b_pilot import (  # noqa: E402
     BRANCH_DIM,
@@ -27,6 +27,7 @@ from stage_b_pilot import (  # noqa: E402
     SEED_BASE,
     STATE_DIM,
     TABLE8_COLUMNS,
+    _validate_selected_checkpoint,
     build_dual_statistic_model,
     configure_canonical_dependencies,
     pair_stage_b_with_stage_a_baseline,
@@ -38,6 +39,16 @@ from stage_b_pilot import (  # noqa: E402
     validate_stage_b_config,
     validate_stage_b_authorization,
 )
+
+
+PREREGISTRATION_CHAIN = {
+    "preregistration_revision": 2,
+    "active_preregistration_lock_sha256": "a" * 64,
+    "preregistration_amendment_sha256": "b" * 64,
+    "original_preregistration_lock_sha256": "c" * 64,
+    "original_preregistration_commit": "d" * 40,
+    "active_preregistration_commit": "e" * 40,
+}
 
 
 @pytest.fixture(scope="module")
@@ -70,8 +81,15 @@ def _gate_payload(*, gate_a: bool, gate_c: bool) -> dict:
 
 
 def _write_authorization(
-    root: Path, config: dict, *, gate_a: bool, gate_c: bool
+    root: Path,
+    config: dict,
+    *,
+    gate_a: bool,
+    gate_c: bool,
+    chain: dict | None = None,
 ) -> tuple[Path, Path]:
+    chain = copy.deepcopy(PREREGISTRATION_CHAIN if chain is None else chain)
+    config_sha256 = file_sha256(ROOT / "configs" / "audit.json")
     metrics = root / "metrics"
     metrics.mkdir()
     gates_path = metrics / "gates.json"
@@ -84,7 +102,7 @@ def _write_authorization(
     authorization_path.write_text(
         json.dumps(
             {
-                "schema_version": 1,
+                "schema_version": 2,
                 "experiment": "spatial_heterogeneity_phenotype_audit",
                 "authorization_rule": "Gate A OR Gate C",
                 "authorized": authorized,
@@ -98,6 +116,11 @@ def _write_authorization(
                 "gate_c_passed": gate_c,
                 "stage_a_scientific_classification": "MIXED",
                 "stage_b_contract": config["stage_b"],
+                "config_sha256": config_sha256,
+                "preregistration_lock_sha256": chain[
+                    "active_preregistration_lock_sha256"
+                ],
+                "preregistration_chain": chain,
                 "contains_patient_level_data": False,
                 "stage_a_gates_sha256": file_sha256(gates_path),
             },
@@ -122,11 +145,16 @@ def _write_authorization(
     (metrics / "run_summary.json").write_text(
         json.dumps(
             {
-                "schema_version": 1,
+                "schema_version": 2,
                 "experiment": "spatial_heterogeneity_phenotype_audit",
                 "stage": "A",
                 "status": "COMPLETE",
                 "stage_b_authorized": authorized,
+                "config_sha256": config_sha256,
+                "preregistration_lock_sha256": chain[
+                    "active_preregistration_lock_sha256"
+                ],
+                "preregistration_chain": chain,
                 "artifacts": {
                     "gates": artifact(gates_path),
                     "stage_b_authorization": artifact(authorization_path),
@@ -192,6 +220,30 @@ def test_objective_is_exact_frozen_ftv_only_dgrs(dependencies):
     assert objective.sigreg_weight == 0.09
 
 
+def test_stage_b_probe_import_resolves_local_audit_on_cold_import(config):
+    original_path = list(sys.path)
+    cached_audit = sys.modules.pop("run_audit", None)
+    try:
+        audit, data_contracts, expected_audit, expected_contracts, _modeling = (
+            stage_b._load_stage_b_probe_dependencies(config)
+        )
+        assert Path(audit.__file__).resolve() == expected_audit
+        assert Path(data_contracts.__file__).resolve() == expected_contracts
+        assert (
+            audit._append_multiclass_fit.__globals__[
+                "_fit_multiclass_logistic_exact_legacy"
+            ]
+            is audit._fit_multiclass_logistic_exact_legacy
+        )
+        complementarity = str(expected_contracts.parent)
+        assert sys.path.index(str(SCRIPTS)) < sys.path.index(complementarity)
+    finally:
+        sys.path[:] = original_path
+        sys.modules.pop("run_audit", None)
+        if cached_audit is not None:
+            sys.modules["run_audit"] = cached_audit
+
+
 def test_full_nested_stage_b_config_is_exact_and_fail_closed(config):
     validate_stage_b_config(config)
     changed = copy.deepcopy(config)
@@ -212,12 +264,20 @@ def test_authorization_is_exactly_gate_a_or_gate_c(
         tmp_path, config, gate_a=gate_a, gate_c=gate_c
     )
     authorization = validate_stage_b_authorization(
-        config, authorization_path, gates_path
+        config,
+        authorization_path,
+        gates_path,
+        expected_preregistration_chain=PREREGISTRATION_CHAIN,
     )
     assert authorization.authorized is True
     assert authorization.gate_a_passed is gate_a
     assert authorization.gate_c_passed is gate_c
-    preflight = preflight_payload(authorization, "a" * 64, config)
+    preflight = preflight_payload(
+        authorization,
+        "a" * 64,
+        PREREGISTRATION_CHAIN,
+        config,
+    )
     assert preflight["effective_seeds"] == [SEED_BASE + fold for fold in FOLDS]
     assert preflight["stage_a_run_summary_sha256"] == authorization.run_summary_sha256
     assert preflight["training_performed"] is False
@@ -229,7 +289,10 @@ def test_unauthorized_closure_and_status_table(tmp_path: Path, config):
         tmp_path, config, gate_a=False, gate_c=False
     )
     authorization = validate_stage_b_authorization(
-        config, authorization_path, gates_path
+        config,
+        authorization_path,
+        gates_path,
+        expected_preregistration_chain=PREREGISTRATION_CHAIN,
     )
     assert authorization.authorized is False
     assert authorization.status == "NOT_RUN_NOT_AUTHORIZED"
@@ -269,8 +332,20 @@ def test_unauthorized_main_never_verifies_inputs_or_calls_cache_guard(
         events.append("prereg")
         return "a" * 64
 
-    def fake_authorization(value, authorization_path, gates_path):
+    def fake_chain(lock):
+        del lock
+        events.append("chain")
+        return copy.deepcopy(PREREGISTRATION_CHAIN)
+
+    def fake_authorization(
+        value,
+        authorization_path,
+        gates_path,
+        *,
+        expected_preregistration_chain,
+    ):
         del value, authorization_path, gates_path
+        assert expected_preregistration_chain == PREREGISTRATION_CHAIN
         events.append("authorization")
         return SimpleNamespace(authorized=False)
 
@@ -295,13 +370,21 @@ def test_unauthorized_main_never_verifies_inputs_or_calls_cache_guard(
     monkeypatch.setattr(stage_b, "validate_stage_b_config", fake_validate)
     monkeypatch.setattr(stage_b, "require_preregistration_lock", fake_lock)
     monkeypatch.setattr(stage_b, "require_stage_b_preregistration", fake_prereg)
+    monkeypatch.setattr(stage_b, "preregistration_chain", fake_chain)
     monkeypatch.setattr(stage_b, "validate_stage_b_authorization", fake_authorization)
     monkeypatch.setattr(stage_b, "authenticated_cache_evidence", forbidden_cache)
     monkeypatch.setattr(stage_b, "atomic_csv", fake_atomic_csv)
 
     stage_b.main()
 
-    assert events == ["load:False", "config", "lock", "prereg", "authorization"]
+    assert events == [
+        "load:False",
+        "config",
+        "lock",
+        "prereg",
+        "chain",
+        "authorization",
+    ]
     assert len(written) == 1
     assert written[0].loc[0, "status"] == "NOT_RUN_NOT_AUTHORIZED"
 
@@ -333,8 +416,20 @@ def test_authorized_main_orders_cache_proof_before_verified_config(
         events.append("prereg")
         return "a" * 64
 
-    def fake_authorization(value, authorization_path, gates_path):
+    def fake_chain(lock):
+        del lock
+        events.append("chain")
+        return copy.deepcopy(PREREGISTRATION_CHAIN)
+
+    def fake_authorization(
+        value,
+        authorization_path,
+        gates_path,
+        *,
+        expected_preregistration_chain,
+    ):
         del value, authorization_path, gates_path
+        assert expected_preregistration_chain == PREREGISTRATION_CHAIN
         events.append("authorization")
         return SimpleNamespace(
             authorized=True,
@@ -372,6 +467,7 @@ def test_authorized_main_orders_cache_proof_before_verified_config(
     monkeypatch.setattr(stage_b, "validate_stage_b_config", fake_validate)
     monkeypatch.setattr(stage_b, "require_preregistration_lock", fake_lock)
     monkeypatch.setattr(stage_b, "require_stage_b_preregistration", fake_prereg)
+    monkeypatch.setattr(stage_b, "preregistration_chain", fake_chain)
     monkeypatch.setattr(stage_b, "validate_stage_b_authorization", fake_authorization)
     monkeypatch.setattr(stage_b, "authenticated_cache_evidence", fake_cache)
 
@@ -382,6 +478,7 @@ def test_authorized_main_orders_cache_proof_before_verified_config(
         "config",
         "lock",
         "prereg",
+        "chain",
         "authorization",
         "cache",
         "load:True",
@@ -396,7 +493,12 @@ def test_authorization_fails_closed_on_gate_hash_tampering(tmp_path: Path, confi
     payload["gates"]["A"]["passed"] = False
     gates_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
     with pytest.raises(ValueError, match="run summary artifact|authorization closure"):
-        validate_stage_b_authorization(config, authorization_path, gates_path)
+        validate_stage_b_authorization(
+            config,
+            authorization_path,
+            gates_path,
+            expected_preregistration_chain=PREREGISTRATION_CHAIN,
+        )
 
 
 def test_authorization_fails_closed_on_incomplete_or_tampered_run_summary(
@@ -410,7 +512,12 @@ def test_authorization_fails_closed_on_incomplete_or_tampered_run_summary(
     summary["status"] = "RUNNING"
     summary_path.write_text(json.dumps(summary) + "\n", encoding="utf-8")
     with pytest.raises(ValueError, match="COMPLETE formal closure"):
-        validate_stage_b_authorization(config, authorization_path, gates_path)
+        validate_stage_b_authorization(
+            config,
+            authorization_path,
+            gates_path,
+            expected_preregistration_chain=PREREGISTRATION_CHAIN,
+        )
 
     summary["status"] = "COMPLETE"
     summary_path.write_text(json.dumps(summary) + "\n", encoding="utf-8")
@@ -420,7 +527,125 @@ def test_authorization_fails_closed_on_incomplete_or_tampered_run_summary(
         json.dumps(authorization_payload) + "\n", encoding="utf-8"
     )
     with pytest.raises(ValueError, match="artifact hash/size/privacy drifted"):
-        validate_stage_b_authorization(config, authorization_path, gates_path)
+        validate_stage_b_authorization(
+            config,
+            authorization_path,
+            gates_path,
+            expected_preregistration_chain=PREREGISTRATION_CHAIN,
+        )
+
+
+def test_authorization_rejects_mixed_amendment_chain_and_config(tmp_path: Path, config):
+    authorization_path, gates_path = _write_authorization(
+        tmp_path, config, gate_a=True, gate_c=False
+    )
+    drifted_chain = copy.deepcopy(PREREGISTRATION_CHAIN)
+    drifted_chain["preregistration_amendment_sha256"] = "f" * 64
+    with pytest.raises(ValueError, match="preregistration_chain"):
+        validate_stage_b_authorization(
+            config,
+            authorization_path,
+            gates_path,
+            expected_preregistration_chain=drifted_chain,
+        )
+
+    summary_path = authorization_path.parent / "run_summary.json"
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    summary["config_sha256"] = "f" * 64
+    summary_path.write_text(json.dumps(summary) + "\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="config_sha256"):
+        validate_stage_b_authorization(
+            config,
+            authorization_path,
+            gates_path,
+            expected_preregistration_chain=PREREGISTRATION_CHAIN,
+        )
+
+
+def test_selected_checkpoint_resume_rejects_mixed_amendment_chain(tmp_path: Path):
+    authorization = SimpleNamespace(
+        sha256="1" * 64,
+        gates_sha256="2" * 64,
+        run_summary_sha256="3" * 64,
+    )
+    cache_evidence = {
+        "public_contract_sha256": "4" * 64,
+        "private_manifest_sha256": "5" * 64,
+    }
+    chain_fields = {
+        "preregistration_lock_sha256": PREREGISTRATION_CHAIN[
+            "active_preregistration_lock_sha256"
+        ],
+        "preregistration_chain": copy.deepcopy(PREREGISTRATION_CHAIN),
+    }
+    selection = {
+        "selected_epoch": 1,
+        "authorization_sha256": authorization.sha256,
+        "stage_a_gates_sha256": authorization.gates_sha256,
+        "stage_a_run_summary_sha256": authorization.run_summary_sha256,
+        **chain_fields,
+        "cache_integrity_public_contract_sha256": cache_evidence[
+            "public_contract_sha256"
+        ],
+        "cache_integrity_private_manifest_sha256": cache_evidence[
+            "private_manifest_sha256"
+        ],
+        "test_data_used": False,
+    }
+    selection_path = tmp_path / "selection.private.json"
+    selection_path.write_text(
+        json.dumps(selection, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    data_provenance = {"cache_integrity": dict(cache_evidence)}
+    payload = {
+        "schema_version": 1,
+        "experiment": "spatial_heterogeneity_phenotype_audit",
+        "stage": "B",
+        "arm": MODEL_ARM,
+        "seed_base": SEED_BASE,
+        "fold": 0,
+        "effective_seed": SEED_BASE,
+        "epoch": 1,
+        "selected": True,
+        "authorization_sha256": authorization.sha256,
+        "stage_a_gates_sha256": authorization.gates_sha256,
+        "stage_a_run_summary_sha256": authorization.run_summary_sha256,
+        **chain_fields,
+        "cache_integrity_public_contract_sha256": cache_evidence[
+            "public_contract_sha256"
+        ],
+        "cache_integrity_private_manifest_sha256": cache_evidence[
+            "private_manifest_sha256"
+        ],
+        "test_data_used_for_training_or_selection": False,
+        "mask_or_oracle_input_used": False,
+        "phenotype_pcr_or_delta_supervision_used": False,
+        "selection_path": str(selection_path),
+        "selection_sha256": file_sha256(selection_path),
+        "selection": selection,
+        "data_provenance": data_provenance,
+        "data_provenance_sha256": canonical_sha256(data_provenance),
+    }
+    _validate_selected_checkpoint(
+        payload,
+        fold=0,
+        authorization=authorization,
+        lock_sha256=PREREGISTRATION_CHAIN["active_preregistration_lock_sha256"],
+        preregistration_context=PREREGISTRATION_CHAIN,
+        cache_evidence=cache_evidence,
+    )
+
+    drifted_chain = copy.deepcopy(PREREGISTRATION_CHAIN)
+    drifted_chain["preregistration_amendment_sha256"] = "f" * 64
+    with pytest.raises(ValueError, match="preregistration_chain"):
+        _validate_selected_checkpoint(
+            payload,
+            fold=0,
+            authorization=authorization,
+            lock_sha256=PREREGISTRATION_CHAIN["active_preregistration_lock_sha256"],
+            preregistration_context=drifted_chain,
+            cache_evidence=cache_evidence,
+        )
 
 
 def test_table8_pairs_exact_stage_a_rows_and_signed_deltas():

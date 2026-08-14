@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from itertools import product
 import json
 import os
 from pathlib import Path
@@ -447,28 +448,61 @@ def oracle_figure(table: pd.DataFrame) -> plt.Figure:
 
 
 def longitudinal_figure(table: pd.DataFrame) -> plt.Figure:
-    variants = [
-        value
-        for value in ("DELTA_MEAN", "DELTA_STD", "P3_PLUS_DELTA")
-        if value in set(table["variant"])
-    ]
-    summary = (
-        table.loc[table["variant"].isin(variants)]
-        .groupby(["view", "variant"], sort=False)["auroc"]
-        .mean()
-        .unstack("variant")
-    )
-    figure, axis = plt.subplots(figsize=(7.0, 4.1))
-    for variant in variants:
-        axis.plot(
-            summary.index, summary[variant], marker="o", linewidth=1.6, label=variant
+    seeds = (2026, 3026)
+    arms = ("LOCAL0", "LOCAL3")
+    views = ("T0->T1", "T1->T2", "T2->T3")
+    variants = ("DELTA_MEAN", "DELTA_STD", "P3_PLUS_DELTA")
+    populations = ("full_808", "ftv_complete_375")
+    identity = ("seed", "arm", "view", "target", "variant", "population")
+    required = {*identity, "n", "auroc"}
+    if not required.issubset(table.columns):
+        raise ValueError(
+            f"longitudinal table lacks columns: {sorted(required - set(table.columns))}"
         )
+    if table.duplicated(list(identity)).any():
+        raise ValueError("longitudinal table repeats a registered identity")
+    observed = set(table.loc[:, identity].itertuples(index=False, name=None))
+    expected = set(product(seeds, arms, views, ("pCR",), variants, populations))
+    if observed != expected:
+        raise ValueError(
+            "longitudinal table does not contain the exact registered grid"
+        )
+    expected_n = table["population"].map({"full_808": 808, "ftv_complete_375": 375})
+    auroc = pd.to_numeric(table["auroc"], errors="coerce").to_numpy(dtype=float)
+    if not table["n"].eq(expected_n).all() or not np.isfinite(auroc).all():
+        raise ValueError("longitudinal table coverage/AUROC contract drifted")
+    summary = (
+        table.groupby(["population", "view", "variant"], sort=False)["auroc"]
+        .mean()
+        .reindex(pd.MultiIndex.from_product((populations, views, variants)))
+    )
+    if summary.isna().any() or len(summary) != 18:
+        raise ValueError("longitudinal summary coverage drifted")
+    figure, axis = plt.subplots(figsize=(7.0, 4.1))
+    colors = {
+        "DELTA_MEAN": "#4c78a8",
+        "DELTA_STD": "#f58518",
+        "P3_PLUS_DELTA": "#54a24b",
+    }
+    line_styles = {"full_808": "-", "ftv_complete_375": "--"}
+    for variant in variants:
+        for population in populations:
+            values = [summary.loc[(population, view, variant)] for view in views]
+            axis.plot(
+                views,
+                values,
+                marker="o",
+                linewidth=1.6,
+                linestyle=line_styles[population],
+                color=colors[variant],
+                label=f"{variant} · {population}",
+            )
     axis.axhline(0.5, color="#999999", linestyle="--", linewidth=0.8)
     axis.set_xlabel("Observed treatment interval")
     axis.set_ylabel("OOF pCR AUROC")
-    axis.set_title("Longitudinal heterogeneity change", weight="bold")
+    axis.set_title("Longitudinal heterogeneity change by population", weight="bold")
     axis.grid(axis="y", alpha=0.2)
-    axis.legend(frameon=False)
+    axis.legend(frameon=False, ncol=2)
     return figure
 
 

@@ -1,0 +1,24 @@
+{
+  "affine_valid_patients": 375,
+  "axis_aligned_ras_patients": 375,
+  "extent_xyz_mm": [
+    144.0,
+    158.4,
+    224.0
+  ],
+  "maximum_center_consistency_error_mm": 2.842170943040401e-14,
+  "maximum_extent_consistency_error_mm": 2.842170943040401e-14,
+  "orientation": "RAS+",
+  "patients": 375,
+  "shape_zyx": [
+    112,
+    176,
+    160
+  ],
+  "spacing_xyz_mm": [
+    0.9,
+    0.9,
+    2.0
+  ],
+  "status": "PASS"
+}

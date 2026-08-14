@@ -26,6 +26,11 @@ from common import (  # noqa: E402
     canonical_sha256,
     file_sha256,
     load_config,
+    load_preregistration_implementation_erratum,
+    load_preregistration_implementation_erratum_2,
+    load_preregistration_implementation_erratum_3,
+    preregistration_chain,
+    preregistration_provenance_anchors,
     require_preregistration_lock,
 )
 from export_features import _load_oracle  # noqa: E402
@@ -136,6 +141,10 @@ DELIVERY_ALLOWED_PATHS = frozenset(
     {
         ".gitignore",
         "EXPERIMENT_PLAN.md",
+        "PREREGISTRATION_AMENDMENT.json",
+        "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json",
+        "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json",
+        "PREREGISTRATION_IMPLEMENTATION_ERRATUM_3.json",
         "PREREGISTRATION_LOCK.json",
         "configs/audit.json",
         "features/.gitkeep",
@@ -160,6 +169,7 @@ DELIVERY_ALLOWED_PATHS = frozenset(
         "tests/test_cache_integrity.py",
         "tests/test_delivery_contracts.py",
         "tests/test_gates.py",
+        "tests/test_multiclass_compat.py",
         "tests/test_oracle_regions.py",
         "tests/test_pooling.py",
         "tests/test_stage_b_pilot.py",
@@ -192,11 +202,22 @@ RUN_SUMMARY_KEYS = frozenset(
         "elapsed_seconds",
         "config_sha256",
         "preregistration_lock_sha256",
+        "preregistration_chain",
         "feature_asset_sha256",
         "reused_implementation_sha256",
         "runtime_implementation_sha256",
         "artifacts",
         "public_outputs_contain_patient_level_data",
+    }
+)
+PREREGISTRATION_CHAIN_KEYS = frozenset(
+    {
+        "preregistration_revision",
+        "active_preregistration_lock_sha256",
+        "preregistration_amendment_sha256",
+        "original_preregistration_lock_sha256",
+        "original_preregistration_commit",
+        "active_preregistration_commit",
     }
 )
 RUN_SUMMARY_ARTIFACT_KEYS = frozenset(
@@ -320,6 +341,12 @@ def _require_exact_columns(
         raise ValueError(
             f"{name} schema drifted: observed={tuple(frame.columns)}, expected={expected}"
         )
+
+
+def _read_public_table(path: Path) -> pd.DataFrame:
+    """Parse public metric decimals with exact round-trip float reconstruction."""
+
+    return pd.read_csv(path, float_precision="round_trip")
 
 
 def _require_identity_grid(
@@ -541,7 +568,7 @@ def _validate_public_tables(
         path = ROOT / "metrics" / name
         if not path.is_file():
             raise FileNotFoundError(path)
-        frame = pd.read_csv(path)
+        frame = _read_public_table(path)
         if frame.empty:
             raise ValueError(f"public table is empty: {name}")
         if name in EXPECTED_ROWS and len(frame) != EXPECTED_ROWS[name]:
@@ -708,7 +735,7 @@ def _validate_run_summary(
     if not isinstance(summary, dict) or set(summary) != set(RUN_SUMMARY_KEYS):
         raise ValueError("Stage-A run summary top-level schema drifted")
     expected_scalars = {
-        "schema_version": 1,
+        "schema_version": 2,
         "experiment": "spatial_heterogeneity_phenotype_audit",
         "stage": "A",
         "status": "COMPLETE",
@@ -738,6 +765,16 @@ def _validate_run_summary(
         or type(summary["public_outputs_contain_patient_level_data"]) is not bool
     ):
         raise ValueError("Stage-A run summary Boolean fields have invalid types")
+    expected_chain = preregistration_chain(lock)
+    observed_chain = summary.get("preregistration_chain")
+    if (
+        not isinstance(observed_chain, Mapping)
+        or set(observed_chain) != set(PREREGISTRATION_CHAIN_KEYS)
+        or observed_chain != expected_chain
+        or summary["preregistration_lock_sha256"]
+        != expected_chain["active_preregistration_lock_sha256"]
+    ):
+        raise ValueError("Stage-A run summary preregistration chain drifted")
     elapsed = summary.get("elapsed_seconds")
     if (
         isinstance(elapsed, bool)
@@ -848,6 +885,7 @@ def _validate_report(
     gates: Mapping[str, Any],
     authorization_path: Path,
     branch: str,
+    chain: Mapping[str, Any],
 ) -> tuple[str, Mapping[str, Any]]:
     report_path = ROOT / "reports" / "final_report.md"
     manifest_path = ROOT / "reports" / "report_manifest.json"
@@ -857,7 +895,21 @@ def _validate_report(
         "status",
         "language",
         "scientific_classification",
+        "preregistration_revision",
+        "original_preregistration_commit",
+        "original_preregistration_lock_sha256",
+        "preregistration_amendment_sha256",
+        "prior_amended_preregistration_commit",
+        "prior_amended_preregistration_lock_sha256",
+        "implementation_erratum_sha256",
+        "prior_implementation_refreeze_commit",
+        "prior_implementation_refreeze_lock_sha256",
+        "implementation_erratum_2_sha256",
+        "prior_compatibility_refreeze_commit",
+        "prior_compatibility_refreeze_lock_sha256",
+        "implementation_erratum_3_sha256",
         "preregistration_commit",
+        "active_amended_preregistration_commit",
         "experiment_commit",
         "push_status",
         "input_sha256",
@@ -866,9 +918,10 @@ def _validate_report(
     }
     if (
         set(manifest) != expected_manifest_columns
-        or manifest.get("schema_version") != 1
+        or manifest.get("schema_version") != 3
         or manifest.get("status") != "COMPLETE"
         or manifest.get("language") != "zh-CN"
+        or manifest.get("preregistration_revision") != 2
         or manifest.get("contains_patient_level_data") is not False
     ):
         raise ValueError("report manifest contract drifted")
@@ -878,8 +931,13 @@ def _validate_report(
         raise ValueError("report classification differs from current Stage-A gates")
     input_paths = [
         ROOT / "PREREGISTRATION_LOCK.json",
+        ROOT / "PREREGISTRATION_AMENDMENT.json",
+        ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json",
+        ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json",
+        ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_3.json",
         ROOT / "metrics" / "gates.json",
         authorization_path,
+        ROOT / "metrics" / "run_summary.json",
         *(ROOT / "metrics" / name for name in TABLES),
         *(ROOT / "figures" / name for name in FIGURES),
     ]
@@ -892,9 +950,58 @@ def _validate_report(
         )
     commit = str(manifest.get("experiment_commit", ""))
     preregistration_commit = str(manifest.get("preregistration_commit", ""))
-    if preregistration_commit != preregistration_commit_sha():
+    original_preregistration_commit = str(
+        manifest.get("original_preregistration_commit", "")
+    )
+    prior_amended_preregistration_commit = str(
+        manifest.get("prior_amended_preregistration_commit", "")
+    )
+    prior_implementation_refreeze_commit = str(
+        manifest.get("prior_implementation_refreeze_commit", "")
+    )
+    prior_compatibility_refreeze_commit = str(
+        manifest.get("prior_compatibility_refreeze_commit", "")
+    )
+    implementation_erratum = load_preregistration_implementation_erratum()
+    implementation_erratum_2 = load_preregistration_implementation_erratum_2()
+    implementation_erratum_3 = load_preregistration_implementation_erratum_3()
+    (
+        original_anchor,
+        prior_amended_anchor,
+        prior_implementation_anchor,
+        prior_compatibility_anchor,
+        active_anchor,
+    ) = preregistration_provenance_anchors()
+    if (
+        preregistration_commit != preregistration_commit_sha()
+        or preregistration_commit != chain["active_preregistration_commit"]
+        or preregistration_commit != active_anchor
+        or manifest.get("active_amended_preregistration_commit")
+        != chain["active_preregistration_commit"]
+        or original_preregistration_commit != chain["original_preregistration_commit"]
+        or original_preregistration_commit != original_anchor
+        or prior_amended_preregistration_commit != prior_amended_anchor
+        or prior_implementation_refreeze_commit != prior_implementation_anchor
+        or prior_compatibility_refreeze_commit != prior_compatibility_anchor
+        or manifest.get("original_preregistration_lock_sha256")
+        != chain["original_preregistration_lock_sha256"]
+        or manifest.get("preregistration_amendment_sha256")
+        != chain["preregistration_amendment_sha256"]
+        or manifest.get("prior_amended_preregistration_lock_sha256")
+        != implementation_erratum["prior_amended_preregistration_lock_sha256"]
+        or manifest.get("implementation_erratum_sha256")
+        != file_sha256(ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json")
+        or manifest.get("prior_implementation_refreeze_lock_sha256")
+        != implementation_erratum_2["prior_implementation_refreeze_lock_sha256"]
+        or manifest.get("implementation_erratum_2_sha256")
+        != file_sha256(ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json")
+        or manifest.get("prior_compatibility_refreeze_lock_sha256")
+        != implementation_erratum_3["prior_compatibility_refreeze_lock_sha256"]
+        or manifest.get("implementation_erratum_3_sha256")
+        != file_sha256(ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_3.json")
+    ):
         raise ValueError(
-            "report preregistration commit differs from current lock anchor"
+            "report preregistration amendment chain differs from current anchors"
         )
     push = str(manifest.get("push_status", ""))
     pending = commit == "PENDING" and push == "PENDING"
@@ -907,10 +1014,45 @@ def _validate_report(
     if final and not completed:
         raise ValueError("final report lacks completed commit/push provenance")
     if completed:
-        validate_final_git_provenance(commit, push, branch, preregistration_commit)
+        validate_final_git_provenance(
+            commit,
+            push,
+            branch,
+            preregistration_commit,
+            original_preregistration_commit,
+            prior_amended_preregistration_commit,
+            prior_implementation_refreeze_commit,
+            prior_compatibility_refreeze_commit,
+        )
     text = report_path.read_text(encoding="utf-8")
     if (
         f"Preregistration commit SHA：`{preregistration_commit}`" not in text
+        or f"Original preregistration commit SHA：`{original_preregistration_commit}`"
+        not in text
+        or f"Original preregistration lock：`{chain['original_preregistration_lock_sha256']}`"
+        not in text
+        or f"Prior amended preregistration commit SHA：`{prior_amended_preregistration_commit}`"
+        not in text
+        or f"Prior amended preregistration lock：`{implementation_erratum['prior_amended_preregistration_lock_sha256']}`"
+        not in text
+        or f"Preregistration implementation erratum：`{file_sha256(ROOT / 'PREREGISTRATION_IMPLEMENTATION_ERRATUM.json')}`"
+        not in text
+        or f"Prior implementation refreeze commit SHA：`{prior_implementation_refreeze_commit}`"
+        not in text
+        or f"Prior implementation refreeze lock：`{implementation_erratum_2['prior_implementation_refreeze_lock_sha256']}`"
+        not in text
+        or f"Preregistration implementation erratum 2：`{file_sha256(ROOT / 'PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json')}`"
+        not in text
+        or f"Prior compatibility refreeze commit SHA：`{prior_compatibility_refreeze_commit}`"
+        not in text
+        or f"Prior compatibility refreeze lock：`{implementation_erratum_3['prior_compatibility_refreeze_lock_sha256']}`"
+        not in text
+        or f"Preregistration implementation erratum 3：`{file_sha256(ROOT / 'PREREGISTRATION_IMPLEMENTATION_ERRATUM_3.json')}`"
+        not in text
+        or f"Active implementation-refrozen preregistration commit SHA：`{preregistration_commit}`"
+        not in text
+        or f"Preregistration amendment：`{chain['preregistration_amendment_sha256']}`"
+        not in text
         or f"Experiment commit SHA：`{commit}`" not in text
         or f"GitHub push status：`{push}`" not in text
     ):
@@ -921,6 +1063,17 @@ def _validate_report(
 def validate(*, final: bool) -> dict[str, Any]:
     config = load_config(ROOT / "configs" / "audit.json", verify_inputs=True)
     lock = require_preregistration_lock(config)
+    chain = preregistration_chain(lock)
+    implementation_erratum = load_preregistration_implementation_erratum()
+    implementation_erratum_2 = load_preregistration_implementation_erratum_2()
+    implementation_erratum_3 = load_preregistration_implementation_erratum_3()
+    (
+        _original_anchor,
+        prior_amended_anchor,
+        prior_implementation_anchor,
+        prior_compatibility_anchor,
+        _active_anchor,
+    ) = preregistration_provenance_anchors()
     if _git("branch", "--show-current") != config["branch"]:
         raise ValueError("current Git branch differs from the formal branch")
 
@@ -1002,6 +1155,18 @@ def validate(*, final: bool) -> dict[str, Any]:
     expected_authorized = bool(
         gates["gates"]["A"]["passed"] or gates["gates"]["C"]["passed"]
     )
+    expected_authorization_provenance = {
+        "schema_version": 2,
+        "config_sha256": file_sha256(ROOT / "configs" / "audit.json"),
+        "preregistration_lock_sha256": chain["active_preregistration_lock_sha256"],
+        "preregistration_chain": chain,
+        "stage_a_gates_sha256": file_sha256(gates_path),
+    }
+    if any(
+        authorization.get(name) != expected
+        for name, expected in expected_authorization_provenance.items()
+    ):
+        raise ValueError("Stage-B authorization provenance chain drifted")
     if bool(authorization.get("authorized")) != expected_authorized:
         raise ValueError("Stage-B authorization differs from Gate A OR Gate C")
     tables, table_frames = _validate_public_tables(
@@ -1018,7 +1183,12 @@ def validate(*, final: bool) -> dict[str, Any]:
         raise ValueError(
             "published Stage-A gates differ from canonical table recomputation"
         )
-    recomputed_authorization = stage_b_authorization(config, recomputed_gates)
+    recomputed_authorization = stage_b_authorization(
+        config,
+        recomputed_gates,
+        chain,
+        expected_authorization_provenance["config_sha256"],
+    )
     recomputed_authorization["stage_a_gates_sha256"] = file_sha256(gates_path)
     if canonical_sha256(authorization) != canonical_sha256(recomputed_authorization):
         raise ValueError("published Stage-B authorization differs from canonical gates")
@@ -1094,15 +1264,71 @@ def validate(*, final: bool) -> dict[str, Any]:
         gates=gates,
         authorization_path=authorization_path,
         branch=str(config["branch"]),
+        chain=chain,
     )
     for index in range(1, 13):
         if f"{index}. **" not in report_text:
             raise ValueError(f"final report omits explicit answer {index}")
     privacy = _privacy_scan(_tracked_candidate_paths())
     return {
-        "schema_version": 1,
+        "schema_version": 3,
         "status": "PASS",
         "branch": config["branch"],
+        "preregistration_chain": chain,
+        "implementation_erratum_sha256": file_sha256(
+            ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM.json"
+        ),
+        "prior_amended_preregistration_commit": prior_amended_anchor,
+        "prior_amended_preregistration_lock_sha256": implementation_erratum[
+            "prior_amended_preregistration_lock_sha256"
+        ],
+        "pre_erratum_run_state_verified": True,
+        "discarded_pre_erratum_artifact_count": implementation_erratum[
+            "pre_erratum_execution"
+        ]["discarded_artifact_count"],
+        "discarded_pre_erratum_artifact_total_bytes": implementation_erratum[
+            "pre_erratum_execution"
+        ]["discarded_artifact_total_bytes"],
+        "implementation_erratum_2_sha256": file_sha256(
+            ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json"
+        ),
+        "prior_implementation_refreeze_commit": prior_implementation_anchor,
+        "prior_implementation_refreeze_lock_sha256": implementation_erratum_2[
+            "prior_implementation_refreeze_lock_sha256"
+        ],
+        "pre_erratum_2_run_state_verified": True,
+        "discarded_pre_erratum_2_artifact_count": implementation_erratum_2[
+            "pre_erratum_execution"
+        ]["discarded_artifact_count"],
+        "discarded_pre_erratum_2_artifact_total_bytes": implementation_erratum_2[
+            "pre_erratum_execution"
+        ]["discarded_artifact_total_bytes"],
+        "discarded_pre_erratum_2_record_set_sha256": implementation_erratum_2[
+            "pre_erratum_execution"
+        ]["discarded_artifact_record_set_sha256"],
+        "implementation_erratum_3_sha256": file_sha256(
+            ROOT / "PREREGISTRATION_IMPLEMENTATION_ERRATUM_3.json"
+        ),
+        "prior_compatibility_refreeze_commit": prior_compatibility_anchor,
+        "prior_compatibility_refreeze_lock_sha256": implementation_erratum_3[
+            "prior_compatibility_refreeze_lock_sha256"
+        ],
+        "pre_erratum_3_run_state_verified": True,
+        "discarded_pre_erratum_3_artifact_count": implementation_erratum_3[
+            "pre_erratum_execution"
+        ]["discarded_artifact_count"],
+        "discarded_pre_erratum_3_artifact_total_bytes": implementation_erratum_3[
+            "pre_erratum_execution"
+        ]["discarded_artifact_total_bytes"],
+        "discarded_pre_erratum_3_record_set_sha256": implementation_erratum_3[
+            "pre_erratum_execution"
+        ]["discarded_artifact_record_set_sha256"],
+        "pre_erratum_3_gate_parser_difference_count": implementation_erratum_3[
+            "pre_erratum_execution"
+        ]["default_parser_gate_json_difference_count"],
+        "pre_erratum_3_presentation_contract_gap_count": implementation_erratum_3[
+            "pre_erratum_execution"
+        ]["presentation_contract_gap_count"],
         "base_head": base,
         "old_repository_paths_unchanged": True,
         "changed_paths": changed,

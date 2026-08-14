@@ -1,0 +1,3818 @@
+{
+  "contains_patient_level_data": false,
+  "experiment": "spatial_heterogeneity_phenotype_audit",
+  "gates": {
+    "A": {
+      "evaluated_comparisons": [
+        {
+          "arm": "LOCAL0",
+          "comparison": "P3",
+          "passed": false,
+          "population": "full_808",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": -0.018728433614464746,
+            "3026": -0.0194087224503513
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "P3",
+          "passed": false,
+          "population": "full_808",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": -0.0081593071106848,
+            "3026": 0.016674748628008884
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "P3",
+          "passed": false,
+          "population": "full_808",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": -0.015531895710901744,
+            "3026": -0.014818821870876242
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "P3",
+          "passed": false,
+          "population": "full_808",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": 0.02132539048191706,
+            "3026": -0.0163425427255538
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "P3",
+          "passed": false,
+          "population": "full_808",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": -0.005565254452613466,
+            "3026": -0.01577778324194512
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "P3",
+          "passed": false,
+          "population": "full_808",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": 0.0012590032153714237,
+            "3026": 0.00262790394126855
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "P3",
+          "passed": false,
+          "population": "full_808",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": 0.008425746063750461,
+            "3026": 0.001360577671773
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "P3",
+          "passed": false,
+          "population": "full_808",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": 0.012910299616283094,
+            "3026": 0.011324918525286831
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "P3",
+          "passed": false,
+          "population": "full_808",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": -0.004622685583614006,
+            "3026": -0.008712614849967548
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "P3",
+          "passed": false,
+          "population": "full_808",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": -0.021592876631070568,
+            "3026": -0.0040116295483122455
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "P3",
+          "passed": false,
+          "population": "full_808",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": -0.0209332251428197,
+            "3026": -0.0005409525682952276
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "P3",
+          "passed": false,
+          "population": "full_808",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": -0.0002964874913113924,
+            "3026": -0.003977264576695783
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "P3",
+          "passed": false,
+          "population": "full_808",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": -0.002270361536633181,
+            "3026": 0.006171777029186809
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "P3",
+          "passed": false,
+          "population": "full_808",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": 0.015839141254939237,
+            "3026": -0.019363823309541894
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "P3",
+          "passed": false,
+          "population": "full_808",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": 0.024539575598121477,
+            "3026": -0.028965551156900915
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "P3",
+          "passed": false,
+          "population": "full_808",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": 0.03949846364200249,
+            "3026": 0.00956216291049039
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "P3",
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": -0.007855917667238366,
+            "3026": -0.036809605488850816
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "P3",
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": -0.03300171526586626,
+            "3026": -0.05471698113207546
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "P3",
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": -0.013756432246998185,
+            "3026": -0.049090909090909074
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "P3",
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": 0.06106346483704983,
+            "3026": 0.013687821612349937
+          },
+          "target": "pCR",
+          "view": "T0-T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "P3",
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": 0.016363636363636247,
+            "3026": -0.040068610634648505
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "P3",
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": -0.03989708404802739,
+            "3026": 0.011080617495711875
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "P3",
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": 0.024596912521440917,
+            "3026": 0.02524871355060021
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "P3",
+          "passed": false,
+          "population": "ftv_complete_375",
+          "reference": "P1",
+          "seed_deltas": {
+            "2026": 0.021166380789022332,
+            "3026": 0.05979416809605487
+          },
+          "target": "pCR",
+          "view": "T0-T3"
+        }
+      ],
+      "minimum_auroc_gain_each_seed": 0.03,
+      "name": "HETEROGENEITY_SIGNAL_SUPPORTED",
+      "passed": false,
+      "supporting_comparisons": []
+    },
+    "B": {
+      "evaluated_comparisons": [
+        {
+          "arm": "LOCAL0",
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "C+F+P3_minus_C+F": -0.03783876500857619,
+              "C+F+P3_minus_C+F+P1": -0.015917667238421807
+            },
+            "3026": {
+              "C+F+P3_minus_C+F": -0.05056603773584911,
+              "C+F+P3_minus_C+F+P1": 0.022915951972555693
+            }
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "C+F+P3_minus_C+F": -0.027204116638078868,
+              "C+F+P3_minus_C+F+P1": -0.024699828473413343
+            },
+            "3026": {
+              "C+F+P3_minus_C+F": -0.02843910806174943,
+              "C+F+P3_minus_C+F+P1": -0.005111492281303476
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "C+F+P3_minus_C+F": -0.045797598627787206,
+              "C+F+P3_minus_C+F+P1": -0.02216123499142364
+            },
+            "3026": {
+              "C+F+P3_minus_C+F": -0.06439108061749566,
+              "C+F+P3_minus_C+F+P1": -0.046826758147512804
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "C+F+P3_minus_C+F": -0.03289879931389361,
+              "C+F+P3_minus_C+F+P1": 0.0398970840480275
+            },
+            "3026": {
+              "C+F+P3_minus_C+F": -0.0225728987993139,
+              "C+F+P3_minus_C+F+P1": 0.013276157804459787
+            }
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "C+F+P3_minus_C+F": -0.022607204116637858,
+              "C+F+P3_minus_C+F+P1": -0.021509433962264013
+            },
+            "3026": {
+              "C+F+P3_minus_C+F": -0.0038078902229844447,
+              "C+F+P3_minus_C+F+P1": -0.0017838765008576507
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "passed": false,
+          "population": "ftv_complete_375",
+          "seed_deltas": {
+            "2026": {
+              "C+F+P3_minus_C+F": -0.0377015437392797,
+              "C+F+P3_minus_C+F+P1": -0.012487135506003555
+            },
+            "3026": {
+              "C+F+P3_minus_C+F": -0.03385934819897085,
+              "C+F+P3_minus_C+F+P1": -0.027478559176672412
+            }
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        }
+      ],
+      "minimum_gain_each_seed_strictly_gt": 0.0,
+      "name": "HETEROGENEITY_COMPLEMENTARITY_SUPPORTED",
+      "passed": false,
+      "supporting_comparisons": []
+    },
+    "C": {
+      "evaluated_comparisons": [
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.015490914455727922,
+            "3026": 0.025195275680903628
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.03928116158318562,
+            "3026": 0.0270434971862078
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.011318437659901148,
+            "3026": -0.024103701176871883
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.007094641351190423,
+            "3026": 0.0028120668410338556
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.003121783876500861,
+            "3026": 0.019245283018867965
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.0043732782369146905,
+            "3026": 0.04214876033057846
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.06595774256324716,
+            "3026": -0.02199749791492911
+          },
+          "target": "pCR",
+          "view": "T0-T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.030408615774469516,
+            "3026": -0.03282388343363951
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.04179548503762465,
+            "3026": -0.03698302514145724
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.019825397211286955,
+            "3026": -0.010098555156420552
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.027852828989192502,
+            "3026": 0.0071122059758425005
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.011867088607594889,
+            "3026": 0.025931786216596198
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.011662326189168293,
+            "3026": 0.028405538718227374
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.044580419580419584,
+            "3026": -0.023561665607120252
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.008306671754380768,
+            "3026": 0.04238457248525057
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.025511490823621252,
+            "3026": 0.011241998734315306
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.028490168596883914,
+            "3026": -0.006868458367142893
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.023679383142119814,
+            "3026": 0.032161178994496886
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.0019853317414293414,
+            "3026": -0.0007709363806924774
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.011755547788951048,
+            "3026": 0.0049359608706771585
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.04977701543739288,
+            "3026": -0.0016123499142367548
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.04166666666666674,
+            "3026": -0.04201101928374651
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.01831387267167084,
+            "3026": -0.007019738671114828
+          },
+          "target": "pCR",
+          "view": "T0-T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.01904497941083305,
+            "3026": -0.03706050047513465
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.05375371871901069,
+            "3026": -0.007962433646386269
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.005813891797042947,
+            "3026": -0.036951534089460614
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.015257469802924417,
+            "3026": 0.02840909090909094
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.015002344116268218,
+            "3026": 0.04015764181903425
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.009259970210807489,
+            "3026": 0.010944537028276469
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.007549268912905305,
+            "3026": -0.006317546090273463
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.014441280929877509,
+            "3026": 0.011887639789838311
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE",
+          "passed": false,
+          "population": "oracle_pair_CORE",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.014081132975169108,
+            "3026": 0.016465050425270578
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.022228232806314363,
+            "3026": 0.01655642709024896
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.017890122190094226,
+            "3026": 0.02134129278985175
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.012423673887088538,
+            "3026": -0.0031792597646256304
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.004548443657043655,
+            "3026": -0.0033877894020525323
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.004391080617495824,
+            "3026": 0.008507718696397992
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.01356749311294747,
+            "3026": 0.021039944903581187
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.039738292011019305,
+            "3026": -0.0233471074380166
+          },
+          "target": "pCR",
+          "view": "T0-T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.019242952169781447,
+            "3026": -0.02419227114349065
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.009449921250656246,
+            "3026": -0.005949950417079908
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.026013047313202975,
+            "3026": 0.010956860068610408
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.00735060394151299,
+            "3026": -0.006357279084551859
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.006680731364275716,
+            "3026": 0.02349976558837308
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.007733051350521936,
+            "3026": 0.019492234874691095
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.0537298067785873,
+            "3026": -0.015323091542603695
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.018899842501312436,
+            "3026": 0.03444554628711416
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.011873298260095422,
+            "3026": 0.009223110375923937
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.024424828083634553,
+            "3026": -0.021138131418689032
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.01661536548207565,
+            "3026": 0.00026116966700862054
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.01073170731707318,
+            "3026": -0.011536755926999875
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.022560659618227397,
+            "3026": -0.012700477526802145
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.015643224699828484,
+            "3026": -0.001989708404802837
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.0521349862258953,
+            "3026": -0.023209366391184538
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.022899449035812647,
+            "3026": -0.0262052341597796
+          },
+          "target": "pCR",
+          "view": "T0-T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.002850807728856375,
+            "3026": -0.015402280646183097
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.0019249839584669637,
+            "3026": -0.003237473021058146
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.019575609345066636,
+            "3026": -0.007192300295651988
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.024554990464081494,
+            "3026": 0.04056738715829622
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.02130215658696666,
+            "3026": 0.030165846225972848
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.014294091511453999,
+            "3026": 0.013572479212248134
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.01639214444092496,
+            "3026": -0.012749445676274895
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.011987400104999046,
+            "3026": -0.0036166365280287938
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI10",
+          "passed": false,
+          "population": "oracle_pair_PERI10",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.010469576012657411,
+            "3026": 0.020926782666921273
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.02109715016351521,
+            "3026": 0.009704361225175595
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.004713490656966135,
+            "3026": 0.007636103597301269
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.028988572403206625,
+            "3026": -0.022404912161009705
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.0019725544445766685,
+            "3026": 0.0059082978292259725
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": true,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.03567753001715257,
+            "3026": 0.033276157804459694
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.012898799313893705,
+            "3026": 0.026449399656946815
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.008919382504288254,
+            "3026": 0.0010291595197254866
+          },
+          "target": "pCR",
+          "view": "T0-T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.007879315806145093,
+            "3026": -0.0017025657269560401
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.0011958233681386155,
+            "3026": 0.01446654611211573
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.03796353491298177,
+            "3026": 0.01571494989365596
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.025300918593601507,
+            "3026": -0.03868387709851129
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.004841626319780801,
+            "3026": -0.013679052674561154
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.025016184135074893,
+            "3026": -0.013360843768304709
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.04660278745644608,
+            "3026": -0.02498416217928401
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.0036458029516420742,
+            "3026": 0.02855392871726059
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.008798408317135964,
+            "3026": 0.005919811881877957
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.007466784692681472,
+            "3026": -0.01935134869310773
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.008848677051270126,
+            "3026": -0.014389204987096949
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.00326795156063453,
+            "3026": -0.017574620501449645
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.010245246294166233,
+            "3026": 0.0014965636225321433
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.009296740994854225,
+            "3026": 0.021029159519725504
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.02857632933104637,
+            "3026": 0.03945111492281317
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.017838765008576396,
+            "3026": 0.0279931389365351
+          },
+          "target": "pCR",
+          "view": "T0-T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.008829585049097255,
+            "3026": -0.021262274311054874
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.018870676077699433,
+            "3026": 0.01653736218864843
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.008364437013168802,
+            "3026": -0.01314170406832571
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.04664238200823562,
+            "3026": 0.02581564776686729
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.005512454062882699,
+            "3026": 0.04898500845826281
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.007238613004956873,
+            "3026": -0.0038787561428266226
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.011086474501108556,
+            "3026": -0.01856984478935708
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.006445779618503178,
+            "3026": 0.005045791285072654
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "PERI20",
+          "passed": false,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.012513604248958643,
+            "3026": 0.017233646043437134
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.0035981542042669012,
+            "3026": -0.015572876966075677
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.03374063364735869,
+            "3026": 0.018020707023598592
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.012607879924953158,
+            "3026": -0.012676104383421483
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.01684699316747673,
+            "3026": -0.013464052058836606
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.003121783876500861,
+            "3026": 0.01948542024013722
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.001756198347107496,
+            "3026": 0.05950413223140494
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.056227411731998966,
+            "3026": -0.017375590770086213
+          },
+          "target": "pCR",
+          "view": "T0-T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.012749445676275006,
+            "3026": -0.008314855875831473
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.014408213264889502,
+            "3026": 0.007145773785218412
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.045254423500334595,
+            "3026": 0.02830996103622463
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.024038461538461453,
+            "3026": 0.014144945963127764
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.024437412095639988,
+            "3026": -0.004190107829348477
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.022270152080060113,
+            "3026": 0.022541180271196226
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.05650031786395415,
+            "3026": -0.05530832803560071
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.026798555871907048,
+            "3026": 0.02192609116792399
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL0",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.007498945413248359,
+            "3026": -0.015115203453201165
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.020154581294515972,
+            "3026": -0.03665363462752147
+          },
+          "target": "HER2",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.03846656095513479,
+            "3026": -0.00989335571930483
+          },
+          "target": "HR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.0063107624083234,
+            "3026": -0.004680197850929546
+          },
+          "target": "pCR",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.021528056114063165,
+            "3026": -0.005529016459860592
+          },
+          "target": "subtype_4class",
+          "view": "T0"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.003327615780445936,
+            "3026": -0.0035334476843911222
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.02117768595041325,
+            "3026": -0.005061983471074449
+          },
+          "target": "pCR",
+          "view": "T0-T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.014108979705309999,
+            "3026": -0.019425910480956432
+          },
+          "target": "pCR",
+          "view": "T0-T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.012709851124485305,
+            "3026": -0.009106746911624941
+          },
+          "target": "HER2",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.03441637986350121,
+            "3026": 0.013212389896750776
+          },
+          "target": "HR",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.0013007494693573207,
+            "3026": 0.006819372907991728
+          },
+          "target": "subtype_4class",
+          "view": "T1"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.0006357279084552303,
+            "3026": 0.03424984106802298
+          },
+          "target": "HER2",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.000146507266760465,
+            "3026": 0.009039498359118658
+          },
+          "target": "HR",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.021564780450975207,
+            "3026": 0.009378347371070128
+          },
+          "target": "subtype_4class",
+          "view": "T2"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.05324221233312132,
+            "3026": -0.032660521296885014
+          },
+          "target": "HER2",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": -0.014294519944817952,
+            "3026": 0.007161936070915087
+          },
+          "target": "HR",
+          "view": "T3"
+        },
+        {
+          "arm": "LOCAL3",
+          "comparison": "CORE_PERI",
+          "passed": false,
+          "population": "oracle_pair_CORE_PERI",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.006587186013526369,
+            "3026": -0.0007696190305380712
+          },
+          "target": "subtype_4class",
+          "view": "T3"
+        }
+      ],
+      "minimum_matched_auroc_gain_each_seed": 0.03,
+      "name": "PHENOTYPE_IS_SPATIALLY_LOCALIZED",
+      "passed": true,
+      "supporting_comparisons": [
+        {
+          "arm": "LOCAL0",
+          "comparison": "PERI20",
+          "passed": true,
+          "population": "oracle_pair_PERI20",
+          "reference": "FIXED_P3",
+          "seed_deltas": {
+            "2026": 0.03567753001715257,
+            "3026": 0.033276157804459694
+          },
+          "target": "pCR",
+          "view": "T0-T1"
+        }
+      ]
+    },
+    "D": {
+      "evaluated_comparisons": [
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5273385953264977,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P1",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5082700172940897,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P3",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5382969829599941,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P4",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.529266548518484,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P1",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5131610857196157,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P3",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5341448247986817,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P4",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5158730541625214,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P1",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5201307749211834,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P3",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5331510977102634,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P4",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5428418041587777,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P1",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5276664453678888,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P3",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5388297392772545,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P4",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5240835742934429,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P1",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5198209122283369,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P3",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5349827441470012,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P4",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5278954552705248,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P1",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5303868791487064,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P3",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5136593175326472,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P4",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.557701607284828,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P1",
+          "view": "T2",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5470300884375486,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P3",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5200152450269246,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P4",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5455492335913938,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P1",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.533208966825234,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P3",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5279171719056058,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P4",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.550182863201079,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P1",
+          "view": "T2",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.552126316779399,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P3",
+          "view": "T2",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.529410845755398,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P4",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5385018892358635,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P1",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5433950511036252,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P3",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5125443622087258,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P4",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5015390355377296,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P1",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5327115007928365,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P3",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5255013524857756,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P4",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5101157748203641,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P1",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.522233383891149,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P3",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5240651470650791,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P4",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5377314416385945,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P1",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5310637914218037,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P3",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5147696443646677,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P4",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5400180331436745,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P1",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5166029288312657,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P3",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5415508503559991,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P4",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5263743430495013,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P1",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5135720899598099,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P3",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.528853059386863,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P4",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.549165211832108,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P1",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5384281229765506,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P3",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5364323358495824,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P4",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5260858750738426,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P1",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.529645866368187,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P3",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5359947766066598,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P4",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5265589861580583,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P1",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5244221101240547,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P3",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5237385569158859,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P4",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.551169195210111,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P1",
+          "view": "T2",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5531199029563878,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P3",
+          "view": "T2",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5188636717565385,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P4",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5471628890339832,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P1",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5355408388520971,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P3",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5303796287659733,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P4",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5424958192875935,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P1",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5407334782602922,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P3",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.528261465575468,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P4",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5273263009499455,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P1",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5251133131705558,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P3",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5223347840697665,
+          "source": "mask_free",
+          "target": "HER2",
+          "variant": "P4",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5058048067655381,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P1",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5250598513820228,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P3",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5151851506389329,
+          "source": "mask_free",
+          "target": "HR",
+          "variant": "P4",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.502588762441329,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P1",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5271190757175754,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P3",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "full_808",
+          "seed_mean_auroc": 0.5173595701329354,
+          "source": "mask_free",
+          "target": "subtype_4class",
+          "variant": "P4",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5131221979066776,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "CORE",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.49868450170891837,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "CORE_PERI",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5276623472423714,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "PERI10",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5236707729884351,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "PERI20",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5463234151043124,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "CORE",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5390417560550944,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "CORE_PERI",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5327767932095887,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "PERI10",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5146223921897832,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "PERI20",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5250841290172956,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "CORE",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5218222454755035,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "CORE_PERI",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.520711102048679,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "PERI10",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5240712010580848,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "PERI20",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5743585682610073,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "CORE",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5777834969908141,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "CORE_PERI",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5730915426037377,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "PERI10",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5786545771301869,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "PERI20",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.527970600244998,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "CORE",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5781368488595928,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "CORE_PERI",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5691098407513271,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "PERI10",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.575191040074666,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "PERI20",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5470148957428806,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "CORE",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5789336669837271,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "CORE_PERI",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5606364284063541,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "PERI10",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5689907171187663,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "PERI20",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.52407819453274,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "CORE",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5256873808010172,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "CORE_PERI",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.507092339478703,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "PERI10",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.47398637947418437,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "PERI20",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5281293952180028,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "CORE",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.519353609939053,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "CORE_PERI",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5243202062822316,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "PERI10",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5082832643061308,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "PERI20",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5162521880640898,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "CORE",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5302862479751884,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "CORE_PERI",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5214932249121668,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "PERI10",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.48847840583252294,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "PERI20",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.549050381436745,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "CORE",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5272171010807375,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "CORE_PERI",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5483053531834019,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "PERI10",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5470383275261324,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "PERI20",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5096715489154363,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "CORE",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.48188969444362917,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "CORE_PERI",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.49501254156215363,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "PERI10",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5033395555037041,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "PERI20",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5230290819882857,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "CORE",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5263556990129622,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "CORE_PERI",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5389050137982152,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "PERI10",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL0",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5357159195797124,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "PERI20",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5133844779397903,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "CORE",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.502659683460785,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "CORE_PERI",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5327071397542764,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "PERI10",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5251215094215906,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "PERI20",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.544523209899574,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "CORE",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5308895314491807,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "CORE_PERI",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5250411964058079,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "PERI10",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5049839878120822,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "PERI20",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.521917844289624,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "CORE",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5215716097869112,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "CORE_PERI",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5185021810055225,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "PERI10",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.519442994918159,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "PERI20",
+          "view": "T0",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5824556541019956,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "CORE",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5932649667405765,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "CORE_PERI",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.585187678175483,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "PERI10",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5852470700031676,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "PERI20",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5252143732135566,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "CORE",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5454704544128799,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "CORE_PERI",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5534912209064925,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "PERI10",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5549057924517296,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "PERI20",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5391138390107931,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "CORE",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5645566131427194,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "CORE_PERI",
+          "view": "T1",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5471125971336857,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "PERI10",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5497434814132977,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "PERI20",
+          "view": "T1",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5169461220597584,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "CORE",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5271773680864591,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "CORE_PERI",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5183765098537825,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "PERI10",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.4987527716186253,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "PERI20",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5305174636661978,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "CORE",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5223863103609939,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "CORE_PERI",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.522371659634318,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "PERI10",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5456600361663653,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "PERI20",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5131267554895549,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "CORE",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5277560359918431,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "CORE_PERI",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5119236659312174,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "PERI10",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5104743939101849,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "PERI20",
+          "view": "T2",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5679235537190082,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "CORE",
+          "view": "T3",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5243563254926891,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "CORE_PERI",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5679838454228698,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "PERI10",
+          "view": "T3",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5624208108964206,
+          "source": "oracle",
+          "target": "HER2",
+          "variant": "PERI20",
+          "view": "T3",
+          "within_near_chance_interval": false
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.492353752678388,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "CORE",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.4756230003815787,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "CORE_PERI",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.4874146882109316,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "PERI10",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.4889750918742344,
+          "source": "oracle",
+          "target": "HR",
+          "variant": "PERI20",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE",
+          "seed_mean_auroc": 0.5157327749963685,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "CORE",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_CORE_PERI",
+          "seed_mean_auroc": 0.5174495997628119,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "CORE_PERI",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI10",
+          "seed_mean_auroc": 0.5242212805216264,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "PERI10",
+          "view": "T3",
+          "within_near_chance_interval": true
+        },
+        {
+          "arm": "LOCAL3",
+          "population": "oracle_pair_PERI20",
+          "seed_mean_auroc": 0.5338663023406923,
+          "source": "oracle",
+          "target": "subtype_4class",
+          "variant": "PERI20",
+          "view": "T3",
+          "within_near_chance_interval": true
+        }
+      ],
+      "maximum_seed_mean_auroc_near_chance": 0.55,
+      "minimum_seed_mean_auroc_near_chance": 0.45,
+      "name": "CURRENT_ENCODER_LACKS_PHENOTYPE_SIGNAL",
+      "observed_maximum_seed_mean_auroc": 0.5932649667405765,
+      "observed_minimum_seed_mean_auroc": 0.47398637947418437,
+      "passed": false,
+      "requires_gates_a_b_and_c_fail": true
+    }
+  },
+  "schema_version": 1,
+  "scientific_classification": "PHENOTYPE SPATIALLY LOCALIZED",
+  "stage": "A",
+  "stage_b_authorized": true,
+  "status": "COMPLETE"
+}

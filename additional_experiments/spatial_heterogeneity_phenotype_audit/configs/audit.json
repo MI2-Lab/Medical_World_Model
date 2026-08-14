@@ -80,7 +80,20 @@
     "core_provenance_check": "on_exact_upstream_c1b_oracle_valid_visits_unconfined_RF_occupancy_bitwise_equal_to_upstream_core_before_local_confinement",
     "source_authority": "visit_local_cache_support_available_no_all_four_prefilter",
     "empty_support": "post_LOCAL_mapped_empty_invalid_no_fallback",
-    "comparison_population": "comparator_and_current_prefix_specific_complete_case_intersection"
+    "comparison_population": "comparator_and_current_prefix_specific_complete_case_intersection",
+    "representative": {
+      "designated_cell": {"seed_base": 2026, "arm": "LOCAL3", "fold": 0},
+      "display_visit": "T0",
+      "candidate_region": "CORE",
+      "candidate_visits": ["T0", "T1", "T2", "T3"],
+      "candidate_validity": "post_LOCAL_region_valid_true_at_every_candidate_visit",
+      "candidate_count": 373,
+      "ranking": "ascending_total_CORE_input_voxel_count_across_candidate_visits",
+      "tie_break": "stable_locked_oracle_patient_order",
+      "median": "upper_median_rank_floor_n_over_2",
+      "selection_rule": "upper_median_total_core_input_voxel_count_all_four_post_local_core_valid_373_locked_order_seed2026_LOCAL3_fold0_display_T0",
+      "role": "deidentified_descriptive_only_never_analytic_population"
+    }
   },
   "analysis": {
     "phenotype_targets": ["HR", "HER2", "subtype_4class"],

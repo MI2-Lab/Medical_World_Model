@@ -153,9 +153,147 @@ prefix, only masks and validity through that timing are used. A future lesion ma
 or future-visit availability is forbidden even for population selection in the
 oracle diagnostic. Pair-specific sample sizes may therefore vary (T0 cohorts can
 include up to 808 patients; later/prefix cohorts up to 375), while the exact Table 7
-design still contains 640 metric rows. The de-identified representative is selected
-only from the exact 375 patients with CORE valid at all four visits, using the stable
-median total CORE input-voxel count in seed-2026/LOCAL3/fold-0.
+design still contains 640 metric rows.
+
+**Pre-probe QC amendment 1 (representative only).** The original preregistration
+is anchored at commit `116b34f0eeec7485ead4d076517dcdfdf10960e8` and lock
+SHA-256 `7ef5eb028d6dbc1e2c01d01cc86787d89a7156ffb9c6e7b5b61b9fe22591ca21`;
+the label-free Oracle sidecar inspected in this QC had SHA-256
+`884447b44f6dcb4e519f2d236ecb65afbfe49f24bd0220e75e037630733dbc61`.
+The check found 375 patients with upstream CORE parity at all four visits, but
+two source-authorized parity visits (one T2 and one T3, in distinct patients)
+had empty CORE after exact LOCAL confinement. Therefore, 373 patients—not
+375—have post-LOCAL CORE valid at all four visits. No clinical-label table was
+parsed, no probe was fit, and no prediction or public result was produced before
+this amendment.
+
+The de-identified descriptive representative is selected only in the designated
+seed-2026/LOCAL3/fold-0 cell and displayed at T0. Candidates are the exact 373
+patients with post-LOCAL CORE valid at T0, T1, T2, and T3. They are ranked in
+ascending order by total CORE input-voxel count across those four visits; ties
+retain locked Oracle patient order. The selected patient is the upper-median rank
+`floor(n/2)`. This representative is never an analytic population. The amendment
+changes only this representative-selection diagnostic: the causal, pair-specific
+Oracle probe populations, the 1,500-visit upstream parity requirement, Table 7,
+all gates, mask-free analyses, and Stage B remain unchanged.
+
+**Pre-probe implementation erratum 1 (no scientific change).** The preceding
+amended preregistration is anchored at commit
+`cdc7a57bf1ff373d97a97f51817ea83abe75d7e3` and lock SHA-256
+`12e3c046f108d601c99fd354745fc5620e3ab234a72f307a2b1529063b7be0c4`.
+Under that lock, the cache-integrity proof, Oracle sidecar, all 20 feature cells,
+and the de-identified representative asset completed. A read-only check then
+loaded all 20 cells independently with their intended keyword identities and
+confirmed a maximum P1 parity absolute difference of `0.0`. Matrix completion
+validation failed only because `run_feature_matrix.py` omitted the required
+keyword-only `seed`, `arm`, and `fold` arguments to `load_spatial_feature_asset`.
+No feature-matrix completion marker was created. No clinical-label table was
+parsed, no Stage-A probe was fit, no Stage-A result was produced, and Stage B did
+not start.
+
+The correction passes those three cell-identity arguments by keyword and changes
+no scientific, representative-selection, or causal-Oracle contract. The exact
+patient-free discard ledger in `PREREGISTRATION_IMPLEMENTATION_ERRATUM.json`
+binds all 65 experiment outputs present at failure (307,933,315 bytes): cache and
+Oracle public/private artifacts, 20 feature NPZ/metadata pairs, the representative
+asset, and 20 extraction logs. Every artifact bound to the superseded amended
+lock must be discarded and rebuilt after the implementation erratum is refrozen;
+none may be reused.
+
+**Pre-Stage-A-completion implementation compatibility erratum 2 (no scientific
+change).** The first implementation refreeze is anchored at commit
+`01ecd8a4101a3a122bc58d148960f1e36f57720d` and lock SHA-256
+`6063df14db751d9ad2f25af57e48b99a3d2282571f75c4683a24deb5a2762ce5`.
+Under that lock, cache and Oracle proofs, all 20 independently validated feature
+cells, the representative asset, and the feature-matrix completion marker were
+created. Stage A then parsed the locked fold/pCR labels, clinical phenotype
+labels, and FTV table. It wrote only the non-label-derived Table 1 pooling
+contract. In the first `seed_2026/LOCAL0/fold_0`, `T0`, `P1` phenotype cell, the
+HR and HER2 binary tasks completed in memory across the seven registered C
+values (14 fits total, 324 prediction rows and two selected-hyperparameter rows,
+none persisted). The first subtype fit at `C=0.0001` failed before fitting because
+scikit-learn 1.8 rejects the legacy bare multiclass `solver="liblinear"`
+configuration. No patient-level prediction, label-derived public metric, Table 2
+or later table, hyperparameter table, gate, Stage-B authorization, run summary,
+or Stage-B artifact was created.
+
+The compatibility correction reproduces the historical bare multiclass
+liblinear behavior exactly: it obtains each binary class row through sklearn's
+`_fit_liblinear`, applies the legacy sigmoid to the class scores, and performs
+the legacy per-row probability normalization. It is not a generic
+child-balanced OvR replacement and changes no configured solver, penalty,
+class-weight semantics, C grid, selection/tie rule, outer fold, population,
+representative, causal-Oracle, or scientific contract. The local runner also
+suppresses only scikit-learn 1.8's repetitive `penalty='l2'` deprecation
+`FutureWarning`; this does not change the estimator or scientific contract, and
+`ConvergenceWarning` remains fail-closed.
+
+The exact patient-free ledger in
+`PREREGISTRATION_IMPLEMENTATION_ERRATUM_2.json` binds all 67 outputs present at
+failure (307,938,585 bytes; canonical record-set SHA-256
+`97768d153498c4fb953184ed6677e61ff4dc083f2f98362fafa360c896f39484`),
+including the 65 re-created upstream artifacts, completion marker, and Table 1.
+Every listed output must be discarded before schema-5 refreeze and rebuilt from
+the new lock; none may be reused.
+
+**Post-Stage-A/pre-Stage-B implementation validation erratum 3 (no scientific
+change).** The compatibility refreeze is anchored at commit
+`226003f31f876c314e7c1e31092a4bf816aa89e7` and lock SHA-256
+`7d1b0dc1a789a83510e0e5e48b926ed744c152f009527aa0393f43601925575b`.
+Under that lock, Stage A completed with 691,412 private OOF prediction rows,
+1,256 registered metric rows (excluding the 10-row pooling contract), and 6,280
+hyperparameter-selection rows. Exhaustive read-only review passed the table
+grids, OOF/fold-isolation contracts, hashes, privacy, modes, authorization, and
+run-summary contracts. The published gates were A=false, B=false, C=true, and
+D=false, yielding the Stage-A classification `PHENOTYPE SPATIALLY LOCALIZED`.
+
+The sole validation failure was numeric parsing in `validate_results.py`:
+default `pandas.read_csv` reconstruction changed 26 gate-JSON floating values
+through numeric roundoff (minimum absolute difference
+`5.551115123125783e-17`, maximum `1.1102230246251565e-16`). Its recomputed
+canonical gate SHA-256 was
+`74852fefb8498561b31af43d868f60ed3ac50f8bf01d1be19b3a90670e54a596`.
+Reading the identical public CSV bytes with `float_precision='round_trip'`
+reproduced the published gate object exactly, canonical SHA-256
+`1b1063f6c0c545b57738050738d7581157e1af31a9ebfaa0ec87d520c9b16ded`.
+All four gate decisions, Stage-B authorization, and scientific classification
+were unchanged. The validator correction adds only this parser option to its
+public-table loader; it changes no CSV bytes, probe/model, metric definition,
+gate threshold or logic, Stage-B training contract, population, representative,
+causal-Oracle contract, or scientific contract.
+
+The same pre-refreeze audit found four public-presentation gaps, none of which
+had yet produced a figure or report artifact. First, report Q2 summarized
+phenotype P2-minus-P1 but omitted the separately registered matched-375 pCR
+P2-minus-P1 evidence. The corrected report requires exactly 16 unique
+`ftv_complete_375` pairs and reports them separately. Second, Figure 7 grouped
+Table 6 by view and variant while silently averaging `full_808` with
+`ftv_complete_375`; the correction preserves both registered populations as six
+explicit curves (three variants times two populations), with population encoded
+by line style. Third, report Q12 pooled Stage-B pCR rows across the two
+populations; the corrected primary pCR summary uses the configured
+`analysis.primary_pcr_population` (`ftv_complete_375`) and never pools across
+populations. Fourth, report Q8/Q9 stated Gate-C status/count without disclosing
+that its sole supporting comparison was pCR and that HR/HER2/subtype had zero
+supporting comparisons. The corrected report derives an endpoint-specific
+summary directly from the authenticated Gate-C records and qualifies the Stage-A
+classification with the exact supporting identity and two seed deltas. These
+are presentation-only corrections to future Figure 7 and report rendering; the
+registered tables, models, metrics, Gates, authorization, classification, and
+scientific interpretation contract remain unchanged.
+
+Stage-B preflight and folds 0--2 entered epoch execution, but each process was
+interrupted during epoch 1 before any epoch completed. No Stage-B file,
+checkpoint, prediction, metric, or result was created; the only filesystem side
+effects were six owner-private, artifact-empty directories in the
+`checkpoints/stage_b/seed_2026/fold_{0,1,2}` tree. The exact patient-free
+ledger in `PREREGISTRATION_IMPLEMENTATION_ERRATUM_3.json` binds all 83 files
+present at failure (409,345,148 bytes; canonical record-set SHA-256
+`01b6f348c78f800b044bce5659fb8b029956299fa4e9585e75d6a940cadb1ace`).
+It also records one validator blocker, four presentation-contract gaps, and
+zero public figure/report artifacts at failure.
+Every listed file and the artifact-empty Stage-B directory tree must be discarded before
+schema-6 refreeze and rebuilt from the new lock; none may be reused.
 
 ## 7. Longitudinal heterogeneity
 

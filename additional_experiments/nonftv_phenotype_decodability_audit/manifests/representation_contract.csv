@@ -1,0 +1,8 @@
+representation,label,dimension_static,dimension_difference,dimension_prefix_secondary,deployable,description,encoder_retrained
+Z1,projected_response,192,192,576,True,JEPA projector(r); transition 使用的 projected state,False
+Z2,preprojector_response,192,192,576,True,response_projection(fixed LOCAL mean) 后、JEPA projector 前的 r,False
+Z3,full_local_mean,128,128,384,True,final 128-channel spatial map 在固定 64-mm LOCAL support 的 weighted mean,False
+Z4,full_local_mean_std,256,256,768,True,"同一 LOCAL support 的 [weighted mean, weighted population std]",False
+Z5,oracle_core_mean_std,256,256,768,False,"Oracle CORE [mean,std]；mask-dependent diagnostic only",False
+Z6,oracle_peri10_mean_std,256,256,768,False,"Oracle PERI10 (0,10] mm [mean,std]；mask-dependent diagnostic only",False
+Z7,oracle_peri20_mean_std,256,256,768,False,"Oracle PERI20 (10,20] mm [mean,std]；mask-dependent diagnostic only",False

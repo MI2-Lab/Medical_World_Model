@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 import sys
+from unittest.mock import create_autospec
 
 import numpy as np
 import pytest
@@ -26,6 +28,9 @@ from build_oracle_sidecars import (  # noqa: E402
     fixed_local_voxel_centers,
     physical_region_masks,
 )
+from export_features import select_representative_index  # noqa: E402
+import run_feature_matrix as feature_matrix  # noqa: E402
+from run_feature_matrix import require_representative_contract  # noqa: E402
 
 
 @pytest.mark.parametrize(
@@ -155,6 +160,177 @@ def test_visit_authority_is_808_patient_local_and_parity_is_a_subset() -> None:
     assert np.array_equal(observed_available.sum(axis=0), [808, 375, 375, 375])
     assert int(observed_available.sum()) == 1933
     assert int(observed_parity.sum()) == 1500
+
+
+def test_representative_contract_is_exact_post_local_373_amendment() -> None:
+    config = json.loads((ROOT / "configs" / "audit.json").read_text(encoding="utf-8"))
+    contract = require_representative_contract(config)
+    assert contract["designated_cell"] == {
+        "seed_base": 2026,
+        "arm": "LOCAL3",
+        "fold": 0,
+    }
+    assert contract["display_visit"] == "T0"
+    assert contract["candidate_count"] == 373
+    assert contract["candidate_validity"] == (
+        "post_LOCAL_region_valid_true_at_every_candidate_visit"
+    )
+    assert contract["selection_rule"] == (
+        "upper_median_total_core_input_voxel_count_all_four_post_local_core_valid_"
+        "373_locked_order_seed2026_LOCAL3_fold0_display_T0"
+    )
+
+
+def test_representative_selector_uses_post_local_validity_and_locked_tie_order() -> (
+    None
+):
+    config = json.loads((ROOT / "configs" / "audit.json").read_text(encoding="utf-8"))
+    contract = require_representative_contract(config)
+    region_valid = np.zeros((808, 4, 4), dtype=bool)
+    upstream_all_four = np.concatenate((np.arange(374), np.asarray([693])))
+    region_valid[upstream_all_four, :, 0] = True
+    # Two distinct source-authorized upstream-parity visits become empty only
+    # after LOCAL confinement, matching the label-free formal geometry QC.
+    region_valid[212, 2, 0] = False
+    region_valid[693, 3, 0] = False
+    input_voxel_count = np.ones((808, 4, 4), dtype=np.int64)
+    oracle = {
+        "visits": np.asarray(("T0", "T1", "T2", "T3")),
+        "regions": np.asarray(("CORE", "PERI10", "PERI20", "LOCAL_REST")),
+        "region_valid": region_valid,
+        "input_voxel_count": input_voxel_count,
+    }
+
+    # A larger total ranks after every lower count, shifting the middle rank by
+    # one and proving that the configured ascending input-count key is active.
+    input_voxel_count[0, :, 0] = 100
+    assert select_representative_index(oracle, contract) == 187
+
+    # All totals tie, so stable sorting must retain locked Oracle order. Of the
+    # 373 candidates, the upper-median floor(373/2) rank is locked index 186.
+    input_voxel_count[0, :, 0] = 1
+    assert select_representative_index(oracle, contract) == 186
+
+    region_valid[0, 0, 0] = False
+    with pytest.raises(ValueError, match="expected 373, observed 372"):
+        select_representative_index(oracle, contract)
+
+
+def test_representative_selector_rejects_config_contract_drift() -> None:
+    config = json.loads((ROOT / "configs" / "audit.json").read_text(encoding="utf-8"))
+    config["oracle"]["representative"]["candidate_count"] = 375
+    with pytest.raises(ValueError, match="representative config contract drifted"):
+        require_representative_contract(config)
+
+
+def test_feature_matrix_validation_uses_keyword_only_cell_identity(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import run_audit as audit
+
+    seed, arm, fold = 2026, "LOCAL0", 0
+    key = f"seed_{seed}/{arm}/fold_{fold}"
+    feature = tmp_path / key / "spatial_statistics.private.npz"
+    feature.parent.mkdir(parents=True)
+    feature.write_bytes(b"synthetic feature bytes")
+    feature.chmod(0o600)
+    metadata_path = feature.with_suffix(".metadata.json")
+
+    patient_id = np.asarray([f"P{index:04d}" for index in range(808)])
+    split = np.asarray(["train"] * 808)
+    statistic = np.zeros((808, 4, 128), dtype=np.float32)
+    oracle_statistic = np.zeros((808, 4, 4, 128), dtype=np.float32)
+    arrays = {
+        "patient_id": patient_id,
+        "split": split,
+        "mean": statistic,
+        "std": statistic,
+        "q25": statistic,
+        "q50": statistic,
+        "q75": statistic,
+        "oracle_mean": oracle_statistic,
+        "oracle_std": oracle_statistic,
+        "oracle_valid": np.zeros((808, 4, 4), dtype=bool),
+        "oracle_regions": np.asarray(("CORE", "PERI10", "PERI20", "LOCAL_REST")),
+        "arm": np.asarray(arm),
+        "seed_base": np.asarray(seed, dtype=np.int64),
+        "fold": np.asarray(fold, dtype=np.int64),
+    }
+
+    class SyntheticArchive:
+        files = tuple(arrays)
+
+        def __enter__(self) -> "SyntheticArchive":
+            return self
+
+        def __exit__(self, *_args: object) -> None:
+            return None
+
+        def __getitem__(self, name: str) -> np.ndarray:
+            return arrays[name]
+
+    feature_digest = "a" * 64
+    patient_order = feature_matrix.ordered_sha256(patient_id)
+    split_order = feature_matrix.ordered_sha256(split)
+    record = {
+        "checkpoint_sha256": "b" * 64,
+        "selection_sha256": "c" * 64,
+        "reference": {
+            "patient_order_sha256": patient_order,
+            "split_order_sha256": split_order,
+        },
+    }
+    lock = {"selected_cells": {key: record}}
+    metadata = {name: None for name in audit.METADATA_KEYS}
+    metadata.update(
+        {
+            "status": "COMPLETE",
+            "cell": key,
+            "seed_base": seed,
+            "arm": arm,
+            "fold": fold,
+            "checkpoint_sha256": record["checkpoint_sha256"],
+            "selection_sha256": record["selection_sha256"],
+            "feature_sha256": feature_digest,
+            "patient_order_sha256": patient_order,
+            "split_order_sha256": split_order,
+            "p1_projection_parity": {
+                "allclose": True,
+                "max_abs_difference": 0.0,
+            },
+            "representative_activation": None,
+        }
+    )
+    metadata_path.write_text(json.dumps(metadata), encoding="utf-8")
+    metadata_path.chmod(0o600)
+
+    config = json.loads((ROOT / "configs" / "audit.json").read_text(encoding="utf-8"))
+    folds = object()
+    loader = create_autospec(audit.load_spatial_feature_asset, return_value=object())
+    monkeypatch.setattr(audit, "load_fold_manifest", lambda *_args: folds)
+    monkeypatch.setattr(audit, "load_spatial_feature_asset", loader)
+    monkeypatch.setattr(feature_matrix, "cells", lambda: [(seed, arm, fold)])
+    monkeypatch.setattr(feature_matrix, "feature_path", lambda *_args: feature)
+    monkeypatch.setattr(
+        feature_matrix,
+        "file_sha256",
+        lambda path: feature_digest if Path(path) == feature else "d" * 64,
+    )
+    monkeypatch.setattr(
+        feature_matrix.np, "load", lambda *_args, **_kwargs: SyntheticArchive()
+    )
+
+    summary = feature_matrix.validate_complete(config=config, lock=lock)
+    assert summary["cell_count"] == 1
+    loader.assert_called_once_with(
+        feature,
+        folds,
+        config,
+        lock,
+        seed=seed,
+        arm=arm,
+        fold=fold,
+    )
 
 
 def test_batched_region_rf_mapping_is_bitwise_equal_to_separate_mapping() -> None:

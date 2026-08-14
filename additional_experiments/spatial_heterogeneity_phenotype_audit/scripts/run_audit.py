@@ -19,16 +19,25 @@ from pathlib import Path
 import sys
 import time
 from typing import Any, Iterable, Mapping, Sequence
+import warnings
 
 sys.dont_write_bytecode = True
 
 import numpy as np
 import pandas as pd
+from scipy.special import expit
+import sklearn
+from sklearn.exceptions import ConvergenceWarning
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
     average_precision_score,
     balanced_accuracy_score,
     roc_auc_score,
 )
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm._base import _fit_liblinear
+from sklearn.utils.multiclass import check_classification_targets
+from sklearn.utils.validation import check_is_fitted, validate_data
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -52,6 +61,7 @@ from common import (  # noqa: E402
     file_sha256,
     load_config,
     ordered_sha256,
+    preregistration_chain,
     private_directory,
     require_preregistration_lock,
 )
@@ -63,10 +73,20 @@ from data_contracts import (  # noqa: E402
     load_ftv_wide,
 )
 from modeling import (  # noqa: E402
+    SELECTION_ATOL,
+    MulticlassCandidateScore,
+    MulticlassLogisticFit,
+    _matrix,
+    _multiclass_labels,
+    _positive_grid,
+    _positive_integer,
     fit_binary_logistic,
     fit_ftv_mri_residualizer,
-    fit_multiclass_logistic,
     multiclass_metrics,
+)
+from run_feature_matrix import (  # noqa: E402
+    require_representative_contract,
+    validate_representative_asset,
 )
 
 
@@ -273,6 +293,8 @@ def load_spatial_feature_asset(
 ) -> SpatialFeatureAsset:
     """Load one exported cell and fail closed on any schema/provenance drift."""
 
+    representative_contract = require_representative_contract(config)
+    representative_identity = representative_contract["designated_cell"]
     source = path.expanduser().resolve(strict=True)
     expected_tail = (
         f"seed_{seed}",
@@ -404,7 +426,11 @@ def load_spatial_feature_asset(
                 f"feature metadata differs at {name}: {metadata.get(name)!r}"
             )
     representative = metadata.get("representative_activation")
-    designated_representative = (seed, arm, fold) == (2026, "LOCAL3", 0)
+    designated_representative = (seed, arm, fold) == (
+        representative_identity["seed_base"],
+        representative_identity["arm"],
+        representative_identity["fold"],
+    )
     if designated_representative:
         if not isinstance(representative, Mapping) or set(representative) != {
             "path",
@@ -425,9 +451,14 @@ def load_spatial_feature_asset(
             != representative_path.resolve()
             or representative.get("sha256") != file_sha256(representative_path)
             or representative.get("selection_rule")
-            != "median_total_core_voxel_count_all_four_core_valid_patient_seed2026_LOCAL3_fold0_T0"
+            != representative_contract["selection_rule"]
         ):
             raise ValueError("representative activation source/hash drifted")
+        validate_representative_asset(
+            representative_path,
+            expected_sha256=str(representative["sha256"]),
+            representative_contract=representative_contract,
+        )
     elif representative is not None:
         raise ValueError(
             "representative provenance appears outside its designated cell"
@@ -741,6 +772,7 @@ def timing_end_index(view: str) -> int:
 def validate_analysis_contract(config: Mapping[str, Any]) -> None:
     """Bind matrix construction to the locked visits, dimensions, and block order."""
 
+    require_representative_contract(config)
     analysis = config["analysis"]
     cells = config["frozen_cells"]
     if tuple(cells["arms"]) != ("LOCAL0", "LOCAL3"):
@@ -942,6 +974,183 @@ def _grid(config: Mapping[str, Any], variant: str) -> tuple[float, ...]:
     return tuple(float(value) for value in config["logistic"][name])
 
 
+_EXACT_LEGACY_LIBLINEAR_SKLEARN_VERSION = "1.8.0"
+_SKLEARN_18_PENALTY_DEPRECATION = (
+    r"^'penalty' was deprecated in version 1\.8 and will be removed in 1\.10\."
+)
+
+
+class _ExactLegacyMulticlassLiblinear(LogisticRegression):
+    """Restore sklearn<=1.7 multiclass liblinear behavior under sklearn 1.8."""
+
+    def fit(
+        self, X: Any, y: Any, sample_weight: Any | None = None
+    ) -> _ExactLegacyMulticlassLiblinear:
+        if sklearn.__version__ != _EXACT_LEGACY_LIBLINEAR_SKLEARN_VERSION:
+            raise RuntimeError(
+                "exact legacy multiclass liblinear requires scikit-learn 1.8.0"
+            )
+        if (
+            self.penalty != "l2"
+            or self.solver != "liblinear"
+            or self.class_weight != "balanced"
+            or self.dual is not False
+            or self.fit_intercept is not True
+            or float(self.intercept_scaling) != 1.0
+            or float(self.tol) != 1e-4
+            or int(self.verbose) != 0
+            or self.warm_start is not False
+            or self.l1_ratio != 0.0
+            or self.n_jobs is not None
+            or not np.isfinite(float(self.C))
+            or float(self.C) <= 0.0
+            or int(self.max_iter) != 10_000
+            or self.random_state != 0
+            or sample_weight is not None
+        ):
+            raise ValueError("exact legacy multiclass liblinear contract drifted")
+
+        matrix, labels = validate_data(
+            self,
+            X,
+            y,
+            accept_sparse="csr",
+            dtype=[np.float64, np.float32],
+            order="C",
+            accept_large_sparse=False,
+        )
+        check_classification_targets(labels)
+        self.classes_ = np.unique(labels)
+        if self.classes_.size < 3:
+            raise ValueError(
+                "exact legacy multiclass liblinear requires at least three classes"
+            )
+        if np.max(matrix) > 1e30:
+            raise ValueError(
+                "using liblinear with a maximum feature value >1e30 freezes fitting"
+            )
+        self.coef_, self.intercept_, self.n_iter_ = _fit_liblinear(
+            matrix,
+            labels,
+            self.C,
+            self.fit_intercept,
+            self.intercept_scaling,
+            self.class_weight,
+            self.penalty,
+            self.dual,
+            self.verbose,
+            self.max_iter,
+            self.tol,
+            self.random_state,
+            multi_class="ovr",
+            loss="logistic_regression",
+            sample_weight=None,
+        )
+        return self
+
+    def predict_proba(self, X: Any) -> np.ndarray:
+        """Apply the sklearn<=1.7 sigmoid-then-row-normalize OVR rule."""
+
+        check_is_fitted(self)
+        probability = np.asarray(self.decision_function(X), dtype=np.float64)
+        if probability.ndim != 2 or probability.shape[1] != len(self.classes_):
+            raise RuntimeError("legacy multiclass decision shape drifted")
+        expit(probability, out=probability)
+        denominator = probability.sum(axis=1, keepdims=True)
+        if not np.isfinite(denominator).all() or np.any(denominator <= 0.0):
+            raise RuntimeError("legacy multiclass probability normalization failed")
+        probability /= denominator
+        return probability
+
+
+def _fit_multiclass_logistic_exact_legacy(
+    train_features: Any,
+    train_labels: Any,
+    validation_features: Any,
+    validation_labels: Any,
+    c_grid: Iterable[float],
+    *,
+    solver: str = "liblinear",
+    max_iter: int = 10_000,
+    random_state: int = 0,
+) -> MulticlassLogisticFit:
+    """Fit the exact sklearn<=1.7 balanced multiclass liblinear candidates."""
+
+    train_x = _matrix(train_features, name="train features")
+    validation_x = _matrix(
+        validation_features,
+        name="validation features",
+        expected_features=train_x.shape[1],
+    )
+    train_y = _multiclass_labels(
+        train_labels, name="train labels", expected_rows=len(train_x)
+    )
+    validation_y = _multiclass_labels(
+        validation_labels,
+        name="validation labels",
+        expected_rows=len(validation_x),
+    )
+    train_classes = set(train_y.tolist())
+    validation_classes = set(validation_y.tolist())
+    if len(train_classes) < 3:
+        raise ValueError("multiclass train labels must contain at least three classes")
+    if validation_classes != train_classes:
+        raise ValueError("validation labels must contain exactly the train classes")
+    if solver != "liblinear":
+        raise ValueError("exact legacy multiclass solver must remain liblinear")
+    grid = _positive_grid(c_grid, name="c_grid")
+    max_iter = _positive_integer(max_iter, name="max_iter")
+
+    scaler = StandardScaler()
+    train_scaled = scaler.fit_transform(train_x)
+    validation_scaled = scaler.transform(validation_x)
+    scored: list[tuple[MulticlassCandidateScore, _ExactLegacyMulticlassLiblinear]] = []
+    for c_value in grid:
+        candidate = _ExactLegacyMulticlassLiblinear(
+            penalty="l2",
+            C=c_value,
+            solver=solver,
+            class_weight="balanced",
+            max_iter=max_iter,
+            random_state=int(random_state),
+        )
+        with warnings.catch_warnings():
+            warnings.simplefilter("error", ConvergenceWarning)
+            candidate.fit(train_scaled, train_y)
+        probability = candidate.predict_proba(validation_scaled)
+        metrics = multiclass_metrics(
+            validation_y, probability, classes=candidate.classes_
+        )
+        score = MulticlassCandidateScore(
+            c_value=c_value,
+            validation_macro_ovr_auroc=float(metrics["macro_ovr_auroc"]),
+            validation_macro_ovr_auprc=float(metrics["macro_ovr_auprc"]),
+        )
+        if not np.isfinite(score.validation_macro_ovr_auroc):
+            raise RuntimeError(f"non-finite validation macro AUROC for C={c_value}")
+        scored.append((score, candidate))
+
+    best_score = max(item[0].validation_macro_ovr_auroc for item in scored)
+    eligible = [
+        item
+        for item in scored
+        if item[0].validation_macro_ovr_auroc >= best_score - SELECTION_ATOL
+    ]
+    selected_score, selected_model = min(eligible, key=lambda item: item[0].c_value)
+    return MulticlassLogisticFit(
+        scaler=scaler,
+        model=selected_model,
+        selected_c=selected_score.c_value,
+        validation_macro_ovr_auroc=selected_score.validation_macro_ovr_auroc,
+        validation_macro_ovr_auprc=selected_score.validation_macro_ovr_auprc,
+        grid_scores=tuple(item[0] for item in scored),
+        classes=tuple(selected_model.classes_.tolist()),
+        feature_dim=int(train_x.shape[1]),
+        train_rows=int(len(train_x)),
+        validation_rows=int(len(validation_x)),
+    )
+
+
 def _fit_binary(
     matrix: np.ndarray,
     labels: np.ndarray,
@@ -952,17 +1161,24 @@ def _fit_binary(
     class_weight: str | Mapping[int, float] | None,
 ) -> Any:
     logistic = config["logistic"]
-    return fit_binary_logistic(
-        matrix[indices["train"]],
-        labels[indices["train"]],
-        matrix[indices["val"]],
-        labels[indices["val"]],
-        grid,
-        class_weight=class_weight,
-        solver=str(logistic["solver"]),
-        max_iter=int(logistic["max_iter"]),
-        random_state=0,
-    )
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            "ignore",
+            message=_SKLEARN_18_PENALTY_DEPRECATION,
+            category=FutureWarning,
+            module=r"^sklearn\.linear_model\._logistic$",
+        )
+        return fit_binary_logistic(
+            matrix[indices["train"]],
+            labels[indices["train"]],
+            matrix[indices["val"]],
+            labels[indices["val"]],
+            grid,
+            class_weight=class_weight,
+            solver=str(logistic["solver"]),
+            max_iter=int(logistic["max_iter"]),
+            random_state=0,
+        )
 
 
 def _base_prediction(
@@ -1053,7 +1269,7 @@ def _append_multiclass_fit(
 ) -> None:
     train, validation, test = (indices[name] for name in ("train", "val", "test"))
     logistic = config["logistic"]
-    fit = fit_multiclass_logistic(
+    fit = _fit_multiclass_logistic_exact_legacy(
         matrix[train],
         labels[train],
         matrix[validation],
@@ -2014,14 +2230,17 @@ def evaluate_gates(
 
 
 def stage_b_authorization(
-    config: Mapping[str, Any], gates: Mapping[str, Any]
+    config: Mapping[str, Any],
+    gates: Mapping[str, Any],
+    chain: Mapping[str, Any],
+    config_sha256: str,
 ) -> dict[str, Any]:
     gate_values = gates["gates"]
     gate_a = bool(gate_values["A"]["passed"])
     gate_c = bool(gate_values["C"]["passed"])
     authorized = gate_a or gate_c
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "experiment": "spatial_heterogeneity_phenotype_audit",
         "authorization_rule": "Gate A OR Gate C",
         "authorized": authorized,
@@ -2037,6 +2256,9 @@ def stage_b_authorization(
         "gate_c_passed": gate_c,
         "stage_a_scientific_classification": gates["scientific_classification"],
         "stage_b_contract": dict(config["stage_b"]),
+        "config_sha256": config_sha256,
+        "preregistration_lock_sha256": chain["active_preregistration_lock_sha256"],
+        "preregistration_chain": dict(chain),
         "contains_patient_level_data": False,
     }
 
@@ -2089,8 +2311,11 @@ def main() -> None:
     started = time.time()
     output_root = ROOT
     feature_root = ROOT / "features"
-    config = load_config(ROOT / "configs" / "audit.json", verify_inputs=True)
+    config_path = ROOT / "configs" / "audit.json"
+    config = load_config(config_path, verify_inputs=True)
     lock = require_preregistration_lock(config)
+    chain = preregistration_chain(lock)
+    config_sha256 = file_sha256(config_path)
     for private_root in ("features", "manifests", "checkpoints", "predictions"):
         private_directory(ROOT / private_root)
     validate_analysis_contract(config)
@@ -2251,7 +2476,7 @@ def main() -> None:
         config, phenotype_metrics, mri_pcr_metrics, beyond_metrics, oracle_metrics
     )
     atomic_json(gates, output_paths["gates"])
-    authorization = stage_b_authorization(config, gates)
+    authorization = stage_b_authorization(config, gates, chain, config_sha256)
     authorization["stage_a_gates_sha256"] = file_sha256(output_paths["gates"])
     atomic_json(authorization, output_paths["stage_b_authorization"])
 
@@ -2264,7 +2489,7 @@ def main() -> None:
         )
 
     summary = {
-        "schema_version": 1,
+        "schema_version": 2,
         "experiment": "spatial_heterogeneity_phenotype_audit",
         "stage": "A",
         "status": "COMPLETE",
@@ -2275,8 +2500,9 @@ def main() -> None:
         "scientific_classification": gates["scientific_classification"],
         "stage_b_authorized": bool(authorization["authorized"]),
         "elapsed_seconds": float(time.time() - started),
-        "config_sha256": file_sha256(ROOT / "configs" / "audit.json"),
-        "preregistration_lock_sha256": file_sha256(ROOT / "PREREGISTRATION_LOCK.json"),
+        "config_sha256": config_sha256,
+        "preregistration_lock_sha256": chain["active_preregistration_lock_sha256"],
+        "preregistration_chain": dict(chain),
         "feature_asset_sha256": {
             f"seed_{seed}/{arm}/fold_{fold}": str(asset.metadata["feature_sha256"])
             for (seed, arm, fold), asset in sorted(assets.items())

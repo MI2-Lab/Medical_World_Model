@@ -1,0 +1,24 @@
+{
+  "canonical_record_set_sha256": "5cdba632b94df0417c8bc7c7149ee3c304a6bff2fc8e9e39acce754119e80d89",
+  "contains_patient_identifiers": false,
+  "environment": {
+    "machine": "x86_64",
+    "platform_release": "5.15.0-161-generic",
+    "platform_system": "Linux",
+    "python_implementation": "CPython",
+    "python_version": "3.11.14"
+  },
+  "implementation_sha256": "71b92fc07782aa7435df2adb08732bbf64c573fffff78f1007dba9d7adae29b9",
+  "patient_count": 947,
+  "preregistration_lock_sha256": "bf838056dcdf2286c6365468fec274137f482adb188ad82620cceadcae393a1a",
+  "primary_patient_count": 808,
+  "primary_record_set_sha256": "c3d6b3cb655482385fb5760aff4dafdf0ced1201b840bf5b21c2b2d4f4c1385b",
+  "private_artifact_sha256": "a67252e37b0e5c6ed24c1aaeaeedb37ede6a8b92ad9e875f32d475a94c13b0ec",
+  "purpose": "one_time_all_hash_bound_c1b_cache_content_integrity_preflight",
+  "schema_version": 2,
+  "status": "COMPLETE",
+  "total_bytes": 346486425747,
+  "train_only_patient_count": 139,
+  "train_only_record_set_sha256": "b5ca1e048c038ae47ad418766968f3702c03841f6fdddb08338369c44e332da4",
+  "upstream_manifest_sha256": "672ad7436b19f30a89640a2b36504f1e7fbaaff83fd07bc058c008b204d2a3c9"
+}

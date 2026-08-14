@@ -1,0 +1,4 @@
+fov_contract,support_definition,eligible_patients,eligible_visits,source_roi_available_visits,source_occupancy_evaluable_visits,source_occupancy_ge_0_99_visits,source_occupancy_ge_0_99_fraction,zero_source_overlap_visits,contralateral_breast_coverage,observability_gate,status
+F0,Current LOCAL support,375,1500,0,0,,,,,NOT_EVALUABLE,NOT_EVALUABLE_SOURCE_ROI_NOT_AVAILABLE
+F1,Full C1B-H tensor support,375,1500,0,0,,,,,NOT_EVALUABLE,NOT_EVALUABLE_SOURCE_ROI_NOT_AVAILABLE
+F2,Reconstructed source-image physical support linked to selected acquisition,375,1500,0,0,,,,,NOT_EVALUABLE,NOT_EVALUABLE_SOURCE_ROI_NOT_AVAILABLE

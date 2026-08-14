@@ -1,0 +1,4 @@
+fov_contract,eligible_visits,evaluable_visits,touch_x_visits,touch_y_visits,touch_z_visits,touch_any_visits,no_boundary_touch_fraction,status
+F0,1500,0,,,,,,NOT_EVALUABLE_SOURCE_ROI_NOT_AVAILABLE
+F1,1500,0,,,,,,NOT_EVALUABLE_SOURCE_ROI_NOT_AVAILABLE
+F2,1500,0,,,,,,NOT_EVALUABLE_SOURCE_ROI_NOT_AVAILABLE

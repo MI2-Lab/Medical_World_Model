@@ -1,0 +1,63 @@
+{
+  "builder_implementation_sha256": "4968dc430b1a540622c801ee91cbb1ff23249758315366ae8c4257ea9e0f37c2",
+  "cache_integrity_contract_sha256": "35d0a62d0fcea9bde50e14558c59468b662c0c3379488d182c5a3aa36fcce238",
+  "cache_integrity_primary_record_set_sha256": "c3d6b3cb655482385fb5760aff4dafdf0ced1201b840bf5b21c2b2d4f4c1385b",
+  "cache_integrity_private_manifest_sha256": "a67252e37b0e5c6ed24c1aaeaeedb37ede6a8b92ad9e875f32d475a94c13b0ec",
+  "cache_integrity_record_set_sha256": "5cdba632b94df0417c8bc7c7149ee3c304a6bff2fc8e9e39acce754119e80d89",
+  "core_upstream_bitwise_equal": true,
+  "core_upstream_max_abs_difference": 0.0,
+  "core_upstream_parity_checked_visit_count": 1500,
+  "core_upstream_parity_stage": "before LOCAL support confinement",
+  "distance_definition": "scipy Euclidean distance transform with sampling ZYX [2.0,0.9,0.9] mm",
+  "feature_mapping": "theoretical RF occupancy k47/s8/p23/count_include_pad",
+  "feature_support_confinement": "every region RF occupancy multiplied by exact fixed LOCAL fractional sampling-cell weight",
+  "patient_count": 808,
+  "patient_order_sha256": "867bc1e49eb21e3cdbd634a236735405b1e832113cd34fbf9cbd22a4a108e6c2",
+  "preregistration_lock_sha256": "bf838056dcdf2286c6365468fec274137f482adb188ad82620cceadcae393a1a",
+  "region_valid_visits": {
+    "CORE": 1931,
+    "LOCAL_REST": 1864,
+    "PERI10": 1932,
+    "PERI20": 1933
+  },
+  "region_validity_policy": "valid iff source-authorized visit has nonempty post-LOCAL mapped support",
+  "region_voxel_count_median": {
+    "CORE": 3722.0,
+    "LOCAL_REST": 35458.0,
+    "PERI10": 88232.5,
+    "PERI20": 154125.0
+  },
+  "region_voxel_count_min": {
+    "CORE": 6,
+    "LOCAL_REST": 1,
+    "PERI10": 3726,
+    "PERI20": 21573
+  },
+  "regions": [
+    "CORE",
+    "PERI10",
+    "PERI20",
+    "LOCAL_REST"
+  ],
+  "schema_version": 2,
+  "sidecar_sha256": "884447b44f6dcb4e519f2d236ecb65afbfe49f24bd0220e75e037630733dbc61",
+  "source_authorized_by_visit": {
+    "T0": 808,
+    "T1": 375,
+    "T2": 375,
+    "T3": 375
+  },
+  "source_authorized_visit_count": 1933,
+  "source_hash_verified_visit_count": 1933,
+  "source_hashes": {
+    "c1b_cache_manifest": "672ad7436b19f30a89640a2b36504f1e7fbaaff83fd07bc058c008b204d2a3c9",
+    "support_inventory": "40f7d1db7af108b2cb0c07863db208ee4db2124ffaf660771feaa7270809df0a",
+    "upstream_spatial_sidecar": "bfe495b114adc3e90abe527a874340ff278f3295aed72e10b1be6bb122d80545"
+  },
+  "source_mask_path_inventory_count": 3232,
+  "source_unavailable_visit_count": 1299,
+  "status": "COMPLETE",
+  "timing_contract": "region weight at visit t uses only lesion mask at visit t",
+  "visit_count": 3232,
+  "visit_slot_count": 3232
+}

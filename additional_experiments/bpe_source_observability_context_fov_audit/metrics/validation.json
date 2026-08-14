@@ -1,0 +1,11 @@
+{
+  "classification": "BPE_SOURCE_NOT_RELIABLY_AUDITABLE",
+  "contains_patient_identifiers": false,
+  "outcome_fields_read": [],
+  "private_artifacts_gitignored": 3,
+  "public_artifacts": 23,
+  "schema_version": 1,
+  "source_roi_status": "SOURCE_ROI_NOT_AVAILABLE",
+  "status": "PASS",
+  "tests_expected": 9
+}

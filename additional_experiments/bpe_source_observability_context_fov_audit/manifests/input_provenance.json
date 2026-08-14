@@ -1,0 +1,57 @@
+{
+  "c1b_cache_inventory": {
+    "path_scope": "repository",
+    "sha256": "e4fa537a1878a748d21ceab54f7c453f8fbc5c9a03d40bc568a65d70ddd62b29",
+    "status": "VERIFIED"
+  },
+  "c1b_visit_inventory": {
+    "path_scope": "repository",
+    "sha256": "8fe0f4303245e44f027b36c175bb5f28a2cd3d027a32527ce066bc9b14f5823e",
+    "status": "VERIFIED"
+  },
+  "frozen_c1b_grids": {
+    "path_scope": "repository",
+    "sha256": "c864e9f49a7d0a7ac964e0dc9ff0e837cfac37b3b272dc990850aea5bb572aff",
+    "status": "VERIFIED"
+  },
+  "goal6_feature_inventory": {
+    "path_scope": "external",
+    "sha256": "744257465c637641195085e650a8fc5336a4a3823afcefe88a0d48a7df61d6a2",
+    "status": "VERIFIED"
+  },
+  "matched_transition_table": {
+    "path_scope": "repository",
+    "sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d",
+    "status": "VERIFIED"
+  },
+  "orientation_gate": {
+    "path_scope": "repository",
+    "sha256": "c95ef76eb137c77ae4cb5e7e25931afd6eed4f43ca91bb9e8c62f0bb0b4275ce",
+    "status": "VERIFIED"
+  },
+  "orientation_inventory": {
+    "path_scope": "repository",
+    "sha256": "0f8a735194d02062bb9e94d09dc6858da7ff6c6ce15002428eb9238fb6c535dc",
+    "status": "VERIFIED"
+  },
+  "prior_bpe_fov_firewall": {
+    "path_scope": "repository",
+    "sha256": "d8c2cf5815174da5630432de05f89e7a87f1433547a3d1d6dd3cec8575d93656",
+    "status": "VERIFIED"
+  },
+  "raw_source_inventory": {
+    "path_scope": "repository",
+    "sha256": "40f7d1db7af108b2cb0c07863db208ee4db2124ffaf660771feaa7270809df0a",
+    "status": "VERIFIED"
+  },
+  "repair_record_set": {
+    "record_count": 146,
+    "sha256": "26fc29ed0e9d11e6192b1b9cf3ddc5e739249fdae86eaee2d4140bd11b9ebfc5",
+    "status": "VERIFIED"
+  },
+  "source_workbook": {
+    "path_scope": "external",
+    "sha256": "f714c7784b1e57daa74d7cfb20db71cd432b4e4596b9b4eacdd5a76b7f8a58dc",
+    "status": "VERIFIED"
+  }
+}

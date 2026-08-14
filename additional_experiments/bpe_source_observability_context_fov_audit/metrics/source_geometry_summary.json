@@ -1,0 +1,70 @@
+{
+  "c1b_target_grid_valid_source_fraction": {
+    "maximum": 0.9732142857142856,
+    "mean": 0.625168910646645,
+    "minimum": 0.2701514306006493,
+    "n": 1500,
+    "q01": 0.3481102849786931,
+    "q05": 0.4547585227272727,
+    "q50": 0.6331168831168831,
+    "q90": 0.7193334009740263,
+    "q95": 0.7767857142857143,
+    "q99": 0.8571428571428571
+  },
+  "c1b_zero_valid_source_overlap_visits": 0,
+  "interpretation": "reconstructed source image and C1B sampling support only; marginal AABB summaries are not a raw-DICOM footprint-equivalence audit, BPE ROI coverage, or one realizable tensor geometry",
+  "raw_dicom_selected_series_available_visits": 1500,
+  "raw_to_reconstructed_full_series_footprint_equivalence_recomputed": false,
+  "reconstructed_source_image_aabb_extent_marginal_xyz_mm": {
+    "x": {
+      "maximum": 429.99998482940543,
+      "mean": 195.34566725461363,
+      "minimum": 100.00000002051034,
+      "n": 1500,
+      "q01": 129.99679565429688,
+      "q05": 144.99839782714844,
+      "q50": 170.6666717529297,
+      "q90": 319.9999924362386,
+      "q95": 340.0000076991297,
+      "q99": 380.0132338073569
+    },
+    "y": {
+      "maximum": 429.99998482940543,
+      "mean": 195.3677824448885,
+      "minimum": 100.00000002051033,
+      "n": 1500,
+      "q01": 129.99679565429688,
+      "q05": 144.99839782714844,
+      "q50": 170.6666717529297,
+      "q90": 319.99999243623853,
+      "q95": 340.0000076991297,
+      "q99": 380.01323380735687
+    },
+    "z": {
+      "maximum": 246.4002685546875,
+      "mean": 163.2587618024394,
+      "minimum": 128.0,
+      "n": 1500,
+      "q01": 153.60000610351562,
+      "q05": 158.3997802734375,
+      "q50": 160.0,
+      "q90": 175.9997802734375,
+      "q95": 193.5997314453125,
+      "q99": 208.0
+    }
+  },
+  "reconstructed_source_voxels_per_visit_marginal": {
+    "maximum": 32440320.0,
+    "mean": 8742504.874666667,
+    "minimum": 4194304.0,
+    "n": 1500,
+    "q01": 4194304.0,
+    "q05": 4256563.2,
+    "q50": 5242880.0,
+    "q90": 21233664.0,
+    "q95": 23592960.0,
+    "q99": 25952256.0
+  },
+  "source_affine_axis_aligned_ras_visits": 1447,
+  "source_affine_oblique_visits": 53
+}
