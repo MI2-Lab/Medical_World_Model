@@ -1,0 +1,177 @@
+{
+  "bootstrap": {
+    "draws": 2000,
+    "folds_are_replicates": false,
+    "seed": 260812,
+    "unit": "patient_within_outer_fold"
+  },
+  "classification": "POOLED_LOCAL_REMAINS_SUFFICIENT",
+  "classification_evidence": {
+    "A": "FAIL",
+    "B": "FAIL",
+    "C": "FAIL",
+    "D": "FAIL",
+    "mri_pcr_meaningful_two_seed_gain": false,
+    "response_positive_both_seeds": false
+  },
+  "classification_reason": "complete formal evidence does not meet the higher-precedence gain classes",
+  "effects_by_seed": {
+    "2026": {
+      "delta_ftv_spearman_delta": -0.053298820495316146,
+      "mri_pcr_auroc_delta": 0.011880152367957217,
+      "static_ftv_spearman_delta": -0.10631861021794276
+    },
+    "3026": {
+      "delta_ftv_spearman_delta": -0.03806690180907951,
+      "mri_pcr_auroc_delta": -0.016503496503496473,
+      "static_ftv_spearman_delta": -0.1324783847507775
+    }
+  },
+  "gates": {
+    "A_PATCH_DYNAMICS_VALID": {
+      "evidence": {
+        "cosine_gain_min": 0.05,
+        "expected_total_cells": 10,
+        "normalized_mse_relative_improvement_min": 0.05,
+        "seeds": {
+          "2026": {
+            "all_cells_finite": true,
+            "cosine_gain": 0.0007574809815661943,
+            "expected_cell_count": 5,
+            "finite_cell_count": 5,
+            "materially_exceeds_shuffled": false,
+            "normalized_mse_relative_improvement": 0.001249419272777611,
+            "prediction_std": 0.48255859795608624,
+            "target_std": 0.976177073860271,
+            "token_variance_preserved": true
+          },
+          "3026": {
+            "all_cells_finite": true,
+            "cosine_gain": 0.0007581776331107015,
+            "expected_cell_count": 5,
+            "finite_cell_count": 5,
+            "materially_exceeds_shuffled": false,
+            "normalized_mse_relative_improvement": 0.00128461161580191,
+            "prediction_std": 0.4861044438621854,
+            "target_std": 0.9783367357484285,
+            "token_variance_preserved": true
+          }
+        },
+        "token_std_min": 0.05
+      },
+      "gate": "A",
+      "reason": "at least one seed fails a locked token-dynamics criterion",
+      "status": "FAIL",
+      "success_label": null
+    },
+    "B_RESPONSE_PRESERVATION": {
+      "evidence": {
+        "delta_no_systematic_degradation": false,
+        "delta_threshold_strict": -0.03,
+        "seeds": {
+          "2026": {
+            "delta_ftv_spearman_delta": -0.053298820495316146,
+            "static_ftv_spearman_delta": -0.10631861021794276
+          },
+          "3026": {
+            "delta_ftv_spearman_delta": -0.03806690180907951,
+            "static_ftv_spearman_delta": -0.1324783847507775
+          }
+        },
+        "static_preserved_each_seed": false,
+        "static_threshold_strict": -0.03
+      },
+      "gate": "B",
+      "reason": "response preservation criteria fail",
+      "status": "FAIL",
+      "success_label": null
+    },
+    "C_PATCH_STATE_ADDS_INFORMATION": {
+      "evidence": {
+        "endpoints": {
+          "delta_ftv_spearman_delta": {
+            "by_seed": {
+              "2026": -0.053298820495316146,
+              "3026": -0.03806690180907951
+            },
+            "mean_effect": -0.04568286115219783,
+            "passes": false,
+            "positive_both": false
+          },
+          "mri_pcr_auroc_delta": {
+            "by_seed": {
+              "2026": 0.011880152367957217,
+              "3026": -0.016503496503496473
+            },
+            "mean_effect": -0.0023116720677696283,
+            "passes": false,
+            "positive_both": false
+          },
+          "static_ftv_spearman_delta": {
+            "by_seed": {
+              "2026": -0.10631861021794276,
+              "3026": -0.1324783847507775
+            },
+            "mean_effect": -0.11939849748436013,
+            "passes": false,
+            "positive_both": false
+          }
+        },
+        "threshold": 0.03
+      },
+      "gate": "C",
+      "reason": "no endpoint meets the two-seed +0.03 mean-effect rule",
+      "status": "FAIL",
+      "success_label": null
+    },
+    "D_PATCH_STATE_COMPLEMENTARITY_SUPPORTED": {
+      "bootstrap_ci_lower_by_seed": {
+        "T0-T1": {
+          "2026": -0.1418244761232566,
+          "3026": -0.1699854743446523
+        },
+        "T0-T2": {
+          "2026": -0.17731154426933168,
+          "3026": -0.21348719133099572
+        }
+      },
+      "evidence": {
+        "timings": {
+          "T0-T1": {
+            "bootstrap_ci_excludes_zero": false,
+            "bootstrap_ci_lower": -0.1699854743446523,
+            "both_seed_point_estimates_positive": false,
+            "by_seed": {
+              "2026": -0.0726243567753001,
+              "3026": -0.10054888507718684
+            },
+            "ci_is_preferred_not_hard": true
+          },
+          "T0-T2": {
+            "bootstrap_ci_excludes_zero": false,
+            "bootstrap_ci_lower": -0.21348719133099572,
+            "both_seed_point_estimates_positive": false,
+            "by_seed": {
+              "2026": -0.10271012006861058,
+              "3026": -0.14641509433962263
+            },
+            "ci_is_preferred_not_hard": true
+          }
+        }
+      },
+      "gate": "D",
+      "reason": "neither T0-T1 nor T0-T2 has positive increments in both seeds",
+      "status": "FAIL",
+      "success_label": null
+    }
+  },
+  "preregistration_lock_sha256": "bd46a5a7f76c54ed30bb76d37e0ea33135bd0d2d74323596a46ee9c502db3eb6",
+  "schema_version": 1,
+  "scientific_boundary": {
+    "assigned_regimen_conditioning_only": true,
+    "causal_treatment_claim": false,
+    "t3_label": "late/pre-surgery",
+    "world_model_training_pcr_free": true
+  },
+  "status": "COMPLETE"
+}

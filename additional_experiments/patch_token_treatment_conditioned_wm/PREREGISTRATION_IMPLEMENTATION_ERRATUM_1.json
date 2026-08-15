@@ -1,0 +1,19 @@
+{
+  "added_code_sha256": {
+    "scripts/evaluate_formal.py": "d21387bb505a5c4c68ab12f6355299bd98733acb3d714583eca2d83cf89bd574",
+    "scripts/export_cell.py": "937fb582526e815ebb9b77d8ec69e100e8fe80251371b8cda870cd17278df2fd",
+    "scripts/run_exports.py": "414ee407b3fa1fe92f4eecc0e5c2690df460a512bff7e902ae368a8d5e128027"
+  },
+  "created_utc": "2026-08-12T16:34:21Z",
+  "formal_outcomes_existed_when_written": false,
+  "formal_training_started_when_written": false,
+  "original_lock_sha256": "bd46a5a7f76c54ed30bb76d37e0ea33135bd0d2d74323596a46ee9c502db3eb6",
+  "reason": "The original one-shot lock correctly froze the scientific design, model, objective, training loop, data firewall, evaluation primitives, and tests, but its directory-wide verifier made subsequently added outcome-free export/evaluation orchestration invalidate verification. Before any formal training or outcome access, this erratum locks those orchestration entry points and teaches the verifier to validate the immutable original mapping plus this explicit addition set.",
+  "replacement_code_sha256": {
+    "scripts/freeze_preregistration.py": "832ab9d9d2562ad09c4339b4b5f877f62e5fc97dfdb424b35d14fbf1f7c409c6"
+  },
+  "schema_version": 1,
+  "scientific_config_or_plan_changed": false,
+  "scientific_impact": "NONE_ORCHESTRATION_ONLY",
+  "status": "LOCKED_BEFORE_FORMAL_TRAINING_AND_OUTCOME_EVALUATION"
+}

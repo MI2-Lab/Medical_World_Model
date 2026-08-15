@@ -1,0 +1,75 @@
+{
+  "experiment": "patch_token_treatment_conditioned_wm",
+  "outcome_firewall": {
+    "formal_results_existed_when_written": false,
+    "pcr_loaded_during_world_model_training": false,
+    "pcr_used_for_checkpoint_selection": false,
+    "test_ftv_used_for_checkpoint_selection": false
+  },
+  "parent_commit": "7644e3835af6b12899c57819bedd1876572c434f",
+  "schema_version": 1,
+  "scientific_contract": {
+    "bootstrap_draws": 2000,
+    "code_sha256": {
+      "scripts/.gitkeep": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "scripts/audit_public_artifacts.py": "0b02fdab4903c0522286abbe261548d25cbb7d7b7dbc6a4df53a83f9532ab3b5",
+      "scripts/build_condition_manifest.py": "b9f676ee093bcaf0f2eda5761d01fb12b790932dae997a99c9b1d8f3271e9d14",
+      "scripts/freeze_preregistration.py": "369c4f8137a1b1863b713ae8f35b95c2eabc9dfec08463d123990d5fa2e1fe23",
+      "scripts/import_a0_reference.py": "500c178032e0a381f0321583b6c98c0b08da5d5201482b51a3e1e09bad2eeb95",
+      "scripts/run_matrix.py": "f07d52ad7e9ca60f670e77dfa60fb3ef032365599e841fe9719bc9c7d8e6a57e",
+      "scripts/train_cell.py": "1a0ef9778d0fd79224e1418a5791669be5d85be953e7039ac5f0893ae248eb18",
+      "src/patch_token_wm/.gitkeep": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "src/patch_token_wm/__init__.py": "6324501ac0f2d785afaa70e8f684cb39dbcb3053326ac40d1655db4bebb97121",
+      "src/patch_token_wm/contracts.py": "d63f9cd300a2e53a612ca8df22343aa517dc04017db79fd3bd27301ca318f622",
+      "src/patch_token_wm/data.py": "7c92cc75d4d6d5d839304b13a36f7d7c1049c00c8951e35062424fa7d7333d82",
+      "src/patch_token_wm/diagnostics.py": "feed73f545b31958e991ceed6b8396700f1b2d714661d39571b55bfcca95a9a1",
+      "src/patch_token_wm/downstream.py": "246719e54f39aaff24815a19f85cc55ce7557fcbfad63393ae3a677c8a800693",
+      "src/patch_token_wm/evaluation.py": "b9ad81cc75ae2921700c7cf39d4e30412d74d32912c29a01bb5d47cefd5292d8",
+      "src/patch_token_wm/geometry.py": "c2ea04b6501cbceac70d376452ed24de767ab1153aba57c1a2babafc15c9f8bc",
+      "src/patch_token_wm/model.py": "c5c458a78d0e59cf92707a1e42a1d20a9e82ef143e0dab356df3e7920c5ca4a9",
+      "src/patch_token_wm/objective.py": "89cf35539092d894f9b0e8c7710923383ce0189818916cb64c32abc16552747a",
+      "src/patch_token_wm/training.py": "5cec008fa0eb3c3e3c7475f49863952981c25a046801b0d7ef25f5b2dd7ccb86",
+      "tests/.gitkeep": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "tests/conftest.py": "d21a9ea458700eaa76e3840671c8a7b7538d177f08d55d841a592ee647aecb42",
+      "tests/test_a0_import.py": "e127707e3be867f6048cdd5ba083b9528520d5cab5310a3c200bb22029a8f07a",
+      "tests/test_core_geometry.py": "21c170be9c2c992734a5b5e94397b4fa4d6d8c5e433f440ee68a60a4aaf723e3",
+      "tests/test_core_model.py": "c5db4fe33f890994ecab1cb5e304b1b0b08466c117683892d7f3cf751e7079b1",
+      "tests/test_core_objective.py": "4ea2ed31b2d9c5a0592ae7d7e2ff6dfbaf9a5e6c48fb2d45064fe42839f72bcd",
+      "tests/test_data.py": "8d138a36199d2fa6883fd0d78dccac0e7c8b0f6f6d6933f49d1816252bc83cc1",
+      "tests/test_diagnostics.py": "9d663766c98d7cb2a639b3003b30754fbab0e3c28ba9d2176e327da9e25357ce",
+      "tests/test_downstream.py": "675e2b8e5516db17b315cfd46e35f0115a24aa9ff636538c7c22078fcc9f312e",
+      "tests/test_evaluation.py": "626e6fe16871dc4cd06c73086775250d4ffd76648ad03d23e2c5b3dc7c1f94d5",
+      "tests/test_preregistration.py": "13cff8f4e9464dde7189b4d6b7a01b5580a5bc7aac598767330476a67a61be68",
+      "tests/test_privacy.py": "28298196ca2294fe39faf870f767d4edf815a4c94d768d7feb98256cfa3f48ac",
+      "tests/test_training.py": "f65f54ec66e4c53a3ef7706528aed447887242b9f9c63703cbb89316080d22a5"
+    },
+    "condition_method": "condition_token",
+    "config_sha256": "a83c1de6de511cb7627d54b85945470e4fbcc828e9359c9147f09d324242366c",
+    "folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "formal_new_cells": 10,
+    "pca_components": 64,
+    "pcr_free_world_model": true,
+    "plan_sha256": "ed45dbf44930c1c0d7fcb433630522821760b3138e3684e93c35618e80af4a6f",
+    "seed_bases": [
+      2026,
+      3026
+    ],
+    "token_mask_ratio": 0.5,
+    "token_width": 128,
+    "upstream_sha256": {
+      "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/data.py": "948a25aa00eeaf68a11f5a0bcf7c4d0c7592786a36ebb9bce472361745eebb59",
+      "additional_experiments/c1b_overlap_eligibility_ftv_stageb/src/c1b_stage_b/targets.py": "06434db46cf76e6f39ff6eb1c476933885e90ed0a4c952dcc0a3477a25996c7b",
+      "additional_experiments/c1b_spatial_pooling_bottleneck_audit/src/c1b_spatial_audit/pooling.py": "630a717a98a7e80d69d3a462dd3086c2de81449c91910312cbc0bfce0fd58d54",
+      "additional_experiments/g3_multiseed_generalization/src/dgrs/model.py": "ce39878a0fef5af1f92a86811faabbe73b39f57cdaf6d7580bbd65bd855d4ed9",
+      "additional_experiments/g3_multiseed_generalization/src/dgrs/training.py": "76f9108df0ca8c0ff69e514cff3bab1d5e316d946da60c5f530dd7b9706d3815"
+    }
+  },
+  "scientific_contract_sha256": "f39c0eca3f510b1dd82eed91dbdcb1330bbdf970bb0220a8e4046a358838ac2e",
+  "status": "LOCKED_BEFORE_FORMAL_TRAINING_AND_OUTCOME_EVALUATION"
+}

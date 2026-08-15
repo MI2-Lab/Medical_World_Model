@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "experiment": "patch_token_treatment_conditioned_wm",
+  "status_before_formal_results": "PREREGISTERED_PENDING_CODE_LOCK",
+  "scientific_boundary": {
+    "training_is_pcr_free": true,
+    "causal_claim_allowed": false,
+    "required_wording": "assigned-treatment-conditioned longitudinal latent modeling"
+  },
+  "population": {
+    "technical_eligible_patients": 947,
+    "fold_assigned_primary_patients": 808,
+    "authorized_external_train_only_patients": 139,
+    "folds": [0, 1, 2, 3, 4],
+    "fold_policy": "exact_seed2026_patient_manifest_no_refill_no_movement"
+  },
+  "input": {
+    "name": "C1B-H",
+    "tensor": "float32_B_4_7_112_176_160",
+    "shape_zyx": [112, 176, 160],
+    "spacing_xyz_mm": [0.9, 0.9, 2.0],
+    "orientation": "true_array_reordered_RAS_plus",
+    "anchor": "T0",
+    "channels": "DCE7",
+    "visits": ["T0", "T1", "T2", "T3"],
+    "t3_label": "late/pre-surgery",
+    "crop_redesign": false,
+    "lesion_mask_model_input": false
+  },
+  "matrix": {
+    "arms": ["A0_LOCAL3_REFERENCE", "A1_PATCH3"],
+    "new_training_arms": ["A1_PATCH3"],
+    "seed_bases": [2026, 3026],
+    "folds": [0, 1, 2, 3, 4],
+    "new_training_cells": 10,
+    "effective_seed": "seed_base_plus_fold"
+  },
+  "a0": {
+    "policy": "reuse_immutable_confirmed_LOCAL3_selected_checkpoints_and_oof_features",
+    "architecture": "raw_LOCAL_weighted_mean_128_to_Linear192_LayerNorm192",
+    "loss": "L_JEPA_plus_0.25_L_FTV_plus_0.09_SIGReg"
+  },
+  "encoder": {
+    "architecture": "frozen_family_G3_SpatialVisitEncoder3D",
+    "base_channels": 16,
+    "final_channels": 128,
+    "feature_shape_policy": "derive_from_frozen_geometry_then_validate_runtime",
+    "expected_feature_shape_zyx": [14, 22, 20],
+    "final_stride_zyx": [8, 8, 8],
+    "final_center_offset_zyx": [0.0, 0.0, 0.0]
+  },
+  "local_tokens": {
+    "physical_window_xyz_mm": [64.0, 64.0, 64.0],
+    "center": "frozen_c1b_crop_physical_center",
+    "support_rule": "strictly_positive_fractional_sampling_cell_overlap",
+    "expected_token_count": 500,
+    "formal_token_count_must_equal_expected": true,
+    "fractional_weights_in_patch_loss": false,
+    "fractional_weights_in_ftv_and_mean_readout": true,
+    "token_projection": "Linear_128_128_plus_LayerNorm_128",
+    "token_width": 128,
+    "position_coordinates": "crop_centered_actual_feature_cell_XYZ_mm",
+    "position_normalization_mm": 32.0,
+    "absolute_scanner_RAS_forbidden": true
+  },
+  "predictor": {
+    "conditioning_method": "condition_token",
+    "blocks": 4,
+    "heads": 8,
+    "hidden_width": 128,
+    "feedforward_width": 512,
+    "dropout": 0.1,
+    "context": "one_condition_token_plus_500_current_MRI_tokens",
+    "queries": "250_mask_tokens_plus_future_physical_position",
+    "target_value_is_predictor_input": false,
+    "pixel_reconstruction": false
+  },
+  "conditioning": {
+    "fixed_arm_vocabulary": [
+      "ISPY1_NACT",
+      "Paclitaxel",
+      "Paclitaxel + ABT 888 + Carboplatin",
+      "Paclitaxel + AMG 386",
+      "Paclitaxel + AMG 386 + Trastuzumab",
+      "Paclitaxel + Ganetespib",
+      "Paclitaxel + Ganitumab",
+      "Paclitaxel + MK-2206",
+      "Paclitaxel + MK-2206 + Trastuzumab",
+      "Paclitaxel + Neratinib",
+      "Paclitaxel + Pembrolizumab",
+      "Paclitaxel + Pertuzumab + Trastuzumab",
+      "Paclitaxel + Trastuzumab",
+      "T-DM1 + Pertuzumab"
+    ],
+    "arm_embedding_dim": 16,
+    "biomarkers": ["HR", "HER2", "MP_as_provided"],
+    "retain_age_for_prior_condition_parity": true,
+    "age_missing_indicator": true,
+    "age_fit_scope": "outer_train_plus_authorized_external_train_only",
+    "temporal_bits": [
+      "target_T1",
+      "target_T2",
+      "target_T3",
+      "observed_T0",
+      "observed_T1",
+      "observed_T2",
+      "observed_T3"
+    ],
+    "delta_t": [1.0, 1.0, 1.0],
+    "delta_t_semantics": "unitless_nominal_adjacent_visit_interval_no_measured_scan_dates_available",
+    "condition_enters_MRI_tokens": false,
+    "condition_enters_target_encoder": false,
+    "clinical_csv_training_allowlist": ["patient_id", "arm", "label_hr", "label_her2", "label_mp", "age_at_screening"],
+    "pcr_training_column_loaded": false
+  },
+  "masking": {
+    "ratio": 0.5,
+    "masked_tokens_per_transition": 250,
+    "sampling": "uniform_without_replacement_within_500_LOCAL_tokens",
+    "outcome_blind": true,
+    "deterministic_key": ["effective_seed", "epoch", "logical_batch_index", "patient_id_sha256", "transition"]
+  },
+  "objective": {
+    "patch_distance": "mean_squared_distance_after_per_token_LayerNorm",
+    "transition_weights": [2.0, 1.0, 0.5],
+    "lambda_ftv": 0.25,
+    "lambda_sigreg": 0.09,
+    "sigreg_projections": 256,
+    "ftv_summary": "exact_fractional_LOCAL_mean_raw128_then_canonical_Linear192_LayerNorm192",
+    "ftv_transform": "outer_train_observable_log_epsilon_winsor_1_99_median_IQR",
+    "delta_ftv_supervision": false
+  },
+  "training": {
+    "optimizer": "AdamW",
+    "learning_rate": 0.00005,
+    "weight_decay": 0.0001,
+    "physical_batch_size": 4,
+    "accumulation_steps": 8,
+    "logical_batch_size": 32,
+    "gradient_clip": 5.0,
+    "ema_momentum": 0.996,
+    "epochs": 12,
+    "patience": 4,
+    "min_representation_std": 0.05,
+    "checkpoint_primary": "minimum_finite_noncollapsed_validation_patch_loss",
+    "checkpoint_tie_break": "validation_ftv_loss_then_earlier_epoch",
+    "forbidden_selection_inputs": ["test_FTV", "delta_FTV", "pCR", "clinical_complementarity", "test_token_diagnostics"]
+  },
+  "readout": {
+    "mean": "fractional_weighted_mean_of_projected_LOCAL_tokens_128",
+    "pca_components": 64,
+    "pca_input": "ordered_flattened_projected_tokens_scaled_by_sqrt_normalized_fractional_weight",
+    "pca_fit": "outer_train_patient_four_visit_rows_only",
+    "pca_solver": "randomized",
+    "primary_state": "mean128_concat_pca64_equals_192",
+    "pcr_supervised_attention": false
+  },
+  "probe": {
+    "ridge_alphas": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0],
+    "logistic_c": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "logistic_penalty": "l2",
+    "logistic_solver": "liblinear",
+    "logistic_max_iter": 10000,
+    "clinical_contract": "C2_full_with_treatment",
+    "early_prefixes": ["T0", "T0-T1", "T0-T2"],
+    "late_prefix_descriptive": "T0-T3"
+  },
+  "bootstrap": {
+    "draws": 2000,
+    "unit": "patient",
+    "stratify_by": "outer_fold",
+    "paired": true,
+    "seed": 260812,
+    "confidence_level": 0.95
+  },
+  "dynamics": {
+    "shuffled_time_target_order": ["T2", "T3", "T1"],
+    "spatial_bands_mm_chebyshev": {
+      "central": [0.0, 16.0],
+      "inner_local": [16.0, 24.0],
+      "outer_local": [24.0, null]
+    }
+  },
+  "gates": {
+    "A": {
+      "all_ten_cells_finite": true,
+      "target_and_prediction_token_std_each_seed_min": 0.05,
+      "actual_minus_shuffled_cosine_each_seed_min": 0.05,
+      "alternative_normalized_mse_relative_improvement_each_seed_min": 0.05
+    },
+    "B": {
+      "static_spearman_A1_minus_A0_each_seed_strictly_gt": -0.03,
+      "delta_spearman_A1_minus_A0_each_seed_strictly_gt": -0.03
+    },
+    "C": {
+      "one_of_static_delta_or_mri_pcr_positive_each_seed": true,
+      "same_endpoint_two_seed_mean_min": 0.03
+    },
+    "D": {
+      "timings": ["T0-T1", "T0-T2"],
+      "C_plus_F_plus_M_minus_C_plus_F_each_seed_strictly_gt": 0.0,
+      "bootstrap_CI_excludes_zero": "preferred_not_hard"
+    }
+  }
+}
+
