@@ -8,8 +8,8 @@
 
 - 分支：`feature/raw-spatial-pcr-ceiling`
 - parent SHA：`825e3c600f2b47dd48316fadbfe1dfed601354f2`
-- experiment commit SHA：`PENDING_FINAL_COMMIT`
-- push status：`PENDING_FINAL_COMMIT`
+- experiment commit SHA：`32b657d68516322f53616a32b611b30d7b970547`
+- push status：`PUSH_SUCCEEDED`
 - 正式状态：`COMPLETE`
 - 决策类：`GENERALIZATION_BOTTLENECK`
 - 人群：`full_808`（MRI-only/clinical）与 `ftv_complete_375`（FTV 增量）
