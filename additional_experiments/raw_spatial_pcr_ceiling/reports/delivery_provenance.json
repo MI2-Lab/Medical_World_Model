@@ -4,11 +4,16 @@
   "branch": "feature/raw-spatial-pcr-ceiling",
   "parent_branch": "feature/clinical-residual-phenotype-state",
   "parent_commit": "825e3c600f2b47dd48316fadbfe1dfed601354f2",
-  "experiment_commit": "a8a0d493bb5a39af36a749c998e49758332b8bb2",
-  "push_status": "PUSH_SUCCEEDED",
+  "experiment_commit": "PENDING_FINAL_COMMIT",
+  "push_status": "PENDING_FINAL_COMMIT",
   "remote": "origin",
   "remote_ref": "refs/heads/feature/raw-spatial-pcr-ceiling",
-  "formal_pcr_matrix_status": "NOT_RUN",
+  "formal_pcr_matrix_status": "COMPLETE",
+  "formal_prediction_artifacts": 200,
+  "formal_metadata_artifacts": 200,
+  "formal_metric_rows": 720,
+  "paired_bootstrap_draws": 5000,
+  "fusion_status": "COMPLETE",
+  "c5_attention_capture": "DISABLED_FOR_RAW_MAP_GPU_MEMORY; prediction path unchanged",
   "old_experiment_directories_modified": false
 }
-

@@ -1,8 +1,18 @@
 {
   "schema_version": 1,
   "experiment": "raw_spatial_pcr_ceiling",
-  "status": "PREFLIGHT_ONLY",
-  "formal_pcr_matrix_status": "NOT_RUN",
+  "status": "COMPLETE",
+  "formal_pcr_matrix_status": "COMPLETE",
+  "formal_run": {
+    "arms": ["C0", "C1", "C2", "C3", "C4", "C5"],
+    "seeds": [2026, 3026],
+    "folds": 5,
+    "timings": ["T0", "T0_T1", "T0_T2", "T0_T3"],
+    "primary_timings": ["T0", "T0_T1", "T0_T2"],
+    "bootstrap_draws": 5000,
+    "fusion_status": "COMPLETE",
+    "attention_capture": "C2_C3_C4_only; C5 prediction path unchanged and diagnostic attention capture disabled to avoid raw-map CUDA materialization"
+  },
   "preflight_status": "PASS",
   "preflight_contract": {
     "cache_file_count_seen": 947,
@@ -20,6 +30,5 @@
     "C5": "PASS",
     "private_frozen_LOCAL3_export": "PASS"
   },
-  "interpretation": "No C1-C5 AUROC, complementarity, gate, or bottleneck conclusion is claimed until the formal two-seed five-fold pCR matrix is run and aggregated."
+  "interpretation": "Formal two-seed five-fold pCR matrix and fold-safe fusion are complete. Conclusions are empirical ceiling results under the current C1B-H input contract; see decision.json and final_report.md."
 }
-

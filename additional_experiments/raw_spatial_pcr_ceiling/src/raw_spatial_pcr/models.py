@@ -1,21 +1,39 @@
 from __future__ import annotations
 
+from pathlib import Path
+import sys
 from typing import Any
 
 import torch
 from torch import nn
 
 
-def fixed_local_mask(shape_dhw: tuple[int, int, int], spacing_zyx_mm: tuple[float, float, float] = (16.0, 7.2, 7.2), local_mm: float = 64.0) -> torch.Tensor:
-    """Return an outcome-free central 64-mm feature-cell support mask."""
+def fixed_local_weights(shape_dhw: tuple[int, int, int], spacing_zyx_mm: tuple[float, float, float] = (16.0, 7.2, 7.2), local_mm: float = 64.0) -> torch.Tensor:
+    """Return exact frozen feature-cell overlap with the central 64-mm cube."""
 
-    axes = [
-        (torch.arange(size, dtype=torch.float32) + 0.5 - size / 2.0) * spacing
-        for size, spacing in zip(shape_dhw, spacing_zyx_mm)
-    ]
-    z, y, x = torch.meshgrid(*axes, indexing="ij")
+    # C1B-H final features have stride eight and input voxel spacing
+    # (2.0, 0.9, 0.9) in ZYX.  Expressing the formula through the cell spacing
+    # keeps this helper useful for contract-shaped smoke tensors while matching
+    # the audited final-grid centers for (14, 22, 20).
+    input_shape = tuple(int(size) * 8 for size in shape_dhw)
+    input_spacing = tuple(float(value) / 8.0 for value in spacing_zyx_mm)
     half = float(local_mm) / 2.0
-    return (z.abs() <= half) & (y.abs() <= half) & (x.abs() <= half)
+    fractions: list[torch.Tensor] = []
+    for input_size, spacing in zip(input_shape, input_spacing):
+        index = torch.arange(shape_dhw[len(fractions)], dtype=torch.float64)
+        centers = (index * 8.0 - 0.5 * (input_size - 1.0)) * spacing
+        half_cell = 4.0 * spacing
+        lower = torch.maximum(centers - half_cell, torch.full_like(centers, -half))
+        upper = torch.minimum(centers + half_cell, torch.full_like(centers, half))
+        fractions.append(((upper - lower).clamp_min(0.0) / (2.0 * half_cell)).to(torch.float32))
+    z, y, x = fractions
+    return z[:, None, None] * y[None, :, None] * x[None, None, :]
+
+
+def fixed_local_mask(shape_dhw: tuple[int, int, int], spacing_zyx_mm: tuple[float, float, float] = (16.0, 7.2, 7.2), local_mm: float = 64.0) -> torch.Tensor:
+    """Return the outcome-free support of the audited fractional local weights."""
+
+    return fixed_local_weights(shape_dhw, spacing_zyx_mm=spacing_zyx_mm, local_mm=local_mm) > 0
 
 
 def flatten_feature_map(feature_map: torch.Tensor) -> torch.Tensor:
@@ -56,15 +74,15 @@ class QueryAttentionPool(nn.Module):
         self.feed_forward = nn.ModuleList([FeedForward(width, dropout) for _ in range(blocks)])
         self.norm = nn.LayerNorm(width)
 
-    def forward(self, tokens: torch.Tensor, padding_mask: torch.Tensor | None = None) -> tuple[torch.Tensor, torch.Tensor]:
+    def forward(self, tokens: torch.Tensor, padding_mask: torch.Tensor | None = None, collect_attention: bool = True) -> tuple[torch.Tensor, torch.Tensor | None]:
         values = self.input_projection(tokens)
         query = self.query.expand(tokens.shape[0], -1, -1)
         weights = None
         for attention, feed_forward in zip(self.attention, self.feed_forward):
-            update, weights = attention(query, values, values, key_padding_mask=padding_mask, need_weights=True, average_attn_weights=False)
+            update, weights = attention(query, values, values, key_padding_mask=padding_mask, need_weights=collect_attention, average_attn_weights=False)
             query = query + update
             query = feed_forward(query)
-        return self.norm(query[:, 0]), weights if weights is not None else torch.empty(0, device=tokens.device)
+        return self.norm(query[:, 0]), weights
 
 
 class SpatialTokenBlock(nn.Module):
@@ -75,9 +93,9 @@ class SpatialTokenBlock(nn.Module):
         self.norm2 = nn.LayerNorm(width)
         self.ffn = nn.Sequential(nn.Linear(width, width * 2), nn.GELU(), nn.Dropout(dropout), nn.Linear(width * 2, width), nn.Dropout(dropout))
 
-    def forward(self, x: torch.Tensor, padding_mask: torch.Tensor | None = None) -> tuple[torch.Tensor, torch.Tensor]:
+    def forward(self, x: torch.Tensor, padding_mask: torch.Tensor | None = None, collect_attention: bool = True) -> tuple[torch.Tensor, torch.Tensor | None]:
         normalized = self.norm1(x)
-        attended, weights = self.attention(normalized, normalized, normalized, key_padding_mask=padding_mask, need_weights=True, average_attn_weights=False)
+        attended, weights = self.attention(normalized, normalized, normalized, key_padding_mask=padding_mask, need_weights=collect_attention, average_attn_weights=False)
         x = x + attended
         x = x + self.ffn(self.norm2(x))
         return x, weights
@@ -95,15 +113,15 @@ class PatchTokenTransformer(nn.Module):
         self.blocks = nn.ModuleList([SpatialTokenBlock(width, heads, dropout) for _ in range(blocks)])
         self.norm = nn.LayerNorm(width)
 
-    def forward(self, tokens: torch.Tensor, coordinates: torch.Tensor, padding_mask: torch.Tensor | None = None) -> tuple[torch.Tensor, list[torch.Tensor]]:
+    def forward(self, tokens: torch.Tensor, coordinates: torch.Tensor, padding_mask: torch.Tensor | None = None, collect_attention: bool = True) -> tuple[torch.Tensor, list[torch.Tensor | None]]:
         x = self.input_projection(tokens) + self.position(coordinates)
         cls = self.cls.expand(tokens.shape[0], -1, -1)
         x = torch.cat((cls, x), dim=1)
         if padding_mask is not None:
             padding_mask = torch.cat((torch.zeros((tokens.shape[0], 1), dtype=torch.bool, device=tokens.device), padding_mask), dim=1)
-        attention_maps: list[torch.Tensor] = []
+        attention_maps: list[torch.Tensor | None] = []
         for block in self.blocks:
-            x, weights = block(x, padding_mask)
+            x, weights = block(x, padding_mask, collect_attention=collect_attention)
             attention_maps.append(weights)
         return self.norm(x[:, 0]), attention_maps
 
@@ -128,7 +146,7 @@ class SpatialReadout(nn.Module):
             self.pool = PatchTokenTransformer(input_dim, width, 4, 3, dropout)
             self.head = nn.Linear(width, 1)
 
-    def forward(self, feature_map: torch.Tensor, local_mask: torch.Tensor | None = None, coordinates: torch.Tensor | None = None, valid_weights: torch.Tensor | None = None) -> dict[str, Any]:
+    def forward(self, feature_map: torch.Tensor, local_mask: torch.Tensor | None = None, coordinates: torch.Tensor | None = None, valid_weights: torch.Tensor | None = None, collect_attention: bool = True) -> dict[str, Any]:
         tokens = flatten_feature_map(feature_map)
         batch, _, depth, height, width = feature_map.shape
         if coordinates is None:
@@ -153,9 +171,9 @@ class SpatialReadout(nn.Module):
         selected_tokens = tokens.index_select(1, selected_indices)
         selected_coords = coordinates.index_select(1, selected_indices)
         if self.arm == "C2":
-            embedding, attention = self.pool(selected_tokens)
+            embedding, attention = self.pool(selected_tokens, collect_attention=collect_attention)
         else:
-            embedding, attention = self.pool(selected_tokens, selected_coords)
+            embedding, attention = self.pool(selected_tokens, selected_coords, collect_attention=collect_attention)
         logits = self.head(embedding).squeeze(-1)
         return {"logits": logits, "embedding": embedding, "attention": attention, "tokens": selected_tokens, "coordinates": selected_coords}
 
@@ -165,13 +183,80 @@ class RawC1BSupervised(nn.Module):
 
     def __init__(self, input_channels: int = 7, base_channels: int = 16, latent_dim: int = 192, dropout: float = 0.1) -> None:
         super().__init__()
-        from ispy_jepa_tmi_clean.corejepa.models.encoder import VisitEncoder3D
+        if input_channels != 7:
+            raise ValueError("C5 is frozen to seven C1B-H DCE channels")
+        g3_src = Path(__file__).resolve().parents[3] / "g3_multiseed_generalization" / "src"
+        if str(g3_src) not in sys.path:
+            sys.path.insert(0, str(g3_src))
+        from dgrs.model import SpatialVisitEncoder3D
 
-        self.encoder = VisitEncoder3D(input_channels, base_channels, latent_dim)
+        self.encoder = SpatialVisitEncoder3D(base_channels)
         self.readout = SpatialReadout("C4", input_dim=base_channels * 8, width=128, dropout=dropout)
 
-    def forward(self, image: torch.Tensor, local_mask: torch.Tensor | None = None) -> dict[str, Any]:
+    def forward(self, image: torch.Tensor, local_mask: torch.Tensor | None = None, collect_attention: bool = True) -> dict[str, Any]:
         if image.ndim != 5:
             raise ValueError(f"raw image must be [B,7,Z,Y,X], got {tuple(image.shape)}")
-        feature_map = self.encoder.features[:-1](image)
-        return self.readout(feature_map, local_mask=local_mask)
+        feature_map = self.encoder(image)
+        return self.readout(feature_map, local_mask=local_mask, collect_attention=collect_attention)
+
+
+class SequenceClassifier(nn.Module):
+    """Timing-specific classifier over literal observed visit prefixes.
+
+    The spatial readout is applied independently to each observed visit, then
+    the embeddings are concatenated in visit order.  No future visit is ever
+    passed to a timing-specific head.
+    """
+
+    def __init__(self, base: nn.Module, steps: int, embedding_dim: int = 128, dropout: float = 0.1) -> None:
+        super().__init__()
+        if steps not in {1, 2, 3, 4}:
+            raise ValueError("steps must be one of 1, 2, 3, or 4")
+        self.base = base
+        self.steps = steps
+        self.embedding_dim = embedding_dim
+        self.head = nn.Sequential(
+            nn.LayerNorm(steps * embedding_dim),
+            nn.Dropout(dropout),
+            nn.Linear(steps * embedding_dim, 1),
+        )
+
+    def forward(self, batch: torch.Tensor, local_mask: torch.Tensor | None = None, collect_attention: bool = True) -> dict[str, Any]:
+        if batch.ndim == 5:
+            batch = batch.unsqueeze(1)
+        if batch.ndim != 6 or batch.shape[1] != self.steps:
+            raise ValueError(f"sequence input must be [B,{self.steps},C,D,H,W], got {tuple(batch.shape)}")
+        embeddings: list[torch.Tensor] = []
+        attentions: list[Any] = []
+        last: dict[str, Any] | None = None
+        for visit in range(self.steps):
+            current = self.base(batch[:, visit], local_mask=local_mask, collect_attention=collect_attention)
+            embeddings.append(current["embedding"])
+            attentions.append(current.get("attention"))
+            last = current
+        sequence_embedding = torch.cat(embeddings, dim=1)
+        logits = self.head(sequence_embedding).squeeze(-1)
+        return {
+            "logits": logits,
+            "embedding": sequence_embedding,
+            "visit_embeddings": embeddings,
+            "attention": attentions,
+            "tokens": None if last is None else last.get("tokens"),
+            "coordinates": None if last is None else last.get("coordinates"),
+        }
+
+
+def load_encoder_weights(model: RawC1BSupervised, checkpoint: str | Any) -> dict[str, Any]:
+    """Initialize C5 from a selected prior encoder without importing its head."""
+
+    payload = torch.load(checkpoint, map_location="cpu", weights_only=True)
+    state = payload.get("state_dict") if isinstance(payload, dict) else None
+    if not isinstance(state, dict):
+        raise ValueError("checkpoint lacks a state_dict")
+    encoder_state = {key[len("encoder."):]: value for key, value in state.items() if key.startswith("encoder.")}
+    if not encoder_state:
+        raise ValueError("checkpoint contains no encoder weights")
+    missing, unexpected = model.encoder.load_state_dict(encoder_state, strict=False)
+    if missing or unexpected:
+        raise ValueError(f"C5 encoder checkpoint architecture mismatch: missing={missing}, unexpected={unexpected}")
+    return {"checkpoint": str(checkpoint), "encoder_keys": len(encoder_state), "selected": bool(payload.get("selected", False))}

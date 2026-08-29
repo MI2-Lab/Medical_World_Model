@@ -8,6 +8,7 @@
 *.npy
 *.parquet
 predictions/**/*.csv
+predictions/**/*.json
 features/**/*.csv
 features/**/*.npz
 checkpoints/**
