@@ -1,0 +1,64 @@
+{
+  "clinical_fields_read": [],
+  "gates": {
+    "bowen_environment": true,
+    "candidate_ftv_weight_zero": true,
+    "dino_cache_947_hash_bound": true,
+    "extra_forward_input_rejected": true,
+    "five_pilot_c0_cells_available": true,
+    "five_target_folds_hash_bound": true,
+    "folds_808x5": true,
+    "model_state_shape": true,
+    "paired_head_initialization": true,
+    "radiomics_gradient_adapter": true,
+    "radiomics_gradient_head": true,
+    "radiomics_gradient_response_projection": true,
+    "representation_source_scan": true,
+    "train_only_139": true,
+    "v2_public_hashes": true,
+    "v2_tree_immutable": true
+  },
+  "initialization_probe_sha256": "484f17b45e5ad853ebf8961c202e28a241451561259a413460e951fe386cc46e",
+  "model_architecture": {
+    "DINO_backbone_in_training_graph": false,
+    "adapter": "shared Linear(2304,128)+LN+GELU",
+    "channel_aggregation": "learned embedding + Transformer1/h4/ff256 + mean",
+    "forbidden_forward_inputs": [
+      "clinical",
+      "outcome",
+      "FTV",
+      "radiomics",
+      "ROI mask",
+      "geometry"
+    ],
+    "forward_signature": "forward(slice_summaries)",
+    "ftv_head": "Linear(192,1) from observed response",
+    "input_kind": "frozen_DINOv3_LOCAL_DCE7_slice_summaries",
+    "input_shape": [
+      "B",
+      4,
+      7,
+      32,
+      2304
+    ],
+    "radiomics_head": "Linear(192,16) from observed response",
+    "response_projection": "Linear(128,192)+LayerNorm",
+    "response_shape": [
+      "B",
+      4,
+      192
+    ],
+    "schema_version": 1,
+    "slice_aggregation": "sinusoidal axial position + state token + Transformer1/h4/ff512",
+    "transition": "causal Transformer3/h4/ff512"
+  },
+  "outcome_fields_read": [],
+  "protocol_sha256": "e1d894996f1fbb60f5e73d2ef8aeaaa0148390a7f6dd50a311678bdddd1574dd",
+  "schema_version": 1,
+  "source_scan": {
+    "failures": [],
+    "files_checked": 12,
+    "status": "PASS"
+  },
+  "status": "PASS"
+}

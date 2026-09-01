@@ -1,0 +1,16 @@
+{
+  "decision_class": "DIRECT_RAD_WEIGHT_SCREEN_NO_GO",
+  "evaluation_lock_created": false,
+  "failed_stage": "pilot_gate",
+  "formal_cells_completed": 0,
+  "mechanism_lock_created": false,
+  "pcr_outcomes_read": false,
+  "pilot_cells_fully_trained": 6,
+  "pilot_cells_requested": 15,
+  "pilot_cells_skipped_after_decisive_failure": 9,
+  "pilot_cells_with_feasible_checkpoint_and_state": 0,
+  "pilot_lock_created": false,
+  "privacy_gate": "PASS",
+  "schema_version": 1,
+  "status": "FAIL"
+}

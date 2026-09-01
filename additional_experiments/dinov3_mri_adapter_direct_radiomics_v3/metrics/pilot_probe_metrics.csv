@@ -1,0 +1,2 @@
+seed,arm,held_out_patients,direct_head_radiomics_macro_spearman,matched_probe_radiomics_macro_spearman,matched_probe_static_ftv_macro_spearman,matched_probe_delta_ftv_macro_spearman,state_mean_sd
+2026,C0,375,-0.005702322909177562,0.28605141955773744,0.4769461258391171,0.271904956953768,0.9229961037635803

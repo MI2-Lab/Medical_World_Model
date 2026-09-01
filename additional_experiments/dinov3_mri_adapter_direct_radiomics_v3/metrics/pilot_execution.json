@@ -1,0 +1,78 @@
+{
+  "artifacts": {
+    "seed2026_fold0_R025": {
+      "failure_sha256": "5b12a6e8a029365bbfec79b33c239d3fed85df706941f7638acde18ea06abce3"
+    },
+    "seed2026_fold0_R050": {
+      "failure_sha256": "dc17e577757823c0304b93db8e9bca77c74bd930f575a460781bd70b43a6940d"
+    },
+    "seed2026_fold0_R100": {
+      "failure_sha256": "75ece3db701755c55d4ed6628b5ce517bc1314c183b934f048a88691db6f8441"
+    },
+    "seed2026_fold1_R025": {
+      "failure_sha256": "f81de8b2a2546a693f4b1f91e60d51ccd3f2f67ab1c39b7633894cd33bf094f2"
+    },
+    "seed2026_fold1_R050": {
+      "failure_sha256": "a721f6e54707860267fed1d8d161955762e94c1a0868f10cbec37360647a512b"
+    },
+    "seed2026_fold1_R100": {
+      "failure_sha256": "c3459bd799cbb6cca11687c4a01d0f737e2dda93739630c319fff6e30bd40989"
+    },
+    "seed2026_fold2_R025": {
+      "trigger_failure_sha256": "5b12a6e8a029365bbfec79b33c239d3fed85df706941f7638acde18ea06abce3"
+    },
+    "seed2026_fold2_R050": {
+      "trigger_failure_sha256": "dc17e577757823c0304b93db8e9bca77c74bd930f575a460781bd70b43a6940d"
+    },
+    "seed2026_fold2_R100": {
+      "trigger_failure_sha256": "75ece3db701755c55d4ed6628b5ce517bc1314c183b934f048a88691db6f8441"
+    },
+    "seed2026_fold3_R025": {
+      "trigger_failure_sha256": "5b12a6e8a029365bbfec79b33c239d3fed85df706941f7638acde18ea06abce3"
+    },
+    "seed2026_fold3_R050": {
+      "trigger_failure_sha256": "dc17e577757823c0304b93db8e9bca77c74bd930f575a460781bd70b43a6940d"
+    },
+    "seed2026_fold3_R100": {
+      "trigger_failure_sha256": "75ece3db701755c55d4ed6628b5ce517bc1314c183b934f048a88691db6f8441"
+    },
+    "seed2026_fold4_R025": {
+      "trigger_failure_sha256": "5b12a6e8a029365bbfec79b33c239d3fed85df706941f7638acde18ea06abce3"
+    },
+    "seed2026_fold4_R050": {
+      "trigger_failure_sha256": "dc17e577757823c0304b93db8e9bca77c74bd930f575a460781bd70b43a6940d"
+    },
+    "seed2026_fold4_R100": {
+      "trigger_failure_sha256": "75ece3db701755c55d4ed6628b5ce517bc1314c183b934f048a88691db6f8441"
+    }
+  },
+  "cells": 15,
+  "clinical_fields_read": [],
+  "outcome_fields_read": [],
+  "paired_fold_checks": {
+    "0": false,
+    "1": false,
+    "2": false,
+    "3": false,
+    "4": false
+  },
+  "schema_version": 1,
+  "status": "COMPLETE",
+  "statuses": {
+    "seed2026_fold0_R025": "NO_FEASIBLE_CHECKPOINT",
+    "seed2026_fold0_R050": "NO_FEASIBLE_CHECKPOINT",
+    "seed2026_fold0_R100": "NO_FEASIBLE_CHECKPOINT",
+    "seed2026_fold1_R025": "NO_FEASIBLE_CHECKPOINT",
+    "seed2026_fold1_R050": "NO_FEASIBLE_CHECKPOINT",
+    "seed2026_fold1_R100": "NO_FEASIBLE_CHECKPOINT",
+    "seed2026_fold2_R025": "SKIPPED_AFTER_ARM_FAILURE",
+    "seed2026_fold2_R050": "SKIPPED_AFTER_ARM_FAILURE",
+    "seed2026_fold2_R100": "SKIPPED_AFTER_ARM_FAILURE",
+    "seed2026_fold3_R025": "SKIPPED_AFTER_ARM_FAILURE",
+    "seed2026_fold3_R050": "SKIPPED_AFTER_ARM_FAILURE",
+    "seed2026_fold3_R100": "SKIPPED_AFTER_ARM_FAILURE",
+    "seed2026_fold4_R025": "SKIPPED_AFTER_ARM_FAILURE",
+    "seed2026_fold4_R050": "SKIPPED_AFTER_ARM_FAILURE",
+    "seed2026_fold4_R100": "SKIPPED_AFTER_ARM_FAILURE"
+  }
+}

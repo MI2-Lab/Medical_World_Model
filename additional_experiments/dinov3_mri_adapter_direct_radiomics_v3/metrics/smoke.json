@@ -1,0 +1,19 @@
+{
+  "adapter_gradient_positive": true,
+  "clinical_fields_read": [],
+  "finite": true,
+  "ftv_head_gradient_zero": true,
+  "ftv_objective_weight_zero": true,
+  "outcome_fields_read": [],
+  "paired_head_initialization": true,
+  "radiomics_head_gradient_positive": true,
+  "response_projection_gradient_positive": true,
+  "schema_version": 1,
+  "shape": [
+    32,
+    4,
+    192
+  ],
+  "status": "PASS",
+  "t3_radiomics_mask_false": true
+}

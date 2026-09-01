@@ -1,0 +1,16 @@
+cache/
+checkpoints/
+features/private/
+logs/private/
+manifests/*.private.*
+metrics/*.private.*
+predictions/
+radiomics_env/
+__pycache__/
+.pytest_cache/
+*.pyc
+!cache/.gitkeep
+!checkpoints/.gitkeep
+!features/private/.gitkeep
+!logs/private/.gitkeep
+!predictions/.gitkeep
