@@ -1,0 +1,71 @@
+{
+  "clinical_fields_read": [],
+  "gates": {
+    "bowen_environment": true,
+    "c1b_shape": true,
+    "channel_order_count": true,
+    "cohort_947": true,
+    "effective_batch_32": true,
+    "folds_808x5": true,
+    "local_shape": true,
+    "locked_inputs": true,
+    "mask_not_forward_input": true,
+    "model_state_shape": true,
+    "paired_initialization": true,
+    "radiomics_gradient_adapter": true,
+    "radiomics_gradient_head": true,
+    "representation_source_scan": true,
+    "token_summary_2304": true,
+    "train_only_139": true
+  },
+  "locked_hashes": {
+    "cache_manifest": "672ad7436b19f30a89640a2b36504f1e7fbaaff83fd07bc058c008b204d2a3c9",
+    "fold_manifest": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+    "ftv_transitions": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d",
+    "source_inventory": "40f7d1db7af108b2cb0c07863db208ee4db2124ffaf660771feaa7270809df0a",
+    "technical_eligibility": "041f11877bb55d70a611e14a811f5610a3572c4437470bbde54cbdf19121f2c7",
+    "train_only_manifest": "d9029507607dcdb327db8066f7fd7a712d10e157e4d2b8f79ab3c9f0daad6513"
+  },
+  "model_architecture": {
+    "DINO_backbone_in_training_graph": false,
+    "adapter": "shared Linear(2304,128)+LN+GELU",
+    "channel_aggregation": "learned embedding + Transformer1/h4/ff256 + mean",
+    "forbidden_forward_inputs": [
+      "clinical",
+      "outcome",
+      "FTV",
+      "radiomics",
+      "ROI mask",
+      "geometry"
+    ],
+    "forward_signature": "forward(slice_summaries)",
+    "ftv_head": "Linear(192,1) from observed response",
+    "input_kind": "frozen_DINOv3_LOCAL_DCE7_slice_summaries",
+    "input_shape": [
+      "B",
+      4,
+      7,
+      32,
+      2304
+    ],
+    "radiomics_head": "Linear(192,16) from observed response",
+    "response_projection": "Linear(128,192)+LayerNorm",
+    "response_shape": [
+      "B",
+      4,
+      192
+    ],
+    "schema_version": 1,
+    "slice_aggregation": "sinusoidal axial position + state token + Transformer1/h4/ff512",
+    "transition": "causal Transformer3/h4/ff512"
+  },
+  "outcome_fields_read": [],
+  "protocol_sha256": "45dff37077c81235b8ac7b21c267cb71ec84cb2a52232440636c42ba7fe9736b",
+  "schema_version": 1,
+  "source_scan": {
+    "failures": [],
+    "files_checked": 14,
+    "status": "PASS"
+  },
+  "status": "PASS"
+}

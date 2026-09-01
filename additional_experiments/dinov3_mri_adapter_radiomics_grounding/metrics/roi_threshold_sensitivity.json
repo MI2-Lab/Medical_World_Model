@@ -1,0 +1,120 @@
+{
+  "cannot_override_current_stage_a_no_go": true,
+  "clinical_fields_read": [],
+  "coverage_grid": {
+    "voxels_16_slices_2": {
+      "T0": 1.0,
+      "T1": 0.9493333333333334,
+      "T2": 0.936,
+      "T3": 0.8986666666666666
+    },
+    "voxels_16_slices_3": {
+      "T0": 1.0,
+      "T1": 0.9413333333333334,
+      "T2": 0.9306666666666666,
+      "T3": 0.896
+    },
+    "voxels_24_slices_2": {
+      "T0": 1.0,
+      "T1": 0.9466666666666667,
+      "T2": 0.92,
+      "T3": 0.8693333333333333
+    },
+    "voxels_24_slices_3": {
+      "T0": 1.0,
+      "T1": 0.9386666666666666,
+      "T2": 0.9173333333333333,
+      "T3": 0.8693333333333333
+    },
+    "voxels_32_slices_2": {
+      "T0": 1.0,
+      "T1": 0.944,
+      "T2": 0.912,
+      "T3": 0.8533333333333334
+    },
+    "voxels_32_slices_3": {
+      "T0": 1.0,
+      "T1": 0.9386666666666666,
+      "T2": 0.9093333333333333,
+      "T3": 0.8533333333333334
+    },
+    "voxels_35_slices_2": {
+      "T0": 1.0,
+      "T1": 0.944,
+      "T2": 0.9066666666666666,
+      "T3": 0.8373333333333334
+    },
+    "voxels_35_slices_3": {
+      "T0": 1.0,
+      "T1": 0.9386666666666666,
+      "T2": 0.904,
+      "T3": 0.8373333333333334
+    },
+    "voxels_40_slices_2": {
+      "T0": 1.0,
+      "T1": 0.9413333333333334,
+      "T2": 0.8906666666666667,
+      "T3": 0.8186666666666667
+    },
+    "voxels_40_slices_3": {
+      "T0": 1.0,
+      "T1": 0.936,
+      "T2": 0.888,
+      "T3": 0.8186666666666667
+    },
+    "voxels_48_slices_2": {
+      "T0": 1.0,
+      "T1": 0.9413333333333334,
+      "T2": 0.8853333333333333,
+      "T3": 0.7946666666666666
+    },
+    "voxels_48_slices_3": {
+      "T0": 1.0,
+      "T1": 0.936,
+      "T2": 0.8826666666666667,
+      "T3": 0.7946666666666666
+    },
+    "voxels_56_slices_2": {
+      "T0": 1.0,
+      "T1": 0.9333333333333333,
+      "T2": 0.8773333333333333,
+      "T3": 0.7706666666666667
+    },
+    "voxels_56_slices_3": {
+      "T0": 1.0,
+      "T1": 0.928,
+      "T2": 0.8746666666666667,
+      "T3": 0.7706666666666667
+    },
+    "voxels_64_slices_2": {
+      "T0": 1.0,
+      "T1": 0.9333333333333333,
+      "T2": 0.8746666666666667,
+      "T3": 0.752
+    },
+    "voxels_64_slices_3": {
+      "T0": 1.0,
+      "T1": 0.928,
+      "T2": 0.872,
+      "T3": 0.752
+    }
+  },
+  "interpretation": "Changing the axial-slice threshold from 3 to 2 barely changes T2 coverage; the binding constraint is ROI voxel count. A minimum of 35 voxels is the largest threshold that reaches 90% at T2, and this would require a new protocol.",
+  "maximum_voxel_threshold_passing_with_three_slices": {
+    "T0": 64,
+    "T1": 64,
+    "T2": 35,
+    "T3": 64
+  },
+  "outcome_fields_read": [],
+  "schema_version": 1,
+  "status": "DESCRIPTIVE_ONLY",
+  "t2_current_invalid_visits": 48,
+  "t2_invalid_voxel_bins": {
+    "0_15": 24,
+    "16_31": 9,
+    "32_47": 10,
+    "48_63": 4,
+    "at_least_64_but_slice_fail": 1
+  }
+}
