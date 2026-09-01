@@ -1,0 +1,21 @@
+{
+  "all_target_valid_visits": 1050,
+  "feature_list_sha256": "b51e7b01da6afd2c2a09bc13a484ff90f7a5458054031f9c97d03a20d320b0a7",
+  "fit_scope": "outer_train_only",
+  "fold": 3,
+  "grounding_visits": [
+    "T0",
+    "T1",
+    "T2"
+  ],
+  "outcome_fields_read": [],
+  "outer_train_complete_visits": 681,
+  "pca_components": 16,
+  "schema_version": 1,
+  "selected_features": 64,
+  "status": "PASS",
+  "t3_radiomics_mask_false": true,
+  "target_sha256": "608f0ffe7ab401cad4faf92554538566f311137c06df9e97c39d4d9f8af0af40",
+  "transform_sha256": "e7372615b4e690f9678ed35bad521f483505843d8adacc066240466fda4aa49f",
+  "validation_test_transform_only": true
+}

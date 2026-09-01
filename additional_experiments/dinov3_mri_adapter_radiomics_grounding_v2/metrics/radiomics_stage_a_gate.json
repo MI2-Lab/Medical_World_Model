@@ -1,0 +1,144 @@
+{
+  "clinical_fields_read": [],
+  "coverage": {
+    "T0": 1.0,
+    "T1": 0.928,
+    "T2": 0.872,
+    "T3": 0.752,
+    "overall": 0.888
+  },
+  "coverage_gates": {
+    "T0": true,
+    "T1": true,
+    "T2": true,
+    "T3": true,
+    "overall": true
+  },
+  "erosion_outer_train_counts": {
+    "0": {
+      "T0": 247,
+      "T1": 195,
+      "T2": 97
+    },
+    "1": {
+      "T0": 239,
+      "T1": 184,
+      "T2": 101
+    },
+    "2": {
+      "T0": 240,
+      "T1": 191,
+      "T2": 95
+    },
+    "3": {
+      "T0": 242,
+      "T1": 193,
+      "T2": 104
+    },
+    "4": {
+      "T0": 225,
+      "T1": 181,
+      "T2": 89
+    }
+  },
+  "erosion_outer_train_gates": {
+    "0": {
+      "T0": true,
+      "T1": true,
+      "T2": true
+    },
+    "1": {
+      "T0": true,
+      "T1": true,
+      "T2": true
+    },
+    "2": {
+      "T0": true,
+      "T1": true,
+      "T2": true
+    },
+    "3": {
+      "T0": true,
+      "T1": true,
+      "T2": true
+    },
+    "4": {
+      "T0": true,
+      "T1": true,
+      "T2": true
+    }
+  },
+  "erosion_outer_train_minimum": {
+    "T0": 200,
+    "T1": 175,
+    "T2": 80
+  },
+  "failure_audit": {
+    "T0": {
+      "additional_valid_needed": 0,
+      "axial_slice_count_median": 28.0,
+      "axial_slice_count_q05": 14.7,
+      "axial_slices_below_3": 0,
+      "required_for_gate": 338,
+      "valid": 375,
+      "voxel_below_64": 0,
+      "voxel_count_median": 9011.0,
+      "voxel_count_q05": 1814.7
+    },
+    "T1": {
+      "additional_valid_needed": 0,
+      "axial_slice_count_median": 20.0,
+      "axial_slice_count_q05": 2.0,
+      "axial_slices_below_3": 21,
+      "required_for_gate": 338,
+      "valid": 348,
+      "voxel_below_64": 25,
+      "voxel_count_median": 3190.0,
+      "voxel_count_q05": 25.499999999999996
+    },
+    "T2": {
+      "additional_valid_needed": 0,
+      "axial_slice_count_median": 18.0,
+      "axial_slice_count_q05": 3.0,
+      "axial_slices_below_3": 18,
+      "required_for_gate": 319,
+      "valid": 327,
+      "voxel_below_64": 47,
+      "voxel_count_median": 714.0,
+      "voxel_count_q05": 10.0
+    },
+    "T3": {
+      "additional_valid_needed": 0,
+      "axial_slice_count_median": 15.0,
+      "axial_slice_count_q05": 1.6999999999999993,
+      "axial_slices_below_3": 24,
+      "required_for_gate": 263,
+      "valid": 282,
+      "voxel_below_64": 93,
+      "voxel_count_median": 253.0,
+      "voxel_count_q05": 4.0
+    }
+  },
+  "gates": {
+    "T0": true,
+    "T1": true,
+    "T2": true,
+    "T3": true,
+    "erosion_outer_train_minimum": true,
+    "overall": true
+  },
+  "model_forward_receives_roi": false,
+  "ordered_private_roi_hashes_sha256": "6305a7044c28df7a12d710071b68640cfcca6009e6a70ac958b9835878956e4d",
+  "outcome_fields_read": [],
+  "patient_order_sha256": "64a7599a7903e2e013ae6ae5d50018019eee35ac408d7312f36e0c47536d29b6",
+  "patients": 375,
+  "schema_version": 1,
+  "status": "PASS",
+  "thresholds": {
+    "T0": 0.9,
+    "T1": 0.9,
+    "T2": 0.85,
+    "T3": 0.7,
+    "overall": 0.85
+  }
+}

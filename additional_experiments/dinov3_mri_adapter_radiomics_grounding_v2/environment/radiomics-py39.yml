@@ -1,0 +1,12 @@
+name: dinov3-radiomics-py39
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pip
+  - numpy=1.26.4
+  - pandas=2.2.3
+  - scipy=1.13.1
+  - simpleitk=2.4.1
+  - pip:
+      - pyradiomics==3.1.0

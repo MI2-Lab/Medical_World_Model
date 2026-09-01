@@ -1,0 +1,11 @@
+{
+  "clinical_fields_read": [],
+  "environment_lock_sha256": "6e9b90bf5cef6d0cb2c1764383115359a140c396ca2e1a84bc14c572ed93c772",
+  "feature_list_sha256": "fa00ab9d1e76c37f33d8b2550b5238949f0141c1326cd4c503db25aecf10dcfc",
+  "features": 651,
+  "ordered_private_hashes_sha256": "a9f9fc6c0a1300668e89022dce5a7f42975b52dfa60b90c8b0dbbabed07e9700",
+  "outcome_fields_read": [],
+  "patients": 375,
+  "schema_version": 1,
+  "status": "COMPLETE"
+}
