@@ -64,8 +64,20 @@ def main() -> None:
             checks["radiomics_t3_mask_false"] &= not bool(np.asarray(target["radiomics_mask"], dtype=bool)[:, 3].any())
     checks["pilot_cell_count_20"] &= completion_count == 20 and state_count == 20
     gate = json.loads((EXPERIMENT_ROOT / "metrics/pilot_gate.json").read_text())
+    mechanism_gate = {
+        "status": "NOT_RUN",
+        "reason": "pilot mechanism gate failed; formal fresh-seed matrix was not authorized",
+        "pilot_gate_status": gate.get("status"),
+        "formal_matrix": "NOT_RUN",
+        "pCR_evaluation": "LOCKED",
+        "outcome_fields_read": [],
+        "clinical_fields_read": [],
+    }
+    atomic_json(EXPERIMENT_ROOT / "mechanism_gate.json", mechanism_gate)
     checks["pilot_gate_recorded"] = gate.get("status") == "FAIL"
+    checks["mechanism_gate_recorded"] = mechanism_gate.get("status") == "NOT_RUN"
     checks["pcr_remains_locked"] = not (EXPERIMENT_ROOT / "EVALUATION_LOCK.json").exists() and not (EXPERIMENT_ROOT / "MECHANISM_LOCK.json").exists()
+    checks["private_sha_summary_recorded"] = (EXPERIMENT_ROOT / "manifests/private_artifact_sha_summary.json").is_file()
     status = "PASS" if all(checks.values()) else "FAIL"
     acceptance = {"status": status, "checks": checks, "counts": {"completion_cells": completion_count, "state_archives": state_count}, "pcr_evaluation": "LOCKED", "private_artifacts": "not included in public manifest"}
     atomic_json(EXPERIMENT_ROOT / "acceptance_check.json", acceptance)

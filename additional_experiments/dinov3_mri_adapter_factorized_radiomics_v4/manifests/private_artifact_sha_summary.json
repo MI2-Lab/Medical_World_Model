@@ -1,0 +1,14 @@
+{
+  "category_counts": {
+    "checkpoints": 60,
+    "features": 20
+  },
+  "contains_patient_identifiers": false,
+  "contains_private_paths": false,
+  "private_artifact_bytes": 281231201,
+  "private_artifact_count": 80,
+  "private_manifest_sha256": "71f4ca4a08941293b9de7b5d2c69d981af4a328df88b83c153024c2ab9852ad0",
+  "private_records_sha256": "36714ee78b01eebbb2b1b326ba5f7858089c5f753e6dcd5d854b14de13ed8a6c",
+  "schema_version": 1,
+  "status": "COMPLETE"
+}
