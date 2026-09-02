@@ -1,0 +1,22 @@
+{
+  "checks": {
+    "all_state_shapes_808_4_192": true,
+    "candidate_inherits_paired_f0_checkpoint": true,
+    "ftv_loss_weight_zero": true,
+    "implementation_version_consistent": true,
+    "pcr_remains_locked": true,
+    "pilot_cell_count_20": true,
+    "pilot_gate_recorded": true,
+    "radiomics_t3_mask_false": true,
+    "runtime_outcome_clinical_sentinels_empty": true,
+    "state_checkpoint_hashes_match_completion": true,
+    "state_patient_sets_match_fold_manifest": true
+  },
+  "counts": {
+    "completion_cells": 20,
+    "state_archives": 20
+  },
+  "pcr_evaluation": "LOCKED",
+  "private_artifacts": "not included in public manifest",
+  "status": "PASS"
+}

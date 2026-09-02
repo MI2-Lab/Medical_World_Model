@@ -1,0 +1,9 @@
+{
+  "clinical_fields_read": [],
+  "ftv_loss_weight": 0.0,
+  "implementation_version": "v4-factorized-20260902-r2",
+  "outcome_fields_read": [],
+  "paired_initialization": "candidate inherited complete paired V4 F0 checkpoint per fold",
+  "pilot_cells": 20,
+  "status": "PASS"
+}

@@ -1,0 +1,28 @@
+{
+  "status": "COMPLETE",
+  "cells": 20,
+  "statuses": {
+    "seed2026_fold0_F0": "COMPLETE",
+    "seed2026_fold0_F005": "COMPLETE",
+    "seed2026_fold0_F010": "COMPLETE",
+    "seed2026_fold0_F025": "COMPLETE",
+    "seed2026_fold1_F0": "COMPLETE",
+    "seed2026_fold1_F005": "COMPLETE",
+    "seed2026_fold1_F010": "COMPLETE",
+    "seed2026_fold1_F025": "COMPLETE",
+    "seed2026_fold2_F0": "COMPLETE",
+    "seed2026_fold2_F005": "COMPLETE",
+    "seed2026_fold2_F010": "COMPLETE",
+    "seed2026_fold2_F025": "COMPLETE",
+    "seed2026_fold3_F0": "COMPLETE",
+    "seed2026_fold3_F005": "COMPLETE",
+    "seed2026_fold3_F010": "COMPLETE",
+    "seed2026_fold3_F025": "COMPLETE",
+    "seed2026_fold4_F0": "COMPLETE",
+    "seed2026_fold4_F005": "COMPLETE",
+    "seed2026_fold4_F010": "COMPLETE",
+    "seed2026_fold4_F025": "COMPLETE"
+  },
+  "clinical_fields_read": [],
+  "outcome_fields_read": []
+}

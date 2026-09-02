@@ -1,0 +1,87 @@
+{
+  "arms": {
+    "F0": {
+      "checks": {},
+      "pass": true,
+      "summary": {
+        "direct": -0.009704084205455227,
+        "ftv_delta": 0.24903058739378253,
+        "ftv_delta_drop_vs_F0": 0.0,
+        "ftv_static": 0.502158870253065,
+        "ftv_static_drop_vs_F0": 0.0,
+        "positive_probe_folds_vs_F0": 0.0,
+        "probe": 0.2369152759795396,
+        "probe_gain_vs_F0": 0.0
+      }
+    },
+    "F005": {
+      "checks": {
+        "direct_abs_ge_0_10": false,
+        "ftv_delta_drop_le_0_02": true,
+        "ftv_static_drop_le_0_02": true,
+        "matched_probe_abs_ge_0_10": true,
+        "matched_probe_gain_ge_0_05": false,
+        "positive_fold_count_ge_4": false
+      },
+      "pass": false,
+      "summary": {
+        "direct": 0.0025149682360466976,
+        "ftv_delta": 0.2500594420056769,
+        "ftv_delta_drop_vs_F0": -0.001028854611894392,
+        "ftv_static": 0.499534172872079,
+        "ftv_static_drop_vs_F0": 0.0026246973809860297,
+        "positive_probe_folds_vs_F0": 3.0,
+        "probe": 0.23818006997239963,
+        "probe_gain_vs_F0": 0.0012647939928600305
+      }
+    },
+    "F010": {
+      "checks": {
+        "direct_abs_ge_0_10": false,
+        "ftv_delta_drop_le_0_02": true,
+        "ftv_static_drop_le_0_02": true,
+        "matched_probe_abs_ge_0_10": true,
+        "matched_probe_gain_ge_0_05": false,
+        "positive_fold_count_ge_4": false
+      },
+      "pass": false,
+      "summary": {
+        "direct": 0.004239486130855999,
+        "ftv_delta": 0.24950196511695993,
+        "ftv_delta_drop_vs_F0": -0.0004713777231774019,
+        "ftv_static": 0.49988483560498176,
+        "ftv_static_drop_vs_F0": 0.0022740346480832896,
+        "positive_probe_folds_vs_F0": 3.0,
+        "probe": 0.23805786957958888,
+        "probe_gain_vs_F0": 0.0011425936000492853
+      }
+    },
+    "F025": {
+      "checks": {
+        "direct_abs_ge_0_10": false,
+        "ftv_delta_drop_le_0_02": true,
+        "ftv_static_drop_le_0_02": true,
+        "matched_probe_abs_ge_0_10": true,
+        "matched_probe_gain_ge_0_05": false,
+        "positive_fold_count_ge_4": false
+      },
+      "pass": false,
+      "summary": {
+        "direct": 0.009830536514243681,
+        "ftv_delta": 0.24725396359251345,
+        "ftv_delta_drop_vs_F0": 0.0017766238012690838,
+        "ftv_static": 0.4993538322392929,
+        "ftv_static_drop_vs_F0": 0.002805038013772132,
+        "positive_probe_folds_vs_F0": 2.0,
+        "probe": 0.23759402590113657,
+        "probe_gain_vs_F0": 0.0006787499215969717
+      }
+    }
+  },
+  "clinical_fields_read": [],
+  "outcome_fields_read": [],
+  "pilot_cells": 20,
+  "representation_only": true,
+  "selected_arm": null,
+  "status": "FAIL"
+}

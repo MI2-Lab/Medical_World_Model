@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "experiment": "dinov3_mri_adapter_factorized_radiomics_v4",
+  "parent": {
+    "v2_commit": "fdf6914e1df6f21bd85ef72de99b818058341d87",
+    "v3_commit": "9f3e5a1",
+    "v2_decision": "GROUNDING_OPTIMIZATION_CONFLICT",
+    "v3_decision": "DIRECT_RAD_WEIGHT_SCREEN_NO_GO"
+  },
+  "environment": {"main_conda_env": "bowen"},
+  "data": {
+    "cohort_patients": 947,
+    "ispy2_fold_patients": 808,
+    "ispy1_train_only_patients": 139,
+    "primary_patients": 375,
+    "visits": ["T0", "T1", "T2", "T3"],
+    "summary_shape": [4, 7, 32, 2304],
+    "jepa_state_shape": [4, 128],
+    "phenotype_state_shape": [4, 64],
+    "full_state_shape": [4, 192]
+  },
+  "model": {
+    "forward_inputs": ["frozen_dinov3_summary"],
+    "dino_backbone_frozen": true,
+    "radiomics_head_input": "observed_phenotype_state",
+    "ftv_loss_weight": 0.0
+  },
+  "objective": {
+    "sigreg_weight": 0.09,
+    "step_weights": [2.0, 1.0, 0.5],
+    "pilot_radiomics_weights": {"F005": 0.05, "F010": 0.10, "F025": 0.25}
+  },
+  "pilot": {
+    "seed": 2026,
+    "arms": ["F0", "F005", "F010", "F025"],
+    "epochs": 8,
+    "patience": 3,
+    "shared_learning_rate": 0.000025,
+    "phenotype_learning_rate": 0.00025,
+    "weight_decay": 0.0001,
+    "batch_size": 32,
+    "gradient_clip": 5.0,
+    "ema": 0.996,
+    "minimum_branch_sd": 0.05,
+    "maximum_jepa_ratio": 1.05
+  },
+  "formal": {
+    "seeds": [7026, 8026, 9026, 10026, 11026],
+    "arms": ["F0", "RAD"],
+    "epochs": 12,
+    "patience": 4,
+    "baseline_learning_rate": 0.00005
+  },
+  "probe": {
+    "radiomics_pcs": 16,
+    "visits": ["T0", "T1", "T2"],
+    "ridge_alphas": [0.1, 1.0, 10.0, 100.0],
+    "fit_scope": "outer_train_plus_validation",
+    "test_scope": "outer_test_only"
+  },
+  "gates": {
+    "absolute_radiomics_spearman": 0.10,
+    "radiomics_probe_gain": 0.05,
+    "positive_fold_count": 4,
+    "maximum_ftv_probe_drop": 0.02
+  },
+  "pcr": {
+    "locked_until": ["EVALUATION_LOCK.json", "MECHANISM_LOCK.json"],
+    "timings": ["T0", "T0-T1", "T0-T2"],
+    "bootstrap_replicates": 2000
+  }
+}

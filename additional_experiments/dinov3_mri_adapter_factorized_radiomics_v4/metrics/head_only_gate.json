@@ -1,0 +1,8 @@
+{
+  "clinical_fields_read": [],
+  "folds": 5,
+  "outcome_fields_read": [],
+  "purpose": "target/state sanity only; not a pCR result",
+  "status": "PASS",
+  "v2_frozen_full_state_pc0_test_spearman_mean": -0.026470588235294135
+}
