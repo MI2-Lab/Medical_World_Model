@@ -1,0 +1,19 @@
+{
+  "conda_explicit_sha256": "f6e956d65cd643072885090556518eb3b9b28cdb47c885920b18471471d25403",
+  "pip_freeze_sha256": "f1e71b7290e05ee2b7a27adec50b17266537d31ccb1eacbde634b4ca7c626526",
+  "prefix_disclosed": false,
+  "pyradiomics": "3.1.0",
+  "python_major_minor": "3.9",
+  "schema_version": 1,
+  "status": "LOCKED",
+  "versions": {
+    "numpy": "1.26.4",
+    "pyradiomics": "v3.1.0",
+    "python": [
+      3,
+      9
+    ],
+    "scipy": "1.13.1",
+    "simpleitk": "2.4.1"
+  }
+}

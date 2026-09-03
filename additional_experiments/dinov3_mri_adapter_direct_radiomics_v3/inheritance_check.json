@@ -1,0 +1,30 @@
+{
+  "clinical_fields_read": [],
+  "dino_contract_sha256": "115277372340ec17fbe361b4696486b5af3d9282036abdc0a7573098a1faf7b5",
+  "dino_ordered_cache_hashes_sha256": "ff6737290765d03c91e048a3c58999d70fad2c57d157eaf137ea236b7753a995",
+  "inherited_public_hashes": {
+    "decision": "91dfb9d0656a205f8a79be965383682947d735555c08f11b45dfae251222d138",
+    "dino_manifest": "56f4cbdf40a61e728596143ad7634c80f8b41cce2f20ed771d071094601162fa",
+    "protocol": "6f654ba32e97d7464e279c0ae42b325bb46d138b733574350c0a9a8d5f9a27f0",
+    "target_feasibility": "26a59a0b40fa1bbbd7f85686e6be5149f9d9d84d726480118f75207c05469e3a"
+  },
+  "outcome_fields_read": [],
+  "pilot_c0_checks": {
+    "0": true,
+    "1": true,
+    "2": true,
+    "3": true,
+    "4": true
+  },
+  "schema_version": 1,
+  "status": "PASS",
+  "target_fold_checks": {
+    "0": true,
+    "1": true,
+    "2": true,
+    "3": true,
+    "4": true
+  },
+  "v2_commit": "fdf6914e1df6f21bd85ef72de99b818058341d87",
+  "v2_decision": "GROUNDING_OPTIMIZATION_CONFLICT"
+}

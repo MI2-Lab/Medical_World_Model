@@ -1,0 +1,24 @@
+{
+  "clinical_fields_read": [],
+  "dinov3_summary_dtype": "float16",
+  "dinov3_summary_finite": true,
+  "dinov3_summary_shape": [
+    4,
+    7,
+    32,
+    2304
+  ],
+  "forbidden_radiomics_features": [],
+  "outcome_fields_read": [],
+  "patient_identity_disclosed": false,
+  "patients": 1,
+  "radiomics_feature_count": 651,
+  "radiomics_shape": [
+    4,
+    3,
+    651
+  ],
+  "roi_valid_visits": 3,
+  "schema_version": 1,
+  "status": "PASS"
+}

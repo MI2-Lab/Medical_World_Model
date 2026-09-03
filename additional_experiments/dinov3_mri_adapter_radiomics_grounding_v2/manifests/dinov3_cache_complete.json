@@ -1,0 +1,17 @@
+{
+  "cache_dtype": "float16",
+  "clinical_fields_read": [],
+  "contract_sha256": "115277372340ec17fbe361b4696486b5af3d9282036abdc0a7573098a1faf7b5",
+  "ordered_cache_hashes_sha256": "ff6737290765d03c91e048a3c58999d70fad2c57d157eaf137ea236b7753a995",
+  "outcome_fields_read": [],
+  "patient_order_sha256": "371b7a3d412fdc8a64254cbd1af96d0b7b1c33bba82f2814be8061fba7b18826",
+  "patients": 947,
+  "schema_version": 1,
+  "status": "COMPLETE",
+  "summary_shape_per_patient": [
+    4,
+    7,
+    32,
+    2304
+  ]
+}

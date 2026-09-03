@@ -1,0 +1,13 @@
+{
+  "cells": 3,
+  "clinical_fields_read": [],
+  "d3_radiomics_head_gradient_positive": true,
+  "epochs": 1,
+  "finite_checkpoints": true,
+  "outcome_fields_read": [],
+  "paired_initialization": true,
+  "schema_version": 1,
+  "selection_metrics_not_used_for_tuning": true,
+  "status": "PASS",
+  "t3_radiomics_mask_false": true
+}

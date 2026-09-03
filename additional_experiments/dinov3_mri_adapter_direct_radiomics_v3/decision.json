@@ -1,0 +1,9 @@
+{
+  "decision_class": "DIRECT_RAD_WEIGHT_SCREEN_NO_GO",
+  "pcr_evaluation_started": false,
+  "pcr_outcomes_read": false,
+  "pilot_gate_status": "NO_GO",
+  "schema_version": 1,
+  "status": "TERMINATED_AT_PILOT_GATE",
+  "termination_reason": "all registered weights failed paired JEPA checkpoint safety"
+}

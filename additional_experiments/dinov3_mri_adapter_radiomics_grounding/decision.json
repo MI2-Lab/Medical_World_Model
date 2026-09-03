@@ -1,0 +1,21 @@
+{
+  "coverage": {
+    "T0": 1.0,
+    "T1": 0.928,
+    "T2": 0.872,
+    "T3": 0.752,
+    "overall": 0.888
+  },
+  "decision_class": "NO_GO",
+  "evaluation_lock_created": false,
+  "failed_gates": [
+    "T2"
+  ],
+  "interpretation": "feasibility NO-GO; not evidence that DINOv3 or radiomics grounding lacks value",
+  "pcr_evaluation_started": false,
+  "pcr_outcomes_read": false,
+  "reason": "preregistered_radiomics_coverage_gate_failed",
+  "representation_matrix_started": false,
+  "schema_version": 1,
+  "status": "TERMINATED_AT_RADIOMICS_STAGE_A"
+}

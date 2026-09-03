@@ -1,0 +1,26 @@
+{
+  "clinical_fields_read": [],
+  "completed_cells_before_stop": 49,
+  "decision_class": "GROUNDING_OPTIMIZATION_CONFLICT",
+  "failed_cell": "seed4026_fold4_D2",
+  "failed_stage": "representation_checkpoint_safety",
+  "failure": {
+    "arm": "D2",
+    "clinical_fields_read": [],
+    "epochs_completed": 12,
+    "fold": 4,
+    "history_sha256": "93e254d2ae9564e23dfd9000b98ef9aa9b41edc63c3ff5856a8a851aefab590e",
+    "maximum_allowed_validation_jepa_loss": 0.05293295927622841,
+    "minimum_observed_state_mean_sd": 0.143921360373497,
+    "minimum_observed_validation_jepa_loss": 0.060563934766802906,
+    "outcome_fields_read": [],
+    "paired_d1_validation_jepa_loss": 0.05041234216783658,
+    "schema_version": 1,
+    "seed": 4026,
+    "status": "NO_FEASIBLE_CHECKPOINT"
+  },
+  "outcome_fields_read": [],
+  "pcr_outcomes_read": false,
+  "schema_version": 1,
+  "status": "NO_GO"
+}

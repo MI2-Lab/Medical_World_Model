@@ -1,0 +1,12 @@
+{
+  "decision_class": "GROUNDING_OPTIMIZATION_CONFLICT",
+  "failed_cell": "seed4026_fold4_D2",
+  "interpretation": "paired checkpoint safety failed after the full epoch budget",
+  "mechanism_evaluation_started": false,
+  "mechanism_lock_created": false,
+  "pcr_evaluation_started": false,
+  "pcr_outcomes_read": false,
+  "representation_cells_completed": 49,
+  "schema_version": 1,
+  "status": "TERMINATED_AT_REPRESENTATION_CHECKPOINT_SAFETY"
+}

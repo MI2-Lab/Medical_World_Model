@@ -1,0 +1,11 @@
+{
+  "decision_class": "GROUNDING_OPTIMIZATION_CONFLICT",
+  "failed_stage": "representation_checkpoint_safety",
+  "mechanism_lock_created": false,
+  "pcr_outcomes_read": false,
+  "privacy_gate": "PASS",
+  "representation_cells_completed": 49,
+  "representation_lock_created": false,
+  "schema_version": 1,
+  "status": "FAIL"
+}

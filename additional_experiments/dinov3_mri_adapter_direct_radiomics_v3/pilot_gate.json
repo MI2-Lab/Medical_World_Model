@@ -1,0 +1,163 @@
+{
+  "baseline_metrics": {
+    "direct_head_radiomics_macro_spearman": -0.005702322909177562,
+    "held_out_patients": 375.0,
+    "matched_probe_delta_ftv_macro_spearman": 0.271904956953768,
+    "matched_probe_radiomics_macro_spearman": 0.28605141955773744,
+    "matched_probe_static_ftv_macro_spearman": 0.4769461258391171,
+    "state_mean_sd": 0.9229961037635803
+  },
+  "candidate_evaluation_status": {
+    "R025": "NOT_EVALUATED_NO_FEASIBLE_CHECKPOINT",
+    "R050": "NOT_EVALUATED_NO_FEASIBLE_CHECKPOINT",
+    "R100": "NOT_EVALUATED_NO_FEASIBLE_CHECKPOINT"
+  },
+  "candidate_gates": {
+    "R025": {
+      "delta_ftv_retained": false,
+      "direct_head_absolute": false,
+      "finite_and_gradient": false,
+      "five_checkpoint_safety": false,
+      "matched_probe_absolute": false,
+      "matched_probe_gain": false,
+      "privacy": true,
+      "state_noncollapse": false,
+      "static_ftv_retained": false
+    },
+    "R050": {
+      "delta_ftv_retained": false,
+      "direct_head_absolute": false,
+      "finite_and_gradient": false,
+      "five_checkpoint_safety": false,
+      "matched_probe_absolute": false,
+      "matched_probe_gain": false,
+      "privacy": true,
+      "state_noncollapse": false,
+      "static_ftv_retained": false
+    },
+    "R100": {
+      "delta_ftv_retained": false,
+      "direct_head_absolute": false,
+      "finite_and_gradient": false,
+      "five_checkpoint_safety": false,
+      "matched_probe_absolute": false,
+      "matched_probe_gain": false,
+      "privacy": true,
+      "state_noncollapse": false,
+      "static_ftv_retained": false
+    }
+  },
+  "candidate_metrics": {
+    "R025": {
+      "radiomics_weight": 0.25,
+      "training_safety": {
+        "checked_cells": 0,
+        "failed_checkpoints": [
+          {
+            "epochs_completed": 8,
+            "excess_over_allowed_fraction": 0.045074833300376316,
+            "fold": 0,
+            "maximum_allowed_jepa_loss": 0.09485066746754095,
+            "minimum_observed_jepa_loss": 0.09912604549206978,
+            "paired_c0_jepa_loss": 0.09033396901670566
+          },
+          {
+            "epochs_completed": 8,
+            "excess_over_allowed_fraction": 0.026861547012566822,
+            "fold": 1,
+            "maximum_allowed_jepa_loss": 0.08440138791218277,
+            "minimum_observed_jepa_loss": 0.08666853976151175,
+            "paired_c0_jepa_loss": 0.08038227420207883
+          }
+        ],
+        "failures": [
+          "fold0:no_feasible_checkpoint",
+          "fold1:no_feasible_checkpoint",
+          "fold2:not_run_after_fail_fast",
+          "fold3:not_run_after_fail_fast",
+          "fold4:not_run_after_fail_fast"
+        ],
+        "minimum_selected_state_mean_sd": null,
+        "status": "FAIL"
+      }
+    },
+    "R050": {
+      "radiomics_weight": 0.5,
+      "training_safety": {
+        "checked_cells": 0,
+        "failed_checkpoints": [
+          {
+            "epochs_completed": 8,
+            "excess_over_allowed_fraction": 0.03642003359238877,
+            "fold": 0,
+            "maximum_allowed_jepa_loss": 0.09485066746754095,
+            "minimum_observed_jepa_loss": 0.09830513196296928,
+            "paired_c0_jepa_loss": 0.09033396901670566
+          },
+          {
+            "epochs_completed": 8,
+            "excess_over_allowed_fraction": 0.018093476109031448,
+            "fold": 1,
+            "maximum_allowed_jepa_loss": 0.08440138791218277,
+            "minimum_observed_jepa_loss": 0.08592850240794095,
+            "paired_c0_jepa_loss": 0.08038227420207883
+          }
+        ],
+        "failures": [
+          "fold0:no_feasible_checkpoint",
+          "fold1:no_feasible_checkpoint",
+          "fold2:not_run_after_fail_fast",
+          "fold3:not_run_after_fail_fast",
+          "fold4:not_run_after_fail_fast"
+        ],
+        "minimum_selected_state_mean_sd": null,
+        "status": "FAIL"
+      }
+    },
+    "R100": {
+      "radiomics_weight": 1.0,
+      "training_safety": {
+        "checked_cells": 0,
+        "failed_checkpoints": [
+          {
+            "epochs_completed": 8,
+            "excess_over_allowed_fraction": 0.022678001034481365,
+            "fold": 0,
+            "maximum_allowed_jepa_loss": 0.09485066746754095,
+            "minimum_observed_jepa_loss": 0.09700169100249109,
+            "paired_c0_jepa_loss": 0.09033396901670566
+          },
+          {
+            "epochs_completed": 8,
+            "excess_over_allowed_fraction": 0.0036860152801350132,
+            "fold": 1,
+            "maximum_allowed_jepa_loss": 0.08440138791218277,
+            "minimum_observed_jepa_loss": 0.08471249271769168,
+            "paired_c0_jepa_loss": 0.08038227420207883
+          }
+        ],
+        "failures": [
+          "fold0:no_feasible_checkpoint",
+          "fold1:no_feasible_checkpoint",
+          "fold2:not_run_after_fail_fast",
+          "fold3:not_run_after_fail_fast",
+          "fold4:not_run_after_fail_fast"
+        ],
+        "minimum_selected_state_mean_sd": null,
+        "status": "FAIL"
+      }
+    }
+  },
+  "clinical_fields_read": [],
+  "outcome_fields_read": [],
+  "privacy": {
+    "failures": [],
+    "files_checked": 16,
+    "status": "PASS"
+  },
+  "schema_version": 1,
+  "selected_arm": null,
+  "selected_candidate_gates": {},
+  "selected_radiomics_weight": null,
+  "status": "NO_GO"
+}

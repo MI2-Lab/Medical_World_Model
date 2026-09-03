@@ -1,0 +1,17 @@
+{
+  "coverage_gates": {
+    "T0": true,
+    "T1": true,
+    "T2": false,
+    "T3": true,
+    "overall": true
+  },
+  "decision_class": "NO_GO",
+  "evaluation_lock_verified": false,
+  "failed_stage": "radiomics_stage_a_coverage",
+  "pcr_outcomes_read": false,
+  "privacy_gate": "PASS",
+  "representation_cells_completed": 0,
+  "schema_version": 1,
+  "status": "FAIL"
+}

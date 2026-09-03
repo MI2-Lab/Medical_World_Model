@@ -1,0 +1,17 @@
+{
+  "clinical_fields_read": [],
+  "fold_gate_sha256": {
+    "0": "6bce4dbfa01df1d41251831534b1228dcdf51dc5527212920f64194b638a57f6",
+    "1": "2ceb7f05063ccfe431d3a942dd3732aa6d13b906b75f05e428143043028450b2",
+    "2": "5260ca64852a9bf3b57698d242a2a6f3f473dc5792743340065685f188d9dcaa",
+    "3": "a8a79c2701d24f531a1b8386a4942b17eb26886611a2e2a680385b4d8cfa522f",
+    "4": "99eeed5b15094938155323447cdd2f0ff3aca3f56ea6f28c9d84d28da0326dce"
+  },
+  "folds": 5,
+  "maximum_selected_features": 64,
+  "minimum_selected_features": 64,
+  "outcome_fields_read": [],
+  "schema_version": 1,
+  "status": "PASS",
+  "t3_radiomics_mask_false": true
+}

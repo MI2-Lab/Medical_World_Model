@@ -1,0 +1,27 @@
+{
+  "cache_file_count": 947,
+  "clinical_labels_read": 0,
+  "feature_map_contract": [
+    128,
+    14,
+    22,
+    20
+  ],
+  "image_shape": [
+    4,
+    7,
+    112,
+    176,
+    160
+  ],
+  "pcr_labels_read": 0,
+  "raw_images_read": 1,
+  "status": "PASS",
+  "valid_source_mask_shape": [
+    4,
+    1,
+    112,
+    176,
+    160
+  ]
+}
