@@ -1,0 +1,141 @@
+{
+  "clinical_fields_read_before_lock": [],
+  "exploratory_not_confirmatory": true,
+  "implementation": {
+    "scripts/evaluate_exploratory_pcr.py": "b5ad29bffadaadd51a6aea4d6588ebb10eb92cb47bed17f7c2f7b7c880ea8d22",
+    "scripts/run_stage_a_lock.py": "45a6f6f6ed35b9892c8407942537986cf6c1f16c9ef160a87d95a302c8712442",
+    "src/dinov3_rg/__init__.py": "4cf365f05685adef2bcd42927430d2dc94e936fd9dd826eaaa1e04b8cee5b33f",
+    "src/dinov3_rg/cache_io.py": "1f791c9154f9b717bc96cf8898ffddeb9c50d5fcfb9e9b48089096b8a33f4102",
+    "src/dinov3_rg/contracts.py": "89284c6bc84a0566a321fe0941f20008d8fd2fd655ebfff5e2c0ec2abcc07a74",
+    "src/dinov3_rg/data.py": "c59af98791a116904f2b17dece00eb1f6038a65bda7222048686120ed2120ea0",
+    "src/dinov3_rg/decision.py": "15cb821878c666f631692130d23417d33b9e2f1694bfc7d13299016365c2d6ff",
+    "src/dinov3_rg/evaluation.py": "27bbd4e683c293a288b30b05e1f7c92ab7d1e83a5e4eb957e136468e84a86d4c",
+    "src/dinov3_rg/locking.py": "e9647e094aefb11b3fca4071a78c6b1ac6830f9355d07fd814bb1cf26b157b52",
+    "src/dinov3_rg/mechanism.py": "280b1fe0647bf9322bfec80d90e153dc7d28ccd5b2b417294a54d5fe0013e66c",
+    "src/dinov3_rg/model.py": "ba5ee605aa451c54730fdf5d193d90e3206beab7bf6f3e6598731d32012edc77",
+    "src/dinov3_rg/objective.py": "d0e4d9b56950b65377138f393e75f1d74dd63855406d1ff2e7d257ee5e6b625b",
+    "src/dinov3_rg/probes.py": "895916c1ab914be0eb55d3d63b24f29b5e1780fefdf3b206669ed04d53291b91",
+    "src/dinov3_rg/security.py": "5007f2a350a76ad2a4bf0a761a1363693e2f5b3e441634f78937cf516009c27f",
+    "src/dinov3_rg/training.py": "5dc77dab8858f8e16a3f420bbc0ff20903a587a1856bd4d53022d62f086769c9"
+  },
+  "implementation_sha256": "e573f47ae23b050c41b6624ba5225382f4a6e5ac3a77de8d6c52163139f0ae7a",
+  "lock_content_sha256": "7e40937c97ae77648a3ee647ae85296f03c7b740b919f82f6a2693b548076c55",
+  "morphology_gate": "secondary_diagnostic_only",
+  "outcome_fields_read_before_lock": [],
+  "pcr_read_authorized": true,
+  "schema_version": 1,
+  "scope": "V6 seed-2026 state rescue only",
+  "state_file_count": 10,
+  "state_files": [
+    {
+      "arm": "S0_SUMMARY",
+      "fold": 0,
+      "sha256": "c39a9afc72904ff843411dd82b13ec82f1b36bcc6830d81d0d10c758cb7f8d01"
+    },
+    {
+      "arm": "S0_SUMMARY",
+      "fold": 1,
+      "sha256": "0e7f15601914a5eca7d0cb19cbf773c95369ad80f3427429a019301758da6475"
+    },
+    {
+      "arm": "S0_SUMMARY",
+      "fold": 2,
+      "sha256": "b83e1ab5145a77920b38655c2de87ce516ed5e96530dd2d3ee24a155a863a84e"
+    },
+    {
+      "arm": "S0_SUMMARY",
+      "fold": 3,
+      "sha256": "66e88a6b0d8373ea1074aa8b903284d98fb46148085ec39f9ed24f727b00ed5a"
+    },
+    {
+      "arm": "S0_SUMMARY",
+      "fold": 4,
+      "sha256": "02eda5b512027c9bb866a4cb09a859152906a74ad8ba1b32b9e151fcae2eca91"
+    },
+    {
+      "arm": "S1_SPATIAL",
+      "fold": 0,
+      "sha256": "8cefcf4b65223bda3faea2ad24fc0d368b27457e432a55df4035863c56e1b1eb"
+    },
+    {
+      "arm": "S1_SPATIAL",
+      "fold": 1,
+      "sha256": "fa234a923277f165a688f8018ab0d9cc647eb41f83f490405a49b991ce14633c"
+    },
+    {
+      "arm": "S1_SPATIAL",
+      "fold": 2,
+      "sha256": "9365f9ed008b3ef1c246bde87987daeac0d86e0aea88dbe394af0ba6171cbd8b"
+    },
+    {
+      "arm": "S1_SPATIAL",
+      "fold": 3,
+      "sha256": "63c729d53d5d3e73d7cc66d07fb27db7cb01c583feb9eca4de58d924cbe58e60"
+    },
+    {
+      "arm": "S1_SPATIAL",
+      "fold": 4,
+      "sha256": "a99a6e69e5297f0ebfc9d227b55e5fd5a3e810996a6960e17bcaf5ad1c44a981"
+    }
+  ],
+  "status": "LOCKED_FOR_EXPLORATORY_PCR",
+  "target_files": [
+    {
+      "fold": 0,
+      "sha256": "b16d2ff372d57d492b92378212f90e2d5f61d700e760e48ebcf639a9ac6324a3",
+      "shape": [
+        375,
+        4,
+        12
+      ],
+      "t3_mask_false": true
+    },
+    {
+      "fold": 1,
+      "sha256": "e29599f099eafbc9a46c7a8db3b7cd7daea43d874aeff56bbc3dc911ff89bbc2",
+      "shape": [
+        375,
+        4,
+        12
+      ],
+      "t3_mask_false": true
+    },
+    {
+      "fold": 2,
+      "sha256": "bcfa1fb41760a5e8b6718496ebc0dbb9e91c6571c7162699bbc292304a551c5c",
+      "shape": [
+        375,
+        4,
+        12
+      ],
+      "t3_mask_false": true
+    },
+    {
+      "fold": 3,
+      "sha256": "84c42b81d503437b685072cb0000ce0a60eca11a0083fa97355192f650dda029",
+      "shape": [
+        375,
+        4,
+        12
+      ],
+      "t3_mask_false": true
+    },
+    {
+      "fold": 4,
+      "sha256": "9b427908ebec6c495a34abc8d6601d2371fd9356c76371b14ff0400d4ce7db67",
+      "shape": [
+        375,
+        4,
+        12
+      ],
+      "t3_mask_false": true
+    }
+  ],
+  "three_family_target": [
+    "INTENSITY_PC4",
+    "KINETIC_PC4",
+    "TEXTURE_PC4"
+  ],
+  "v6_cache_contract_sha256": "49491430ff7c51bdca387c31a5553c8d37b45b7ad1985cdb51294124ccc3be3c",
+  "v6_parent_commit": "8ce036e"
+}

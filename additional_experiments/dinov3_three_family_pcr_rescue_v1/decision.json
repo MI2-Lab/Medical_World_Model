@@ -1,0 +1,21 @@
+{
+  "clinical_fields_read_after_lock": [
+    "label_hr",
+    "label_her2",
+    "label_mp",
+    "age_at_screening",
+    "race_simple",
+    "menopausal_status_simple",
+    "ethnicity",
+    "arm"
+  ],
+  "decision": "DINO_SPATIAL_NO_CONDITIONAL_PCR_SIGNAL",
+  "formal_matrix": "NOT_STARTED",
+  "morphology_gate": "NOT_APPLICABLE_SECONDARY_ONLY",
+  "next_action": "Do not run another morphology audit or formal matrix; pivot to a different representation strategy.",
+  "outcome_fields_read_after_lock": [
+    "label_pcr"
+  ],
+  "pcr_evaluation": "COMPLETED_EXPLORATORY_ONLY",
+  "stage": "EXPLORATORY_PCR"
+}

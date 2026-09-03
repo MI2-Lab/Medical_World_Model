@@ -1,0 +1,7 @@
+cache/
+checkpoints/
+features/private/
+predictions/*.private.*
+metrics/*.private.*
+__pycache__/
+src/**/__pycache__/
