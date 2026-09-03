@@ -1,0 +1,26 @@
+{
+  "branch": "feature/residual-sph-grounding-pilot",
+  "delivery_evidence_sha256": {
+    "PREREGISTRATION_LOCK.json": "740d2382e4c96dfacf0cf331b195ceceb91d20391e1e85dc72b274603e32a37b",
+    "manifests/implementation_lock.json": "8326566de81ded4356b8574df51734d91df97b7e6e0902e2db48b3cd91c7f647",
+    "manifests/residualizer_inventory.json": "5f59594bb6bec7a9a247cdf5d282769cd2ad20273eacf8936dbd76cafd710d03",
+    "manifests/s0_confirmation_provenance.json": "fb1fbe9d620e3ac3afe40291bee99975478bdf4ccfb7b8ad4f227f323cb94704",
+    "metrics/decision.json": "f89daee6fec3e69f5f460dacf94eafc1971d7fc050cc136136e72145beda47f1",
+    "metrics/execution_status.json": "264b2f6c0778a9388fc71b3617e40883b4f986f4b411442faddbb7cfcbcc2c88"
+  },
+  "delivery_manifest_commit_note": "This manifest is committed separately because a Git commit cannot contain its own SHA; implementation_commit_sha is the required science/code commit.",
+  "experiment": "residual_sph_grounding_pilot",
+  "force_push_used": false,
+  "implementation_commit_sha": "089cfd78c522ffedba97ba0a88ea5dd281996cd3",
+  "implementation_lock_sha256": "8326566de81ded4356b8574df51734d91df97b7e6e0902e2db48b3cd91c7f647",
+  "patient_identifiers_persisted": false,
+  "preregistration_lock_sha256": "740d2382e4c96dfacf0cf331b195ceceb91d20391e1e85dc72b274603e32a37b",
+  "privacy_gate_regeneration_required_after_manifest_creation": true,
+  "push_command": "git push -u origin feature/residual-sph-grounding-pilot",
+  "push_status": "PASS",
+  "remote_branch_sha_after_push": "089cfd78c522ffedba97ba0a88ea5dd281996cd3",
+  "required_commit_message": "Add residual SPH grounding pilot",
+  "schema_version": 1,
+  "starting_head": "7644e3835af6b12899c57819bedd1876572c434f",
+  "status": "DELIVERY_RECORDED"
+}

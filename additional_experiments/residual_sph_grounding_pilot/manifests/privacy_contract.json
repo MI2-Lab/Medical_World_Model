@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "experiment": "residual_sph_grounding_pilot",
+  "default_policy": "fail_closed",
+  "identifier_policy": {
+    "patient_identifier_is_model_feature": false,
+    "patient_identifier_is_public_output": false,
+    "identifiers_may_exist_in_private_runtime_artifacts": true,
+    "allowed_identifier_uses": [
+      "canonical join",
+      "outer-fold assignment",
+      "private OOF alignment",
+      "paired patient bootstrap"
+    ]
+  },
+  "public_artifacts": {
+    "allowed": [
+      "aggregate endpoint metrics",
+      "seed-level aggregate effects",
+      "fold-level optimization losses without row data",
+      "fold-and-visit transform parameters",
+      "fold-and-visit residualizer coefficients",
+      "paired bootstrap aggregate intervals",
+      "figures",
+      "reports",
+      "decision labels",
+      "file hashes and non-sensitive provenance"
+    ],
+    "minimum_cell_policy": "do not publish a subgroup or resample cell that reveals an individual",
+    "path_policy": "public JSON may contain repository-relative paths or runtime aliases, never private absolute filesystem paths"
+  },
+  "private_artifacts": {
+    "required": [
+      "patient-level fold membership",
+      "patient-level predictions",
+      "patient-level response features",
+      "checkpoints",
+      "image paths",
+      "join diagnostics containing identifiers",
+      "logs containing row-level values"
+    ],
+    "filename_marker": ".private.",
+    "file_mode": "0600_where_supported",
+    "directories": [
+      "checkpoints",
+      "features",
+      "predictions"
+    ]
+  },
+  "forbidden_commit_content": [
+    "raw MRI",
+    "source workbook",
+    "patient identifiers",
+    "patient-level split membership",
+    "patient-level predictions",
+    "patient-level feature tensors",
+    "checkpoints",
+    "absolute private filesystem paths"
+  ],
+  "precommit_audit": {
+    "required": true,
+    "checks": [
+      "git diff and staged-file inventory",
+      "identifier-column and identifier-pattern scan",
+      "private filename scan",
+      "checkpoint and tensor extension scan",
+      "absolute private path scan",
+      "raw workbook and image extension scan"
+    ],
+    "failure_action": "stop delivery and remove the artifact from the public commit without deleting the private source"
+  },
+  "pcr_firewall": {
+    "representation_phase_can_read_pcr": false,
+    "representation_phase_can_read_clinical_or_treatment_fields": false,
+    "post_freeze_phase_can_read_pcr": true,
+    "post_freeze_outputs_remain_subject_to_patient_level_privacy": true
+  }
+}

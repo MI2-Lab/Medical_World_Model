@@ -1,0 +1,471 @@
+{
+  "schema_version": 1,
+  "experiment": "residual_sph_grounding_pilot",
+  "branch": "feature/residual-sph-grounding-pilot",
+  "evidence_status": "new_exploratory_two_seed_pilot",
+  "scientific_question": "Does fold-safe FTV-residual SPH supervision organize the confirmed LOCAL response state toward non-volume morphology and improve complementarity while preserving its FTV and observed-delta-FTV behavior?",
+  "terminology": {
+    "SPH": "non-volume morphological measurement",
+    "SPH_res": "FTV-independent morphological component within the frozen linear residualization convention",
+    "forbidden_claims": [
+      "molecular phenotype",
+      "biological subtype",
+      "treatment mechanism",
+      "causal independence from FTV"
+    ]
+  },
+  "runtime_inputs": {
+    "stage_a_sentinel": {
+      "locator": "runtime://stage_a_sentinel",
+      "sha256": "0b2c9e0af63ce8806525fb15ac9a27f6ab525b0259ccf16001981ca5091afbdb"
+    },
+    "stage_b_data_contract": {
+      "locator": "runtime://stage_b_data_contract",
+      "sha256": "dd22f130043863d4fce8956061fca389894a31874567ed7929e139f32ff5ab27"
+    },
+    "outer_fold_manifest": {
+      "locator": "runtime://seed2026_outer_fold_manifest",
+      "sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38"
+    },
+    "ftv_sph_transition_table": {
+      "locator": "runtime://ftv_sph_transition_table",
+      "sha256": "26fbde8590fde4612267f02d762af99d65926ff6d0206d0e500577ef394ff75d"
+    },
+    "clinical_labels_post_freeze_only": {
+      "locator": "runtime://clinical_labels",
+      "sha256": "b3355f8ac80cf8f0fa95722b8d8a8b73d96790e9ded5c491ddb5b2e6a7793436"
+    },
+    "confirmed_s0_checkpoints": {
+      "locator": "runtime://confirmed_local3_checkpoints",
+      "required_artifact_manifest": "manifests/s0_confirmation_provenance.json",
+      "resolution": "fail_closed_until_each_seed_fold_checkpoint_hash_and_metadata_match"
+    },
+    "confirmed_s0_features": {
+      "locator": "runtime://confirmed_local3_features",
+      "required_artifact_manifest": "manifests/s0_confirmation_provenance.json",
+      "resolution": "fail_closed_until_each_seed_fold_feature_hash_and_metadata_match"
+    }
+  },
+  "population": {
+    "cohort": "C1B-H",
+    "input": "DCE7",
+    "technical_eligibility_universe": 947,
+    "primary_complete_case_patients": 375,
+    "visits": [
+      "T0",
+      "T1",
+      "T2",
+      "T3"
+    ],
+    "outer_folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "fold_contract": "reuse exact seed-2026 patient folds without refill or movement",
+    "broader_training_contract": "reuse the frozen Stage-B fold-specific JEPA construction, including the fixed external-train-only candidate union",
+    "external_train_only_patient_union": 139,
+    "endpoint_masking": "SPH losses and SPH endpoints are restricted to valid observations in the 375-person complete-case population; patients without SPH remain eligible for the frozen JEPA objective and any separately valid frozen FTV objective"
+  },
+  "model": {
+    "input_tensor": "float32 [B,4,7,112,176,160]",
+    "shape_zyx": [
+      112,
+      176,
+      160
+    ],
+    "spacing_xyz_mm": [
+      0.9,
+      0.9,
+      2.0
+    ],
+    "encoder": "frozen confirmed 3D encoder architecture",
+    "local_support_mm_xyz": [
+      64,
+      64,
+      64
+    ],
+    "pooling": "fixed fractional-overlap LOCAL pooling at the C1B-H crop center",
+    "response_state": "online pre-projector LOCAL response state [B,4,192]",
+    "target_encoder": "EMA",
+    "transition_conditioning": "image_only",
+    "transition_input_fields": [
+      "image_state"
+    ],
+    "forbidden_model_inputs": [
+      "lesion_mask",
+      "FTV",
+      "SPH",
+      "SPH_res",
+      "pCR",
+      "HR",
+      "HER2",
+      "clinical_covariates",
+      "treatment_arm"
+    ],
+    "forbidden_changes": [
+      "input_geometry_redesign",
+      "encoder_replacement",
+      "lesion_mask_readout",
+      "adaptive_or_learned_spatial_pooling",
+      "LOCAL_GLOBAL_or_global_branch",
+      "deep_SPH_specific_MLP"
+    ]
+  },
+  "sph_target": {
+    "fields": [
+      "SPHERICITY_T0",
+      "SPHERICITY_T1",
+      "SPHERICITY_T2",
+      "SPHERICITY_T3"
+    ],
+    "definition": "surface area of an equal-volume sphere divided by the surface area of the three-dimensional FTV tumor mask",
+    "units": "dimensionless",
+    "supervision": "same-visit static only",
+    "head": "one shared Linear(192,1) head applied independently to response_state_t",
+    "loss": {
+      "name": "Huber",
+      "delta": 1.0,
+      "space": "outer-train target-standardized units",
+      "mask": "same-visit SPH measurement valid and member of the 375-person complete-case estimand"
+    },
+    "all_four_visit_supervision_status": "new_exploratory_extrapolation_beyond_prior_T0_Z4_evidence",
+    "primary_gate_timing": "T0",
+    "forbidden_supervision": [
+      "delta_SPH",
+      "percent_change_SPH",
+      "future_SPH",
+      "T0_to_T1_SPH_change"
+    ]
+  },
+  "fold_safe_target_transform": {
+    "fit_scope": "each outer-fold training partition only, separately at each visit",
+    "winsor_quantiles": [
+      0.01,
+      0.99
+    ],
+    "FTV_family_transform": "log1p after train-fitted winsorization",
+    "SPH_family_transform": "identity after train-fitted winsorization",
+    "initial_scaling": "separate train mean and population standard deviation for transformed FTV and transformed SPH",
+    "residualizer": {
+      "model": "Ridge",
+      "alpha": 1.0,
+      "fit_intercept": true,
+      "formula": "epsilon_t = SPH_standardized_t - Ridge_train_t(FTV_standardized_t)",
+      "fit_for_each": "outer_fold_x_visit",
+      "forbidden_fit_data": [
+        "validation_patients",
+        "test_patients",
+        "pCR",
+        "HR",
+        "HER2"
+      ]
+    },
+    "raw_target_S1": "train-standardized winsorized identity SPH",
+    "residual_target_S2": "epsilon standardized again by its outer-train mean and population standard deviation",
+    "natural_raw_subtraction_forbidden": true,
+    "application": "apply only the train-fitted winsor limits, transforms, scalers, ridge coefficients, and residual scaler to validation and test",
+    "storage": "one public coefficient-and-transform record per fold and visit, without patient-level values",
+    "reconstruction": "combine predicted epsilon with the train-fitted conditional SPH component from observed FTV, then invert the train-fitted SPH scaler/identity transform"
+  },
+  "arms": {
+    "S0": {
+      "label": "confirmed_LOCAL3_reference",
+      "objective": "L_JEPA + 0.25 * L_FTV + existing_regularization",
+      "lambda_sph": 0.0,
+      "training": "reuse hash-verified confirmed LOCAL3 artifacts; do not silently substitute an unverified workspace file"
+    },
+    "S1": {
+      "label": "raw_SPH_grounding_control",
+      "objective": "L_JEPA + 0.25 * L_FTV + 0.05 * L_SPH + existing_regularization",
+      "lambda_sph": 0.05,
+      "target": "raw_target_S1",
+      "role": "secondary_mechanistic_control"
+    },
+    "S2": {
+      "label": "residual_SPH_grounding_primary",
+      "objective": "L_JEPA + 0.25 * L_FTV + 0.05 * L_SPH_res + existing_regularization",
+      "lambda_sph": 0.05,
+      "target": "residual_target_S2",
+      "role": "primary_candidate"
+    },
+    "S2_L10": {
+      "label": "residual_SPH_grounding_sensitivity",
+      "objective": "L_JEPA + 0.25 * L_FTV + 0.10 * L_SPH_res + existing_regularization",
+      "lambda_sph": 0.1,
+      "target": "residual_target_S2",
+      "role": "single_preregistered_descriptive_sensitivity_only"
+    }
+  },
+  "training": {
+    "seed_bases": [
+      2026,
+      3026
+    ],
+    "effective_seed": "seed_base + fold",
+    "folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "new_primary_cells": 20,
+    "new_sensitivity_cells": 10,
+    "s0_reference_cells": 10,
+    "paired_shared_initialization": true,
+    "paired_patient_order_and_random_stream": true,
+    "lambda_ftv": 0.25,
+    "sigreg_weight": 0.09,
+    "step_weights": [
+      2.0,
+      1.0,
+      0.5
+    ],
+    "optimizer": "AdamW",
+    "learning_rate": 0.00005,
+    "weight_decay": 0.0001,
+    "physical_batch_size": 4,
+    "accumulation_steps": 8,
+    "logical_batch_size": 32,
+    "sigreg": "one exact nonlinear logical-B32 reduction with its exact surrogate gradient",
+    "per_logical_batch": [
+      "one_gradient_clip",
+      "one_AdamW_step",
+      "one_EMA_update"
+    ],
+    "epochs": 12,
+    "patience": 4,
+    "ema_momentum": 0.996,
+    "max_grad_norm": 5.0,
+    "min_representation_std": 0.05,
+    "workers": 2,
+    "pcr_read": false,
+    "clinical_or_treatment_read": false
+  },
+  "checkpoint_selection": {
+    "paired_reference": "the hash-verified selected S0 checkpoint for the same seed and fold",
+    "eligible_epoch": "all monitored quantities finite, representation noncollapsed, and validation state loss <= 1.05 times the paired selected S0 validation state loss",
+    "primary_choice": "among eligible epochs, minimize validation FTV loss",
+    "tie_break": [
+      "minimum_validation_state_loss",
+      "earliest_epoch"
+    ],
+    "fallback": "if no epoch is eligible, minimize positive state-gate violation, then validation FTV loss, then validation state loss, then earliest epoch; mark the cell failed",
+    "SPH_validation_loss_used_for_selection": false,
+    "forbidden_selection_inputs": [
+      "validation_SPH_loss",
+      "test_FTV",
+      "test_SPH",
+      "delta_FTV",
+      "delta_SPH",
+      "pCR",
+      "HR",
+      "HER2",
+      "clinical_covariates",
+      "treatment_arm"
+    ],
+    "rationale": "strict compatibility with the confirmed response-state selection rule; SPH is an optimization auxiliary and cannot choose its own checkpoint"
+  },
+  "representation_probes": {
+    "feature": "selected frozen online pre-projector LOCAL response state [N,4,192]",
+    "model": "Ridge",
+    "alphas": [
+      0.0001,
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0,
+      1000.0
+    ],
+    "feature_scaler": "outer-train StandardScaler",
+    "alpha_selection": "minimum validation target-space MSE with smaller-alpha tie break",
+    "refit_after_validation": false,
+    "test_predict_calls": 1,
+    "five_fold_aggregation": "pool held-out OOF predictions within each training seed before endpoint metrics",
+    "independent_unit": "training_seed",
+    "static_FTV": {
+      "endpoints": [
+        "T0",
+        "T1",
+        "T2",
+        "T3",
+        "macro"
+      ],
+      "metrics": [
+        "Spearman",
+        "Pearson",
+        "natural_R2",
+        "RMSE",
+        "MAE",
+        "prediction_target_variance_ratio"
+      ]
+    },
+    "observed_delta_FTV": {
+      "definition": "literal natural FTV_end - FTV_start from response_state_end - response_state_start",
+      "intervals": [
+        "T0_to_T1",
+        "T1_to_T2",
+        "T2_to_T3",
+        "macro"
+      ],
+      "metrics": [
+        "Spearman",
+        "Pearson",
+        "natural_R2",
+        "RMSE",
+        "MAE",
+        "prediction_target_variance_ratio"
+      ]
+    },
+    "SPH": {
+      "targets": [
+        "raw_SPH",
+        "SPH_res"
+      ],
+      "endpoints": [
+        "T0",
+        "T1",
+        "T2",
+        "T3"
+      ],
+      "metrics": [
+        "Spearman",
+        "Pearson",
+        "residual_space_R2",
+        "reconstructed_target_R2",
+        "RMSE",
+        "MAE",
+        "seed_consistency"
+      ],
+      "primary_endpoint": "T0 SPH_res Spearman"
+    },
+    "redundancy_diagnostics": [
+      "FTV_to_state_decodability",
+      "SPH_to_state_decodability",
+      "SPH_res_to_state_decodability",
+      "partial_correlation_of_state_derived_SPH_with_target_SPH_controlling_FTV"
+    ]
+  },
+  "pcr_firewall": {
+    "representation_phase": "must not import, read, join, log, select on, or otherwise access pCR or clinical labels",
+    "freeze_requirement": "all checkpoints, target transforms, residualizers, response-state exports, and representation-probe specifications must be immutable and hash-manifested before pCR evaluation",
+    "post_freeze_models": [
+      "M",
+      "C",
+      "C+M",
+      "C+F",
+      "C+F+M"
+    ],
+    "timings": [
+      "T0",
+      "T0_to_T1",
+      "T0_to_T2",
+      "T0_to_T3"
+    ],
+    "clinical_contract": {
+      "name": "C2_full_with_treatment",
+      "fields": [
+        "HR",
+        "HER2",
+        "MP",
+        "age_at_screening",
+        "race",
+        "menopausal_status",
+        "ethnicity",
+        "assigned_treatment_arm"
+      ],
+      "use": "post-freeze logistic evaluation only"
+    },
+    "logistic": {
+      "feature_preprocessing": "outer-train StandardScaler and fold-safe categorical encoding",
+      "penalty": "l2",
+      "solver": "liblinear",
+      "C_grid": [
+        0.0001,
+        0.001,
+        0.01,
+        0.1,
+        1.0,
+        10.0,
+        100.0
+      ],
+      "selection": "maximum validation AUROC with smaller-C tie break",
+      "refit_after_validation": false,
+      "outer_test_once": true
+    },
+    "paired_bootstrap": {
+      "unit": "patient",
+      "stratify_by": "outer_fold",
+      "replicates": 2000,
+      "confidence_level": 0.95,
+      "seed": 260811
+    },
+    "pcr_may_choose_arm_or_lambda": false
+  },
+  "paired_comparisons": {
+    "E1": "S2 - S0 static FTV macro Spearman",
+    "E2": "S2 - S0 observed delta FTV macro Spearman",
+    "E3": "S2 - S0 T0 SPH_res Spearman",
+    "E4": "S2 - S1 T0 SPH_res Spearman",
+    "E5": "S2 - S0 MRI-only pCR AUROC at each frozen timing",
+    "E6": "C+F+M_S2 - C+F, compared with C+F+M_S0 - C+F"
+  },
+  "gates": {
+    "A_RESPONSE_SAFETY": {
+      "static_requirement": "E1 >= -0.03 in each seed",
+      "delta_systematic_degradation_definition": "both seed-level E2 effects are strictly negative",
+      "delta_requirement": "the systematic-degradation definition is false",
+      "optimization_safety": "at least 9 of 10 S2 lambda=0.05 seed-by-fold cells satisfy the registered state-loss rule without fallback",
+      "pass_label": "RESPONSE_STATE_PRESERVED"
+    },
+    "B_RESIDUAL_SPH_ORGANIZATION": {
+      "endpoint": "T0 SPH_res Spearman",
+      "minimum_pass": "E3 > 0 in each seed and mean(E3) >= 0.05",
+      "strong_form": "minimum pass holds and mean(E3) >= 0.10",
+      "pass_label": "RESIDUAL_SPH_GROUNDING_WORKS"
+    },
+    "C_RESIDUAL_BENEFIT_OVER_RAW": {
+      "requirement": "E4 > 0 in each seed",
+      "pass_label": "RESIDUAL_TARGET_IS_PREFERABLE"
+    },
+    "D_DOWNSTREAM_COMPLEMENTARITY": {
+      "eligible_timings": [
+        "T0",
+        "T0_to_T1",
+        "T0_to_T2"
+      ],
+      "minimum_pass": "at least one same eligible timing has C+F+M_S2 - C+F > 0 in each seed",
+      "strong_form": "minimum pass holds and the two-seed mean delta AUROC at a qualifying timing is >= 0.03",
+      "selection_effect": "downstream_only_and_never_retroactive",
+      "pass_label": "SPH_GROUNDED_STATE_ADDS_BEYOND_FTV"
+    }
+  },
+  "classification": {
+    "precedence": [
+      "if Gate A or Gate B fails: SPH_GROUNDING_NOT_USEFUL",
+      "else if Gate C fails: RAW_SPH_SUFFICIENT",
+      "else if Gate D fails: MORPHOLOGY_ORGANIZED_BUT_NO_PCR_COMPLEMENTARITY",
+      "else: RESIDUAL_SPH_GROUNDING_VALIDATED and RESIDUAL_SPH_COMPLEMENTARITY_SUPPORTED"
+    ],
+    "five_seed_confirmation_authorized_only_if": "Gates A, B, and C pass; Gate D separately determines complementarity support",
+    "lambda_0_10_may_change_primary_classification": false,
+    "burden_redundant_rule": "if raw SPH improves but SPH_res does not, classify the improvement as burden-redundant"
+  },
+  "privacy": {
+    "public_outputs": "aggregate metrics, fold-level transform/residualizer coefficients without patient rows, figures, reports, hashes, and decision labels",
+    "private_outputs": "patient-level memberships, identifiers, predictions, feature tensors, image paths, checkpoints, and logs containing row-level data",
+    "forbidden_git_content": [
+      "raw_MRI",
+      "source_workbook",
+      "patient_identifiers",
+      "patient_level_predictions",
+      "feature_tensors",
+      "checkpoints"
+    ]
+  }
+}

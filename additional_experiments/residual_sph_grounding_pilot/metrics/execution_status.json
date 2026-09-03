@@ -1,0 +1,33 @@
+{
+  "classification_assigned": false,
+  "experiment": "residual_sph_grounding_pilot",
+  "formal_new_training_cells_completed": 0,
+  "formal_new_training_cells_required": 30,
+  "gpu_snapshot": [
+    {
+      "device": 0,
+      "free_mib": 13830,
+      "total_mib": 97887,
+      "used_mib": 83419
+    },
+    {
+      "device": 1,
+      "free_mib": 3230,
+      "total_mib": 97887,
+      "used_mib": 94019
+    },
+    {
+      "device": 2,
+      "free_mib": 10029,
+      "total_mib": 97887,
+      "used_mib": 87217
+    }
+  ],
+  "minimum_free_mib_required_by_runner": 60000,
+  "observed_at_utc": "2026-08-12T18:25:35.322375+00:00",
+  "pre_existing_processes_terminated": false,
+  "reason": "Every requested CUDA device was below the preregistered free-memory threshold; launching LOCAL 3-D training would risk contention.",
+  "schema_version": 1,
+  "scientific_gates_evaluated": false,
+  "status": "FORMAL_EXECUTION_NOT_STARTED_RESOURCE_GUARD"
+}

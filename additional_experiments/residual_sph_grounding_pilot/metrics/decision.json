@@ -1,0 +1,16 @@
+{
+  "classification": "NOT_ASSIGNED",
+  "decision_is_scientific_result": false,
+  "experiment": "residual_sph_grounding_pilot",
+  "five_seed_confirmation_justified": "NOT_EVALUATED",
+  "gates": {
+    "A_RESPONSE_SAFETY": "NOT_EVALUATED",
+    "B_RESIDUAL_SPH_ORGANIZATION": "NOT_EVALUATED",
+    "C_RESIDUAL_BENEFIT_OVER_RAW": "NOT_EVALUATED",
+    "D_DOWNSTREAM_COMPLEMENTARITY": "NOT_EVALUATED"
+  },
+  "next_authorized_step": "Run the frozen matrix unchanged when one or more requested GPUs meet the threshold; do not read pCR until representation_freeze.json exists.",
+  "reason": "The frozen implementation is ready, but 0/30 new training cells ran because no CUDA device met the safe free-memory threshold.",
+  "schema_version": 1,
+  "status": "FORMAL_EXECUTION_NOT_STARTED_RESOURCE_GUARD"
+}
