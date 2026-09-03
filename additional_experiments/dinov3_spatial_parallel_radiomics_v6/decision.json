@@ -1,0 +1,11 @@
+{
+  "decision": "NO_GO",
+  "stage": "PILOT",
+  "failure_reason": "MORPHOLOGY_SPATIAL_GAIN_GATE_FAILED",
+  "pilot_gate": "FAIL",
+  "formal_matrix": "NOT_STARTED",
+  "pCR_evaluation": "LOCKED",
+  "headline_interpretation": "S1 spatial branch transfers aggregate radiomics signal, but the preregistered morphology-specific spatial increment is not established.",
+  "outcome_fields_read": [],
+  "clinical_fields_read": []
+}

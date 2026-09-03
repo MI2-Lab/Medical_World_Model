@@ -1,0 +1,15 @@
+{
+  "checks": {
+    "c0_bitwise_unchanged": true,
+    "c0_grad_zero": true,
+    "forward_only_summary_spatial": true,
+    "head_grad_nonzero": true,
+    "initial_spatial_finite": true,
+    "mask_loss_only": true,
+    "spatial_grad_nonzero": true,
+    "t3_mask_false": true
+  },
+  "clinical_fields_read": [],
+  "outcome_fields_read": [],
+  "status": "PASS"
+}

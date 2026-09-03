@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "experiment": "dinov3_spatial_parallel_radiomics_v6",
+  "parent": {
+    "v2_commit": "fdf6914e1df6f21bd85ef72de99b818058341d87",
+    "v4_commit": "03e5ae6",
+    "v5_commit": "7012afc"
+  },
+  "environment": {"main_conda_env": "bowen", "radiomics_python": "3.9", "pyradiomics": "3.1.0"},
+  "data": {
+    "cohort_patients": 947, "ispy2_fold_patients": 808, "primary_patients": 375,
+    "summary_shape": [4,7,32,2304], "spatial_shape": [4,7,32,7,7,768],
+    "c0_state_shape": [4,192], "rad_state_shape": [4,64], "parallel_state_shape": [4,256],
+    "target_shape": [4,16], "visits": ["T0","T1","T2"], "t3_mask_false": true
+  },
+  "dino": {
+    "repository_id": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+    "revision": "5931719e67bbdb9737e363e781fb0c67687896bc",
+    "register_tokens": 4, "patch_grid": [14,14], "pooled_grid": [7,7], "pool": "2x2 average"
+  },
+  "target": {
+    "families": ["MORPHOLOGY4","INTENSITY_PC4","KINETIC_PC4","TEXTURE_PC4"],
+    "family_components": 4, "max_features_per_highdim_family": 12,
+    "min_features_per_highdim_family": 8, "coverage": {"T0": 0.90,"T1": 0.90,"T2": 0.85},
+    "stability": {"coverage": 0.98,"symmetric_comparable": 0.95,"spearman": 0.80},
+    "c0_residualizer_alphas": [1.0,10.0,100.0,1000.0], "c0_residualizer_grouped_folds": 5,
+    "ftv_volume_residualization": true, "t3_mask_false": true
+  },
+  "training": {
+    "pilot_seed": 2026, "pilot_folds": [0,1,2,3,4], "formal_seeds": [7026,8026,9026,10026,11026],
+    "arms": ["S0_SUMMARY","S1_SPATIAL"], "head_epochs": 10,"head_patience": 3,
+    "epochs": 24,"minimum_epochs": 12,"patience": 5,"head_lr": 0.00025,
+    "summary_lr": 0.000025,"spatial_lr": 0.0001,"branch_lr": 0.0001,
+    "weight_decay": 0.0001,"batch_size_summary": 32,"batch_size_spatial": 4,
+    "accumulation_spatial": 8,"gradient_clip": 5.0,"minimum_state_sd": 0.05,"dropout": 0.0
+  },
+  "gates": {
+    "direct_head": 0.15,"probe_absolute": 0.15,"gain_vs_initial": 0.05,
+    "spatial_gain_vs_summary": 0.03,"positive_folds": 4,"family_absolute": 0.10,
+    "family_spatial_gain": 0.03,"max_ftv_drop": 0.02
+  },
+  "pcr": {"locked_until": ["EVALUATION_LOCK.json","MECHANISM_LOCK.json"],"bootstrap": 2000}
+}

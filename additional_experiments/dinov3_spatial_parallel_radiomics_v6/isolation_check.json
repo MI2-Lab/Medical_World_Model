@@ -1,0 +1,60 @@
+{
+  "status": "PASS",
+  "smoke": {
+    "checks": {
+      "c0_bitwise_unchanged": true,
+      "c0_grad_zero": true,
+      "forward_only_summary_spatial": true,
+      "head_grad_nonzero": true,
+      "initial_spatial_finite": true,
+      "mask_loss_only": true,
+      "spatial_grad_nonzero": true,
+      "t3_mask_false": true
+    },
+    "clinical_fields_read": [],
+    "outcome_fields_read": [],
+    "status": "PASS"
+  },
+  "initial_state_canonicalization": {
+    "status": "PASS",
+    "rows": [
+      {
+        "fold": 0,
+        "max_abs_before": 2.86102294921875e-06,
+        "bitwise_after": true
+      },
+      {
+        "fold": 1,
+        "max_abs_before": 3.039836883544922e-06,
+        "bitwise_after": true
+      },
+      {
+        "fold": 2,
+        "max_abs_before": 2.9802322387695312e-06,
+        "bitwise_after": true
+      },
+      {
+        "fold": 3,
+        "max_abs_before": 2.5033950805664062e-06,
+        "bitwise_after": true
+      },
+      {
+        "fold": 4,
+        "max_abs_before": 2.592802047729492e-06,
+        "bitwise_after": true
+      }
+    ],
+    "reason": "separate CUDA exports of the fixed path were canonicalized to paired S0 reference",
+    "outcome_fields_read": [],
+    "clinical_fields_read": []
+  },
+  "requirements": {
+    "c0_gradient_zero": true,
+    "rad_gradients_nonzero": true,
+    "target_changes_loss_only": true,
+    "t3_loss_zero": true,
+    "c0_bitwise_identity": true
+  },
+  "outcome_fields_read": [],
+  "clinical_fields_read": []
+}

@@ -1,0 +1,103 @@
+{
+  "clinical_fields_read": [],
+  "folds": [
+    {
+      "coverage": {
+        "T0": 1.0,
+        "T1": 0.928,
+        "T2": 0.872
+      },
+      "fold": 0,
+      "patients": 375,
+      "selected_features": {
+        "INTENSITY": 12,
+        "KINETIC": 12,
+        "TEXTURE": 12
+      },
+      "status": "PASS",
+      "t3_mask_false": true,
+      "target_sha256": "b16d2ff372d57d492b92378212f90e2d5f61d700e760e48ebcf639a9ac6324a3"
+    },
+    {
+      "coverage": {
+        "T0": 1.0,
+        "T1": 0.928,
+        "T2": 0.872
+      },
+      "fold": 1,
+      "patients": 375,
+      "selected_features": {
+        "INTENSITY": 12,
+        "KINETIC": 12,
+        "TEXTURE": 12
+      },
+      "status": "PASS",
+      "t3_mask_false": true,
+      "target_sha256": "e29599f099eafbc9a46c7a8db3b7cd7daea43d874aeff56bbc3dc911ff89bbc2"
+    },
+    {
+      "coverage": {
+        "T0": 1.0,
+        "T1": 0.928,
+        "T2": 0.872
+      },
+      "fold": 2,
+      "patients": 375,
+      "selected_features": {
+        "INTENSITY": 12,
+        "KINETIC": 12,
+        "TEXTURE": 12
+      },
+      "status": "PASS",
+      "t3_mask_false": true,
+      "target_sha256": "bcfa1fb41760a5e8b6718496ebc0dbb9e91c6571c7162699bbc292304a551c5c"
+    },
+    {
+      "coverage": {
+        "T0": 1.0,
+        "T1": 0.928,
+        "T2": 0.872
+      },
+      "fold": 3,
+      "patients": 375,
+      "selected_features": {
+        "INTENSITY": 12,
+        "KINETIC": 12,
+        "TEXTURE": 12
+      },
+      "status": "PASS",
+      "t3_mask_false": true,
+      "target_sha256": "84c42b81d503437b685072cb0000ce0a60eca11a0083fa97355192f650dda029"
+    },
+    {
+      "coverage": {
+        "T0": 1.0,
+        "T1": 0.928,
+        "T2": 0.872
+      },
+      "fold": 4,
+      "patients": 375,
+      "selected_features": {
+        "INTENSITY": 12,
+        "KINETIC": 12,
+        "TEXTURE": 12
+      },
+      "status": "PASS",
+      "t3_mask_false": true,
+      "target_sha256": "9b427908ebec6c495a34abc8d6601d2371fd9356c76371b14ff0400d4ce7db67"
+    }
+  ],
+  "grounding_visits": [
+    "T0",
+    "T1",
+    "T2"
+  ],
+  "outcome_fields_read": [],
+  "patients": 375,
+  "status": "PASS",
+  "t3_mask_false": true,
+  "target_shape": [
+    4,
+    16
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "scope": "pilot_artifacts",
+  "files": [
+    {
+      "relative_path": "acceptance_check.json",
+      "sha256": "f638193d165526224b0659debfd2e88a9c10e10bbda035b342fe9acbf38bef9c"
+    },
+    {
+      "relative_path": "configs/protocol.json",
+      "sha256": "64af9f3ed685b77b695f985db0a828489354397352833c37cf26899a807cd2b3"
+    },
+    {
+      "relative_path": "decision.json",
+      "sha256": "de3745a847ebc42df9f7cbadea06a66748581bf91791a13ae6a22fce8122196a"
+    },
+    {
+      "relative_path": "inheritance_check.json",
+      "sha256": "350e78537dba1cc54012cb0cd61397bb6790203779b566f7dc321fe9412881fa"
+    },
+    {
+      "relative_path": "isolation_check.json",
+      "sha256": "46347d55fee4d4447b29c2c3b6105eff10ac74d1a849d2aea5a862d00b881745"
+    },
+    {
+      "relative_path": "mechanism_gate.json",
+      "sha256": "9a11b2e6ba6dcb6bc893425f98603acbd912b1e15400403b1e393c65046d26b0"
+    },
+    {
+      "relative_path": "metrics/initial_state_canonicalization.json",
+      "sha256": "2e4789687d9db73f2d349e1c4a7b0ab7b2a201ca8d4bbfea5057b21315574546"
+    },
+    {
+      "relative_path": "metrics/isolation_smoke.json",
+      "sha256": "56646bb40ad028781b3fad4525b1574e889b4dff476b8fb3d035183ad7f46e45"
+    },
+    {
+      "relative_path": "metrics/pilot_gate.json",
+      "sha256": "8a6a024867bb7895e30cf701f102e6c052aa0ab0875897a4d364e4110d4db56b"
+    },
+    {
+      "relative_path": "metrics/preflight.json",
+      "sha256": "f3263fe0acfcf1eef58e8933eb542458648d70017c0de9050265a0f44d82b2be"
+    },
+    {
+      "relative_path": "spatial_cache_check.json",
+      "sha256": "518be769cbc95216319cd329ad6aae1c296ab67a5d9322d260bc69fc02ace83c"
+    },
+    {
+      "relative_path": "target_feasibility.json",
+      "sha256": "e1d1d955986851a79ea577826baedb4de9e73fac27084dbbd9bc32aa556d19bd"
+    }
+  ],
+  "patient_ids_in_manifest": false,
+  "outcome_fields_read": [],
+  "clinical_fields_read": []
+}
