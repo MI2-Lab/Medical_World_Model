@@ -1,0 +1,52 @@
+{
+  "clinical_fields_read": [],
+  "diagnostic_version": "v4-share-diagnostic-20260903-r1",
+  "folds": 5,
+  "gradient": {
+    "phenotype_branch": {
+      "folds_with_negative_median_cosine": 4,
+      "gradient_cosine": -0.02136637456715107,
+      "jepa_gradient_norm": 0.5365082025527954,
+      "mean_fold_negative_cosine_fraction": 0.5333333333333333,
+      "negative_cosine_fraction": 0.6666666666666666,
+      "radiomics_gradient_norm": 1.042324185371399
+    },
+    "radiomics_head": {
+      "folds_with_negative_median_cosine": 0,
+      "gradient_cosine": null,
+      "jepa_gradient_norm": 0.0,
+      "mean_fold_negative_cosine_fraction": null,
+      "negative_cosine_fraction": null,
+      "radiomics_gradient_norm": 0.5500795841217041
+    },
+    "response_projection": {
+      "folds_with_negative_median_cosine": 3,
+      "gradient_cosine": -0.051573608070611954,
+      "jepa_gradient_norm": 0.7840915322303772,
+      "mean_fold_negative_cosine_fraction": 0.5999999999999999,
+      "negative_cosine_fraction": 0.6666666666666666,
+      "radiomics_gradient_norm": 0.8608800768852234
+    },
+    "shared_adapter": {
+      "folds_with_negative_median_cosine": 4,
+      "gradient_cosine": -0.20359371602535248,
+      "jepa_gradient_norm": 3.945059299468994,
+      "mean_fold_negative_cosine_fraction": 0.8,
+      "negative_cosine_fraction": 1.0,
+      "radiomics_gradient_norm": 2.049616813659668
+    }
+  },
+  "head_only": {
+    "final_validation_smooth_l1": 0.4217473864555359,
+    "initial_validation_smooth_l1": 0.5368145823478698,
+    "validation_loss_improvement": 0.11506719589233398,
+    "validation_macro_spearman": 0.1390334945159025
+  },
+  "interpretation": {
+    "head_only_learnable": true,
+    "not_a_preregistered_gate": true,
+    "shared_gradient_opposition_observed": true
+  },
+  "outcome_fields_read": [],
+  "status": "COMPLETE"
+}

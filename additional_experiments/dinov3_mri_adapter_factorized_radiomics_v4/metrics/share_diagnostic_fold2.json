@@ -1,0 +1,50 @@
+{
+  "clinical_fields_read": [],
+  "diagnostic_version": "v4-share-diagnostic-20260903-r1",
+  "gradient": {
+    "batches": 3,
+    "clinical_fields_read": [],
+    "fold": 2,
+    "groups": {
+      "phenotype_branch": {
+        "gradient_cosine": 0.039339758455753326,
+        "jepa_gradient_norm": 0.492792546749115,
+        "negative_cosine_fraction": 0.0,
+        "radiomics_gradient_norm": 1.0682376623153687
+      },
+      "radiomics_head": {
+        "gradient_cosine": null,
+        "jepa_gradient_norm": 0.0,
+        "negative_cosine_fraction": null,
+        "radiomics_gradient_norm": 0.5500795841217041
+      },
+      "response_projection": {
+        "gradient_cosine": 0.01776532270014286,
+        "jepa_gradient_norm": 0.7514910101890564,
+        "negative_cosine_fraction": 0.3333333333333333,
+        "radiomics_gradient_norm": 0.9932830929756165
+      },
+      "shared_adapter": {
+        "gradient_cosine": -0.138767272233963,
+        "jepa_gradient_norm": 4.296986103057861,
+        "negative_cosine_fraction": 1.0,
+        "radiomics_gradient_norm": 2.8078978061676025
+      }
+    },
+    "implementation_version": "v4-share-diagnostic-20260903-r1",
+    "outcome_fields_read": []
+  },
+  "head_only": {
+    "clinical_fields_read": [],
+    "final_validation_smooth_l1": 0.4235832393169403,
+    "fold": 2,
+    "implementation_version": "v4-share-diagnostic-20260903-r1",
+    "initial_validation_smooth_l1": 0.5500632524490356,
+    "outcome_fields_read": [],
+    "train_rows": 678,
+    "val_rows": 139,
+    "validation_loss_improvement": 0.12648001313209534,
+    "validation_macro_spearman": 0.1617040529067429
+  },
+  "outcome_fields_read": []
+}
