@@ -1,0 +1,31 @@
+{
+  "candidate_status": {
+    "CURRENT_SHARED": {
+      "coverage_gate": true,
+      "eligible_for_pilot": true,
+      "stability_gate": null
+    },
+    "M1_MORPH_ONLY": {
+      "coverage_gate": false,
+      "eligible_for_pilot": false,
+      "stability_gate": false
+    },
+    "M2_LOCAL_SHAPE": {
+      "coverage_gate": false,
+      "eligible_for_pilot": false,
+      "stability_gate": false
+    },
+    "M3_ZERO_AWARE": {
+      "coverage_gate": false,
+      "eligible_for_pilot": false,
+      "stability_gate": false
+    }
+  },
+  "clinical_fields_read": [],
+  "diagnosis": "MORPH_TARGET_MEASUREMENT_FAILURE",
+  "outcome_fields_read": [],
+  "pcr_evaluation": "LOCKED",
+  "pilot_cells_started": 0,
+  "reason": "No morphology candidate passed the pre-registered target-quality gate.",
+  "status": "NOT_STARTED"
+}

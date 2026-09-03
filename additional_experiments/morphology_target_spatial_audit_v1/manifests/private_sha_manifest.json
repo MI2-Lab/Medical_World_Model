@@ -1,0 +1,82 @@
+{
+  "files": [
+    {
+      "bytes": 51661,
+      "relative_path": "features/private/M1_MORPH_ONLY_fold0.private.npz",
+      "sha256": "52514a0ba07ab054596ab2ef589f5c5978ef544264a6272e9e5fd7c9a5dbccfd"
+    },
+    {
+      "bytes": 51652,
+      "relative_path": "features/private/M1_MORPH_ONLY_fold1.private.npz",
+      "sha256": "a44c19a552de7b513dd26c7adddb5313edb95803779f24acbc4ae2eeb082d769"
+    },
+    {
+      "bytes": 51688,
+      "relative_path": "features/private/M1_MORPH_ONLY_fold2.private.npz",
+      "sha256": "431cb6389508e148f46f7b46dcfe43a11aa590139d26266feeeb7b9497f78e8a"
+    },
+    {
+      "bytes": 51679,
+      "relative_path": "features/private/M1_MORPH_ONLY_fold3.private.npz",
+      "sha256": "d371d1bc71c59ef015b73781f0a95cdc6ba071db70d113fc5248d07fe0123a10"
+    },
+    {
+      "bytes": 51678,
+      "relative_path": "features/private/M1_MORPH_ONLY_fold4.private.npz",
+      "sha256": "1f6420a3447c0cc387c293f0ef63609ee5fe4f2d350bc233f2a56b625ffe2068"
+    },
+    {
+      "bytes": 56284,
+      "relative_path": "features/private/M2_LOCAL_SHAPE_fold0.private.npz",
+      "sha256": "b44b2e1795c4dc7a282ec7afa24e9443a5be8825f47b332779f3f386034651ca"
+    },
+    {
+      "bytes": 56257,
+      "relative_path": "features/private/M2_LOCAL_SHAPE_fold1.private.npz",
+      "sha256": "5df3238ea1968edbe5c33faba644c257c267f1189fb71c1e01b7fd3d14b47076"
+    },
+    {
+      "bytes": 56291,
+      "relative_path": "features/private/M2_LOCAL_SHAPE_fold2.private.npz",
+      "sha256": "9a4e93fe24d9d348a206dbe7d6814a00b2638954ab76949d68b39d89c2e6bd49"
+    },
+    {
+      "bytes": 56283,
+      "relative_path": "features/private/M2_LOCAL_SHAPE_fold3.private.npz",
+      "sha256": "c9a18c76f4d61829f6972d86e04b6f236ef10eef4cfd5d6ed989e70ccea93e9f"
+    },
+    {
+      "bytes": 56278,
+      "relative_path": "features/private/M2_LOCAL_SHAPE_fold4.private.npz",
+      "sha256": "bb9565eb9ba8c20f685598f422154e3c1197d6cfeac10df9ea217683f3a2c549"
+    },
+    {
+      "bytes": 50947,
+      "relative_path": "features/private/M3_ZERO_AWARE_fold0.private.npz",
+      "sha256": "fd5098a56ee84a2bfc1b8dbb560c1614291c03c5712f30cdad93abd944d34f09"
+    },
+    {
+      "bytes": 50951,
+      "relative_path": "features/private/M3_ZERO_AWARE_fold1.private.npz",
+      "sha256": "b4573800f74851ac9d826cfb5b13abf007660da6131c375047a1eff061b1a6cf"
+    },
+    {
+      "bytes": 50966,
+      "relative_path": "features/private/M3_ZERO_AWARE_fold2.private.npz",
+      "sha256": "151602eb9c3bbc17f327eeb055cc4eb9b8d75bbf496c2b8ce310e33272504599"
+    },
+    {
+      "bytes": 50944,
+      "relative_path": "features/private/M3_ZERO_AWARE_fold3.private.npz",
+      "sha256": "1299e78f764b276df6c9dc9d0b35312cf13728a835175eda6e752306b8ed9159"
+    },
+    {
+      "bytes": 50972,
+      "relative_path": "features/private/M3_ZERO_AWARE_fold4.private.npz",
+      "sha256": "f4b827b7f0919b13caa680bff2cbdab0717bdedc523b558962723be44b3f83c4"
+    }
+  ],
+  "patient_identifiers_in_public_artifacts": false,
+  "scope": "private feature archives",
+  "status": "PASS"
+}

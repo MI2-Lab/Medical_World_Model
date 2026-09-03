@@ -1,0 +1,218 @@
+{
+  "clinical_fields_read": [],
+  "diagnosis": "TARGET_MEASUREMENT_FAILURE",
+  "eligible_candidates": [],
+  "frozen_spatial_gain": {},
+  "outcome_fields_read": [],
+  "pCR_evaluation": "LOCKED",
+  "phase_b_allowed": false,
+  "stability_gate": {
+    "M1_MORPH_ONLY": {
+      "checks": [
+        {
+          "comparable_coverage": 1.0,
+          "feature": "MASK_E21",
+          "outward": 0.9040232108317214,
+          "pass": false,
+          "symmetric_median": 0.7337216975765161,
+          "visit": "T0"
+        },
+        {
+          "comparable_coverage": 0.853448275862069,
+          "feature": "MASK_E21",
+          "outward": 0.9237693647499263,
+          "pass": false,
+          "symmetric_median": 0.64933756208924,
+          "visit": "T1"
+        },
+        {
+          "comparable_coverage": 0.4617737003058104,
+          "feature": "MASK_E21",
+          "outward": 0.9518787914563448,
+          "pass": false,
+          "symmetric_median": 0.6595120250958522,
+          "visit": "T2"
+        },
+        {
+          "comparable_coverage": 1.0,
+          "feature": "MASK_F31",
+          "outward": 0.9465907384230288,
+          "pass": true,
+          "symmetric_median": 0.8218523153942429,
+          "visit": "T0"
+        },
+        {
+          "comparable_coverage": 0.853448275862069,
+          "feature": "MASK_F31",
+          "outward": 0.9605559473881878,
+          "pass": false,
+          "symmetric_median": 0.7437956565473345,
+          "visit": "T1"
+        },
+        {
+          "comparable_coverage": 0.4617737003058104,
+          "feature": "MASK_F31",
+          "outward": 0.9709611680739986,
+          "pass": false,
+          "symmetric_median": 0.709383060299756,
+          "visit": "T2"
+        }
+      ],
+      "pass": false
+    },
+    "M2_LOCAL_SHAPE": {
+      "checks": [
+        {
+          "comparable_coverage": 1.0,
+          "feature": "MASK_E21",
+          "outward": 0.9040232108317214,
+          "pass": false,
+          "symmetric_median": 0.7337216975765161,
+          "visit": "T0"
+        },
+        {
+          "comparable_coverage": 0.853448275862069,
+          "feature": "MASK_E21",
+          "outward": 0.9237693647499263,
+          "pass": false,
+          "symmetric_median": 0.64933756208924,
+          "visit": "T1"
+        },
+        {
+          "comparable_coverage": 0.4617737003058104,
+          "feature": "MASK_E21",
+          "outward": 0.9518787914563448,
+          "pass": false,
+          "symmetric_median": 0.6595120250958522,
+          "visit": "T2"
+        },
+        {
+          "comparable_coverage": 1.0,
+          "feature": "MASK_F31",
+          "outward": 0.9465907384230288,
+          "pass": true,
+          "symmetric_median": 0.8218523153942429,
+          "visit": "T0"
+        },
+        {
+          "comparable_coverage": 0.853448275862069,
+          "feature": "MASK_F31",
+          "outward": 0.9605559473881878,
+          "pass": false,
+          "symmetric_median": 0.7437956565473345,
+          "visit": "T1"
+        },
+        {
+          "comparable_coverage": 0.4617737003058104,
+          "feature": "MASK_F31",
+          "outward": 0.9709611680739986,
+          "pass": false,
+          "symmetric_median": 0.709383060299756,
+          "visit": "T2"
+        },
+        {
+          "comparable_coverage": 1.0,
+          "feature": "MASK_BBOX_FILL",
+          "outward": 0.9638210811139554,
+          "pass": false,
+          "symmetric_median": 0.6954834452156105,
+          "visit": "T0"
+        },
+        {
+          "comparable_coverage": 0.853448275862069,
+          "feature": "MASK_BBOX_FILL",
+          "outward": 0.9678469766545262,
+          "pass": false,
+          "symmetric_median": 0.6503439070553165,
+          "visit": "T1"
+        },
+        {
+          "comparable_coverage": 0.4617737003058104,
+          "feature": "MASK_BBOX_FILL",
+          "outward": 0.9821400870619277,
+          "pass": false,
+          "symmetric_median": 0.629177413733008,
+          "visit": "T2"
+        },
+        {
+          "comparable_coverage": 1.0,
+          "feature": "MASK_SLICE_PROFILE",
+          "outward": 0.9542837637956537,
+          "pass": false,
+          "symmetric_median": 0.34283991352827403,
+          "visit": "T0"
+        },
+        {
+          "comparable_coverage": 0.853448275862069,
+          "feature": "MASK_SLICE_PROFILE",
+          "outward": 0.9514713465625014,
+          "pass": false,
+          "symmetric_median": 0.16228354651173443,
+          "visit": "T1"
+        },
+        {
+          "comparable_coverage": 0.4617737003058104,
+          "feature": "MASK_SLICE_PROFILE",
+          "outward": 0.9384388980941648,
+          "pass": false,
+          "symmetric_median": 0.2821714883234576,
+          "visit": "T2"
+        }
+      ],
+      "pass": false
+    },
+    "M3_ZERO_AWARE": {
+      "checks": [
+        {
+          "comparable_coverage": 1.0,
+          "feature": "MASK_E21",
+          "outward": 0.9040232108317214,
+          "pass": false,
+          "symmetric_median": 0.7337216975765161,
+          "visit": "T0"
+        },
+        {
+          "comparable_coverage": 0.853448275862069,
+          "feature": "MASK_E21",
+          "outward": 0.9237693647499263,
+          "pass": false,
+          "symmetric_median": 0.64933756208924,
+          "visit": "T1"
+        },
+        {
+          "comparable_coverage": 0.4617737003058104,
+          "feature": "MASK_E21",
+          "outward": 0.9518787914563448,
+          "pass": false,
+          "symmetric_median": 0.6595120250958522,
+          "visit": "T2"
+        },
+        {
+          "comparable_coverage": 1.0,
+          "feature": "MASK_F31",
+          "outward": 0.9465907384230288,
+          "pass": true,
+          "symmetric_median": 0.8218523153942429,
+          "visit": "T0"
+        },
+        {
+          "comparable_coverage": 0.853448275862069,
+          "feature": "MASK_F31",
+          "outward": 0.9605559473881878,
+          "pass": false,
+          "symmetric_median": 0.7437956565473345,
+          "visit": "T1"
+        },
+        {
+          "comparable_coverage": 0.4617737003058104,
+          "feature": "MASK_F31",
+          "outward": 0.9709611680739986,
+          "pass": false,
+          "symmetric_median": 0.709383060299756,
+          "visit": "T2"
+        }
+      ],
+      "pass": false
+    }
+  }
+}

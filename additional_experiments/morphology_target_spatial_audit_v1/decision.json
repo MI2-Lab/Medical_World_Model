@@ -1,0 +1,12 @@
+{
+  "clinical_fields_read": [],
+  "decision": "MORPH_TARGET_MEASUREMENT_FAILURE",
+  "eligible_candidates": [],
+  "frozen_spatial_gain": {},
+  "next_action": "Audit/redefine the lesion shape measurement contract before any morphology adapter training; do not use pCR to select a repair.",
+  "outcome_fields_read": [],
+  "pcr_evaluation": "LOCKED",
+  "phase_a_diagnosis": "TARGET_MEASUREMENT_FAILURE",
+  "reason": "Local morphology targets fail the pre-registered symmetric-stability/comparable-coverage gate; ZERO_AWARE additionally fails coverage.",
+  "status": "STOPPED_BEFORE_PHASE_B"
+}

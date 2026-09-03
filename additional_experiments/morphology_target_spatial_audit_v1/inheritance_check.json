@@ -1,0 +1,14 @@
+{
+  "clinical_fields_read": [],
+  "git_head_at_audit": "8ce036eaafa388959c051fc042c80401ba81d929",
+  "outcome_fields_read": [],
+  "parent_v2_commit": "fdf6914e1df6f21bd85ef72de99b818058341d87",
+  "parent_v5_commit": "7012afc",
+  "parent_v6_commit": "8ce036e",
+  "status": "PASS",
+  "v6_cache_matches_parent_contract": true,
+  "v6_immutable": true,
+  "v6_inheritance_status": "PASS",
+  "v6_spatial_cache_contract_sha256": "49491430ff7c51bdca387c31a5553c8d37b45b7ad1985cdb51294124ccc3be3c",
+  "v6_spatial_cache_ordered_hashes_sha256": "d828169544fabe21ff53a59f019501bd6ebbadb57306fa05dd68b0048de000a6"
+}
