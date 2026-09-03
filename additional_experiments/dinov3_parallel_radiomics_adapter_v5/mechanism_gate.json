@@ -1,0 +1,9 @@
+{
+  "clinical_fields_read": [],
+  "formal_matrix": "NOT_RUN",
+  "outcome_fields_read": [],
+  "pCR_evaluation": "LOCKED",
+  "pilot_gate_status": "FAIL",
+  "reason": "V5 pilot matched-probe gain gate failed; formal matrix was not authorized",
+  "status": "NOT_RUN"
+}

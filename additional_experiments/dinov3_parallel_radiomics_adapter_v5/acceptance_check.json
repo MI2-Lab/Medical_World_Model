@@ -1,0 +1,73 @@
+{
+  "checks": {
+    "c0_hashes_match": true,
+    "c0_identity": true,
+    "ftv_loss_zero": true,
+    "head_only_states_present": true,
+    "inheritance_check_pass": true,
+    "initial_parallel_identity": true,
+    "isolation_check_pass": true,
+    "isolation_smoke_pass": true,
+    "pcr_locked": true,
+    "pilot_cells_5": true,
+    "preflight_pass": true,
+    "private_sha_summary_present": true,
+    "runtime_sentinels_empty": true,
+    "state_patient_sets": true,
+    "state_shapes": true,
+    "t3_mask_false": true
+  },
+  "counts": {
+    "pilot_cells": 5,
+    "state_archives": 5
+  },
+  "pCR_evaluation": "LOCKED",
+  "records": [
+    {
+      "c0_state_sha256": "a2f8b31d1e2ebdea67351850614a90eb77c1c1f60a3ae46b0e0adb40b6e8f447",
+      "fold": 0,
+      "state_shape": [
+        808,
+        4,
+        256
+      ]
+    },
+    {
+      "c0_state_sha256": "811954917c8b2e54dc37483be1c815ccf6c865a19c5be5dff9bd7c23152388b8",
+      "fold": 1,
+      "state_shape": [
+        808,
+        4,
+        256
+      ]
+    },
+    {
+      "c0_state_sha256": "73f898718f3c34bcdaf6de590c8595c4b88ca7fe985b11539ce3f231db0d22b4",
+      "fold": 2,
+      "state_shape": [
+        808,
+        4,
+        256
+      ]
+    },
+    {
+      "c0_state_sha256": "f2ad9e89233a990a5e198760a5451b95b85dcd04a0fa2d2147499ef390f7f346",
+      "fold": 3,
+      "state_shape": [
+        808,
+        4,
+        256
+      ]
+    },
+    {
+      "c0_state_sha256": "4ed0b9d8bd19b032d5d09ca2693e908a8308ea2fab51462012f992d712a45ef8",
+      "fold": 4,
+      "state_shape": [
+        808,
+        4,
+        256
+      ]
+    }
+  ],
+  "status": "PASS"
+}

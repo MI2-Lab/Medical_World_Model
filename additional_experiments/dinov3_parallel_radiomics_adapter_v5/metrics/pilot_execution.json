@@ -1,0 +1,13 @@
+{
+  "status": "COMPLETE",
+  "cells": 5,
+  "statuses": {
+    "seed2026_fold0_P1_PARALLEL": "COMPLETE",
+    "seed2026_fold1_P1_PARALLEL": "COMPLETE",
+    "seed2026_fold2_P1_PARALLEL": "COMPLETE",
+    "seed2026_fold3_P1_PARALLEL": "COMPLETE",
+    "seed2026_fold4_P1_PARALLEL": "COMPLETE"
+  },
+  "outcome_fields_read": [],
+  "clinical_fields_read": []
+}

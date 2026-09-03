@@ -1,0 +1,26 @@
+{
+  "clinical_fields_read": [],
+  "experiment": "dinov3_parallel_radiomics_adapter_v5",
+  "outcome_fields_read": [],
+  "parent_refs": {
+    "v2_commit": "fdf6914e1df6f21bd85ef72de99b818058341d87",
+    "v4_commit": "03e5ae6",
+    "v4_decision": "FACTORIZED_RADIOMICS_PILOT_NO_GO"
+  },
+  "status": "PASS",
+  "v2_assets": {
+    "summary_count": 947,
+    "target_archives": 5,
+    "target_sha256": {
+      "fold_0_targets.private.npz": "21aec8c77ceba9633b5e5ba0e7185b54cfd5864278d7f32804ca26938ec830cc",
+      "fold_1_targets.private.npz": "f0c8c880ce2ae9361d5c0a0ebc2edfe76c2a2dbed3d15069033354efbfc2890b",
+      "fold_2_targets.private.npz": "db08b3addc2ffa05689d4234886f3573c3f0cc0d1482e1ee377bda8ef42393ee",
+      "fold_3_targets.private.npz": "608f0ffe7ab401cad4faf92554538566f311137c06df9e97c39d4d9f8af0af40",
+      "fold_4_targets.private.npz": "220c49b0b0f7994ffe77ad830d0cd0604910cab5e1a2c2d8d6be40e5954e547c"
+    }
+  },
+  "v4_assets": {
+    "c0_checkpoint_count": 5,
+    "decision": "FACTORIZED_RADIOMICS_PILOT_NO_GO"
+  }
+}

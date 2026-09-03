@@ -1,0 +1,18 @@
+{
+  "checks": {
+    "c0_gradients_zero": true,
+    "c0_parameters_bitwise_unchanged_after_step": true,
+    "dino_parameters_outside_graph": true,
+    "finite": true,
+    "head_gradient_nonzero": true,
+    "mask_not_forward_input": true,
+    "rad_adapter_gradient_nonzero": true,
+    "rad_branch_gradient_nonzero": true,
+    "rad_initial_equals_c0_phenotype": true,
+    "t3_mask_false": true
+  },
+  "clinical_fields_read": [],
+  "outcome_fields_read": [],
+  "source": "metrics/isolation_smoke.json",
+  "status": "PASS"
+}
