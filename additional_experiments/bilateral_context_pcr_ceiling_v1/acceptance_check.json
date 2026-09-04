@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "input_lock": "LOCKED",
+  "cache_status": "COMPLETE",
+  "cache_patients": 375,
+  "exploratory_metrics_complete": true,
+  "outcome_read_after_input_lock": true,
+  "formal_matrix": "NOT_RUN_BY_PREREGISTERED_STOP",
+  "pcr_evaluator_formal_lock": false,
+  "public_patient_ids": false,
+  "public_predictions": false,
+  "public_private_paths": false,
+  "outcome_fields_read": [
+    "label_pcr"
+  ],
+  "clinical_fields_read": [
+    "clinical+FTV for fusion only"
+  ]
+}

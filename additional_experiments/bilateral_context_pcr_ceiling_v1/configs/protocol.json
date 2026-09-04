@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "experiment": "bilateral_context_pcr_ceiling_v1",
+  "branch": "experiment/bilateral-context-pcr-ceiling-v1",
+  "parent": {
+    "v6_experiment": "additional_experiments/dinov3_spatial_parallel_radiomics_v6",
+    "v6_morphology_is_secondary": true
+  },
+  "environment": {"main_conda_env": "bowen", "gpu_count": 3},
+  "cohort": {
+    "primary_patients": 375,
+    "visits": ["T0", "T1", "T2", "T3"],
+    "primary_timings": ["T0", "T0-T1", "T0-T2"],
+    "secondary_timings": ["T0-T3"],
+    "outer_folds": [0, 1, 2, 3, 4],
+    "inner_folds": 3
+  },
+  "input": {
+    "source": "original bilateral DCE NIfTI with DICOM repair fallback",
+    "channels": 7,
+    "phase_contract": "paired C1B metadata pre/early/late/peak policy",
+    "canonical_orientation": "RAS",
+    "slices": 32,
+    "side_views": 2,
+    "global_summary_dim": 2304,
+    "spatial_grid": [4, 4],
+    "spatial_token_dim": 768,
+    "cache_dtype": "float16",
+    "forward_inputs": ["left_dino_summary", "right_dino_summary", "left_spatial_tokens", "right_spatial_tokens"],
+    "forbidden_forward_inputs": ["pCR", "clinical", "FTV", "ROI", "geometry", "mask"]
+  },
+  "dinov3": {
+    "repository_id": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+    "revision": "5931719e67bbdb9737e363e781fb0c67687896bc",
+    "register_tokens_excluded": 4,
+    "input_mapping": "each DCE channel copied to RGB"
+  },
+  "training": {
+    "arms": ["B0_GLOBAL", "B1_SPATIAL"],
+    "seeds": [7026, 8026, 9026, 10026, 11026],
+    "optimizer": "AdamW",
+    "weight_decay": 0.0001,
+    "summary_lr": 0.000025,
+    "spatial_lr": 0.0001,
+    "head_lr": 0.00025,
+    "batch_global": 16,
+    "batch_spatial": 4,
+    "gradient_accumulation_spatial": 4,
+    "gradient_clip": 5.0,
+    "dropout": 0.0,
+    "max_epochs": 20,
+    "min_epochs": 10,
+    "patience": 4,
+    "loss": "three_timing_weighted_bce"
+  },
+  "fusion": {
+    "formula": "logit(pCR)=logit(C+FTV)+alpha+beta*image_logit",
+    "inner_oof_folds": 3,
+    "image_logits": "nested inner-OOF, no in-sample logits",
+    "timings": ["T0", "T0-T1", "T0-T2", "T0-T3"]
+  },
+  "bootstrap": {"replicates": 2000, "unit": "patient", "stratified": true},
+  "gate": {
+    "both_early_delta_auroc_positive": true,
+    "early_macro_delta_auroc_min": 0.02,
+    "positive_seed_count": 4,
+    "bootstrap_lower_bound_gt_zero": true,
+    "auprc_not_decreased": true,
+    "brier_improved": true,
+    "spatial_extra_delta_auroc_min": 0.01
+  },
+  "privacy": {
+    "public_patient_ids": false,
+    "public_predictions": false,
+    "public_private_paths": false,
+    "outcome_read_before_input_lock": false
+  }
+}

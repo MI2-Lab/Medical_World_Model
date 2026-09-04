@@ -1,0 +1,23 @@
+{
+  "status": "FAIL",
+  "decision": "DINO_SPATIAL_NO_CONDITIONAL_PCR_SIGNAL",
+  "checks": {
+    "both_early_delta_auroc_positive": false,
+    "early_macro_delta_auroc": -0.0015536030087012999,
+    "early_macro_threshold": false,
+    "spatial_extra_delta_auroc": -0.0015191051543473888,
+    "spatial_extra_positive": false,
+    "auprc_not_decreased": false,
+    "brier_not_degraded": true,
+    "bootstrap_upper_supports_positive": true
+  },
+  "seed": 2026,
+  "pcr_evaluation_stage": "exploratory_only",
+  "formal_training": "LOCKED",
+  "outcome_fields_read": [
+    "label_pcr"
+  ],
+  "clinical_fields_read": [
+    "clinical+FTV for fusion only"
+  ]
+}

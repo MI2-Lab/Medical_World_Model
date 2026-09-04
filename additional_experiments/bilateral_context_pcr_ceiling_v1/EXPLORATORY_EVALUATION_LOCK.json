@@ -1,0 +1,15 @@
+{
+  "cache_contract_sha256": "7f7a6ef7b56d1ed6055c708146595a542cb1e79d0fc3191b639f7c2bf67c62c5",
+  "cache_manifest_sha256": "59854dfd243d91d070629e453300c4c055455306e033e84d6c643a86734c3bec",
+  "clinical_fields_read": [],
+  "input_lock_sha256": "c4d0c6dabe6f5bcbbcace0c3241cab65eb98db04f9ad93de433bb6cdd4e9e53a",
+  "outcome_fields_read": [],
+  "pcr_open": true,
+  "public_patient_ids": false,
+  "public_predictions": false,
+  "public_private_paths": false,
+  "purpose": "exploratory V6 state rescue; no model training",
+  "schema_version": 1,
+  "state_source": "V6 seed2026 S0/S1 frozen states",
+  "status": "LOCKED"
+}

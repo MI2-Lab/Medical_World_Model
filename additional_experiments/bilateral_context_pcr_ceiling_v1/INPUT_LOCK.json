@@ -1,0 +1,17 @@
+{
+  "clinical_fields_read": [],
+  "experiment": "bilateral_context_pcr_ceiling_v1",
+  "input": {
+    "geometry_mutation": "source files never modified",
+    "phase_selection": "locked C1B phase_indices",
+    "source": "original bilateral DCE NIfTI; known singular sform repaired in memory from valid qform",
+    "views": "canonical RAS left/right half views with shared encoder"
+  },
+  "input_preflight_sha256": "39a86728b1b8f4741f133e971b4bf37aea41294c4653ab2ce5b4486b4ea43247",
+  "lock_sha256": "6f05fcd4add9062c7346c6b9e966cc903aeff2511ffb1bba9eea0aa2ae174829",
+  "outcome_fields_read": [],
+  "pcr_evaluator_open": false,
+  "protocol_sha256": "ce07a81428935d0320cd5fa105bac603d90c96535a231c4674f0011233d3f172",
+  "schema_version": 1,
+  "status": "LOCKED"
+}

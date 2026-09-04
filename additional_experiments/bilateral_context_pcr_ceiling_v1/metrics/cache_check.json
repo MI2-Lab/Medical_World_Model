@@ -1,0 +1,27 @@
+{
+  "cache_sha256": "be461ab008015330abff91065353a2733ebe8028e78c5bdcf6ec9aafdeaea428",
+  "clinical_fields_read": [],
+  "contract_sha256": "7f7a6ef7b56d1ed6055c708146595a542cb1e79d0fc3191b639f7c2bf67c62c5",
+  "dtype": "float16",
+  "global_shape": [
+    4,
+    2,
+    7,
+    32,
+    2304
+  ],
+  "outcome_fields_read": [],
+  "patient_tokens_sha256": "23d1ee3826b7a7ad14f16bb36922180b39ff7ea68861de12662276ee4716e350",
+  "patients": 375,
+  "schema_version": 1,
+  "spatial_shape": [
+    4,
+    2,
+    7,
+    32,
+    4,
+    4,
+    768
+  ],
+  "status": "COMPLETE"
+}

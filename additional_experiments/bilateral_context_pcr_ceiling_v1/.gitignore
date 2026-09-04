@@ -1,0 +1,6 @@
+cache/
+checkpoints/
+logs/private/
+predictions/
+manifests/*.private.*
+manifests/private_sha_manifest.json
