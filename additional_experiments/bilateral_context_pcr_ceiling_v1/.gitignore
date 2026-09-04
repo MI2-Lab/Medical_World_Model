@@ -2,5 +2,7 @@ cache/
 checkpoints/
 logs/private/
 predictions/
+frozen_readout_amendment/features/
+frozen_readout_amendment/predictions/
 manifests/*.private.*
 manifests/private_sha_manifest.json

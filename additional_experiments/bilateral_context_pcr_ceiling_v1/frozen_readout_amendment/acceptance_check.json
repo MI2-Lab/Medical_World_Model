@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "parent_input_lock": "LOCKED",
+  "amendment_lock": "LOCKED",
+  "frozen_feature_check": "COMPLETE",
+  "fold_metrics_rows": 45,
+  "bootstrap_rows": 15,
+  "outer_test_patient_coverage": 375,
+  "patient_ids_in_public_metrics": false,
+  "predictions_private_only": true,
+  "adapter_training": "NOT_RUN",
+  "formal_matrix": "NOT_RUN",
+  "outcome_fields_read_before_lock": [],
+  "clinical_fields_read_before_lock": []
+}

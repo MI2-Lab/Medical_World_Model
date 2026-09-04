@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "experiment": "bilateral_context_frozen_readout_amendment_v1",
+  "parent": "bilateral_context_pcr_ceiling_v1",
+  "purpose": "frozen bilateral DINO cache readout and comparison with locked V6 radiomics target",
+  "cohort": {"primary_patients": 375, "outer_folds": [0, 1, 2, 3, 4], "inner_folds": 3, "timings": ["T0", "T0_T1", "T0_T2"]},
+  "arms": ["DINO_GLOBAL", "DINO_SPATIAL", "RADIO_TARGET"],
+  "inputs": {
+    "dino_cache": "bilateral_context_pcr_ceiling_v1/cache/bilateral_dino",
+    "global_bilateral": "mean(left,right) + abs(left-right), 4608-D per visit",
+    "spatial_bilateral": "mean(left,right) + abs(left-right), 1536-D per visit",
+    "radiomics": "V6 fold-specific residual-radiomics PCA16 target, comparator only",
+    "pcr": "outcome read only after parent INPUT_LOCK and amendment lock"
+  },
+  "preprocessing": {"image_pca_components": 32, "classifier_c": 0.1, "ridge_alphas": [0.1, 1.0, 10.0, 100.0]},
+  "bootstrap": {"draws": 2000, "unit": "patient", "stratified": true},
+  "gate": {
+    "image_vs_clinical_ftv_macro_delta_min": 0.01,
+    "image_vs_radio_macro_delta_min": 0.01,
+    "directional_early_timings": ["T0_T1", "T0_T2"]
+  },
+  "privacy": {"public_patient_ids": false, "public_predictions": false, "public_private_paths": false}
+}
