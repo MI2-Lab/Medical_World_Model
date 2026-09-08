@@ -1,0 +1,99 @@
+{
+  "experiment": "braindiff_image_reliance_audit",
+  "completed": "2026-09-08",
+  "source_commit": "f66c6b35817b22956dc20ea410537bc0f9c2658a",
+  "patients": 808,
+  "measurement_patients": 375,
+  "checkpoints": 15,
+  "bootstrap_resamples": 10000,
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "839b88fc27ef7166df2bcce0d8b05bc2c6b65968b817f02c0c7d81eb1dcfc744"
+    },
+    {
+      "path": "REPORT_ZH.md",
+      "sha256": "7ae90b04d96c800f0624e6fecb9053dc63fff907cb4f3818c7167a9fd28f461c"
+    },
+    {
+      "path": "figures/future_state_r2.pdf",
+      "sha256": "5c16e1e75a2166fc76e5e446fc685186463422d9742afb872fb6f9560cc3b965"
+    },
+    {
+      "path": "figures/future_state_r2.png",
+      "sha256": "e7f40fb3d00edcd1a8323f3cad22889fd35fbb0b3350e2a10393741e01b37736"
+    },
+    {
+      "path": "figures/paired_probability_scatter.pdf",
+      "sha256": "ea12416a8f8f07a2830a9cd7b313b81860b0e5fecdf346190a1270292df3455b"
+    },
+    {
+      "path": "figures/paired_probability_scatter.png",
+      "sha256": "76d869f5f24910ce611e1c7db20f6d73cd1f7f17f7f7dce71198dc0b328c2712"
+    },
+    {
+      "path": "figures/performance_degradation.pdf",
+      "sha256": "ab070baf14b2f2b9ee0537eecba77e7939a6259588c03c663edfc9cae46764c6"
+    },
+    {
+      "path": "figures/performance_degradation.png",
+      "sha256": "ed33e072dd45c99009af73984fba43d61bc0df4203a214c8cabb88fa0f0e56d7"
+    },
+    {
+      "path": "figures/probability_shift_ecdf.pdf",
+      "sha256": "fbce728cf7118be6953947e4e6517e3f834fc8c1fbd55e7d8e7cb1b41c0771ed"
+    },
+    {
+      "path": "figures/probability_shift_ecdf.png",
+      "sha256": "27a0332c4a160e981afb8fb834efc174d1acd3f42b7336a160ba0368505b9986"
+    },
+    {
+      "path": "tables/common_375_metrics.csv",
+      "sha256": "3768bb38d76220a46b225501579f5df0134280633fbf05a9233ef82185ebff54"
+    },
+    {
+      "path": "tables/donor_tier_counts.csv",
+      "sha256": "1b81fc90953722c46c2a797fd479b59a75fd64506758452908db620ab0b9f404"
+    },
+    {
+      "path": "tables/existing_copy_current_reference.csv",
+      "sha256": "2958b5039e5f87f391004305bf3da8a3fbc5f1b6fd80d1cd891bc0f836cc8659"
+    },
+    {
+      "path": "tables/future_feature_r2.csv",
+      "sha256": "6224bea2b7d99a38859b2cfd03029605be7d70a7ef565206d3116dd45f8f7abf"
+    },
+    {
+      "path": "tables/future_metrics.csv",
+      "sha256": "50b7b53014b5f8d407222f636b7c29e33ab49ca51c345f9006471dc51a85a3ec"
+    },
+    {
+      "path": "tables/future_paired_bootstrap.csv",
+      "sha256": "bac64c8a5ddfe5b1f2ff0326c5981ac775e56db4ce26e06ed9abe590619e08c0"
+    },
+    {
+      "path": "tables/logit_clipping_sensitivity.csv",
+      "sha256": "60699dcd47fd6601368874f2d740438a7da6f4111e211db745cfc2e1d4ead777"
+    },
+    {
+      "path": "tables/matching_quality.csv",
+      "sha256": "923e3fb477f5b46f36131054bc923f13be8286cdadbeefb7d0511697e39b496d"
+    },
+    {
+      "path": "tables/paired_bootstrap.csv",
+      "sha256": "ff754af86af120dab28b57a858f0e9b129a2a5fba3f3b39429107a051573018c"
+    },
+    {
+      "path": "tables/prediction_consistency.csv",
+      "sha256": "ee72128972f0430eb603bf1b4771d20e020324f49abbddb8eb3f03c8af9dc1db"
+    },
+    {
+      "path": "tables/table_auprc.csv",
+      "sha256": "6e943f5b83767aba1890ec20b5999490749a850ea7b83946c4f1884bad2b5c6b"
+    },
+    {
+      "path": "tables/table_auroc.csv",
+      "sha256": "9c08f9b660422602c220e29321a69ee3da46d46c60c6b74a3af13fb4ca6960cb"
+    }
+  ]
+}

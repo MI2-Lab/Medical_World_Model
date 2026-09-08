@@ -1,0 +1,361 @@
+model,seed,population,timing,condition,metric,estimate,n,bootstrap_draws,ci_low,ci_high,valid_bootstrap_draws
+Clinical+FTV,2026,ftv_complete_375,T0-T1,duplicate_prior,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T1,duplicate_prior,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T1,duplicate_prior,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T1,duplicate_prior,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T1,duplicate_prior,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T1,matched_other,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T1,matched_other,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T1,matched_other,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T1,matched_other,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T1,matched_other,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T1,zero,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T1,zero,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T1,zero,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T1,zero,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T1,zero,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T2,duplicate_prior,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T2,duplicate_prior,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T2,duplicate_prior,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T2,duplicate_prior,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T2,duplicate_prior,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T2,matched_other,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T2,matched_other,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T2,matched_other,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T2,matched_other,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T2,matched_other,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T2,zero,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T2,zero,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T2,zero,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T2,zero,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,2026,ftv_complete_375,T0-T2,zero,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T1,duplicate_prior,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T1,duplicate_prior,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T1,duplicate_prior,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T1,duplicate_prior,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T1,duplicate_prior,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T1,matched_other,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T1,matched_other,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T1,matched_other,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T1,matched_other,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T1,matched_other,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T1,zero,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T1,zero,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T1,zero,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T1,zero,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T1,zero,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T2,duplicate_prior,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T2,duplicate_prior,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T2,duplicate_prior,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T2,duplicate_prior,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T2,duplicate_prior,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T2,matched_other,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T2,matched_other,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T2,matched_other,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T2,matched_other,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T2,matched_other,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T2,zero,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T2,zero,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T2,zero,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T2,zero,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Clinical+FTV,3026,ftv_complete_375,T0-T2,zero,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T1,duplicate_prior,delta_auroc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T1,duplicate_prior,delta_auprc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T1,duplicate_prior,mean_cirs_abs,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T1,duplicate_prior,mean_cirs_aligned,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T1,duplicate_prior,mean_abs_probability_change,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T1,matched_other,delta_auroc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T1,matched_other,delta_auprc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T1,matched_other,mean_cirs_abs,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T1,matched_other,mean_cirs_aligned,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T1,matched_other,mean_abs_probability_change,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T1,zero,delta_auroc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T1,zero,delta_auprc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T1,zero,mean_cirs_abs,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T1,zero,mean_cirs_aligned,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T1,zero,mean_abs_probability_change,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T2,duplicate_prior,delta_auroc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T2,duplicate_prior,delta_auprc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T2,duplicate_prior,mean_cirs_abs,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T2,duplicate_prior,mean_cirs_aligned,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T2,duplicate_prior,mean_abs_probability_change,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T2,matched_other,delta_auroc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T2,matched_other,delta_auprc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T2,matched_other,mean_cirs_abs,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T2,matched_other,mean_cirs_aligned,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T2,matched_other,mean_abs_probability_change,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T2,zero,delta_auroc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T2,zero,delta_auprc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T2,zero,mean_cirs_abs,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T2,zero,mean_cirs_aligned,0.0,808,10000,0.0,0.0,10000
+Clinical-only,2026,full_808,T0-T2,zero,mean_abs_probability_change,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T1,duplicate_prior,delta_auroc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T1,duplicate_prior,delta_auprc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T1,duplicate_prior,mean_cirs_abs,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T1,duplicate_prior,mean_cirs_aligned,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T1,duplicate_prior,mean_abs_probability_change,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T1,matched_other,delta_auroc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T1,matched_other,delta_auprc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T1,matched_other,mean_cirs_abs,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T1,matched_other,mean_cirs_aligned,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T1,matched_other,mean_abs_probability_change,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T1,zero,delta_auroc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T1,zero,delta_auprc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T1,zero,mean_cirs_abs,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T1,zero,mean_cirs_aligned,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T1,zero,mean_abs_probability_change,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T2,duplicate_prior,delta_auroc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T2,duplicate_prior,delta_auprc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T2,duplicate_prior,mean_cirs_abs,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T2,duplicate_prior,mean_cirs_aligned,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T2,duplicate_prior,mean_abs_probability_change,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T2,matched_other,delta_auroc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T2,matched_other,delta_auprc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T2,matched_other,mean_cirs_abs,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T2,matched_other,mean_cirs_aligned,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T2,matched_other,mean_abs_probability_change,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T2,zero,delta_auroc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T2,zero,delta_auprc,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T2,zero,mean_cirs_abs,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T2,zero,mean_cirs_aligned,0.0,808,10000,0.0,0.0,10000
+Clinical-only,3026,full_808,T0-T2,zero,mean_abs_probability_change,0.0,808,10000,0.0,0.0,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T1,duplicate_prior,delta_auroc,-0.008301886792452806,375,10000,-0.04981267676070912,0.03243137793954982,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T1,duplicate_prior,delta_auprc,0.005973934810403592,375,10000,-0.04332741114769244,0.04715250682946013,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T1,duplicate_prior,mean_cirs_abs,0.6131902512473695,375,10000,0.5598361303589358,0.6683719323720195,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T1,duplicate_prior,mean_cirs_aligned,-0.048862442853915486,375,10000,-0.13709670465788404,0.03725605909051644,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T1,duplicate_prior,mean_abs_probability_change,0.1006070611358543,375,10000,0.09053274503034635,0.11125920727217838,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T1,matched_other,delta_auroc,0.044013722126929666,375,10000,-0.005003016183094097,0.09363396529829113,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T1,matched_other,delta_auprc,0.05318982619062046,375,10000,0.0023489654460034314,0.1026642599938098,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T1,matched_other,mean_cirs_abs,0.7988707717744243,375,10000,0.7290064598228427,0.872315857199236,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T1,matched_other,mean_cirs_aligned,0.02353542870814432,375,10000,-0.08971199099682806,0.13834110802693925,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T1,matched_other,mean_abs_probability_change,0.12474531278167368,375,10000,0.11251921197145824,0.13733053188037214,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T1,zero,delta_auroc,0.004013722126929631,375,10000,-0.043592880223385554,0.05168634809937336,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T1,zero,delta_auprc,0.021990216200782342,375,10000,-0.03447940448304525,0.06961229108105595,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T1,zero,mean_cirs_abs,0.74163637535685,375,10000,0.6817237072033652,0.8027060692589215,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T1,zero,mean_cirs_aligned,0.13676957270351978,375,10000,0.03871373398915384,0.23689608856288363,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T1,zero,mean_abs_probability_change,0.12658533478328207,375,10000,0.11560647748624338,0.13786922103228083,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T2,duplicate_prior,delta_auroc,-0.05018867924528303,375,10000,-0.09752528414155497,-0.0037238911498930698,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T2,duplicate_prior,delta_auprc,-0.06625319625217585,375,10000,-0.1297774788798323,-0.0067154126980437335,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T2,duplicate_prior,mean_cirs_abs,1.851407112845248,375,10000,1.6585040901644215,2.05157309994948,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T2,duplicate_prior,mean_cirs_aligned,-0.490407297993513,375,10000,-0.7872089798887819,-0.1908985939330181,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T2,duplicate_prior,mean_abs_probability_change,0.15722111839289862,375,10000,0.13628947818621964,0.1788664744200504,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T2,matched_other,delta_auroc,0.044974271012006795,375,10000,-0.015366737351223675,0.10633905350555227,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T2,matched_other,delta_auprc,0.023028419709313352,375,10000,-0.047226758163497584,0.09512314699535596,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T2,matched_other,mean_cirs_abs,2.784769586510633,375,10000,2.5435786981298594,3.0318193541391327,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T2,matched_other,mean_cirs_aligned,0.28995369152391,375,10000,-0.13890282930562495,0.7031917199289002,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T2,matched_other,mean_abs_probability_change,0.229027707818473,375,10000,0.2051955755138782,0.25421528143445093,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T2,zero,delta_auroc,0.03718696397941679,375,10000,-0.016756942178117316,0.0888034232468194,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T2,zero,delta_auprc,0.012225269983262621,375,10000,-0.03946408271347986,0.07187373108138533,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T2,zero,mean_cirs_abs,2.692885021134364,375,10000,2.4775945891762157,2.905766026854316,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T2,zero,mean_cirs_aligned,0.9434232989498226,375,10000,0.5642209004791803,1.3182199016263638,10000
+Patch Clinical+FTV+MRI,2026,ftv_complete_375,T0-T2,zero,mean_abs_probability_change,0.2618409091239412,375,10000,0.23802564680020727,0.28650591254269187,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T1,duplicate_prior,delta_auroc,-0.028370497427101182,375,10000,-0.0790985009312103,0.01956984058830346,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T1,duplicate_prior,delta_auprc,-0.012937606315492567,375,10000,-0.06016490789996439,0.03543811070559947,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T1,duplicate_prior,mean_cirs_abs,1.703840083729993,375,10000,1.4993580027498628,1.9141371663862288,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T1,duplicate_prior,mean_cirs_aligned,0.033713229690943064,375,10000,-0.2821073328103301,0.3410752301340092,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T1,duplicate_prior,mean_abs_probability_change,0.1397117944390992,375,10000,0.11933204105695096,0.1610211058679852,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T1,matched_other,delta_auroc,0.03080617495711835,375,10000,-0.02624643455349854,0.0877240970702746,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T1,matched_other,delta_auprc,0.04314039912058004,375,10000,-0.01000992052742489,0.10093184218806592,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T1,matched_other,mean_cirs_abs,2.279373767757645,375,10000,2.0544225738835697,2.5106028766471904,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T1,matched_other,mean_cirs_aligned,0.044104167633588265,375,10000,-0.33515453191214306,0.4175176913727963,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T1,matched_other,mean_abs_probability_change,0.18961734075107142,375,10000,0.1672104105993299,0.21181268915147566,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T1,zero,delta_auroc,0.007307032590051499,375,10000,-0.04523564813138561,0.060852654214489196,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T1,zero,delta_auprc,-0.005162754159175886,375,10000,-0.08012897483634666,0.06917885082631725,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T1,zero,mean_cirs_abs,3.240710672709174,375,10000,2.9925579595045173,3.4963195897702324,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T1,zero,mean_cirs_aligned,-1.4225931219054813,375,10000,-1.8859747394902588,-0.9573158448971603,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T1,zero,mean_abs_probability_change,0.19044839565173516,375,10000,0.16643718749721428,0.21544686684061845,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T2,duplicate_prior,delta_auroc,-0.032830188679245254,375,10000,-0.06827041484743304,0.000519521915428085,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T2,duplicate_prior,delta_auprc,-0.021727104478737602,375,10000,-0.06631064485318072,0.020043278902845685,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T2,duplicate_prior,mean_cirs_abs,0.774612858834752,375,10000,0.6942701473343217,0.8605497455615554,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T2,duplicate_prior,mean_cirs_aligned,-0.11254833037285845,375,10000,-0.24048556889258474,0.0094596802235004,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T2,duplicate_prior,mean_abs_probability_change,0.09291579082385165,375,10000,0.08083034495461529,0.10579546911299242,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T2,matched_other,delta_auroc,0.054991423670669004,375,10000,-0.0024967758867353524,0.1099808481934973,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T2,matched_other,delta_auprc,0.05418402333574385,375,10000,-0.0005977205910813757,0.11223538380882485,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T2,matched_other,mean_cirs_abs,1.4343417308307556,375,10000,1.3167299698127062,1.553641135969729,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T2,matched_other,mean_cirs_aligned,0.08672202197525261,375,10000,-0.11998042621714479,0.2925338208442763,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T2,matched_other,mean_abs_probability_change,0.1949545684282322,375,10000,0.17608248623505982,0.21422159360039117,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T2,zero,delta_auroc,0.0016809605488851131,375,10000,-0.046825312916209935,0.04917475724811878,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T2,zero,delta_auprc,0.014329371091711951,375,10000,-0.03382982934806966,0.06972281913787068,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T2,zero,mean_cirs_abs,1.2433502888015768,375,10000,1.1542002167569672,1.3327021140714033,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T2,zero,mean_cirs_aligned,0.1899896648460771,375,10000,0.022187166269232415,0.3543932319221287,10000
+Patch Clinical+FTV+MRI,3026,ftv_complete_375,T0-T2,zero,mean_abs_probability_change,0.16460859023557572,375,10000,0.1495790120059117,0.17935237829472706,10000
+Patch Clinical+MRI,2026,full_808,T0-T1,duplicate_prior,delta_auroc,-0.007381886406276683,808,10000,-0.03655485753257607,0.021751703024547174,10000
+Patch Clinical+MRI,2026,full_808,T0-T1,duplicate_prior,delta_auprc,-0.017023060372645282,808,10000,-0.05579290835632103,0.01955701841570609,10000
+Patch Clinical+MRI,2026,full_808,T0-T1,duplicate_prior,mean_cirs_abs,0.5858658018514245,808,10000,0.5400748804516591,0.6308506944468751,10000
+Patch Clinical+MRI,2026,full_808,T0-T1,duplicate_prior,mean_cirs_aligned,-0.024014767721839022,808,10000,-0.09896593392973649,0.05003145393047223,10000
+Patch Clinical+MRI,2026,full_808,T0-T1,duplicate_prior,mean_abs_probability_change,0.08269540034729217,808,10000,0.07543342974243485,0.09014877568566203,10000
+Patch Clinical+MRI,2026,full_808,T0-T1,matched_other,delta_auroc,0.004782534538632088,808,10000,-0.02515740972151518,0.03452892364335776,10000
+Patch Clinical+MRI,2026,full_808,T0-T1,matched_other,delta_auprc,0.020573211599006824,808,10000,-0.01993152012764267,0.05869238705769633,10000
+Patch Clinical+MRI,2026,full_808,T0-T1,matched_other,mean_cirs_abs,0.815640827108983,808,10000,0.7533919223506939,0.8800905694972629,10000
+Patch Clinical+MRI,2026,full_808,T0-T1,matched_other,mean_cirs_aligned,0.0449478536448957,808,10000,-0.061544922314441954,0.1483707360520051,10000
+Patch Clinical+MRI,2026,full_808,T0-T1,matched_other,mean_abs_probability_change,0.10196295924750558,808,10000,0.09368229152071515,0.11046064638917749,10000
+Patch Clinical+MRI,2026,full_808,T0-T1,zero,delta_auroc,0.030373528910114245,808,10000,-0.011800600486244883,0.07089945044076071,10000
+Patch Clinical+MRI,2026,full_808,T0-T1,zero,delta_auprc,0.05559182616902408,808,10000,0.012155420450335281,0.09798330723383719,10000
+Patch Clinical+MRI,2026,full_808,T0-T1,zero,mean_cirs_abs,1.8066394498800198,808,10000,1.7283624140023353,1.8836528228366336,10000
+Patch Clinical+MRI,2026,full_808,T0-T1,zero,mean_cirs_aligned,0.5098506774555753,808,10000,0.26588678904049934,0.7476653985947818,10000
+Patch Clinical+MRI,2026,full_808,T0-T1,zero,mean_abs_probability_change,0.17217873276370216,808,10000,0.16072680779263732,0.18341676626430886,10000
+Patch Clinical+MRI,2026,full_808,T0-T2,duplicate_prior,delta_auroc,0.002722155892887601,808,10000,-0.024886008820793518,0.03019198563231424,10000
+Patch Clinical+MRI,2026,full_808,T0-T2,duplicate_prior,delta_auprc,0.018233120207316378,808,10000,-0.016054024494058558,0.04918451327434392,10000
+Patch Clinical+MRI,2026,full_808,T0-T2,duplicate_prior,mean_cirs_abs,1.466456425327694,808,10000,1.297156583960681,1.6498096578044321,10000
+Patch Clinical+MRI,2026,full_808,T0-T2,duplicate_prior,mean_cirs_aligned,0.08176422748716218,808,10000,-0.15870060605353406,0.320481616317478,10000
+Patch Clinical+MRI,2026,full_808,T0-T2,duplicate_prior,mean_abs_probability_change,0.10829417106374903,808,10000,0.09745906928148124,0.11948755194550946,10000
+Patch Clinical+MRI,2026,full_808,T0-T2,matched_other,delta_auroc,0.02143953607368243,808,10000,-0.01387392653536634,0.05663041342476281,10000
+Patch Clinical+MRI,2026,full_808,T0-T2,matched_other,delta_auprc,0.023457301866792013,808,10000,-0.01945542540100035,0.06532207817028536,10000
+Patch Clinical+MRI,2026,full_808,T0-T2,matched_other,mean_cirs_abs,1.9240105254326005,808,10000,1.698047841077629,2.1596236099500867,10000
+Patch Clinical+MRI,2026,full_808,T0-T2,matched_other,mean_cirs_aligned,0.14455168729428014,808,10000,-0.16251589782069686,0.4517919132922703,10000
+Patch Clinical+MRI,2026,full_808,T0-T2,matched_other,mean_abs_probability_change,0.15007541690755125,808,10000,0.13710284943114046,0.16386009141413857,10000
+Patch Clinical+MRI,2026,full_808,T0-T2,zero,delta_auroc,0.03334129285348797,808,10000,0.0005058899689839449,0.06630214787277984,10000
+Patch Clinical+MRI,2026,full_808,T0-T2,zero,delta_auprc,0.020112640786256575,808,10000,-0.02105467857570051,0.061246962919287155,10000
+Patch Clinical+MRI,2026,full_808,T0-T2,zero,mean_cirs_abs,1.8208590816592685,808,10000,1.634169090947009,2.017230479921147,10000
+Patch Clinical+MRI,2026,full_808,T0-T2,zero,mean_cirs_aligned,-0.0010257217919588607,808,10000,-0.27420600357376146,0.27101621161677203,10000
+Patch Clinical+MRI,2026,full_808,T0-T2,zero,mean_abs_probability_change,0.15455797348987413,808,10000,0.1418329707215069,0.16787079124388882,10000
+Patch Clinical+MRI,3026,full_808,T0-T1,duplicate_prior,delta_auroc,-0.00768889646938431,808,10000,-0.03413836652415546,0.019517732283854665,10000
+Patch Clinical+MRI,3026,full_808,T0-T1,duplicate_prior,delta_auprc,-0.014367929721541162,808,10000,-0.05104141377543924,0.0232827052796218,10000
+Patch Clinical+MRI,3026,full_808,T0-T1,duplicate_prior,mean_cirs_abs,0.727917162674586,808,10000,0.6799106418818727,0.7775509452665598,10000
+Patch Clinical+MRI,3026,full_808,T0-T1,duplicate_prior,mean_cirs_aligned,-0.002499969006987737,808,10000,-0.08162365285283722,0.08035408436881214,10000
+Patch Clinical+MRI,3026,full_808,T0-T1,duplicate_prior,mean_abs_probability_change,0.10609216776682047,808,10000,0.09799974959362989,0.11475530351959091,10000
+Patch Clinical+MRI,3026,full_808,T0-T1,matched_other,delta_auroc,-0.009913013815452842,808,10000,-0.041710640179968395,0.02147368624963924,10000
+Patch Clinical+MRI,3026,full_808,T0-T1,matched_other,delta_auprc,0.022400525973739926,808,10000,-0.016609554504939304,0.059900041578631984,10000
+Patch Clinical+MRI,3026,full_808,T0-T1,matched_other,mean_cirs_abs,0.9222661236676444,808,10000,0.863087204862927,0.9822562719165203,10000
+Patch Clinical+MRI,3026,full_808,T0-T1,matched_other,mean_cirs_aligned,-0.009450011923493172,808,10000,-0.10925048992314756,0.08743534986715276,10000
+Patch Clinical+MRI,3026,full_808,T0-T1,matched_other,mean_abs_probability_change,0.12712600463791096,808,10000,0.11804547470367317,0.1362034163271541,10000
+Patch Clinical+MRI,3026,full_808,T0-T1,zero,delta_auroc,-0.020385468190346256,808,10000,-0.04832292127034594,0.0068345172751847275,10000
+Patch Clinical+MRI,3026,full_808,T0-T1,zero,delta_auprc,0.005878075069316979,808,10000,-0.030879419397389703,0.039469359646702194,10000
+Patch Clinical+MRI,3026,full_808,T0-T1,zero,mean_cirs_abs,0.8292195340019087,808,10000,0.778507572773382,0.8819748052321522,10000
+Patch Clinical+MRI,3026,full_808,T0-T1,zero,mean_cirs_aligned,0.06555951504726323,808,10000,-0.018691804540870334,0.1511362191689515,10000
+Patch Clinical+MRI,3026,full_808,T0-T1,zero,mean_abs_probability_change,0.11700733075715565,808,10000,0.10943081214798825,0.12496077676839902,10000
+Patch Clinical+MRI,3026,full_808,T0-T2,duplicate_prior,delta_auroc,-0.003936551253624465,808,10000,-0.02619085044592102,0.018266961795961503,10000
+Patch Clinical+MRI,3026,full_808,T0-T2,duplicate_prior,delta_auprc,-0.01443882054461032,808,10000,-0.044017189315692526,0.014555574620814785,10000
+Patch Clinical+MRI,3026,full_808,T0-T2,duplicate_prior,mean_cirs_abs,0.6954909543247771,808,10000,0.6425402453689719,0.7510350034585593,10000
+Patch Clinical+MRI,3026,full_808,T0-T2,duplicate_prior,mean_cirs_aligned,-0.08834961447705364,808,10000,-0.17403591002580948,0.002454292912371641,10000
+Patch Clinical+MRI,3026,full_808,T0-T2,duplicate_prior,mean_abs_probability_change,0.08557100226074575,808,10000,0.07809454941159423,0.09366908768275725,10000
+Patch Clinical+MRI,3026,full_808,T0-T2,matched_other,delta_auroc,0.017581442947296577,808,10000,-0.01549810356313497,0.05061834891360727,10000
+Patch Clinical+MRI,3026,full_808,T0-T2,matched_other,delta_auprc,0.020477002878675876,808,10000,-0.015573573291915558,0.057405746536228125,10000
+Patch Clinical+MRI,3026,full_808,T0-T2,matched_other,mean_cirs_abs,1.1000173553179116,808,10000,1.0276123200808243,1.1747982926309999,10000
+Patch Clinical+MRI,3026,full_808,T0-T2,matched_other,mean_cirs_aligned,0.03141641476027653,808,10000,-0.09927942046796377,0.16543304151160557,10000
+Patch Clinical+MRI,3026,full_808,T0-T2,matched_other,mean_abs_probability_change,0.13626894023020777,808,10000,0.12579413013452778,0.1471237970736429,10000
+Patch Clinical+MRI,3026,full_808,T0-T2,zero,delta_auroc,0.015957700835749544,808,10000,-0.01625282172047921,0.04824139811379902,10000
+Patch Clinical+MRI,3026,full_808,T0-T2,zero,delta_auprc,-0.005494421951817763,808,10000,-0.04843184602712557,0.036240575282948696,10000
+Patch Clinical+MRI,3026,full_808,T0-T2,zero,mean_cirs_abs,1.142588078865541,808,10000,1.0667181953966354,1.21945051578705,10000
+Patch Clinical+MRI,3026,full_808,T0-T2,zero,mean_cirs_aligned,-0.1880259396868302,808,10000,-0.33492315616669677,-0.03836557481414893,10000
+Patch Clinical+MRI,3026,full_808,T0-T2,zero,mean_abs_probability_change,0.11716516335547655,808,10000,0.10694530061751381,0.12785301684076833,10000
+Patch MRI,2026,full_808,T0-T1,duplicate_prior,delta_auroc,-0.04012962647108986,808,10000,-0.07552930345847564,-0.004612503547756057,10000
+Patch MRI,2026,full_808,T0-T1,duplicate_prior,delta_auprc,-0.026661444879788554,808,10000,-0.057910393834356005,0.0036838265019031513,10000
+Patch MRI,2026,full_808,T0-T1,duplicate_prior,mean_cirs_abs,1.215521999822387,808,10000,1.118261973213612,1.3157507066082657,10000
+Patch MRI,2026,full_808,T0-T1,duplicate_prior,mean_cirs_aligned,-0.014632077342147304,808,10000,-0.1797960932440535,0.1553279280940142,10000
+Patch MRI,2026,full_808,T0-T1,duplicate_prior,mean_abs_probability_change,0.10974709443237206,808,10000,0.09924303430893117,0.12041797507813184,10000
+Patch MRI,2026,full_808,T0-T1,matched_other,delta_auroc,-0.010424697253965554,808,10000,-0.05206411687580525,0.031534702231134616,10000
+Patch MRI,2026,full_808,T0-T1,matched_other,delta_auprc,-0.0077748100589478675,808,10000,-0.04195809543196022,0.026922949148066592,10000
+Patch MRI,2026,full_808,T0-T1,matched_other,mean_cirs_abs,1.5686151236746888,808,10000,1.4426060513030414,1.6974363934746786,10000
+Patch MRI,2026,full_808,T0-T1,matched_other,mean_cirs_aligned,0.0034923977310037423,808,10000,-0.21041410254661322,0.21559261261582985,10000
+Patch MRI,2026,full_808,T0-T1,matched_other,mean_abs_probability_change,0.1442289522991566,808,10000,0.13134301948278515,0.15700779418733937,10000
+Patch MRI,2026,full_808,T0-T1,zero,delta_auroc,-0.0015350503155381334,808,10000,-0.0549669381653592,0.05175678580571406,10000
+Patch MRI,2026,full_808,T0-T1,zero,delta_auprc,-0.011672261239212611,808,10000,-0.04669915050941219,0.02324319621959129,10000
+Patch MRI,2026,full_808,T0-T1,zero,mean_cirs_abs,3.653624315729402,808,10000,3.4907662512290973,3.816088461882831,10000
+Patch MRI,2026,full_808,T0-T1,zero,mean_cirs_aligned,1.0820161804537713,808,10000,0.6057445728555365,1.5446916043603929,10000
+Patch MRI,2026,full_808,T0-T1,zero,mean_abs_probability_change,0.22858025973174764,808,10000,0.2129700921728136,0.24418294676710706,10000
+Patch MRI,2026,full_808,T0-T2,duplicate_prior,delta_auroc,-0.011093296946955489,808,10000,-0.04380447385613305,0.0213809130657115,10000
+Patch MRI,2026,full_808,T0-T2,duplicate_prior,delta_auprc,-0.003957645179159808,808,10000,-0.03597462858376477,0.027800540418489287,10000
+Patch MRI,2026,full_808,T0-T2,duplicate_prior,mean_cirs_abs,1.2219527469910751,808,10000,1.103389006957795,1.3476823352166372,10000
+Patch MRI,2026,full_808,T0-T2,duplicate_prior,mean_cirs_aligned,0.016569248156883973,808,10000,-0.16834898002541365,0.20499381288885626,10000
+Patch MRI,2026,full_808,T0-T2,duplicate_prior,mean_abs_probability_change,0.10311127073684762,808,10000,0.09218715824255955,0.11403637436255178,10000
+Patch MRI,2026,full_808,T0-T2,matched_other,delta_auroc,0.02390585024731362,808,10000,-0.019142913851625636,0.06608763379124115,10000
+Patch MRI,2026,full_808,T0-T2,matched_other,delta_auprc,0.01731157814720069,808,10000,-0.020950732029943474,0.05685218688595614,10000
+Patch MRI,2026,full_808,T0-T2,matched_other,mean_cirs_abs,1.6458987603164383,808,10000,1.4931443896157417,1.809911224125903,10000
+Patch MRI,2026,full_808,T0-T2,matched_other,mean_cirs_aligned,0.19487385687944048,808,10000,-0.05450981024702537,0.44521799766709824,10000
+Patch MRI,2026,full_808,T0-T2,matched_other,mean_abs_probability_change,0.13843731657205458,808,10000,0.12587825421512686,0.1516976869582119,10000
+Patch MRI,2026,full_808,T0-T2,zero,delta_auroc,0.02630052873955313,808,10000,-0.01970778682505464,0.07354009516862442,10000
+Patch MRI,2026,full_808,T0-T2,zero,delta_auprc,0.019231991293864215,808,10000,-0.015721103372597252,0.05611978040447233,10000
+Patch MRI,2026,full_808,T0-T2,zero,mean_cirs_abs,1.5999605723276824,808,10000,1.4762801553740743,1.7317846278465712,10000
+Patch MRI,2026,full_808,T0-T2,zero,mean_cirs_aligned,0.12994631293305284,808,10000,-0.06675590397548159,0.33598815701843027,10000
+Patch MRI,2026,full_808,T0-T2,zero,mean_abs_probability_change,0.17261117290266847,808,10000,0.16073086861509228,0.18500275202588737,10000
+Patch MRI,3026,full_808,T0-T1,duplicate_prior,delta_auroc,-0.022766501790892124,808,10000,-0.05664236828384545,0.010039360955849822,10000
+Patch MRI,3026,full_808,T0-T1,duplicate_prior,delta_auprc,-0.018032213088630344,808,10000,-0.047590162345510896,0.0103042744564651,10000
+Patch MRI,3026,full_808,T0-T1,duplicate_prior,mean_cirs_abs,1.1651882127049613,808,10000,1.0346747069598983,1.299259508898673,10000
+Patch MRI,3026,full_808,T0-T1,duplicate_prior,mean_cirs_aligned,-0.0818471684836776,808,10000,-0.2862686629807025,0.12499423436738669,10000
+Patch MRI,3026,full_808,T0-T1,duplicate_prior,mean_abs_probability_change,0.07426619739348553,808,10000,0.06405331481345265,0.08497242371173717,10000
+Patch MRI,3026,full_808,T0-T1,matched_other,delta_auroc,-0.028981749957359804,808,10000,-0.06898756618551993,0.01071852202667817,10000
+Patch MRI,3026,full_808,T0-T1,matched_other,delta_auprc,-0.025238351368641276,808,10000,-0.06109842374083989,0.008376864682771407,10000
+Patch MRI,3026,full_808,T0-T1,matched_other,mean_cirs_abs,1.5278803499285432,808,10000,1.3662929813251867,1.6979129340554475,10000
+Patch MRI,3026,full_808,T0-T1,matched_other,mean_cirs_aligned,-0.09593575165445277,808,10000,-0.35708087038942915,0.17852908363860012,10000
+Patch MRI,3026,full_808,T0-T1,matched_other,mean_abs_probability_change,0.10028735203027717,808,10000,0.08868163191080618,0.11248096744789632,10000
+Patch MRI,3026,full_808,T0-T1,zero,delta_auroc,-0.010506566604127632,808,10000,-0.04825999592179554,0.028834069770348896,10000
+Patch MRI,3026,full_808,T0-T1,zero,delta_auprc,-0.007307491278326417,808,10000,-0.038568452491199536,0.02500971028367198,10000
+Patch MRI,3026,full_808,T0-T1,zero,mean_cirs_abs,1.2884970831814773,808,10000,1.1654155783369822,1.4160612574632756,10000
+Patch MRI,3026,full_808,T0-T1,zero,mean_cirs_aligned,0.07380761789140507,808,10000,-0.1398363238202547,0.2930030247655058,10000
+Patch MRI,3026,full_808,T0-T1,zero,mean_abs_probability_change,0.09192490892578176,808,10000,0.08162497645478267,0.10275587567808647,10000
+Patch MRI,3026,full_808,T0-T2,duplicate_prior,delta_auroc,0.0002797202797203413,808,10000,-0.026490758405724155,0.027584043793117484,10000
+Patch MRI,3026,full_808,T0-T2,duplicate_prior,delta_auprc,-0.0022846504669485346,808,10000,-0.03138505600463439,0.025752488102342805,10000
+Patch MRI,3026,full_808,T0-T2,duplicate_prior,mean_cirs_abs,0.2823421666862272,808,10000,0.2599454642875699,0.3052785408752472,10000
+Patch MRI,3026,full_808,T0-T2,duplicate_prior,mean_cirs_aligned,-0.012270562824678555,808,10000,-0.049469565210699847,0.02624047700094856,10000
+Patch MRI,3026,full_808,T0-T2,duplicate_prior,mean_abs_probability_change,0.0514104640891711,808,10000,0.04717245683541749,0.055897812395709526,10000
+Patch MRI,3026,full_808,T0-T2,matched_other,delta_auroc,0.026819034623912663,808,10000,-0.011152465002265155,0.06463436814940603,10000
+Patch MRI,3026,full_808,T0-T2,matched_other,delta_auprc,0.02094715272308989,808,10000,-0.011101851228924289,0.05621073353813837,10000
+Patch MRI,3026,full_808,T0-T2,matched_other,mean_cirs_abs,0.4194557984043884,808,10000,0.38868983157791787,0.45079195279668743,10000
+Patch MRI,3026,full_808,T0-T2,matched_other,mean_cirs_aligned,0.030520953558854914,808,10000,-0.01929268673102396,0.08167254561408198,10000
+Patch MRI,3026,full_808,T0-T2,matched_other,mean_abs_probability_change,0.07876718668541192,808,10000,0.07339098285415017,0.08436060877613985,10000
+Patch MRI,3026,full_808,T0-T2,zero,delta_auroc,0.0439365512536245,808,10000,0.005896955294207531,0.08120219279625984,10000
+Patch MRI,3026,full_808,T0-T2,zero,delta_auprc,0.021982015122027243,808,10000,-0.013190742446080221,0.05768685911798082,10000
+Patch MRI,3026,full_808,T0-T2,zero,mean_cirs_abs,0.40151049895855667,808,10000,0.37476658561285636,0.4291897193430242,10000
+Patch MRI,3026,full_808,T0-T2,zero,mean_cirs_aligned,-0.0024282186925542702,808,10000,-0.04782610901179934,0.04365077786194147,10000
+Patch MRI,3026,full_808,T0-T2,zero,mean_abs_probability_change,0.07691254427447901,808,10000,0.07124906827105822,0.08285322334300854,10000
+Radiomics-only,2026,ftv_complete_375,T0-T1,duplicate_prior,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T1,duplicate_prior,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T1,duplicate_prior,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T1,duplicate_prior,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T1,duplicate_prior,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T1,matched_other,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T1,matched_other,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T1,matched_other,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T1,matched_other,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T1,matched_other,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T1,zero,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T1,zero,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T1,zero,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T1,zero,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T1,zero,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T2,duplicate_prior,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T2,duplicate_prior,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T2,duplicate_prior,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T2,duplicate_prior,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T2,duplicate_prior,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T2,matched_other,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T2,matched_other,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T2,matched_other,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T2,matched_other,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T2,matched_other,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T2,zero,delta_auroc,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T2,zero,delta_auprc,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T2,zero,mean_cirs_abs,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T2,zero,mean_cirs_aligned,0.0,375,10000,0.0,0.0,10000
+Radiomics-only,2026,ftv_complete_375,T0-T2,zero,mean_abs_probability_change,0.0,375,10000,0.0,0.0,10000
+Temporal M2,2026,full_808,T0-T1,duplicate_prior,delta_auroc,0.02431519699812379,808,10000,-0.027365184902102074,0.07591654726218629,10000
+Temporal M2,2026,full_808,T0-T1,duplicate_prior,delta_auprc,0.02270397364110921,808,10000,-0.018010306258541938,0.06650249878965275,10000
+Temporal M2,2026,full_808,T0-T1,duplicate_prior,mean_cirs_abs,2.3342718434573286,808,10000,2.1383947404233616,2.537387266519894,10000
+Temporal M2,2026,full_808,T0-T1,duplicate_prior,mean_cirs_aligned,-0.08808847021388663,808,10000,-0.3859666456313592,0.21155098141529774,10000
+Temporal M2,2026,full_808,T0-T1,duplicate_prior,mean_abs_probability_change,0.19845289600189733,808,10000,0.1820654028640468,0.21528350923696193,10000
+Temporal M2,2026,full_808,T0-T1,matched_other,delta_auroc,0.0033157086815622794,808,10000,-0.054187021590062646,0.06196350492004322,10000
+Temporal M2,2026,full_808,T0-T1,matched_other,delta_auprc,0.008118180798769137,808,10000,-0.03886650334393703,0.05720380393689457,10000
+Temporal M2,2026,full_808,T0-T1,matched_other,mean_cirs_abs,3.060669000703583,808,10000,2.8338733503761397,3.296143759049671,10000
+Temporal M2,2026,full_808,T0-T1,matched_other,mean_cirs_aligned,0.0692679261543348,808,10000,-0.31658750061902713,0.46020748865066397,10000
+Temporal M2,2026,full_808,T0-T1,matched_other,mean_abs_probability_change,0.2565990921646092,808,10000,0.23918362939508697,0.27417262587909064,10000
+Temporal M2,2026,full_808,T0-T1,zero,delta_auroc,0.017431349138666175,808,10000,-0.04005397216245447,0.07505538712686562,10000
+Temporal M2,2026,full_808,T0-T1,zero,delta_auprc,0.01883178488495918,808,10000,-0.019336331627022557,0.06540221277817697,10000
+Temporal M2,2026,full_808,T0-T1,zero,mean_cirs_abs,4.8321690619637385,808,10000,4.611178553690474,5.051914140046363,10000
+Temporal M2,2026,full_808,T0-T1,zero,mean_cirs_aligned,1.1899708210088324,808,10000,0.6193749623136118,1.7511753881640513,10000
+Temporal M2,2026,full_808,T0-T1,zero,mean_abs_probability_change,0.2749797433468743,808,10000,0.2577297803186392,0.2927599406009705,10000
+Temporal M2,2026,full_808,T0-T2,duplicate_prior,delta_auroc,0.012935357325601249,808,10000,-0.030175354196415365,0.05606730108856924,10000
+Temporal M2,2026,full_808,T0-T2,duplicate_prior,delta_auprc,0.01905961496144659,808,10000,-0.016888632069203467,0.05770234022396899,10000
+Temporal M2,2026,full_808,T0-T2,duplicate_prior,mean_cirs_abs,0.5964453516082943,808,10000,0.5589504653807801,0.6338874243489819,10000
+Temporal M2,2026,full_808,T0-T2,duplicate_prior,mean_cirs_aligned,-0.05309381282236189,808,10000,-0.11317877691939784,0.006123136325793272,10000
+Temporal M2,2026,full_808,T0-T2,duplicate_prior,mean_abs_probability_change,0.12468625143987568,808,10000,0.11719836191362927,0.1321163911045604,10000
+Temporal M2,2026,full_808,T0-T2,matched_other,delta_auroc,0.03564045710387176,808,10000,-0.01538854502804274,0.08770340400821443,10000
+Temporal M2,2026,full_808,T0-T2,matched_other,delta_auprc,0.04020209989626172,808,10000,-0.0018020513991873043,0.08716765400897576,10000
+Temporal M2,2026,full_808,T0-T2,matched_other,mean_cirs_abs,0.8507546341243678,808,10000,0.8005779525748832,0.9033759439292285,10000
+Temporal M2,2026,full_808,T0-T2,matched_other,mean_cirs_aligned,0.07685618035183134,808,10000,-0.0024795941808574374,0.15815568470226854,10000
+Temporal M2,2026,full_808,T0-T2,matched_other,mean_abs_probability_change,0.1775281953267285,808,10000,0.16815604065417009,0.18732059114140404,10000
+Temporal M2,2026,full_808,T0-T2,zero,delta_auroc,0.037653078628688386,808,10000,-0.014895726139621913,0.09019240780386241,10000
+Temporal M2,2026,full_808,T0-T2,zero,delta_auprc,0.022722566954171075,808,10000,-0.025038553811206597,0.07491482440506017,10000
+Temporal M2,2026,full_808,T0-T2,zero,mean_cirs_abs,1.4626926187509388,808,10000,1.4136452686445147,1.5131508954408985,10000
+Temporal M2,2026,full_808,T0-T2,zero,mean_cirs_aligned,0.20067498270530634,808,10000,0.07695974751778716,0.3227578151567055,10000
+Temporal M2,2026,full_808,T0-T2,zero,mean_abs_probability_change,0.26082256196389736,808,10000,0.25101335503365935,0.2711083288104799,10000
