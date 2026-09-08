@@ -1,0 +1,31 @@
+data:
+  primary_labels: /data/data/Preprocessed/I-SPY2/clinical_labels_complete4visits.csv
+  extra_labels: /data/data/Preprocessed/I-SPY1/clinical_labels_complete4visits.csv
+  fold_manifest: /data/data/Preprocessed/I-SPY2/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv
+  fold_manifest_sha256: 143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38
+  cache_root: /data/data/Preprocessed/I-SPY2/_mixed_ispy1_train_cache_dce8_adaptivephase_axiscanonv1_autoroi_t0fallback_minfrac05_z32_y96_x96
+  radiomics_overlap: /data/mi2-interns/bowen/Medical_World_Model/additional_experiments/radiomics_next_change/data_audit/radiomics_patient_overlap.csv
+  radiomics_targets: /data/mi2-interns/bowen/Medical_World_Model/additional_experiments/radiomics_next_change/data_audit/radiomics_transition_targets_raw.csv
+model:
+  image_channels: 7
+  base_channels: 16
+  state_dim: 192
+  predictor_depth: 4
+  predictor_heads: 8
+  predictor_mlp_dim: 512
+  dropout: 0.1
+loss:
+  lambda_static: 0.25
+  lambda_observed_change: 0.25
+  lambda_future_change: 1.0
+  lambda_sigreg: 0.09
+train:
+  seeds: [2026, 3026]
+  epochs: 24
+  patience: 6
+  learning_rate: 0.00005
+  weight_decay: 0.0001
+  batch_size: 32
+  workers: 2
+  ema_momentum: 0.996
+  max_grad_norm: 5.0
