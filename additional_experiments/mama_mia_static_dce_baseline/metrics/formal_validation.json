@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "patients": 808,
+  "cache_files": 808,
+  "manifest_selected_repaired_dce": 15,
+  "formal_oof_predictions_per_variant": 808,
+  "checkpoints": 10,
+  "training_logs": 10,
+  "bootstrap_replicates": 5000,
+  "fold_intersections_empty": true,
+  "only_T0_images_loaded": true,
+  "patient_level_artifacts_gitignored": true
+}

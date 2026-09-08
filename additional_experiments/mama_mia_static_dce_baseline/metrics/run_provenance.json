@@ -1,0 +1,18 @@
+{
+  "python": "3.11.14",
+  "torch": "2.10.0+cu128",
+  "torchvision": "0.25.0+cu128",
+  "numpy": "2.4.2",
+  "pandas": "3.0.1",
+  "scipy": "1.17.0",
+  "scikit_learn": "1.8.0",
+  "nibabel": "5.3.3",
+  "cuda_devices": [
+    "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition",
+    "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition"
+  ],
+  "r3d18_weights_sha256": "b3b3357ead25631ec9c57362ff2128a92d0427e01e2cd184951a44380c3f2e9d",
+  "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+  "clinical_sha256": "b3355f8ac80cf8f0fa95722b8d8a8b73d96790e9ded5c491ddb5b2e6a7793436",
+  "radiomics_sha256": "571b466595e7ae4f204585abb4e5f4d7838a89d161292ba3549afafc16f47c0c"
+}

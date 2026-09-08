@@ -1,0 +1,10 @@
+cache/*
+!cache/.gitkeep
+checkpoints/*
+!checkpoints/.gitkeep
+logs/*
+!logs/.gitkeep
+predictions/*
+!predictions/.gitkeep
+manifests/*.private.*
+metrics/cache_build_summary.csv

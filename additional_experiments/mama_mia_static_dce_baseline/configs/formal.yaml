@@ -1,0 +1,40 @@
+schema_version: 1
+status: FROZEN_BEFORE_FORMAL_TRAINING
+seed: 2026
+data:
+  data_root: ${ISPY2_PREPROCESSED_ROOT}
+  fold_manifest: ${ISPY2_PREPROCESSED_ROOT}/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv
+  fold_manifest_sha256: 143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38
+  phase_metadata: ../../../ispy_jepa_tmi_clean/data_processing/metadata/BreastDCEDL_metadata_min_crop.csv
+  visits_allowed: [T0]
+  dce_source: manifest_selected_T0_dce_nifti_including_partial_z_repairs
+input:
+  phase_rule: pre=metadata_pre; post1=pre+1; post2=pre+2
+  variants: [subtraction, three_phase]
+  roi_source: T0_frozen_ftv_mask_then_released_bbox_fail_closed
+  crop_rule: T0_ROI_bbox_expanded_25_percent_then_resampled
+  output_shape_zyx: [32, 96, 96]
+  normalization: per_patient_T0_pre_positive_voxel_median_IQR_shared_across_phases_clip_minus5_plus5
+model:
+  architecture: torchvision_r3d_18
+  weights: KINETICS400_V1
+  subtraction_channels: repeat_three
+training:
+  folds: 5
+  batch_size: 16
+  epochs: 20
+  early_stopping_patience: 5
+  optimizer: AdamW
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  scheduler: ReduceLROnPlateau
+  loss: BCEWithLogitsLoss
+  class_weight: outer_train_only
+  augmentation: random_Y_and_X_flips
+  checkpoint_selection: validation_AUROC_then_AUPRC
+  threshold: validation_only_Youden_J
+evaluation:
+  bootstrap_replicates: 5000
+  bootstrap_seed: 2026
+  bootstrap_unit: patient
+  primary_metrics: [AUROC, AUPRC, balanced_accuracy]

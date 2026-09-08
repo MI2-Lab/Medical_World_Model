@@ -1,0 +1,44 @@
+{
+  "folds": {
+    "0": {
+      "train_val_intersection": 0,
+      "train_test_intersection": 0,
+      "val_test_intersection": 0,
+      "complete_population": true
+    },
+    "1": {
+      "train_val_intersection": 0,
+      "train_test_intersection": 0,
+      "val_test_intersection": 0,
+      "complete_population": true
+    },
+    "2": {
+      "train_val_intersection": 0,
+      "train_test_intersection": 0,
+      "val_test_intersection": 0,
+      "complete_population": true
+    },
+    "3": {
+      "train_val_intersection": 0,
+      "train_test_intersection": 0,
+      "val_test_intersection": 0,
+      "complete_population": true
+    },
+    "4": {
+      "train_val_intersection": 0,
+      "train_test_intersection": 0,
+      "val_test_intersection": 0,
+      "complete_population": true
+    }
+  },
+  "all_intersections_empty": true,
+  "cache_files": 808,
+  "non_t0_cache_filenames": 0,
+  "allowed_visit_paths": [
+    "T0"
+  ],
+  "forbidden_visit_paths_accessed": false,
+  "future_measurements_accessed": false,
+  "clinical_features_accessed_by_model": false,
+  "radiomics_features_accessed_by_model": false
+}

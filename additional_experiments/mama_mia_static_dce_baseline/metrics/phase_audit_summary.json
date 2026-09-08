@@ -1,0 +1,14 @@
+{
+  "total_patients": 808,
+  "complete_pre_post1_post2": 808,
+  "missing_phase_patients": 0,
+  "missing_pcr_labels": 0,
+  "missing_roi": 0,
+  "eligible_patients": 808,
+  "manifest_selected_repaired_dce": 15,
+  "pcr_positive": 275,
+  "pcr_prevalence": 0.34034653465346537,
+  "all_metadata_pre_indices_zero": true,
+  "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+  "longitudinal_paths_accessed": false
+}
