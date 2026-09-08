@@ -1,0 +1,82 @@
+[
+  {
+    "model_variant": "subtraction",
+    "fold": 0,
+    "selected_epoch": 3,
+    "validation_auroc": 0.5744424352019288,
+    "validation_auprc": 0.4062476348462826,
+    "checkpoint_sha256": "aa97967077e969939c7e78a150d3ffa1c0e33961b593adc4221420fd3225cd95"
+  },
+  {
+    "model_variant": "subtraction",
+    "fold": 1,
+    "selected_epoch": 3,
+    "validation_auroc": 0.5641768292682927,
+    "validation_auprc": 0.4165769233514825,
+    "checkpoint_sha256": "22193308c947160c027521cd9c80bc9d7759fc2ddeae363ef6c529626c49a1ad"
+  },
+  {
+    "model_variant": "subtraction",
+    "fold": 2,
+    "selected_epoch": 1,
+    "validation_auroc": 0.5670584689572031,
+    "validation_auprc": 0.4639792448882366,
+    "checkpoint_sha256": "ee2474478db0d3a7eabe24f0785ecb92dae7d7527905990892aa3c96ee7cc360"
+  },
+  {
+    "model_variant": "subtraction",
+    "fold": 3,
+    "selected_epoch": 8,
+    "validation_auroc": 0.6621951219512194,
+    "validation_auprc": 0.45839819987408076,
+    "checkpoint_sha256": "d474ce0ba594358c57cc1fe867648c56096cc7a4ffa9cba116d53b8b49a33169"
+  },
+  {
+    "model_variant": "subtraction",
+    "fold": 4,
+    "selected_epoch": 1,
+    "validation_auroc": 0.6166158536585367,
+    "validation_auprc": 0.44443532422420773,
+    "checkpoint_sha256": "8077b1d441570771b18ab47e9d4a504554341d4169357145f59ae07a103fdf55"
+  },
+  {
+    "model_variant": "three_phase",
+    "fold": 0,
+    "selected_epoch": 3,
+    "validation_auroc": 0.5837854128993369,
+    "validation_auprc": 0.4105997515502691,
+    "checkpoint_sha256": "fa942e0db028c36df593389f34869398abe71722bda7be74c39d7a0c6be580b4"
+  },
+  {
+    "model_variant": "three_phase",
+    "fold": 1,
+    "selected_epoch": 2,
+    "validation_auroc": 0.5484756097560974,
+    "validation_auprc": 0.4207406970542058,
+    "checkpoint_sha256": "c71365d96ab4110d6d692f00d3af021fd6fed4388b7566b49fa165401b5112bf"
+  },
+  {
+    "model_variant": "three_phase",
+    "fold": 2,
+    "selected_epoch": 5,
+    "validation_auroc": 0.6104581072935503,
+    "validation_auprc": 0.45580800927028975,
+    "checkpoint_sha256": "69d6ed2d4ecefc606e1bdcdaaa8f84d9faaf35a30bddeede797b1d36c1af0d05"
+  },
+  {
+    "model_variant": "three_phase",
+    "fold": 3,
+    "selected_epoch": 2,
+    "validation_auroc": 0.6286585365853659,
+    "validation_auprc": 0.45657166173085506,
+    "checkpoint_sha256": "77a03407eaf59875e56d56bb18133378ba9fe617ebf30a7690796f24e3a7c70c"
+  },
+  {
+    "model_variant": "three_phase",
+    "fold": 4,
+    "selected_epoch": 1,
+    "validation_auroc": 0.6085365853658536,
+    "validation_auprc": 0.4574262136739245,
+    "checkpoint_sha256": "78d1d8525a3537d24dd544487eba4550e4313ce1165e9881bdeacd0c08e1a0e5"
+  }
+]

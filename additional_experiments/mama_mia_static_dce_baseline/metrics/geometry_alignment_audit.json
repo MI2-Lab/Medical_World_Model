@@ -1,0 +1,13 @@
+{
+  "patients": 808,
+  "manifest_selected_repaired_dce": 15,
+  "dce_roi_shape_match": 808,
+  "dce_roi_affine_match": 754,
+  "dce_roi_orientation_match": 772,
+  "manifest_bbox_equals_mask_bbox": 808,
+  "dce_is_4d": 808,
+  "at_least_three_phases": 808,
+  "phase_grid_all_pass": true,
+  "header_warning": "54/808 selected DCE files have nonmatching affine and 36/808 have nonmatching orientation codes relative to ROI headers; all 808 shapes and manifest voxel-index bboxes match. Crop uses the preprocessing manifest bbox in the selected DCE voxel-index grid, not physical-affine projection.",
+  "phase_alignment_reason": "pre/post1/post2 are frames of the same manifest-selected T0 4-D NIfTI and therefore share one spatial header/grid"
+}

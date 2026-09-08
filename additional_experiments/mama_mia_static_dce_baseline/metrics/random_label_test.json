@@ -1,0 +1,8 @@
+{
+  "variant": "three_phase",
+  "fold": 0,
+  "n": 162,
+  "auroc": 0.3728971962616822,
+  "auprc": 0.26901546994481773,
+  "balanced_accuracy": 0.39209855564995755
+}
