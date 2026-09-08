@@ -63,6 +63,8 @@ class HistoryPredictor(nn.Module):
 @dataclass
 class Output:
     states: torch.Tensor
+    target_states: torch.Tensor
+    predicted_next_state: torch.Tensor
     static: torch.Tensor
     observed_change: torch.Tensor
     future_change: torch.Tensor | None
@@ -73,6 +75,7 @@ class ChangeRepairModel(nn.Module):
         super().__init__()
         self.encoder = VisitEncoder(channels, base, width)
         self.target_encoder = copy.deepcopy(self.encoder).requires_grad_(False)
+        self.next_state_head = nn.Sequential(nn.LayerNorm(width), nn.Linear(width, width))
         self.static_head = nn.Sequential(nn.LayerNorm(width), nn.Linear(width, 1))
         self.change_head = PairChangeHead(width)
         self.future_head = HistoryPredictor(width, depth, heads, mlp, dropout)
@@ -86,12 +89,15 @@ class ChangeRepairModel(nn.Module):
 
     def forward(self, image: torch.Tensor, *, history: bool = True) -> Output:
         states = self.encode(image)
+        with torch.no_grad():
+            target_states = self.encode(image, target=True)
+        predicted_next_state = self.next_state_head(states[:, :-1])
         static = self.static_head(states).squeeze(-1)
         observed = self.change_head(states[:, :-1].reshape(-1, states.size(-1)), states[:, 1:].reshape(-1, states.size(-1))).reshape(image.size(0), 3)
         prior = states[:, 0:2] if history else states[:, 1:3]
         current = states[:, 1:3]
         future = self.future_head(prior.reshape(-1, states.size(-1)), current.reshape(-1, states.size(-1))).reshape(image.size(0), 2)
-        return Output(states, static, observed, future)
+        return Output(states, target_states, predicted_next_state, static, observed, future)
 
     @torch.no_grad()
     def update_target(self, momentum: float) -> None:

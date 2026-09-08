@@ -39,24 +39,29 @@ def sigreg(states: torch.Tensor) -> torch.Tensor:
 def run_epoch(model: ChangeRepairModel, loader: DataLoader, optimizer: torch.optim.Optimizer | None, arm: str, device: torch.device, config: dict, history: bool = True) -> dict[str, float]:
     training = optimizer is not None
     model.train(training)
-    sums = {key: 0.0 for key in ("loss", "static", "observed", "future", "n")}
+    sums = {key: 0.0 for key in ("loss", "jepa", "static", "observed", "future", "n")}
     predictions: list[np.ndarray] = []; targets: list[np.ndarray] = []
     for batch in loader:
         image = batch["image"].to(device); static = batch["static"].to(device); smask = batch["static_mask"].to(device)
         change = batch["change"].to(device); cmask = batch["change_mask"].to(device)
         output = model(image, history=history)
+        jepa_loss = F.mse_loss(
+            F.layer_norm(output.predicted_next_state, (output.predicted_next_state.size(-1),)),
+            F.layer_norm(output.target_states[:, 1:], (output.target_states.size(-1),)),
+        )
         static_loss = masked_l1(output.static, static, smask)
         observed_loss = masked_l1(output.observed_change, change, cmask)
         # Stage F maps predictions for horizons T1->T2 and T2->T3 to change indices 1 and 2.
         future_loss = masked_l1(output.future_change, change[:, 1:], cmask[:, 1:])
         weights = config["loss"]
-        if arm == "R0": loss = weights["lambda_sigreg"] * sigreg(output.states)
-        elif arm == "R1": loss = weights["lambda_static"] * static_loss + weights["lambda_sigreg"] * sigreg(output.states)
-        elif arm == "R2": loss = weights["lambda_static"] * static_loss + weights["lambda_observed_change"] * observed_loss + weights["lambda_sigreg"] * sigreg(output.states)
-        else: loss = weights["lambda_static"] * static_loss + weights["lambda_observed_change"] * observed_loss + weights["lambda_future_change"] * future_loss + weights["lambda_sigreg"] * sigreg(output.states)
+        base = weights["lambda_jepa"] * jepa_loss + weights["lambda_sigreg"] * sigreg(output.states)
+        if arm == "R0": loss = base
+        elif arm == "R1": loss = base + weights["lambda_static"] * static_loss
+        elif arm == "R2": loss = base + weights["lambda_static"] * static_loss + weights["lambda_observed_change"] * observed_loss
+        else: loss = base + weights["lambda_static"] * static_loss + weights["lambda_observed_change"] * observed_loss + weights["lambda_future_change"] * future_loss
         if training:
             optimizer.zero_grad(set_to_none=True); loss.backward(); clip_grad_norm_(model.parameters(), float(config["train"]["max_grad_norm"])); optimizer.step(); model.update_target(float(config["train"]["ema_momentum"]))
-        sums["loss"] += float(loss.detach()); sums["static"] += float(static_loss.detach()); sums["observed"] += float(observed_loss.detach()); sums["future"] += float(future_loss.detach()); sums["n"] += 1
+        sums["loss"] += float(loss.detach()); sums["jepa"] += float(jepa_loss.detach()); sums["static"] += float(static_loss.detach()); sums["observed"] += float(observed_loss.detach()); sums["future"] += float(future_loss.detach()); sums["n"] += 1
         with torch.no_grad():
             # R arms evaluate observed change; F arms evaluate future change only.
             pred = output.observed_change if arm.startswith("R") else output.future_change
@@ -81,7 +86,7 @@ def train_cell(config_path: Path, arm: str, fold: int, seed_base: int, device_na
     m = config["model"]; model = ChangeRepairModel(m["image_channels"],m["base_channels"],m["state_dim"],m["predictor_depth"],m["predictor_heads"],m["predictor_mlp_dim"],m["dropout"])
     device = torch.device(device_name if torch.cuda.is_available() else "cpu"); model.to(device)
     opt = torch.optim.AdamW(model.parameters(), lr=float(config["train"]["learning_rate"]), weight_decay=float(config["train"]["weight_decay"]))
-    history_mode = arm in {"F2","F4"}; output = ROOT / "checkpoints" / arm / f"seed_{seed_base}" / f"fold_{fold}"; output.mkdir(parents=True, exist_ok=False)
+    history_mode = arm in {"F2","F4"}; output = ROOT / "checkpoints" / "formal_v3" / arm / f"seed_{seed_base}" / f"fold_{fold}"; output.mkdir(parents=True, exist_ok=False)
     best = float("inf"); stale = 0; rows = []
     for epoch in range(1, int(epochs_override or config["train"]["epochs"])+1):
         tr = run_epoch(model, loader, opt, arm, device, config, history_mode); va = run_epoch(model, vloader, None, arm, device, config, history_mode)

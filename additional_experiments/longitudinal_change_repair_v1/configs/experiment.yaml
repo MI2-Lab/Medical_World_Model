@@ -15,6 +15,7 @@ model:
   predictor_mlp_dim: 512
   dropout: 0.1
 loss:
+  lambda_jepa: 1.0
   lambda_static: 0.25
   lambda_observed_change: 0.25
   lambda_future_change: 1.0

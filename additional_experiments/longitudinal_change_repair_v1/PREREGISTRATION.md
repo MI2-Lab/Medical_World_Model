@@ -5,7 +5,10 @@
   included in self-supervised training only and has no FTV supervision.
 * Primary observed target: `log1p(FTV_end)-log1p(FTV_start)`, fitted and
   standardized from outer-train patients only.
-* R0 has no FTV loss; R1 adds static FTV loss; R2 adds observed-change loss.
+* R0 has state-JEPA plus anti-collapse loss and no FTV loss; R1 adds static FTV
+  loss; R2 adds observed-change loss. State-JEPA is the global-state analogue
+  used by this isolated experiment; it does not claim to reproduce the older
+  masked LOCAL-token objective.
   All have identical architecture and initialization within seed/fold.
 * Stage F has F1/F2 initialized from R1 and F3/F4 from R2. F1/F3 duplicate the
   current source; F2/F4 use the real preceding source. It predicts T1->T2 and
