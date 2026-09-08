@@ -1,0 +1,7 @@
+{
+  "static_source_formal_validation": "PASS",
+  "static_source_summary_sha256": "3b9ed10de9610fa9b225747efad9882b4036e1f9a129d7365c59d584bb399578",
+  "static_bootstrap_reused": true,
+  "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+  "clinical_labels_sha256": "b3355f8ac80cf8f0fa95722b8d8a8b73d96790e9ded5c491ddb5b2e6a7793436"
+}

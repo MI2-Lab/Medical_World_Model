@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "patients": 808,
+  "pcr_positive": 275,
+  "models": [
+    "clinical_only",
+    "t0_image_only",
+    "clinical_recalibration",
+    "naive_clinical_image",
+    "clinical_image_residual"
+  ],
+  "formal_checkpoints": 10,
+  "training_logs": 10,
+  "bootstrap_replicates": 5000,
+  "patient_level_predictions_gitignored": true,
+  "only_T0_reused_cache": true
+}

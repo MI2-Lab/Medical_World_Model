@@ -1,0 +1,59 @@
+{
+  "bootstrap_replicates": 5000,
+  "seed": 2026,
+  "baseline": "clinical_only",
+  "comparisons": {
+    "t0_image_only": {
+      "delta_auroc": -0.15994200921030188,
+      "delta_auprc": -0.16107647124495522,
+      "delta_auroc_ci95": [
+        -0.21372498596597056,
+        -0.10676317755390577
+      ],
+      "delta_auprc_ci95": [
+        -0.2274383420179083,
+        -0.09344331481361849
+      ],
+      "valid_bootstrap_replicates": 5000
+    },
+    "clinical_recalibration": {
+      "delta_auroc": 0.015268633805219256,
+      "delta_auprc": 0.026680449720210442,
+      "delta_auroc_ci95": [
+        -0.0022556515837612256,
+        0.03338433038998397
+      ],
+      "delta_auprc_ci95": [
+        -0.014497883834723977,
+        0.06785265424764503
+      ],
+      "valid_bootstrap_replicates": 5000
+    },
+    "naive_clinical_image": {
+      "delta_auroc": -0.13795667746887252,
+      "delta_auprc": -0.15573296485778515,
+      "delta_auroc_ci95": [
+        -0.19118891315921466,
+        -0.0826951177144295
+      ],
+      "delta_auprc_ci95": [
+        -0.21970299098232043,
+        -0.09022420579413117
+      ],
+      "valid_bootstrap_replicates": 5000
+    },
+    "clinical_image_residual": {
+      "delta_auroc": -0.019634999147194243,
+      "delta_auprc": -0.01284318371327553,
+      "delta_auroc_ci95": [
+        -0.039267788755122275,
+        0.0006658579080507994
+      ],
+      "delta_auprc_ci95": [
+        -0.03981307762086249,
+        0.015054338131956509
+      ],
+      "valid_bootstrap_replicates": 5000
+    }
+  }
+}

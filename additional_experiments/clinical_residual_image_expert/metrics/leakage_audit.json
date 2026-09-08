@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+  "outer_patient_intersections_empty": true,
+  "clinical_train_logits": "five_fold_inner_cross_fitted",
+  "clinical_test_fit_population": "outer_train_only",
+  "test_used_for_any_selection": false,
+  "T0_cache_directly_reused": true,
+  "only_T0_images_loaded": true
+}

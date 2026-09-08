@@ -1,0 +1,23 @@
+{
+  "clinical_confident_correct": {
+    "n": 135,
+    "mean_abs_image_residual_logit": 0.2512026045057509,
+    "beneficial_corrections": 64,
+    "worsened_corrections": 71,
+    "unchanged_corrections": 0
+  },
+  "clinical_uncertain": {
+    "n": 639,
+    "mean_abs_image_residual_logit": 0.21222105608299865,
+    "beneficial_corrections": 365,
+    "worsened_corrections": 274,
+    "unchanged_corrections": 0
+  },
+  "clinical_confident_wrong": {
+    "n": 34,
+    "mean_abs_image_residual_logit": 0.31805958467371326,
+    "beneficial_corrections": 17,
+    "worsened_corrections": 17,
+    "unchanged_corrections": 0
+  }
+}

@@ -1,0 +1,7 @@
+checkpoints/*
+!checkpoints/.gitkeep
+logs/*
+!logs/.gitkeep
+predictions/*
+!predictions/.gitkeep
+manifests/*.private.*
