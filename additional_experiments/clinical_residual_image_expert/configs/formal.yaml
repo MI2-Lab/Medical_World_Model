@@ -1,0 +1,47 @@
+schema_version: 1
+status: FROZEN_BEFORE_FORMAL_TRAINING
+seed: 2026
+data:
+  cohort_size: 808
+  pcr_positive: 275
+  fold_manifest_sha256: 143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38
+  fold_manifest: ${ISPY2_PREPROCESSED_ROOT}/_matched_breastdcedl_t0_dicomrepair_rgb224_seed2026/matched_patient_cv_splits_seed2026.csv
+  clinical_labels: ${ISPY2_PREPROCESSED_ROOT}/clinical_labels_complete4visits.csv
+  static_t0_cache: ../../mama_mia_static_dce_baseline/cache
+clinical:
+  features: [HR, HER2, MammaPrint, age, exact_treatment_arm]
+  missing_age: outer_training_mean
+  categorical_encoding: outer_training_exact_arm_one_hot
+  scaler: outer_training_StandardScaler
+  model: balanced_liblinear_logistic_regression
+  selection: validation_AUROC_then_AUPRC_then_smaller_C_then_l1_l2
+  residual_train_logits: five_fold_inner_cross_fitted
+image:
+  source: mama_mia_static_dce_baseline_three_phase_cache
+  visits: [T0_pre, T0_post1, T0_post2]
+  channels: 3
+  shape_zyx: [32, 96, 96]
+  preprocessing: reused_frozen_per_patient_T0_pre_percentile_median_IQR
+  backbone: torchvision_r3d_18_KINETICS400_V1
+training:
+  folds: 5
+  batch_size: 16
+  epochs: 20
+  early_stopping_patience: 5
+  optimizer: AdamW
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  loss: BCEWithLogitsLoss
+  augmentation: random_Y_and_X_flips
+  checkpoint_selection: validation_AUROC_then_AUPRC
+  threshold: validation_only_Youden_J
+residual:
+  formulation: final_logit_equals_clinical_logit_plus_image_residual_logit
+  clinical_branch: frozen
+  scalar_head_initialization: zero_weight_and_bias
+  l2_correction_penalty: 0.001
+evaluation:
+  bootstrap_replicates: 5000
+  bootstrap_seed: 2026
+  bootstrap_unit: patient
+  sanity_tests: [zero_image, fixed_patient_shuffled_image]

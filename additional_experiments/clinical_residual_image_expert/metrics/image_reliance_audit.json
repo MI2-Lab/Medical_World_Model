@@ -1,0 +1,30 @@
+{
+  "real_image": {
+    "auroc": 0.6895207231792597,
+    "auprc": 0.544670933117599,
+    "balanced_accuracy": 0.6538325089544601,
+    "sensitivity": 0.5890909090909091,
+    "specificity": 0.7185741088180112,
+    "f1": 0.5519591141396933,
+    "prevalence": 0.34034653465346537
+  },
+  "zero_image": {
+    "auroc": 0.6574074705782023,
+    "auprc": 0.5168785634501717,
+    "balanced_accuracy": 0.6321200750469043,
+    "sensitivity": 0.48,
+    "specificity": 0.7842401500938087,
+    "f1": 0.5057471264367817,
+    "prevalence": 0.34034653465346537
+  },
+  "shuffled_image": {
+    "auroc": 0.6694797885041788,
+    "auprc": 0.5240982028470088,
+    "balanced_accuracy": 0.6324884871226335,
+    "sensitivity": 0.5745454545454546,
+    "specificity": 0.6904315196998124,
+    "f1": 0.5284280936454849,
+    "prevalence": 0.34034653465346537
+  },
+  "shuffle_rule": "per_outer_test_fold_fixed_rng_seed_2026_plus_fold"
+}
