@@ -1,0 +1,10 @@
+{
+  "clinical_fields_read": [],
+  "diagnostic": "SHARED_GRADIENT_DIAGNOSTIC",
+  "does_not_modify_v4_decision": true,
+  "head_only_learnable": true,
+  "outcome_fields_read": [],
+  "pCR_evaluation": "LOCKED",
+  "shared_gradient_opposition_observed": true,
+  "status": "COMPLETE"
+}

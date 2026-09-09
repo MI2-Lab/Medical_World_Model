@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "experiment": "morphology_target_spatial_audit_v1",
+  "parents": {
+    "v6": "8ce036e",
+    "v2": "fdf6914e1df6f21bd85ef72de99b818058341d87",
+    "v5": "7012afc"
+  },
+  "cohort": {"radiomics_patients": 375, "ispy2_patients": 808, "visits": ["T0", "T1", "T2"]},
+  "data": {
+    "summary_shape": [4, 7, 32, 2304],
+    "spatial_shape": [4, 7, 32, 7, 7, 768],
+    "c0_shape": [4, 192],
+    "morphology_shape": [4, 4],
+    "t3_mask_false": true
+  },
+  "morphology": {
+    "base_sources": ["WB_LD", "WB_SPH", "MASK_E21", "MASK_F31"],
+    "new_sources": ["MASK_BBOX_FILL", "MASK_SLICE_PROFILE"],
+    "variants": ["ORIGINAL", "EROSION", "DILATION"],
+    "mask_variants": ["CURRENT_SHARED", "MORPH_ONLY", "ZERO_AWARE"],
+    "coverage_gate": {"T0": 0.90, "T1": 0.90, "T2": 0.85},
+    "stability_spearman": 0.80,
+    "comparable_coverage": 0.95,
+    "ld_zero_policy": "report_and_exclude_in_zero_aware_only"
+  },
+  "residualization": {
+    "design": ["1", "log1p_ftv", "log1p_local_volume", "visit_one_hot", "log1p_ftv_x_visit"],
+    "c0_alpha_grid": [1, 10, 100, 1000],
+    "grouped_folds": 5,
+    "pca_components": 4
+  },
+  "probe": {
+    "inputs": ["C0_STATE", "GLOBAL_SUMMARY", "SPATIAL_FULL", "SPATIAL_CENTER_BORDER", "SPATIAL_PERMUTED"],
+    "pca_components": 32,
+    "ridge_alpha_grid": [0.1, 1, 10, 100, 1000],
+    "per_patient_spatial_permutations": true
+  },
+  "pilot": {
+    "arms": ["HEAD_ONLY", "M_SUMMARY", "M_SPATIAL"],
+    "seed": 2026,
+    "head_epochs": 10,
+    "head_patience": 3,
+    "epochs": 24,
+    "minimum_epochs": 12,
+    "patience": 5,
+    "head_lr": 0.00025,
+    "summary_lr": 0.000025,
+    "spatial_lr": 0.0001,
+    "branch_lr": 0.0001,
+    "weight_decay": 0.0001,
+    "batch_summary": 32,
+    "batch_spatial": 4,
+    "accumulation_spatial": 8,
+    "gradient_clip": 5,
+    "minimum_state_sd": 0.05
+  },
+  "gates": {
+    "direct_head": 0.15,
+    "probe_absolute": 0.15,
+    "gain_initial": 0.05,
+    "gain_summary": 0.03,
+    "positive_folds": 4,
+    "source_absolute": 0.10,
+    "source_gain": 0.03,
+    "ftv_drop": 0.02
+  },
+  "outcome_policy": {"pcr_read": false, "clinical_read": false, "pcr_evaluation": "never_in_this_audit"}
+}

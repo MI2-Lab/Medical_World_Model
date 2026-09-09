@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "experiment": "dinov3_parallel_radiomics_adapter_v5",
+  "parent": {
+    "v2_commit": "fdf6914e1df6f21bd85ef72de99b818058341d87",
+    "v4_commit": "03e5ae6",
+    "v4_decision": "FACTORIZED_RADIOMICS_PILOT_NO_GO"
+  },
+  "environment": {"main_conda_env": "bowen"},
+  "data": {
+    "cohort_patients": 947,
+    "ispy2_fold_patients": 808,
+    "primary_patients": 375,
+    "ispy1_train_only_patients": 139,
+    "summary_shape": [4, 7, 32, 2304],
+    "c0_state_shape": [4, 192],
+    "rad_state_shape": [4, 64],
+    "parallel_state_shape": [4, 256],
+    "radiomics_target_shape": [4, 16],
+    "radiomics_visits": ["T0", "T1", "T2"]
+  },
+  "model": {
+    "forward_inputs": ["frozen_dinov3_summary"],
+    "dino_backbone_frozen": true,
+    "c0_path": "frozen_paired_v4_f0_adapter_and_response",
+    "radiomics_path": "independent_clone_of_paired_c0_adapter_and_phenotype_branch",
+    "parallel_state": "concat(c0_state_192, rad_state_64)",
+    "radiomics_loss_updates_c0": false,
+    "radiomics_loss_updates_rad_path": true,
+    "forbidden_forward_inputs": ["clinical", "pCR", "FTV", "radiomics", "ROI mask", "geometry"]
+  },
+  "objective": {
+    "radiomics_loss": "masked_smooth_l1_residual_radiomics_pc16",
+    "radiomics_weight": 1.0,
+    "jepa_weight_in_rad_path": 0.0,
+    "sigreg_weight_in_rad_path": 0.0,
+    "ftv_weight_in_rad_path": 0.0,
+    "temporal_weight_in_rad_path": 0.0
+  },
+  "training": {
+    "pilot_seed": 2026,
+    "pilot_folds": [0, 1, 2, 3, 4],
+    "head_warmup_epochs": 10,
+    "head_warmup_patience": 3,
+    "adapter_epochs": 12,
+    "adapter_patience": 4,
+    "head_learning_rate": 0.00025,
+    "branch_learning_rate": 0.0001,
+    "adapter_learning_rate": 0.000025,
+    "weight_decay": 0.0001,
+    "batch_size": 32,
+    "gradient_clip": 5.0,
+    "minimum_rad_state_sd": 0.05
+  },
+  "formal": {
+    "seeds": [7026, 8026, 9026, 10026, 11026],
+    "arms": ["C0", "P1_PARALLEL"],
+    "c0_learning_rate": 0.00005,
+    "c0_epochs": 12,
+    "c0_patience": 4
+  },
+  "probe": {
+    "ridge_alphas": [0.1, 1.0, 10.0, 100.0],
+    "visits": ["T0", "T1", "T2"],
+    "outer_test_only": true,
+    "primary_comparison": "rad_state_vs_rad_initial_state"
+  },
+  "gates": {
+    "direct_head_absolute_spearman": 0.10,
+    "matched_probe_absolute_spearman": 0.10,
+    "matched_probe_gain": 0.05,
+    "positive_fold_or_seed_count": 4,
+    "maximum_ftv_spearman_drop": 0.02
+  },
+  "pcr": {
+    "locked_until": ["EVALUATION_LOCK.json", "MECHANISM_LOCK.json"],
+    "timings": ["T0", "T0-T1", "T0-T2"],
+    "bootstrap_replicates": 2000
+  }
+}

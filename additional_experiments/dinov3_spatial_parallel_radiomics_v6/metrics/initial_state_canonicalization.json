@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "rows": [
+    {
+      "fold": 0,
+      "max_abs_before": 2.86102294921875e-06,
+      "bitwise_after": true
+    },
+    {
+      "fold": 1,
+      "max_abs_before": 3.039836883544922e-06,
+      "bitwise_after": true
+    },
+    {
+      "fold": 2,
+      "max_abs_before": 2.9802322387695312e-06,
+      "bitwise_after": true
+    },
+    {
+      "fold": 3,
+      "max_abs_before": 2.5033950805664062e-06,
+      "bitwise_after": true
+    },
+    {
+      "fold": 4,
+      "max_abs_before": 2.592802047729492e-06,
+      "bitwise_after": true
+    }
+  ],
+  "reason": "separate CUDA exports of the fixed path were canonicalized to paired S0 reference",
+  "outcome_fields_read": [],
+  "clinical_fields_read": []
+}

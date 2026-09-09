@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "status": "LOCKED",
+  "pcr_open": true,
+  "parent_input_lock": "LOCKED",
+  "parent_cache_status": "COMPLETE",
+  "protocol_sha256": "ae9d6b8a0fd6b2e45356c1e772c6989211a38fb49bbfcf6d33cafdbea59bfcad",
+  "no_adapter_training": true,
+  "radiomics_is_comparator_only": true,
+  "outcome_fields_read_before_lock": [],
+  "clinical_fields_read_before_lock": [],
+  "public_patient_ids": false,
+  "public_predictions": false,
+  "public_private_paths": false
+}

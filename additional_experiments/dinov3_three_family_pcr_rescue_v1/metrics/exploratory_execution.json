@@ -1,0 +1,24 @@
+{
+  "arms": [
+    "C0_192",
+    "S0_256",
+    "S1_256"
+  ],
+  "cells": 15,
+  "clinical_fields_read_after_lock": [
+    "label_hr",
+    "label_her2",
+    "label_mp",
+    "age_at_screening",
+    "race_simple",
+    "menopausal_status_simple",
+    "ethnicity",
+    "arm"
+  ],
+  "lock_content_sha256": "7e40937c97ae77648a3ee647ae85296f03c7b740b919f82f6a2693b548076c55",
+  "outcome_fields_read_after_lock": [
+    "label_pcr"
+  ],
+  "primary_patients_per_cell": 375,
+  "status": "PASS"
+}

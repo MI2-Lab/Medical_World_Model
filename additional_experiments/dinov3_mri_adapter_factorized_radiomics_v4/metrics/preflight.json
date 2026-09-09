@@ -1,0 +1,16 @@
+{
+  "clinical_fields_read": [],
+  "fold_rows": 4040,
+  "outcome_fields_read": [],
+  "pilot_arms": [
+    "F0",
+    "F005",
+    "F010",
+    "F025"
+  ],
+  "status": "PASS",
+  "summary_files": 947,
+  "target_files": 5,
+  "train_only_patients": 139,
+  "v2_d1_checkpoints": 5
+}

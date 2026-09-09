@@ -1,0 +1,16 @@
+{
+  "status": "LOCKED",
+  "primary_patients": 375,
+  "raw_visits": 1500,
+  "visits": [
+    "T0",
+    "T1",
+    "T2",
+    "T3"
+  ],
+  "canonical_orientation": "RAS",
+  "phase_contract": "locked C1B phase metadata",
+  "dino_revision": "5931719e67bbdb9737e363e781fb0c67687896bc",
+  "outcome_fields_read_before_lock": [],
+  "clinical_fields_read_before_lock": []
+}

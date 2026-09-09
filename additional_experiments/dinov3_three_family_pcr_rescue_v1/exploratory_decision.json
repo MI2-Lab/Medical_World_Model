@@ -1,0 +1,46 @@
+{
+  "checks": {
+    "at_least_one_early_bootstrap_ci_high_positive": true,
+    "both_early_delta_auroc_positive": true,
+    "early_macro_delta_auroc_ge_0_01": false,
+    "no_simultaneous_auprc_brier_harm": true,
+    "s1_vs_s0_early_macro_positive": true
+  },
+  "clinical_fields_read_after_lock": [
+    "label_hr",
+    "label_her2",
+    "label_mp",
+    "age_at_screening",
+    "race_simple",
+    "menopausal_status_simple",
+    "ethnicity",
+    "arm"
+  ],
+  "continue_to_formal": false,
+  "decision": "DINO_SPATIAL_NO_CONDITIONAL_PCR_SIGNAL",
+  "formal_matrix": "NOT_STARTED",
+  "metrics": {
+    "s1_early_macro_delta_auroc": 0.0030703259005146,
+    "s1_early_mean_brier_improvement": 0.00711571560472205,
+    "s1_early_mean_delta_auprc": 0.0055677248313266495,
+    "s1_vs_c_ftv_bootstrap": {
+      "ci_high": 0.0160900514579759,
+      "ci_low": -0.0095060034305317,
+      "draws": 2000.0,
+      "mean": 0.0032494253859348
+    },
+    "s1_vs_s0_bootstrap": {
+      "ci_high": 0.0081998284734134,
+      "ci_low": -0.0054035162950257,
+      "draws": 2000.0,
+      "mean": 0.0013904202401372
+    },
+    "s1_vs_s0_early_macro_delta_auroc": 0.0013379073756431996
+  },
+  "morphology": "secondary_diagnostic_only",
+  "outcome_fields_read_after_lock": [
+    "label_pcr"
+  ],
+  "stage": "EXPLORATORY_PCR",
+  "status": "PASS"
+}

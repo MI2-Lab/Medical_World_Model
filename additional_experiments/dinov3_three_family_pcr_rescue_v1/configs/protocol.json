@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "experiment": "dinov3_three_family_pcr_rescue_v1",
+  "parent": {
+    "v6_commit": "8ce036e",
+    "v6_experiment": "additional_experiments/dinov3_spatial_parallel_radiomics_v6",
+    "v6_spatial_cache_contract_sha256": "49491430ff7c51bdca387c31a5553c8d37b45b7ad1985cdb51294124ccc3be3c",
+    "v6_spatial_cache_ordered_hashes_sha256": "d828169544fabe21ff53a59f019501bd6ebbadb57306fa05dd68b0048de000a6"
+  },
+  "environment": {"main_conda_env": "bowen"},
+  "cohort": {"primary": 375, "ispy2": 808, "visits": ["T0", "T1", "T2", "T3"]},
+  "target": {
+    "source": "V6 fold_targets target[:, :, 4:16]",
+    "families": ["INTENSITY_PC4", "KINETIC_PC4", "TEXTURE_PC4"],
+    "shape": [4, 12],
+    "morphology_in_objective": false,
+    "t3_mask_false": true,
+    "new_radiomics_extraction": false
+  },
+  "stage_a": {
+    "states": ["C0_192", "S0_256", "S1_256"],
+    "pcr_comparison": "clinical+FTV baseline plus conditional image offset",
+    "primary_timings": ["T0", "T0-T1", "T0-T2"],
+    "secondary_timings": ["T0-T3"],
+    "projection_seeds": [260812, 260813, 260814, 260815, 260816],
+    "projection_dim": 32,
+    "bootstrap_replicates": 2000,
+    "continue_rule": {
+      "both_early_delta_auroc_positive": true,
+      "early_macro_delta_auroc_min": 0.01,
+      "s1_vs_s0_early_macro_positive": true,
+      "no_simultaneous_auprc_brier_harm": true,
+      "at_least_one_early_bootstrap_ci_high_positive": true
+    }
+  },
+  "evaluation": {
+    "l2_grid": [0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+    "primary_timings": ["T0", "T0-T1", "T0-T2"],
+    "secondary_timings": ["T0-T3"],
+    "clinical_fields": ["label_hr", "label_her2", "label_mp", "age_at_screening", "race_simple", "menopausal_status_simple", "ethnicity", "arm"]
+  },
+  "formal": {
+    "seeds": [7026, 8026, 9026, 10026, 11026],
+    "folds": [0, 1, 2, 3, 4],
+    "arms": ["C0_3F", "S0_3F", "S1_3F"],
+    "cells": 75,
+    "dropout": 0.0,
+    "c0": {"lr": 0.00005, "epochs": 12, "patience": 4},
+    "adapter": {"summary_lr": 0.000025, "spatial_lr": 0.0001, "branch_lr": 0.0001, "head_lr": 0.00025, "weight_decay": 0.0001, "clip": 5.0, "batch_summary": 32, "batch_spatial": 4, "accumulation_spatial": 8}
+  },
+  "mechanism_gate": {
+    "direct_head_spearman": 0.15,
+    "matched_probe_spearman": 0.15,
+    "s1_minus_s0": 0.03,
+    "positive_seeds": 4,
+    "family_absolute": 0.10,
+    "texture_gain": 0.03,
+    "max_intensity_kinetic_drop": 0.02,
+    "max_ftv_drop": 0.02
+  },
+  "pcr_gate": {
+    "early_macro_delta_auroc": 0.02,
+    "positive_seeds": 4,
+    "delta_auprc": 0.0,
+    "brier_improvement": 0.0,
+    "s1_minus_s0": 0.01,
+    "s1_minus_c0": 0.01
+  },
+  "privacy": {"public_artifacts_patient_ids": false, "public_artifacts_predictions": false, "outcome_read_before_lock": false}
+}

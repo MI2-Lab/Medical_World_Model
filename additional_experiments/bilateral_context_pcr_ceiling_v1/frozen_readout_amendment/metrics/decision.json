@@ -1,0 +1,28 @@
+{
+  "status": "COMPLETE",
+  "decision": "BILATERAL_DINO_CACHE_SIGNAL_BUT_NOT_ROBUST",
+  "checks": {
+    "spatial_both_early_positive": true,
+    "spatial_early_macro_delta": 0.009673935783217513,
+    "spatial_vs_radio_early_macro_auroc": 0.009696634847135677,
+    "spatial_vs_radio_positive": true,
+    "spatial_bootstrap_ci_low_all": -0.004288164665523,
+    "probe_global_mean_spearman": 0.23518586628253246,
+    "probe_spatial_mean_spearman": 0.22884516988915365
+  },
+  "cohort": 375,
+  "outcome_fields_read": [
+    "label_pcr"
+  ],
+  "clinical_fields_read": [
+    "label_hr",
+    "label_her2",
+    "label_mp",
+    "age_at_screening",
+    "race_simple",
+    "menopausal_status_simple",
+    "ethnicity",
+    "arm"
+  ],
+  "formal_adapter_training": "LOCKED"
+}

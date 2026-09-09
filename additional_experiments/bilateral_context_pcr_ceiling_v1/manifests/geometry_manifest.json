@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "canonical_ras_visits": 1500,
+  "known_singular_sform_visits_repaired_in_memory": 72,
+  "source_files_overwritten": 0,
+  "repair_policy": "replace invalid sform with finite valid qform in memory only"
+}

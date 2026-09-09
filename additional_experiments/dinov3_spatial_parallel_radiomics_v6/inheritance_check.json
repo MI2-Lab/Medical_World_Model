@@ -1,0 +1,142 @@
+{
+  "status": "PASS",
+  "experiment": "dinov3_spatial_parallel_radiomics_v6",
+  "git_head": "7012afc4cd348c952cf0c7f8a4ed08537500e611",
+  "parent": {
+    "v2_commit": "fdf6914e1df6f21bd85ef72de99b818058341d87",
+    "v4_commit": "03e5ae6",
+    "v5_commit": "7012afc"
+  },
+  "cohort": {
+    "cohort_patients": 947,
+    "ispy2_fold_patients": 808,
+    "primary_patients": 375,
+    "summary_shape": [
+      4,
+      7,
+      32,
+      2304
+    ],
+    "spatial_shape": [
+      4,
+      7,
+      32,
+      7,
+      7,
+      768
+    ],
+    "c0_state_shape": [
+      4,
+      192
+    ],
+    "rad_state_shape": [
+      4,
+      64
+    ],
+    "parallel_state_shape": [
+      4,
+      256
+    ],
+    "target_shape": [
+      4,
+      16
+    ],
+    "visits": [
+      "T0",
+      "T1",
+      "T2"
+    ],
+    "t3_mask_false": true
+  },
+  "target_hashes": [
+    {
+      "coverage": {
+        "T0": 1.0,
+        "T1": 0.928,
+        "T2": 0.872
+      },
+      "fold": 0,
+      "patients": 375,
+      "selected_features": {
+        "INTENSITY": 12,
+        "KINETIC": 12,
+        "TEXTURE": 12
+      },
+      "status": "PASS",
+      "t3_mask_false": true,
+      "target_sha256": "b16d2ff372d57d492b92378212f90e2d5f61d700e760e48ebcf639a9ac6324a3"
+    },
+    {
+      "coverage": {
+        "T0": 1.0,
+        "T1": 0.928,
+        "T2": 0.872
+      },
+      "fold": 1,
+      "patients": 375,
+      "selected_features": {
+        "INTENSITY": 12,
+        "KINETIC": 12,
+        "TEXTURE": 12
+      },
+      "status": "PASS",
+      "t3_mask_false": true,
+      "target_sha256": "e29599f099eafbc9a46c7a8db3b7cd7daea43d874aeff56bbc3dc911ff89bbc2"
+    },
+    {
+      "coverage": {
+        "T0": 1.0,
+        "T1": 0.928,
+        "T2": 0.872
+      },
+      "fold": 2,
+      "patients": 375,
+      "selected_features": {
+        "INTENSITY": 12,
+        "KINETIC": 12,
+        "TEXTURE": 12
+      },
+      "status": "PASS",
+      "t3_mask_false": true,
+      "target_sha256": "bcfa1fb41760a5e8b6718496ebc0dbb9e91c6571c7162699bbc292304a551c5c"
+    },
+    {
+      "coverage": {
+        "T0": 1.0,
+        "T1": 0.928,
+        "T2": 0.872
+      },
+      "fold": 3,
+      "patients": 375,
+      "selected_features": {
+        "INTENSITY": 12,
+        "KINETIC": 12,
+        "TEXTURE": 12
+      },
+      "status": "PASS",
+      "t3_mask_false": true,
+      "target_sha256": "84c42b81d503437b685072cb0000ce0a60eca11a0083fa97355192f650dda029"
+    },
+    {
+      "coverage": {
+        "T0": 1.0,
+        "T1": 0.928,
+        "T2": 0.872
+      },
+      "fold": 4,
+      "patients": 375,
+      "selected_features": {
+        "INTENSITY": 12,
+        "KINETIC": 12,
+        "TEXTURE": 12
+      },
+      "status": "PASS",
+      "t3_mask_false": true,
+      "target_sha256": "9b427908ebec6c495a34abc8d6601d2371fd9356c76371b14ff0400d4ce7db67"
+    }
+  ],
+  "spatial_cache_contract_sha256": "49491430ff7c51bdca387c31a5553c8d37b45b7ad1985cdb51294124ccc3be3c",
+  "spatial_cache_ordered_hashes_sha256": "d828169544fabe21ff53a59f019501bd6ebbadb57306fa05dd68b0048de000a6",
+  "outcome_fields_read": [],
+  "clinical_fields_read": []
+}

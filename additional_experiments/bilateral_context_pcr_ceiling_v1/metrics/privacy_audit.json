@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "public_patient_ids": false,
+  "public_predictions": false,
+  "public_private_paths": false,
+  "target_arrays_public": false,
+  "representation_stage_outcome_fields_read": [],
+  "representation_stage_clinical_fields_read": [],
+  "pcr_opened_only_after_input_lock": true
+}

@@ -1,0 +1,4 @@
+private_results/
+checkpoints/
+__pycache__/
+*.pyc

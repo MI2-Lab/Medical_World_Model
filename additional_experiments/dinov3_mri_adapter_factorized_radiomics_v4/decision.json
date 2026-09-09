@@ -1,0 +1,8 @@
+{
+  "clinical_fields_read": [],
+  "decision": "FACTORIZED_RADIOMICS_PILOT_NO_GO",
+  "outcome_fields_read": [],
+  "pcr_evaluation": "LOCKED",
+  "reason": "no radiomics weight passed the prespecified outcome-blind mechanism gate",
+  "selected_arm": null
+}

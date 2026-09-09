@@ -1,0 +1,6 @@
+checkpoints/
+cache/
+features/private/
+logs/private/
+__pycache__/
+*.private.*

@@ -1,0 +1,15 @@
+{
+  "status": "COMPLETE",
+  "decision": "BILATERAL_DINO_CACHE_SIGNAL_BUT_NOT_ROBUST",
+  "interpretation": "DINO frozen readout is directionally above the locked 16-D radiomics comparator, but patient-bootstrap CIs include zero; spatial-pooled tokens do not establish spatial-layout superiority.",
+  "dino_global_early_delta_vs_cftv": 0.0120987948588633,
+  "dino_spatial_early_delta_vs_cftv": 0.00967393578321745,
+  "dino_global_early_auroc_minus_radio": 0.012121493922781501,
+  "dino_spatial_early_auroc_minus_radio": 0.009696634847135677,
+  "dino_vs_radio_all_early_bootstrap_ci_low": -0.010737564322469976,
+  "dino_vs_radio_all_early_bootstrap_ci_high": 0.02971097770154369,
+  "formal_adapter_training": "LOCKED",
+  "outcome_fields_read": [
+    "label_pcr"
+  ]
+}

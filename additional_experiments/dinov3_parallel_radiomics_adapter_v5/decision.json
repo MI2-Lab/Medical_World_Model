@@ -1,0 +1,10 @@
+{
+  "clinical_fields_read": [],
+  "decision": "PARALLEL_ADAPTER_NOT_TRANSFERRED",
+  "formal_matrix": "LOCKED",
+  "mechanism_gate": "NOT_RUN",
+  "outcome_fields_read": [],
+  "pCR_evaluation": "LOCKED",
+  "pilot_gate": "FAIL",
+  "reason": "head-only is learnable and independent adapter is isolated, but held-out matched-probe gain is below the prespecified 0.05 threshold"
+}

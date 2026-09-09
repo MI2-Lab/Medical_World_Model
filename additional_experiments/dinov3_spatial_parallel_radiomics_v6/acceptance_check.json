@@ -1,0 +1,14 @@
+{
+  "status": "PASS_WITH_PILOT_NO_GO",
+  "pilot_cells_complete": true,
+  "pilot_cell_count": 10,
+  "expected_pilot_cell_count": 10,
+  "target_gate": true,
+  "cache_gate": true,
+  "isolation_gate": true,
+  "pcr_locked": true,
+  "no_formal_matrix_started": true,
+  "no_pcr_evaluation_started": true,
+  "outcome_fields_read": [],
+  "clinical_fields_read": []
+}

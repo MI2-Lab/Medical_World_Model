@@ -1,0 +1,27 @@
+{
+  "bootstrap_replicates": 2000,
+  "clinical_fields_read_after_lock": [
+    "label_hr",
+    "label_her2",
+    "label_mp",
+    "age_at_screening",
+    "race_simple",
+    "menopausal_status_simple",
+    "ethnicity",
+    "arm"
+  ],
+  "exploratory_cells": 15,
+  "exploratory_lock_verified": true,
+  "formal_locks_present": false,
+  "formal_matrix_started": false,
+  "inner_oof_offset_fusion": true,
+  "morphology_not_used_as_gate": true,
+  "outcome_fields_read_after_lock": [
+    "label_pcr"
+  ],
+  "outcome_read_after_lock": true,
+  "primary_oof_patients_per_cell": 375,
+  "public_artifacts_patient_ids": false,
+  "public_artifacts_predictions": false,
+  "status": "PASS"
+}

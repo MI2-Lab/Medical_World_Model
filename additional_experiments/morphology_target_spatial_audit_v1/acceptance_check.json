@@ -1,0 +1,20 @@
+{
+  "clinical_fields_read": [],
+  "clinical_runtime_sentinel_empty": true,
+  "current_shared_mask_depends_on_high_dimensional_validity": true,
+  "morphology_only_mask_removes_shared_dependency": true,
+  "outcome_fields_read": [],
+  "outcome_runtime_sentinel_empty": true,
+  "outer_train_only_residualization_and_probes": true,
+  "pcr_artifacts_absent": true,
+  "phase_a_complete": true,
+  "pilot_not_started_after_gate_failure": true,
+  "public_artifacts_contain_patient_ids": false,
+  "spatial_permutation_negative_control_computed": true,
+  "stability_failure_count": 21,
+  "status": "PASS",
+  "t3_mask_false": true,
+  "target_reconstruction": true,
+  "v6_cache_contract_verified": true,
+  "v6_immutable": true
+}

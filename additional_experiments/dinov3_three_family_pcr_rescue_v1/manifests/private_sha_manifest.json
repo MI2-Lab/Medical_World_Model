@@ -1,0 +1,12 @@
+{
+  "files": [
+    {
+      "bytes": 507016,
+      "relative_path": "predictions/exploratory_pcr.private.csv",
+      "sha256": "5c30d8bfba84534fb5a655a469ba5ed248ab46a924ca9a09080d7787e59c7088"
+    }
+  ],
+  "public_patient_ids": false,
+  "public_predictions": false,
+  "status": "PASS"
+}

@@ -1,0 +1,54 @@
+{
+  "checks": {
+    "c0_gradients_zero": true,
+    "c0_parameters_bitwise_unchanged_after_step": true,
+    "dino_parameters_outside_graph": true,
+    "finite": true,
+    "head_gradient_nonzero": true,
+    "mask_not_forward_input": true,
+    "rad_adapter_gradient_nonzero": true,
+    "rad_branch_gradient_nonzero": true,
+    "rad_initial_equals_c0_phenotype": true,
+    "t3_mask_false": true
+  },
+  "clinical_fields_read": [],
+  "folds": [
+    {
+      "fold": 0,
+      "loss": 0.5326407551765442,
+      "rad_adapter_gradient_norm": 2.7457871437072754,
+      "rad_branch_gradient_norm": 1.1590662002563477,
+      "radiomics_head_gradient_norm": 0.671747088432312
+    },
+    {
+      "fold": 1,
+      "loss": 0.48183557391166687,
+      "rad_adapter_gradient_norm": 3.4844374656677246,
+      "rad_branch_gradient_norm": 1.1170506477355957,
+      "radiomics_head_gradient_norm": 0.5947108268737793
+    },
+    {
+      "fold": 2,
+      "loss": 0.5014092326164246,
+      "rad_adapter_gradient_norm": 4.383369445800781,
+      "rad_branch_gradient_norm": 1.1693278551101685,
+      "radiomics_head_gradient_norm": 0.5357023477554321
+    },
+    {
+      "fold": 3,
+      "loss": 0.4520541727542877,
+      "rad_adapter_gradient_norm": 3.172523260116577,
+      "rad_branch_gradient_norm": 1.1707334518432617,
+      "radiomics_head_gradient_norm": 0.5686904788017273
+    },
+    {
+      "fold": 4,
+      "loss": 0.46003782749176025,
+      "rad_adapter_gradient_norm": 2.7069365978240967,
+      "rad_branch_gradient_norm": 1.109307885169983,
+      "radiomics_head_gradient_norm": 0.5290073156356812
+    }
+  ],
+  "outcome_fields_read": [],
+  "status": "PASS"
+}

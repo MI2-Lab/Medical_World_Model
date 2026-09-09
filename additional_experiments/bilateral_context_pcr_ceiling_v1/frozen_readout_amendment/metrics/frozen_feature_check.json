@@ -1,0 +1,18 @@
+{
+  "clinical_fields_read": [],
+  "feature_sha256": "42b46773ca6efbc47e407444ab19b390915a8f7db8416775b70cf9ecdff6f3cc",
+  "global_shape": [
+    375,
+    4,
+    4608
+  ],
+  "outcome_fields_read": [],
+  "patient_tokens_sha256": "23d1ee3826b7a7ad14f16bb36922180b39ff7ea68861de12662276ee4716e350",
+  "patients": 375,
+  "spatial_shape": [
+    375,
+    4,
+    1536
+  ],
+  "status": "COMPLETE"
+}
