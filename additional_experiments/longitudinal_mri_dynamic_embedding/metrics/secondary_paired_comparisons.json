@@ -1,0 +1,43 @@
+{
+  "seed": 2026,
+  "bootstrap_replicates": 5000,
+  "endpoint": "T0_T1",
+  "comparisons": {
+    "residual_vs_clinical_recalibration": {
+      "delta_auroc": -0.013477741770424712,
+      "delta_auprc": -0.019602265855318657,
+      "delta_auroc_ci95": [
+        -0.033455918377126456,
+        0.0065757279931842995
+      ],
+      "delta_auprc_ci95": [
+        -0.06213817708766711,
+        0.02347642769276989
+      ]
+    },
+    "real_vs_zero_trajectory": {
+      "delta_auroc": 0.009650349650349721,
+      "delta_auprc": 0.013736055903228128,
+      "delta_auroc_ci95": [
+        -0.0024213540309926257,
+        0.02155895099679642
+      ],
+      "delta_auprc_ci95": [
+        0.0016949481829171057,
+        0.026517459468772733
+      ]
+    },
+    "real_vs_patient_shuffled_trajectory": {
+      "delta_auroc": 0.012689749275115125,
+      "delta_auprc": 0.019501389788931234,
+      "delta_auroc_ci95": [
+        -0.0009789909089488705,
+        0.026322172549203632
+      ],
+      "delta_auprc_ci95": [
+        0.004465876695617951,
+        0.03393692155988642
+      ]
+    }
+  }
+}

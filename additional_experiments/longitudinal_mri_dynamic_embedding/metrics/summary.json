@@ -1,0 +1,190 @@
+{
+  "T0": {
+    "clinical_only": {
+      "auroc": 0.709155722326454,
+      "auprc": 0.5575141168308745,
+      "balanced_accuracy": 0.6610574791062596,
+      "sensitivity": 0.6654545454545454,
+      "specificity": 0.6566604127579737,
+      "f1": 0.5709828393135725,
+      "prevalence": 0.34034653465346537
+    },
+    "clinical_recalibration": {
+      "auroc": 0.7244243561316732,
+      "auprc": 0.5841945665510849,
+      "balanced_accuracy": 0.6610574791062596,
+      "sensitivity": 0.6654545454545454,
+      "specificity": 0.6566604127579737,
+      "f1": 0.5709828393135725,
+      "prevalence": 0.34034653465346537
+    },
+    "dynamic_image_only": {
+      "auroc": 0.5476820740235373,
+      "auprc": 0.385114082521295,
+      "balanced_accuracy": 0.5150810165444312,
+      "sensitivity": 0.4072727272727273,
+      "specificity": 0.6228893058161351,
+      "f1": 0.38095238095238093,
+      "prevalence": 0.34034653465346537
+    },
+    "naive_clinical_dynamic": {
+      "auroc": 0.5857376769571891,
+      "auprc": 0.4186531498052344,
+      "balanced_accuracy": 0.5712809142077435,
+      "sensitivity": 0.5890909090909091,
+      "specificity": 0.5534709193245778,
+      "f1": 0.48,
+      "prevalence": 0.34034653465346537
+    },
+    "clinical_dynamic_residual": {
+      "auroc": 0.7064915572232646,
+      "auprc": 0.5607132230462735,
+      "balanced_accuracy": 0.6507862868838479,
+      "sensitivity": 0.6036363636363636,
+      "specificity": 0.6979362101313321,
+      "f1": 0.5514950166112956,
+      "prevalence": 0.34034653465346537
+    }
+  },
+  "T0_T1": {
+    "clinical_only": {
+      "auroc": 0.709155722326454,
+      "auprc": 0.5575141168308745,
+      "balanced_accuracy": 0.6610574791062596,
+      "sensitivity": 0.6654545454545454,
+      "specificity": 0.6566604127579737,
+      "f1": 0.5709828393135725,
+      "prevalence": 0.34034653465346537
+    },
+    "clinical_recalibration": {
+      "auroc": 0.7244243561316732,
+      "auprc": 0.5841945665510849,
+      "balanced_accuracy": 0.6610574791062596,
+      "sensitivity": 0.6654545454545454,
+      "specificity": 0.6566604127579737,
+      "f1": 0.5709828393135725,
+      "prevalence": 0.34034653465346537
+    },
+    "dynamic_image_only": {
+      "auroc": 0.5599522428790721,
+      "auprc": 0.4008702596773057,
+      "balanced_accuracy": 0.5346750810165444,
+      "sensitivity": 0.4727272727272727,
+      "specificity": 0.5966228893058161,
+      "f1": 0.41935483870967744,
+      "prevalence": 0.34034653465346537
+    },
+    "naive_clinical_dynamic": {
+      "auroc": 0.5889988060719769,
+      "auprc": 0.42021311935169564,
+      "balanced_accuracy": 0.5695787139689579,
+      "sensitivity": 0.5781818181818181,
+      "specificity": 0.5609756097560976,
+      "f1": 0.47604790419161674,
+      "prevalence": 0.34034653465346537
+    },
+    "clinical_dynamic_residual": {
+      "auroc": 0.7109466143612485,
+      "auprc": 0.5645923006957663,
+      "balanced_accuracy": 0.6588913525498892,
+      "sensitivity": 0.6836363636363636,
+      "specificity": 0.6341463414634146,
+      "f1": 0.5714285714285714,
+      "prevalence": 0.34034653465346537
+    }
+  },
+  "T0_T1_T2": {
+    "clinical_only": {
+      "auroc": 0.709155722326454,
+      "auprc": 0.5575141168308745,
+      "balanced_accuracy": 0.6610574791062596,
+      "sensitivity": 0.6654545454545454,
+      "specificity": 0.6566604127579737,
+      "f1": 0.5709828393135725,
+      "prevalence": 0.34034653465346537
+    },
+    "clinical_recalibration": {
+      "auroc": 0.7244243561316732,
+      "auprc": 0.5841945665510849,
+      "balanced_accuracy": 0.6610574791062596,
+      "sensitivity": 0.6654545454545454,
+      "specificity": 0.6566604127579737,
+      "f1": 0.5709828393135725,
+      "prevalence": 0.34034653465346537
+    },
+    "dynamic_image_only": {
+      "auroc": 0.530574791062596,
+      "auprc": 0.37211656973222906,
+      "balanced_accuracy": 0.5230496332935357,
+      "sensitivity": 0.3781818181818182,
+      "specificity": 0.6679174484052532,
+      "f1": 0.37410071942446044,
+      "prevalence": 0.34034653465346537
+    },
+    "naive_clinical_dynamic": {
+      "auroc": 0.5816578543407811,
+      "auprc": 0.40101340171225675,
+      "balanced_accuracy": 0.5636602421968275,
+      "sensitivity": 0.5963636363636363,
+      "specificity": 0.5309568480300187,
+      "f1": 0.4760522496371553,
+      "prevalence": 0.34034653465346537
+    },
+    "clinical_dynamic_residual": {
+      "auroc": 0.7139416680880095,
+      "auprc": 0.5641881205977369,
+      "balanced_accuracy": 0.6693365171413952,
+      "sensitivity": 0.7345454545454545,
+      "specificity": 0.6041275797373359,
+      "f1": 0.5872093023255814,
+      "prevalence": 0.34034653465346537
+    }
+  },
+  "T0_T1_T2_T3": {
+    "clinical_only": {
+      "auroc": 0.709155722326454,
+      "auprc": 0.5575141168308745,
+      "balanced_accuracy": 0.6610574791062596,
+      "sensitivity": 0.6654545454545454,
+      "specificity": 0.6566604127579737,
+      "f1": 0.5709828393135725,
+      "prevalence": 0.34034653465346537
+    },
+    "clinical_recalibration": {
+      "auroc": 0.7244243561316732,
+      "auprc": 0.5841945665510849,
+      "balanced_accuracy": 0.6610574791062596,
+      "sensitivity": 0.6654545454545454,
+      "specificity": 0.6566604127579737,
+      "f1": 0.5709828393135725,
+      "prevalence": 0.34034653465346537
+    },
+    "dynamic_image_only": {
+      "auroc": 0.5423366877025414,
+      "auprc": 0.38447658756493736,
+      "balanced_accuracy": 0.531512877366536,
+      "sensitivity": 0.49454545454545457,
+      "specificity": 0.5684803001876173,
+      "f1": 0.4243369734789392,
+      "prevalence": 0.34034653465346537
+    },
+    "naive_clinical_dynamic": {
+      "auroc": 0.5574586389220536,
+      "auprc": 0.37348433705486533,
+      "balanced_accuracy": 0.5575098072659048,
+      "sensitivity": 0.6290909090909091,
+      "specificity": 0.48592870544090055,
+      "f1": 0.4792243767313019,
+      "prevalence": 0.34034653465346537
+    },
+    "clinical_dynamic_residual": {
+      "auroc": 0.7080675422138836,
+      "auprc": 0.560407262532838,
+      "balanced_accuracy": 0.6638137472283814,
+      "sensitivity": 0.6690909090909091,
+      "specificity": 0.6585365853658537,
+      "f1": 0.5741029641185648,
+      "prevalence": 0.34034653465346537
+    }
+  }
+}

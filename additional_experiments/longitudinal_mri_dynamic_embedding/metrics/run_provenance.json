@@ -1,0 +1,7 @@
+{
+  "longitudinal_cache": "C1B-H_DCE8_adaptivephase_axiscanon_T0fixedcrop",
+  "source_cache_file_count": 3856,
+  "bootstrap_reused": true,
+  "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+  "clinical_labels_sha256": "b3355f8ac80cf8f0fa95722b8d8a8b73d96790e9ded5c491ddb5b2e6a7793436"
+}

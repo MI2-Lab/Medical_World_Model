@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "fold_manifest_sha256": "143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38",
+  "outer_patient_intersections_empty": true,
+  "training_clinical_logits": "five_fold_inner_cross_fitted",
+  "temporal_attention": "strictly_causal",
+  "test_used_for_selection": false,
+  "model_input_excludes_mask_ftv_radiomics_geometry": true,
+  "all_four_visits_cache_coverage": 808
+}

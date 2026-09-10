@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "patients": 808,
+  "pcr_positive": 275,
+  "dynamic_models": 15,
+  "training_logs": 15,
+  "endpoints": [
+    "T0",
+    "T0_T1",
+    "T0_T1_T2",
+    "T0_T1_T2_T3"
+  ],
+  "primary_endpoint": "T0_T1",
+  "bootstrap_replicates": 5000,
+  "causal_prefix_test": "PASS",
+  "patient_predictions_gitignored": true,
+  "only_frozen_C1B-H_DCE_cache_used": true
+}

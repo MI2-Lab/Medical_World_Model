@@ -1,0 +1,7 @@
+{
+  "locked_auroc": 0.709155722326454,
+  "locked_auprc": 0.5575141168308745,
+  "observed_auroc": 0.709155722326454,
+  "observed_auprc": 0.5575141168308745,
+  "exact_reproduction": true
+}

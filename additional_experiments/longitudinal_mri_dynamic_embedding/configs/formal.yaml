@@ -1,0 +1,45 @@
+schema_version: 1
+status: FROZEN_BEFORE_FORMAL_TRAINING
+seed: 2026
+cohort:
+  patients: 808
+  pcr_positive: 275
+  fold_manifest_sha256: 143e482d711225c0611006d99bd7345d2fa1a5c16c65fbaf8399341a0d26aa38
+input:
+  source: C1B-H_existing_longitudinal_DCE8_cache
+  visits: [T0, T1, T2, T3]
+  model_channels: [pre, early, late]
+  source_tensor_shape: [4, 8, 32, 96, 96]
+  model_tensor_shape: [4, 3, 32, 96, 96]
+  forbidden_inputs: [ROI_mask_channel, FTV, radiomics, geometry_scalars, clinical_treatment_in_image_branch]
+  causal_prefixes: [T0, T0_T1, T0_T1_T2, T0_T1_T2_T3]
+model:
+  visit_encoder: torchvision_r3d_18_KINETICS400_V1_shared_across_visits
+  temporal_encoder: one_layer_causal_transformer_512d_8heads
+  temporal_embedding: final_observed_prefix_token
+  residual_formulation: final_logit_equals_frozen_clinical_logit_plus_dynamic_image_residual
+  residual_head_initialization: zero_weight_and_bias
+clinical:
+  source: locked_clinical_only_baseline
+  features: [HR, HER2, MammaPrint, age, exact_treatment_arm]
+  train_logits: five_fold_inner_cross_fitted
+  test_fit_population: outer_train_only
+training:
+  batch_size: 4
+  epochs: 12
+  early_stopping_patience: 4
+  optimizer: AdamW
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  loss: mean_BCEWithLogitsLoss_over_causal_prefixes
+  residual_l2_penalty: 0.001
+  checkpoint_selection: validation_T0_T1_AUROC_then_AUPRC
+  threshold_selection: validation_only_Youden_per_endpoint
+evaluation:
+  primary_endpoint: T0_T1
+  secondary_endpoints: [T0, T0_T1_T2, T0_T1_T2_T3]
+  bootstrap_replicates: 5000
+  bootstrap_seed: 2026
+  bootstrap_unit: patient
+  reliance_audit: [zero_image, fixed_patient_shuffled_trajectory]
+  secondary_paired_comparisons: [residual_vs_clinical_recalibration, real_vs_zero_trajectory, real_vs_patient_shuffled_trajectory]

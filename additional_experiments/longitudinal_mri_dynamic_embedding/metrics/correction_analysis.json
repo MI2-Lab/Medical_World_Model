@@ -1,0 +1,20 @@
+{
+  "clinical_confident_correct": {
+    "n": 135,
+    "mean_abs_dynamic_logit": 0.07990945875644684,
+    "beneficial": 80,
+    "worsened": 55
+  },
+  "clinical_uncertain": {
+    "n": 639,
+    "mean_abs_dynamic_logit": 0.08097577095031738,
+    "beneficial": 345,
+    "worsened": 294
+  },
+  "clinical_confident_wrong": {
+    "n": 34,
+    "mean_abs_dynamic_logit": 0.07910066843032837,
+    "beneficial": 22,
+    "worsened": 12
+  }
+}
