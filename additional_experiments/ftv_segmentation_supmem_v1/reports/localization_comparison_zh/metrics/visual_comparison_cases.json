@@ -1,0 +1,1094 @@
+{
+  "description": "Held-out-fold comparison; every supervised prediction uses the patient's unique split=test frozen_memory checkpoint.",
+  "selection": {
+    "quality": "mean supervised held-out Dice over T0/T1/T2; T3 excluded",
+    "rule": "Within pCR=0 and pCR=1 separately, retain patients with non-empty released truth at all four visits and choose the nearest 90th, 50th, and 10th percentile quality values (stable patient-ID tie break).",
+    "cohort_n": 808,
+    "eligibility_by_pcr": [
+      {
+        "label_pcr": 0,
+        "eligible_n": 516
+      },
+      {
+        "label_pcr": 1,
+        "eligible_n": 237
+      }
+    ]
+  },
+  "cases": [
+    {
+      "patient_id": "ACRIN-6698-584561",
+      "label_pcr": 1,
+      "fold": 0,
+      "quantile": 90,
+      "quality": 0.6208227415551483,
+      "target_quality": 0.6236687581926152,
+      "eligible_group_n": 237,
+      "visits": {
+        "T0": {
+          "displayed_slice_index": 77,
+          "auto_roi_present_on_displayed_slice": true,
+          "supervised_frozen_memory": {
+            "dice": 0.816077399592075,
+            "dist_mm": 2.6322977818030036,
+            "containment": 0.659787118434906,
+            "pred_vox": 75149,
+            "true_vox": 56738,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              137.72904496400486,
+              113.38748353271501,
+              88.46532887995848
+            ],
+            "true_centroid_xyz": [
+              138.058567450386,
+              110.1057844830625,
+              87.0181712432585
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 74.77500615951553,
+            "containment": 0.0,
+            "pred_vox": 10135,
+            "true_vox": 56738,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              235.0458806117415,
+              58.27834237789837,
+              101.74237789837198
+            ],
+            "true_centroid_xyz": [
+              138.058567450386,
+              110.1057844830625,
+              87.0181712432585
+            ]
+          }
+        },
+        "T1": {
+          "displayed_slice_index": 68,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.5916219119226638,
+            "dist_mm": 2.501148109858803,
+            "containment": 0.7729307413101196,
+            "pred_vox": 12776,
+            "true_vox": 10499,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              129.8584063869756,
+              108.39253287413901,
+              82.63713212273012
+            ],
+            "true_centroid_xyz": [
+              130.33555576721594,
+              104.86293932755501,
+              81.8512239260882
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 79.08263119761489,
+            "containment": 0.0,
+            "pred_vox": 15149,
+            "true_vox": 10499,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              66.71912337448016,
+              13.878935903359958,
+              109.71199419103571
+            ],
+            "true_centroid_xyz": [
+              130.33555576721594,
+              104.86293932755501,
+              81.8512239260882
+            ]
+          }
+        },
+        "T2": {
+          "displayed_slice_index": 77,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.4544820855987732,
+            "dist_mm": 16.511839694658256,
+            "containment": 0.8805917501449585,
+            "pred_vox": 4334,
+            "true_vox": 2839,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              121.33479464697739,
+              115.50276880479926,
+              90.15782187355791
+            ],
+            "true_centroid_xyz": [
+              128.29306093694964,
+              92.42937654103558,
+              83.39274392391687
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 61.63279389440435,
+            "containment": 0.0,
+            "pred_vox": 15635,
+            "true_vox": 2839,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              121.7618803965462,
+              9.087943716021746,
+              116.08429804924847
+            ],
+            "true_centroid_xyz": [
+              128.29306093694964,
+              92.42937654103558,
+              83.39274392391687
+            ]
+          }
+        },
+        "T3": {
+          "displayed_slice_index": 80,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.42071494042163154,
+            "dist_mm": 6.045304211236076,
+            "containment": 0.815209686756134,
+            "pred_vox": 1550,
+            "true_vox": 2814,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              124.23096774193549,
+              107.57096774193549,
+              88.53935483870968
+            ],
+            "true_centroid_xyz": [
+              132.65067519545133,
+              102.81130063965885,
+              88.60518834399431
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 85.36700064708026,
+            "containment": 0.0,
+            "pred_vox": 17197,
+            "true_vox": 2814,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              29.71698552073036,
+              98.53486073152294,
+              144.65493981508402
+            ],
+            "true_centroid_xyz": [
+              132.65067519545133,
+              102.81130063965885,
+              88.60518834399431
+            ]
+          }
+        }
+      }
+    },
+    {
+      "patient_id": "ACRIN-6698-654064",
+      "label_pcr": 0,
+      "fold": 3,
+      "quantile": 90,
+      "quality": 0.7444330995277489,
+      "target_quality": 0.7441577180640524,
+      "eligible_group_n": 516,
+      "visits": {
+        "T0": {
+          "displayed_slice_index": 74,
+          "auto_roi_present_on_displayed_slice": true,
+          "supervised_frozen_memory": {
+            "dice": 0.7841201233189597,
+            "dist_mm": 3.228132712155477,
+            "containment": 0.892669141292572,
+            "pred_vox": 52986,
+            "true_vox": 44647,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              124.9341901634394,
+              100.32869059751633,
+              69.12988336541729
+            ],
+            "true_centroid_xyz": [
+              126.63301005666675,
+              96.31191345443143,
+              70.16146661589805
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 98.07356045951039,
+            "containment": 0.0,
+            "pred_vox": 27177,
+            "true_vox": 44647,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              199.11756264488355,
+              215.51157228538838,
+              51.096699414946464
+            ],
+            "true_centroid_xyz": [
+              126.63301005666675,
+              96.31191345443143,
+              70.16146661589805
+            ]
+          }
+        },
+        "T1": {
+          "displayed_slice_index": 75,
+          "auto_roi_present_on_displayed_slice": true,
+          "supervised_frozen_memory": {
+            "dice": 0.7449538413393835,
+            "dist_mm": 4.2470351475027455,
+            "containment": 0.9509697556495667,
+            "pred_vox": 46323,
+            "true_vox": 30369,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              140.5431211277335,
+              99.97603782138462,
+              70.4410767869093
+            ],
+            "true_centroid_xyz": [
+              142.34294840133032,
+              94.38726991339853,
+              71.59801112977048
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 97.61903805844956,
+            "containment": 0.0,
+            "pred_vox": 6838,
+            "true_vox": 30369,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              212.04738227551917,
+              218.1632056156771,
+              79.91298625329044
+            ],
+            "true_centroid_xyz": [
+              142.34294840133032,
+              94.38726991339853,
+              71.59801112977048
+            ]
+          }
+        },
+        "T2": {
+          "displayed_slice_index": 84,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.7035628871036979,
+            "dist_mm": 10.426607098711814,
+            "containment": 0.9729012250900269,
+            "pred_vox": 20178,
+            "true_vox": 12436,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              129.16869858261472,
+              110.24824065814254,
+              75.52448210922788
+            ],
+            "true_centroid_xyz": [
+              134.10759086522998,
+              101.86724027018334,
+              82.34448375683499
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 131.17362024632644,
+            "containment": 0.0,
+            "pred_vox": 4253,
+            "true_vox": 12436,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              39.07147895603104,
+              242.1643545732424,
+              26.180578415236305
+            ],
+            "true_centroid_xyz": [
+              134.10759086522998,
+              101.86724027018334,
+              82.34448375683499
+            ]
+          }
+        },
+        "T3": {
+          "displayed_slice_index": 81,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.7842095732480232,
+            "dist_mm": 4.402428729804746,
+            "containment": 0.9809825420379639,
+            "pred_vox": 19252,
+            "true_vox": 13882,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              134.4738728443798,
+              97.52841263245377,
+              78.07261583212134
+            ],
+            "true_centroid_xyz": [
+              137.95353695432934,
+              92.25133266099985,
+              78.77467223742977
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 127.76536543739435,
+            "containment": 0.0,
+            "pred_vox": 3750,
+            "true_vox": 13882,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              52.0328,
+              242.4136,
+              38.489866666666664
+            ],
+            "true_centroid_xyz": [
+              137.95353695432934,
+              92.25133266099985,
+              78.77467223742977
+            ]
+          }
+        }
+      }
+    },
+    {
+      "patient_id": "ACRIN-6698-227055",
+      "label_pcr": 0,
+      "fold": 3,
+      "quantile": 50,
+      "quality": 0.5484462022728679,
+      "target_quality": 0.5483703835475264,
+      "eligible_group_n": 516,
+      "visits": {
+        "T0": {
+          "displayed_slice_index": 40,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.6757002271006813,
+            "dist_mm": 4.001503355173859,
+            "containment": 0.8519908785820007,
+            "pred_vox": 33979,
+            "true_vox": 45281,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              96.5936019306042,
+              101.64369169192737,
+              43.055622590423496
+            ],
+            "true_centroid_xyz": [
+              100.91601333892802,
+              96.35889225061284,
+              43.10805856761114
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 98.59013210750554,
+            "containment": 0.0,
+            "pred_vox": 1494,
+            "true_vox": 45281,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              78.66867469879519,
+              248.04149933065597,
+              22.785140562248998
+            ],
+            "true_centroid_xyz": [
+              100.91601333892802,
+              96.35889225061284,
+              43.10805856761114
+            ]
+          }
+        },
+        "T1": {
+          "displayed_slice_index": 39,
+          "auto_roi_present_on_displayed_slice": true,
+          "supervised_frozen_memory": {
+            "dice": 0.7174097624483481,
+            "dist_mm": 2.6743353658238216,
+            "containment": 0.879166841506958,
+            "pred_vox": 28850,
+            "true_vox": 24149,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              96.28183708838822,
+              147.01986135181977,
+              42.97958405545927
+            ],
+            "true_centroid_xyz": [
+              96.08675307466147,
+              142.71543335127748,
+              43.42080417408588
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0008061915511125443,
+            "dist_mm": 46.176997942554294,
+            "containment": 0.08845086395740509,
+            "pred_vox": 659,
+            "true_vox": 24149,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              120.62822458270107,
+              68.55690440060698,
+              40.350531107739
+            ],
+            "true_centroid_xyz": [
+              96.08675307466147,
+              142.71543335127748,
+              43.42080417408588
+            ]
+          }
+        },
+        "T2": {
+          "displayed_slice_index": 40,
+          "auto_roi_present_on_displayed_slice": true,
+          "supervised_frozen_memory": {
+            "dice": 0.25310294475541495,
+            "dist_mm": 7.201663061654225,
+            "containment": 0.7674292922019958,
+            "pred_vox": 2667,
+            "true_vox": 5551,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              106.217472815898,
+              88.67191601049869,
+              42.63029621297338
+            ],
+            "true_centroid_xyz": [
+              107.8263375968294,
+              76.86615024319943,
+              41.74563141776257
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.018655480737388232,
+            "dist_mm": 29.955279617596315,
+            "containment": 0.47306790947914124,
+            "pred_vox": 12567,
+            "true_vox": 5551,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              104.53529084109175,
+              29.562425399856767,
+              36.1450624651866
+            ],
+            "true_centroid_xyz": [
+              107.8263375968294,
+              76.86615024319943,
+              41.74563141776257
+            ]
+          }
+        },
+        "T3": {
+          "displayed_slice_index": 42,
+          "auto_roi_present_on_displayed_slice": true,
+          "supervised_frozen_memory": {
+            "dice": 0.4872921087696787,
+            "dist_mm": 5.087776747117441,
+            "containment": 0.7333890199661255,
+            "pred_vox": 9487,
+            "true_vox": 10776,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              104.11658058395699,
+              135.50806366606935,
+              44.277221460946556
+            ],
+            "true_centroid_xyz": [
+              105.06403118040089,
+              127.54732739420935,
+              43.29964736451373
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.006585996092519065,
+            "dist_mm": 44.414906672599784,
+            "containment": 0.19265033304691315,
+            "pred_vox": 52692,
+            "true_vox": 10776,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              98.39241251043802,
+              202.80786457147195,
+              41.49533135959918
+            ],
+            "true_centroid_xyz": [
+              105.06403118040089,
+              127.54732739420935,
+              43.29964736451373
+            ]
+          }
+        }
+      }
+    },
+    {
+      "patient_id": "ACRIN-6698-237158",
+      "label_pcr": 1,
+      "fold": 3,
+      "quantile": 10,
+      "quality": 0.17717963225472586,
+      "target_quality": 0.17712042544441464,
+      "eligible_group_n": 237,
+      "visits": {
+        "T0": {
+          "displayed_slice_index": 58,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.12064136056186865,
+            "dist_mm": 23.622483248446418,
+            "containment": 0.2704428732395172,
+            "pred_vox": 61850,
+            "true_vox": 107727,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              139.2620048504446,
+              147.7768957154406,
+              27.505626515763947
+            ],
+            "true_centroid_xyz": [
+              143.26418632283458,
+              145.6690708921626,
+              50.978956064867674
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 61.37627204805651,
+            "containment": 0.000250633544055745,
+            "pred_vox": 2316,
+            "true_vox": 107727,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              61.62176165803109,
+              188.03886010362694,
+              21.6139896373057
+            ],
+            "true_centroid_xyz": [
+              143.26418632283458,
+              145.6690708921626,
+              50.978956064867674
+            ]
+          }
+        },
+        "T1": {
+          "displayed_slice_index": 55,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.4073355180236955,
+            "dist_mm": 11.84354592704783,
+            "containment": 0.6167935132980347,
+            "pred_vox": 42814,
+            "true_vox": 36526,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              145.52305320689493,
+              145.45305273975802,
+              42.96554865230999
+            ],
+            "true_centroid_xyz": [
+              148.9671193122707,
+              143.32385150303892,
+              54.53556370804358
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.010656382411894552,
+            "dist_mm": 25.574353952923946,
+            "containment": 0.43777036666870117,
+            "pred_vox": 2887,
+            "true_vox": 36526,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              173.25909248354694,
+              163.10183581572568,
+              38.081399376515414
+            ],
+            "true_centroid_xyz": [
+              148.9671193122707,
+              143.32385150303892,
+              54.53556370804358
+            ]
+          }
+        },
+        "T2": {
+          "displayed_slice_index": 38,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.0016607985119245334,
+            "dist_mm": 46.385595586988075,
+            "containment": 0.012547379359602928,
+            "pred_vox": 14804,
+            "true_vox": 15302,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              142.30964604161036,
+              148.11307754660902,
+              8.189948662523642
+            ],
+            "true_centroid_xyz": [
+              155.20062736897137,
+              134.08489086393936,
+              53.21225983531564
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 68.96752641141029,
+            "containment": 0.0,
+            "pred_vox": 9602,
+            "true_vox": 15302,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              82.18464903145178,
+              190.70079150177045,
+              95.94022078733597
+            ],
+            "true_centroid_xyz": [
+              155.20062736897137,
+              134.08489086393936,
+              53.21225983531564
+            ]
+          }
+        },
+        "T3": {
+          "displayed_slice_index": 44,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.3321762349799733,
+            "dist_mm": 11.780711369881605,
+            "containment": 0.8132743239402771,
+            "pred_vox": 8975,
+            "true_vox": 2260,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              135.34005571030642,
+              147.99275766016714,
+              57.37203342618385
+            ],
+            "true_centroid_xyz": [
+              141.50265486725664,
+              144.71371681415928,
+              48.16548672566372
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 92.55353573918958,
+            "containment": 0.0,
+            "pred_vox": 4065,
+            "true_vox": 2260,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              137.05682656826568,
+              177.28265682656826,
+              123.60492004920049
+            ],
+            "true_centroid_xyz": [
+              141.50265486725664,
+              144.71371681415928,
+              48.16548672566372
+            ]
+          }
+        }
+      }
+    },
+    {
+      "patient_id": "ACRIN-6698-266840",
+      "label_pcr": 0,
+      "fold": 4,
+      "quantile": 10,
+      "quality": 0.25509263953980627,
+      "target_quality": 0.25225395651998084,
+      "eligible_group_n": 516,
+      "visits": {
+        "T0": {
+          "displayed_slice_index": 44,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.5548146779077868,
+            "dist_mm": 13.412564677381745,
+            "containment": 0.8426238894462585,
+            "pred_vox": 45473,
+            "true_vox": 24864,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              106.01475600906032,
+              137.12207243858992,
+              40.53319552261782
+            ],
+            "true_centroid_xyz": [
+              88.07866795366796,
+              148.9015444015444,
+              38.868967181467184
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 86.66448875107223,
+            "containment": 0.0,
+            "pred_vox": 2462,
+            "true_vox": 24864,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              155.52599512591388,
+              188.5629569455727,
+              75.15312753858652
+            ],
+            "true_centroid_xyz": [
+              88.07866795366796,
+              148.9015444015444,
+              38.868967181467184
+            ]
+          }
+        },
+        "T1": {
+          "displayed_slice_index": 45,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.032441661923733635,
+            "dist_mm": 48.51205042932668,
+            "containment": 0.11319394409656525,
+            "pred_vox": 19697,
+            "true_vox": 1387,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              159.8461694674316,
+              135.06650758998833,
+              30.645479006955373
+            ],
+            "true_centroid_xyz": [
+              101.27974044700792,
+              93.59336697909157,
+              35.17591925018024
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 56.54579168933085,
+            "containment": 0.03965393081307411,
+            "pred_vox": 2997,
+            "true_vox": 1387,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              108.45512178845512,
+              147.4144144144144,
+              56.95428762095429
+            ],
+            "true_centroid_xyz": [
+              101.27974044700792,
+              93.59336697909157,
+              35.17591925018024
+            ]
+          }
+        },
+        "T2": {
+          "displayed_slice_index": 50,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.1775813579750904,
+            "dist_mm": 18.4295501519713,
+            "containment": 0.6628194451332092,
+            "pred_vox": 1276,
+            "true_vox": 1213,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              79.50705329153605,
+              143.48902821316614,
+              51.13636363636363
+            ],
+            "true_centroid_xyz": [
+              78.55894476504534,
+              126.99340478153339,
+              43.73289365210223
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 61.103306093965934,
+            "containment": 0.09480626881122589,
+            "pred_vox": 4891,
+            "true_vox": 1213,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              30.895113473727253,
+              129.29135146186874,
+              69.85442649764875
+            ],
+            "true_centroid_xyz": [
+              78.55894476504534,
+              126.99340478153339,
+              43.73289365210223
+            ]
+          }
+        },
+        "T3": {
+          "displayed_slice_index": 54,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.0005309264666843643,
+            "dist_mm": 61.81263999645223,
+            "containment": 0.1341991275548935,
+            "pred_vox": 7303,
+            "true_vox": 231,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              157.72463371217307,
+              164.92879638504724,
+              20.292619471450088
+            ],
+            "true_centroid_xyz": [
+              121.21645021645021,
+              125.42424242424242,
+              45.515151515151516
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 108.33463775110579,
+            "containment": 0.0,
+            "pred_vox": 122,
+            "true_vox": 231,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              231.97540983606558,
+              216.327868852459,
+              19.62295081967213
+            ],
+            "true_centroid_xyz": [
+              121.21645021645021,
+              125.42424242424242,
+              45.515151515151516
+            ]
+          }
+        }
+      }
+    },
+    {
+      "patient_id": "ISPY2-252748",
+      "label_pcr": 1,
+      "fold": 4,
+      "quantile": 50,
+      "quality": 0.4311219018586256,
+      "target_quality": 0.4311219018586256,
+      "eligible_group_n": 237,
+      "visits": {
+        "T0": {
+          "displayed_slice_index": 58,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.5572857875833761,
+            "dist_mm": 55.084074222038225,
+            "containment": 0.19006739556789398,
+            "pred_vox": 99540,
+            "true_vox": 56380,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              227.5946353224834,
+              169.38959212376935,
+              64.5657424151095
+            ],
+            "true_centroid_xyz": [
+              289.5951755941823,
+              164.47907059240865,
+              63.24430649166371
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 160.2932182019368,
+            "containment": 0.0,
+            "pred_vox": 15066,
+            "true_vox": 56380,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              161.89519447763175,
+              58.04931634143104,
+              126.72215584760387
+            ],
+            "true_centroid_xyz": [
+              289.5951755941823,
+              164.47907059240865,
+              63.24430649166371
+            ]
+          }
+        },
+        "T1": {
+          "displayed_slice_index": 45,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.5995001785076758,
+            "dist_mm": 27.104096733545287,
+            "containment": 0.7932295799255371,
+            "pred_vox": 27041,
+            "true_vox": 28979,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              261.5433600828372,
+              177.33634111164528,
+              51.03331977367701
+            ],
+            "true_centroid_xyz": [
+              291.4789675282101,
+              172.15183408675247,
+              47.71382725421857
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 158.55051398586522,
+            "containment": 0.0,
+            "pred_vox": 6425,
+            "true_vox": 28979,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              128.19252918287938,
+              106.07486381322957,
+              76.22661478599221
+            ],
+            "true_centroid_xyz": [
+              291.4789675282101,
+              172.15183408675247,
+              47.71382725421857
+            ]
+          }
+        },
+        "T2": {
+          "displayed_slice_index": 58,
+          "auto_roi_present_on_displayed_slice": false,
+          "supervised_frozen_memory": {
+            "dice": 0.13701431492842536,
+            "dist_mm": 99.68426518325688,
+            "containment": 0.0,
+            "pred_vox": 9556,
+            "true_vox": 5114,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              179.74173294265384,
+              251.3228338216827,
+              70.26056927584763
+            ],
+            "true_centroid_xyz": [
+              284.232107938991,
+              238.71939773171687,
+              56.07489245209229
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 148.1163643267486,
+            "containment": 0.0,
+            "pred_vox": 38129,
+            "true_vox": 5114,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              187.3977287628839,
+              131.35434970757166,
+              115.78811403393742
+            ],
+            "true_centroid_xyz": [
+              284.232107938991,
+              238.71939773171687,
+              56.07489245209229
+            ]
+          }
+        },
+        "T3": {
+          "displayed_slice_index": 66,
+          "auto_roi_present_on_displayed_slice": true,
+          "supervised_frozen_memory": {
+            "dice": 0.07069821793748174,
+            "dist_mm": 86.4833824062241,
+            "containment": 0.0,
+            "pred_vox": 3211,
+            "true_vox": 3635,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              187.99439426969792,
+              231.5331672376207,
+              76.48178137651821
+            ],
+            "true_centroid_xyz": [
+              284.34222833562586,
+              216.721045392022,
+              71.01155433287482
+            ]
+          },
+          "automatic_enhancement_roi": {
+            "dice": 0.0,
+            "dist_mm": 145.50880214851318,
+            "containment": 0.0,
+            "pred_vox": 13833,
+            "true_vox": 3635,
+            "empty_prediction": false,
+            "true_empty": false,
+            "pred_centroid_xyz": [
+              230.83814067808862,
+              62.29516373888527,
+              86.28034410467723
+            ],
+            "true_centroid_xyz": [
+              284.34222833562586,
+              216.721045392022,
+              71.01155433287482
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
